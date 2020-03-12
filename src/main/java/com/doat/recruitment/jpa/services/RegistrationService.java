@@ -9,8 +9,6 @@ import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.repository.RegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -42,4 +40,6 @@ public class RegistrationService {
         regiupdate.setEmail(email);
         repo.save(regiupdate);
     }
+
+
 }

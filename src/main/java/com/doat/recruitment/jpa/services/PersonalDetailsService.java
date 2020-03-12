@@ -22,7 +22,7 @@ public class PersonalDetailsService {
 
 
     public List<Personaldetails> showAllpersonalDetails() {
-        List<Personaldetails> details=new ArrayList<>();
+        List<Personaldetails> details = new ArrayList<>();
         repo.findAll().forEach(details::add);
         return details;
     }

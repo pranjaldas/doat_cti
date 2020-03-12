@@ -1,5 +1,10 @@
 
 
+/*
+ * Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
+ * @Author: Pranjal Das
+ */
+
 package com.doat.recruitment.jpa.services;
 
 import com.doat.recruitment.jpa.model.Logindetails;
@@ -25,16 +30,17 @@ public class LoginService {
     }
 
     public List<Logindetails> showAllLogins() {
-        List<Logindetails> logins=new ArrayList<>();
+        List<Logindetails> logins = new ArrayList<>();
         loginRepository.findAll().forEach(logins::add);
         return logins;
     }
+
     public int authenticating(Logindetails logindetails) {
-        Logindetails login=loginRepository.findByUsernameAndPassword(logindetails.getUsername(),logindetails.getPassword());;
-        if(login!=null){
-            return login.getReg_id();
+        Logindetails login = loginRepository.findByUsernameAndPassword(logindetails.getUsername(), logindetails.getPassword());
+        if (login != null) {
+            return 1;
         }
-            return 0;
+        return 0;
 
     }
 }

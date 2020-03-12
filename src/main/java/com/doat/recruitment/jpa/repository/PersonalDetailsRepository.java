@@ -4,8 +4,9 @@
  */
 
 package com.doat.recruitment.jpa.repository;
+
 import com.doat.recruitment.jpa.model.Personaldetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonalDetailsRepository extends JpaRepository<Personaldetails,Integer> {
+public interface PersonalDetailsRepository extends JpaRepository<Personaldetails, Integer> {
 }

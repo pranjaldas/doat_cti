@@ -1,11 +1,13 @@
+/*
+ * Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
+ * @Author: Pranjal Das
+ */
+
 package com.doat.recruitment.jpa.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 @Entity
@@ -19,7 +21,7 @@ public class Registration {
     private String job_title;
 
     private String fname;
-    private  String mname;
+    private String mname;
 
     private String lname;
 
@@ -36,12 +38,12 @@ public class Registration {
     public Registration() {
     }
 
-    public Registration(String tob_title,String fname,String mname, String lname, Date date_of_birth, String phone, String email, String password) {
+    public Registration(String tob_title, String fname, String mname, String lname, Date date_of_birth, String phone, String email, String password) {
         super();
-        this.job_title=job_title;
+        this.job_title = job_title;
         this.fname = fname;
-        this.mname=mname;
-        this.lname=lname;
+        this.mname = mname;
+        this.lname = lname;
         this.date_of_birth = date_of_birth;
         this.phone = phone;
         this.email = email;

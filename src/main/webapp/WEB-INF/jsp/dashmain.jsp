@@ -1,4 +1,9 @@
 <%--
+  ~ Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
+  ~ @Author: Pranjal Das
+  --%>
+
+<%--
   Created by IntelliJ IDEA.
   User: Amlan
   Date: 11-03-2020
@@ -6,8 +11,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <!DOCTYPE html>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
 
@@ -16,8 +21,8 @@
     <meta name="viewport" content="widthdevice-width, initial-scale=1">
     <title>MainDashboard</title>
     <!-- Amlan Dependencies -->
-      <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/dashstyle.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/dashstyle.css">
     <!--bootstrap css framework-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <!--jquery cdn-->
@@ -26,7 +31,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link type="text/css" href="lib/dashstyle.css" rel="stylesheet">
     <!-- Amlan Dependencies end -->
     <!-- Pranjal Dependencies -->
@@ -43,14 +49,16 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <!--logo-->
         <div class="logo">
-            <a class="navbar-brand" href="a" ><img src="img/assa.png"></a>
+            <a class="navbar-brand" href="a"><img src="img/assa.png"></a>
         </div>
         <!--logo-tag-->
         <div class="info">
-            <a class="navbar-brand" ><strong>Directorate Of Accounts And Treasuries</strong><br>Kar Bhawan,Ganeshguri,Assam-781006</a>
+            <a class="navbar-brand"><strong>Directorate Of Accounts And Treasuries</strong><br>Kar
+                Bhawan,Ganeshguri,Assam-781006</a>
         </div>
         <!--collapse-btn-->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <!--collapse-info-->
@@ -72,7 +80,7 @@
 
 <!-- MultiStep Form -->
 <div class="container-fluid md-3" id="grad1">
-    <p><strong>Fill  all form field to go to next step</strong></p>
+    <p><strong>Fill all form field to go to next step</strong></p>
     <div class="row"></div>
     <div class="col-md-11 mx-0">
         <form id="msform">
@@ -101,7 +109,7 @@
                             <input type="text" class="form-control" placeholder="First name" required>
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Middle name" >
+                            <input type="text" class="form-control" placeholder="Middle name">
                         </div>
                         <div class="form-group col-md-3">
                             <input type="text" class="form-control" placeholder="Last name" required>
@@ -313,7 +321,8 @@
                     </div>
 
 
-                </div> <input type="button" name="next" class="next action-button" value="Next Step" />
+                </div>
+                <input type="button" name="next" class="next action-button" value="Next Step"/>
             </fieldset>
 
             <fieldset>
@@ -322,34 +331,41 @@
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
                             <label for="residential_address">Current Address</label>
-                            <textarea cols="2" rows="3" class="form-control" placeholder="Enter address" name="residential_address" id="residential_address" required></textarea>
+                            <textarea cols="2" rows="3" class="form-control" placeholder="Enter address"
+                                      name="residential_address" id="residential_address" required></textarea>
                         </p>
                     </div>
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
                             <label for="residential_pin">Current Pin code</label>
-                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin" required/>
+                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin"
+                                   required/>
                         </p>
                     </div>
                     <div class="form-group col-11">
-                        <label for="same_residential_permanent"><strong>If Permanent address is as Cureent address</strong></label>
-                        <input type="checkbox" name="same_residential_permanent" id="same_residential_permanent" value="abcde" onclick="return auto_fill_address();" />
+                        <label for="same_residential_permanent"><strong>If Permanent address is as Cureent
+                            address</strong></label>
+                        <input type="checkbox" name="same_residential_permanent" id="same_residential_permanent"
+                               value="abcde" onclick="return auto_fill_address();"/>
                     </div>
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
                             <label for="permanent_address">Parmanent Address</label>
-                            <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address" name="permanent_address" id="permanent_address"></textarea>
+                            <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address"
+                                      name="permanent_address" id="permanent_address"></textarea>
                         </p>
                     </div>
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
                             <label for="permanent_pincode">Parmanent Pincode</label>
-                            <input type="text" placeholder="Enter pincode" name="permanent_pincode" id="permanent_pincode" />
+                            <input type="text" placeholder="Enter pincode" name="permanent_pincode"
+                                   id="permanent_pincode"/>
                         </p>
                     </div>
                     <div class="form-group col-4">
                         <label for="inputAddress2"><p class="font-weight-bold">City/Town:</p></label>
-                        <input type="text" class="form-control" id="inputcity" placeholder="Enter City or Town" required>
+                        <input type="text" class="form-control" id="inputcity" placeholder="Enter City or Town"
+                               required>
                     </div>
                     <div class="form-row"></div>
                     <div class="form-group col-md-3">
@@ -369,12 +385,11 @@
                         </select>
 
 
-
                     </div>
 
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                <input type="button" name="next" class="next action-button" value="Next Step" />
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" name="next" class="next action-button" value="Next Step"/>
             </fieldset>
 
 
@@ -438,8 +453,8 @@
                         </div>
                     </div>
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                <input type="button" name="next" class="next action-button" value="Next Step" />
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" name="next" class="next action-button" value="Next Step"/>
             </fieldset>
 
             <fieldset>
@@ -450,10 +465,10 @@
                             <label for="formGroupExampleInput"><b>Photo:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="photo"  accept="image/*" onchange="validateImage('photo','photo_accept')" >
+                            <input type="file" name="f[]" id="photo" accept="image/*"
+                                   onchange="validateImage('photo','photo_accept')">
 
                         </div>
-
 
 
                     </div>
@@ -464,7 +479,8 @@
                             <label for="formGroupExampleInput"><b>Signature:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="signature" accept="image/*" onchange="validateImage('signature')" >
+                            <input type="file" name="f[]" id="signature" accept="image/*"
+                                   onchange="validateImage('signature')">
                         </div>
                         <div class="form-group col-md-4">
                             <span id="errorName5" style="color: red;"></span>
@@ -477,7 +493,8 @@
                             <label for="formGroupExampleInput"><b>HSLC marksheet:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="hslc" accept="application/pdf" onchange="validateImage('hslc')" >
+                            <input type="file" name="f[]" id="hslc" accept="application/pdf"
+                                   onchange="validateImage('hslc')">
                         </div>
                         <div class="form-group col-md-4">
                             <span id="errorName5" style="color: red;"></span>
@@ -490,7 +507,8 @@
                             <label for="formGroupExampleInput"><b>HS marksheet:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="hs" accept="application/pdf" onchange="validateImage('hs')" >
+                            <input type="file" name="f[]" id="hs" accept="application/pdf"
+                                   onchange="validateImage('hs')">
                         </div>
                         <div class="form-group col-md-4">
                             <span id="errorName5" style="color: red;"></span>
@@ -503,7 +521,7 @@
                             <label for="formGroupExampleInput"><b>Digree marksheet:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="degree" onchange="validateImage('degree')" >
+                            <input type="file" name="f[]" id="degree" onchange="validateImage('degree')">
                         </div>
                         <div class="form-group col-md-4">
                             <span id="errorName5" style="color: red;"></span>
@@ -516,7 +534,7 @@
                             <label for="formGroupExampleInput"><b>Disability Certificate:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="disability" onchange="validateImage('disability')" >
+                            <input type="file" name="f[]" id="disability" onchange="validateImage('disability')">
                         </div>
                         <div class="form-group col-md-4">
                             <span id="errorName5" style="color: red;"></span>
@@ -529,7 +547,7 @@
                             <label for="formGroupExampleInput"><b>Experience Certificate:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="experience" onchange="validateImage('experience')" >
+                            <input type="file" name="f[]" id="experience" onchange="validateImage('experience')">
                         </div>
                         <div class="form-group col-md-4">
                             <span id="errorName5" style="color: red;"></span>
@@ -538,9 +556,9 @@
                     </div>
 
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
 
-                <input type="button" name="next" class="next action-button" value="Submit" />
+                <input type="button" name="next" class="next action-button" value="Submit"/>
             </fieldset>
 
 
@@ -560,18 +578,19 @@
                     </div>
 
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Edit Details" />
-                <input type="button" name="next" class="next action-button" value="Final Submit" />
+                <input type="button" name="previous" class="previous action-button-previous" value="Edit Details"/>
+                <input type="button" name="next" class="next action-button" value="Final Submit"/>
             </fieldset>
-
 
 
             <fieldset>
                 <div class="form-card">
                     <h2 class="fs-title text-center">Success !</h2> <br><br>
                     <div class="row justify-content-center">
-                        <div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
-                    </div> <br><br>
+                        <div class="col-3"><img src="https://img.icons8.com/color/96/000000/ok--v2.png"
+                                                class="fit-image"></div>
+                    </div>
+                    <br><br>
                     <div class="row justify-content-center">
                         <div class="col-7 text-center">
                             <h5>You Have Successfully submited your details.</h5><br>
@@ -594,12 +613,6 @@
         <a href="#"> DOAT</a>
     </p>
 </div>
-
-
-
-
-
-
 
 
 </body>
@@ -627,12 +640,12 @@
 
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         var current_fs, next_fs, previous_fs; //fieldsets
         var opacity;
 
-        $(".next").click(function(){
+        $(".next").click(function () {
 
             current_fs = $(this).parent();
             next_fs = $(this).parent().next();
@@ -644,7 +657,7 @@
             next_fs.show();
 //hide the current fieldset with style
             current_fs.animate({opacity: 0}, {
-                step: function(now) {
+                step: function (now) {
 // for making fielset appear animation
                     opacity = 1 - now;
 
@@ -658,7 +671,7 @@
             });
         });
 
-        $(".previous").click(function(){
+        $(".previous").click(function () {
 
             current_fs = $(this).parent();
             previous_fs = $(this).parent().prev();
@@ -671,7 +684,7 @@
 
 //hide the current fieldset with style
             current_fs.animate({opacity: 0}, {
-                step: function(now) {
+                step: function (now) {
 // for making fielset appear animation
                     opacity = 1 - now;
 
@@ -685,12 +698,12 @@
             });
         });
 
-        $('.radio-group .radio').click(function(){
+        $('.radio-group .radio').click(function () {
             $(this).parent().find('.radio').removeClass('selected');
             $(this).addClass('selected');
         });
 
-        $(".submit").click(function(){
+        $(".submit").click(function () {
             return false;
         })
 
@@ -704,7 +717,7 @@
     }
 
     #grad1 {
-        background-color:#fff;
+        background-color: #fff;
 
     }
 
@@ -753,7 +766,7 @@
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
         border: none;
-        border-bottom: 2px solid ;
+        border-bottom: 2px solid;
         outline-width: 0
     }
 
@@ -850,14 +863,17 @@
         font-family: FontAwesome;
         content: "\f09d"
     }
+
     #progressbar #upload:before {
         font-family: FontAwesome;
         content: "\f08d"
     }
+
     #progressbar #complete:before {
         font-family: FontAwesome;
         content: "\f023"
     }
+
     #progressbar #confirm:before {
         font-family: FontAwesome;
         content: "\f00c"
@@ -896,7 +912,6 @@
         position: relative;
         margin-bottom: 25px
     }
-
 
 
     .fit-image {

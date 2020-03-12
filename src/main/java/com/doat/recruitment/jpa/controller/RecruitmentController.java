@@ -6,14 +6,13 @@
 package com.doat.recruitment.jpa.controller;
 
 import com.doat.recruitment.jpa.model.Logindetails;
+import com.doat.recruitment.jpa.model.Personaldetails;
+import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.PersonalDetailsService;
 import com.doat.recruitment.jpa.services.RegistrationService;
-import com.doat.recruitment.jpa.model.Personaldetails;
-import com.doat.recruitment.jpa.model.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,10 +59,11 @@ public class RecruitmentController {
     }
 
     @RequestMapping(value = "registration/details", method = RequestMethod.POST)
-    public @ResponseBody  String postDetails(@RequestBody Personaldetails details) {
+    public @ResponseBody
+    String postDetails(@RequestBody Personaldetails details) {
         personalDetailsService.saveNewPersonalDetails(details);
 
-            return "Saved details";
+        return "Saved details";
     }
 
     //Login Services Controllers are bellow
@@ -89,11 +89,12 @@ public class RecruitmentController {
 
     //to login authentication,
     @RequestMapping(method = RequestMethod.POST, value = "registration/login")
-    public @ResponseBody  String authenticateLogin(@RequestBody Logindetails logindetails) {
+    public @ResponseBody
+    String authenticateLogin(@RequestBody Logindetails logindetails) {
 
         int result = loginservice.authenticating(logindetails);
-        if(result!=0){
-            return "Valid user, you registration number is: "+result;
+        if (result != 0) {
+            return "Valid user, you registration number is: " + result;
         }
         return "Not a valid user,password and username mismatch";
     }

@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
+ * @Author: Pranjal Das
+ */
+
 package com.doat.recruitment.jpa.model;
 
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+
 @Component
 @Entity
 @Table(name = "login_details")
@@ -17,12 +23,12 @@ public class Logindetails {
     public Logindetails() {
     }
 
-    public Logindetails(int log_id,int reg_id, String username, String password) {
+    public Logindetails(int log_id, int reg_id, String username, String password) {
         super();
-        this.log_id=log_id;
-        this.reg_id=reg_id;
-        this.username=username;
-        this.password=password;
+        this.log_id = log_id;
+        this.reg_id = reg_id;
+        this.username = username;
+        this.password = password;
     }
 
     public int getLog_id() {

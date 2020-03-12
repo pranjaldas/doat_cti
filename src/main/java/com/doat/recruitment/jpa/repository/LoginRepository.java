@@ -8,6 +8,6 @@ package com.doat.recruitment.jpa.repository;
 import com.doat.recruitment.jpa.model.Logindetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoginRepository extends JpaRepository<Logindetails,Integer> {
-    Logindetails findByUsernameAndPassword(String username,String password);
+public interface LoginRepository extends JpaRepository<Logindetails, Integer> {
+    Logindetails findByUsernameAndPassword(String username, String password);
 }
