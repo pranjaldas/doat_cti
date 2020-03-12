@@ -1,0 +1,121 @@
+
+.credential-container{
+    background-color: rgb(250, 248, 248);
+    padding: 30px;
+}
+   *{
+    margin: 0;
+    padding: 0;
+    }
+    body{
+      
+        background-color: rgb(242, 239, 239);
+    }
+.navbar{
+   
+    font-size: 20px;
+    width: 100%;
+    background-color: rgb(93, 180, 231);
+    
+}
+
+.footer {
+    
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(93, 180, 231);
+    color: white;
+    text-align: center;
+}
+.navbar-collapse ul li a {
+    font-size: 15px;
+    color: rgb(17, 9, 9);
+    background-color:rgb(93, 180, 231) ;
+}
+.content{
+    text-align: center;
+}
+
+
+.card-deck {
+    padding: 30px;
+}
+
+/* Tabs*/
+#tabs{
+   
+	background: rgba(235, 234, 236, 0.8);
+    color: rgb(12, 11, 11);
+}
+
+#tabs .nav-tabs .nav-link {
+    border: 2px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: rgb(7, 0, 0);
+    font-size: 20px;
+    
+}
+
+/*//From Dashstyle 1*/
+
+.credential-container{
+    background-color: rgb(250, 248, 248);
+    padding: 30px;
+}
+.navbar{
+    width: 100%;
+
+    background-color: rgb(93, 180, 231);
+
+
+}
+
+.footer {
+
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(93, 180, 231);
+    color: white;
+    text-align: center;
+}
+#tabs .nav-tabs{
+    padding:20px;
+}
+#eng-intro{
+    padding: 20px 20px 20px 20px;
+    text-align: left;
+}
+.login{
+    padding: 20px 20px 20px 20px;
+}
+.navbar-light .navbar-brand {
+    color: white;
+}
+.btn-group{
+    padding-top: 120px;
+    text-align: center;
+    width: 80%;
+    padding-left: 20px;
+}
+
+#wrapper-card{
+    padding: 50px 25px;
+
+
+}
+#mainCaptcha{
+    background-image:url("../img/captcha.png");
+}
+
+.intro-head{
+    background-color:rgb(140, 236, 223);
+    text-align: center;
+
+
+}
+#body-into{
+    background-color: #fff;
+}
+
+
