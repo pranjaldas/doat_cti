@@ -7,44 +7,29 @@ package com.doat.recruitment.jpa.model;
 
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Component
 @Entity
-@Table(name = "login_details")
-public class Logindetails {
+@Table(name = "user")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int log_id;
-    private int reg_id;
     private String username;
     private String password;
+    private String role;
+    private boolean active;
 
-    public Logindetails() {
+    public User() {
     }
 
-    public Logindetails(int log_id, int reg_id, String username, String password) {
+    public User(String username, String password, String role, boolean active) {
         super();
-        this.log_id = log_id;
-        this.reg_id = reg_id;
         this.username = username;
         this.password = password;
-    }
-
-    public int getLog_id() {
-        return log_id;
-    }
-
-    public void setLog_id(int log_id) {
-        this.log_id = log_id;
-    }
-
-    public int getReg_id() {
-        return reg_id;
-    }
-
-    public void setReg_id(int reg_id) {
-        this.reg_id = reg_id;
+        this.role = role;
+        this.active = active;
     }
 
     public String getUsername() {
@@ -63,4 +48,19 @@ public class Logindetails {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

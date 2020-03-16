@@ -7,7 +7,10 @@ package com.doat.recruitment.jpa.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Entity
@@ -15,8 +18,7 @@ import java.util.Date;
 public class Registration {
     //Attributes
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String reg_id;
 
     private String job_title;
 
@@ -31,15 +33,16 @@ public class Registration {
     private String phone;
 
     private String email;
-
+    @Transient
     private String password;
     //Constructor
 
     public Registration() {
     }
 
-    public Registration(String tob_title, String fname, String mname, String lname, Date date_of_birth, String phone, String email, String password) {
+    public Registration(String reg_id, String tob_title, String fname, String mname, String lname, Date date_of_birth, String phone, String email, String password) {
         super();
+        this.reg_id = reg_id;
         this.job_title = job_title;
         this.fname = fname;
         this.mname = mname;
@@ -50,20 +53,20 @@ public class Registration {
         this.password = password;
     }
 
+    public String getReg_id() {
+        return reg_id;
+    }
+
+    public void setReg_id(String reg_id) {
+        this.reg_id = reg_id;
+    }
+
     public String getJob_title() {
         return job_title;
     }
 
     public void setJob_title(String job_title) {
         this.job_title = job_title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFname() {
@@ -120,20 +123,5 @@ public class Registration {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "Registration{" +
-                "id=" + id +
-                ", job_title='" + job_title + '\'' +
-                ", fname='" + fname + '\'' +
-                ", mname='" + mname + '\'' +
-                ", lname='" + lname + '\'' +
-                ", date_of_birth=" + date_of_birth +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

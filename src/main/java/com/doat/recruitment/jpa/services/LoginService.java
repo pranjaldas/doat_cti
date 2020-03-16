@@ -7,7 +7,7 @@
 
 package com.doat.recruitment.jpa.services;
 
-import com.doat.recruitment.jpa.model.Logindetails;
+import com.doat.recruitment.jpa.model.User;
 import com.doat.recruitment.jpa.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,22 +21,23 @@ public class LoginService {
     LoginRepository loginRepository;
 
 
-    public void saveLogin(Logindetails logindetails) {
-        loginRepository.save(logindetails);
+    public void saveLogin(User user) {
+        loginRepository.save(user);
     }
 
-    public void updateLogin(Logindetails logindetails, int id) {
-        loginRepository.save(logindetails);
+    public void updateLogin(User user, int id) {
+        loginRepository.save(user);
     }
 
-    public List<Logindetails> showAllLogins() {
-        List<Logindetails> logins = new ArrayList<>();
+    //for testing only
+    public List<User> showAllLogins() {
+        List<User> logins = new ArrayList<>();
         loginRepository.findAll().forEach(logins::add);
         return logins;
     }
 
-    public int authenticating(Logindetails logindetails) {
-        Logindetails login = loginRepository.findByUsernameAndPassword(logindetails.getUsername(), logindetails.getPassword());
+    public int authenticating(User user) {
+        User login = loginRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (login != null) {
             return 1;
         }
