@@ -10,6 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RegistrationRepository extends JpaRepository<Registration, Integer> {
 
-    Registration findByEmailAndPassword(String email, String password);
 
 }
