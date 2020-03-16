@@ -97,12 +97,13 @@
             <!-- fieldsets -->
 
             <fieldset>
-                <div class="form-card">
+
+                <div class="form-card" >
 
                     <!-- Name starts here -->
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>Name:</b></label>
+                            <label for="formGroupExampleInput"><b>Full Name:</b></label>
                         </div>
                         <div class="form-group col-md-3">
 
@@ -120,32 +121,24 @@
                         <div class="form-group col-md-3">
                             <label for="formGroupExampleInput"><b>Father's name:</b></label>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
 
-                            <input type="text" class="form-control" placeholder="First name" required>
+                            <input type="text" class="form-control" placeholder="Father name" required>
                         </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Middle name">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Last name" required>
-                        </div>
+
+
                     </div>
                     <!-- Mother's Name starts here -->
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="formGroupExampleInput"><b>Mother's name:</b></label>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
 
-                            <input type="text" class="form-control" placeholder="First name" required>
+                            <input type="text" class="form-control" placeholder="Mother name" required>
                         </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Middle name">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Last name" required>
-                        </div>
+
+
                     </div>
                     <!-- Date of Birth -->
                     <div class="form-row">
@@ -194,35 +187,34 @@
                     <!-- Religion -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Religion:</b></label>
+                            <label for="job_title"><strong>Religion:</strong><strong><sup style="color: red; size: A5">*</sup></strong></label>
                         </div>
                         <div class="form-group col-md-4">
 
-                            <input type="text" class="form-control" placeholder="Religion">
+                            <select class="custom-select text-uppercase caste" id="religion" name="job_title" required>
+                                <option>Select</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="muslim">Muslim</option>
+                                <option value="christian">Christian</option>
+                                <option value="other">other</option>
+                            </select>
                         </div>
 
                     </div>
                     <!-- Category -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Category:</b></label>
+                            <label for="job_title"><strong>Caste:</strong><strong><sup style="color: red; size: A5">*</sup></strong></label>
                         </div>
+
                         <div class="form-group col-md-4">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Select Caste
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                                    <a class="dropdown-item" href="#">General</a>
-                                    <a class="dropdown-item" href="#">SC</a>
-                                    <a class="dropdown-item" href="#">OBC</a>
-                                    <a class="dropdown-item" href="#">MOBC</a>
-                                    <a class="dropdown-item" href="#">EWC</a>
-                                </div>
-                            </div>
-
+                            <select class="custom-select text-uppercase caste" id="job_title" name="job_title" required>
+                                <option>Select</option>
+                                <option value="General">General</option>
+                                <option value="OBC">OBC</option>
+                                <option value="ST">ST</option>
+                                <option value="SC">SC</option>
+                            </select>
 
                         </div>
                     </div>
@@ -323,6 +315,7 @@
 
                 </div>
                 <input type="button" name="next" class="next action-button" value="Next Step"/>
+
             </fieldset>
 
             <fieldset>
