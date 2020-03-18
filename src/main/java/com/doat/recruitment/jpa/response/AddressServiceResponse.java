@@ -3,21 +3,18 @@
  * @Author: Pranjal Das
  */
 
-package com.doat.recruitment.jpa.services;
+package com.doat.recruitment.jpa.response;
 
-import org.springframework.stereotype.Component;
-
-@Component
-public class ServiceResponse<T> {
+public class AddressServiceResponse<T> {
     private String status;
     private T data;
 
-    public ServiceResponse(String status, T data) {
+    public AddressServiceResponse(String status, T data) {
         this.status = status;
         this.data = data;
     }
 
-    public ServiceResponse() {
+    public AddressServiceResponse() {
     }
 
     public String getStatus() {
@@ -38,7 +35,7 @@ public class ServiceResponse<T> {
 
     @Override
     public String toString() {
-        return "ServiceResponse{" +
+        return "AddressServiceResponse{" +
                 "status='" + status + '\'' +
                 ", data=" + data +
                 '}';
