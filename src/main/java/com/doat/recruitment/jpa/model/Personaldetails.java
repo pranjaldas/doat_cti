@@ -23,7 +23,6 @@ public class Personaldetails {
 
     private String lname;
 
-
     private String mother;
 
     private String father;
@@ -42,10 +41,10 @@ public class Personaldetails {
 
     private String prc_status;
 
-    private String currenty_working_status;
+    private String currently_working_status;
 
 
-    public Personaldetails(int personal_details_id, String reg_id, String fname, String mname, String lname, String mother, String father, String gender, String category, String religion, String disability_status, String nationality, String marital_status, String prc_status, String currenty_working_status) {
+    public Personaldetails(int personal_details_id, String reg_id, String fname, String mname, String lname, String mother, String father, String gender, String category, String religion, String disability_status, String nationality, String marital_status, String prc_status, String currently_working_status) {
         super();
         this.personal_details_id = personal_details_id;
         this.reg_id = reg_id;
@@ -61,18 +60,10 @@ public class Personaldetails {
         this.nationality = nationality;
         this.marital_status = marital_status;
         this.prc_status = prc_status;
-        this.currenty_working_status = currenty_working_status;
+        this.currently_working_status = currently_working_status;
     }
 
     public Personaldetails() {
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public int getPersonal_details_id() {
@@ -131,6 +122,14 @@ public class Personaldetails {
         this.father = father;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -163,14 +162,6 @@ public class Personaldetails {
         this.nationality = nationality;
     }
 
-    public String getPrc_status() {
-        return prc_status;
-    }
-
-    public void setPrc_status(String prc_status) {
-        this.prc_status = prc_status;
-    }
-
     public String getMarital_status() {
         return marital_status;
     }
@@ -179,12 +170,20 @@ public class Personaldetails {
         this.marital_status = marital_status;
     }
 
-    public String getCurrenty_working_status() {
-        return currenty_working_status;
+    public String getPrc_status() {
+        return prc_status;
     }
 
-    public void setCurrenty_working_status(String currenty_working_status) {
-        this.currenty_working_status = currenty_working_status;
+    public void setPrc_status(String prc_status) {
+        this.prc_status = prc_status;
+    }
+
+    public String getCurrently_working_status() {
+        return currently_working_status;
+    }
+
+    public void setCurrently_working_status(String currently_working_status) {
+        this.currently_working_status = currently_working_status;
     }
 
     @Override
@@ -204,7 +203,7 @@ public class Personaldetails {
                 ", nationality='" + nationality + '\'' +
                 ", marital_status='" + marital_status + '\'' +
                 ", prc_status='" + prc_status + '\'' +
-                ", currenty_working_status='" + currenty_working_status + '\'' +
+                ", currently_working_status='" + currently_working_status + '\'' +
                 '}';
     }
 }

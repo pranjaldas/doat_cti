@@ -37,11 +37,314 @@
     <!-- Amlan Dependencies end -->
     <!-- Pranjal Dependencies -->
     <!--Document Validation -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
-</head>
+    <%--    Script files here--%>
+    <script src="../js/post_details.js"></script>
+    <script type="text/javascript">
+        function auto_fill_address() {
+            var same_addr = document.getElementById("same_residential_permanent").checked;
+            var resaddr = document.getElementById("residential_address").value;
+            var respin = document.getElementById("residential_pin").value;
+            //alert(x);
+            if (same_addr) {
+                if ((resaddr == '' || resaddr == null) || (respin == '' || respin == null)) {
+                    alert('please fill address and pincode');
+                    document.getElementById("same_residential_permanent").checked = false;
+                } else {
+                    document.getElementById("permanent_address").value = resaddr;
+                    document.getElementById("permanent_pincode").value = respin;
+                }
+            } else {
+                document.getElementById("permanent_address").value = '';
+                document.getElementById("permanent_pincode").value = '';
+            }
+        }
+    </script>
 
+
+    <script>
+        $(document).ready(function () {
+
+            var current_fs, next_fs, previous_fs; //fieldsets
+            var opacity;
+
+            $(".next").click(function () {
+
+                current_fs = $(this).parent();
+                next_fs = $(this).parent().next();
+
+//Add Class Active
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+//show the next fieldset
+                next_fs.show();
+//hide the current fieldset with style
+                current_fs.animate({opacity: 0}, {
+                    step: function (now) {
+// for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        next_fs.css({'opacity': opacity});
+                    },
+                    duration: 600
+                });
+            });
+
+            $(".previous").click(function () {
+
+                current_fs = $(this).parent();
+                previous_fs = $(this).parent().prev();
+
+//Remove class active
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+//show the previous fieldset
+                previous_fs.show();
+
+//hide the current fieldset with style
+                current_fs.animate({opacity: 0}, {
+                    step: function (now) {
+// for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        previous_fs.css({'opacity': opacity});
+                    },
+                    duration: 600
+                });
+            });
+
+            $('.radio-group .radio').click(function () {
+                $(this).parent().find('.radio').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+            $(".submit").click(function () {
+                return false;
+            })
+
+        });
+    </script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        #grad1 {
+            background-color: #fff;
+
+        }
+
+        #msform {
+            text-align: center;
+            position: relative;
+            margin-top: 20px
+        }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+
+            border-radius: 0.5rem;
+
+            width: 100%;
+            margin: 0;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        #msform fieldset:not(:first-of-type) {
+            display: none
+        }
+
+        #msform fieldset .form-card {
+            text-align: left;
+            color: rgb(36, 34, 34)
+        }
+
+        #msform input,
+        #msform input:focus,
+        #msform textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            border-bottom: 2px solid;
+            outline-width: 0
+        }
+
+        #msform .action-button {
+            width: 100px;
+            background: skyblue;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue
+        }
+
+        #msform .action-button-previous {
+            width: 100px;
+            background: #616161;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+        #msform .action-button-previous:hover,
+        #msform .action-button-previous:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+        }
+
+        select.list-dt {
+            border: none;
+            outline: 0;
+            border-bottom: 1px solid #ccc;
+            padding: 2px 5px 3px 5px;
+            margin: 2px
+        }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid skyblue
+        }
+
+        .card {
+            z-index: 0;
+            border: none;
+            border-radius: 0.4rem;
+            position: relative
+        }
+
+        .fs-title {
+            font-size: 25px;
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left
+        }
+
+        #progressbar {
+            margin-bottom: 20px;
+            overflow: hidden;
+            color: rgb(255, 0, 0)
+        }
+
+        #progressbar .active {
+            color: #000000
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 25%;
+            float: left;
+            position: relative;
+        }
+
+        #progressbar #personal:before {
+            font-family: FontAwesome;
+            content: "\f023"
+        }
+
+        #progressbar #address:before {
+            font-family: FontAwesome;
+            content: "\f007"
+        }
+
+        #progressbar #education:before {
+            font-family: FontAwesome;
+            content: "\f09d"
+        }
+
+        #progressbar #upload:before {
+            font-family: FontAwesome;
+            content: "\f08d"
+        }
+
+        #progressbar #complete:before {
+            font-family: FontAwesome;
+            content: "\f023"
+        }
+
+        #progressbar #confirm:before {
+            font-family: FontAwesome;
+            content: "\f00c"
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: skyblue
+        }
+
+        .radio-group {
+            position: relative;
+            margin-bottom: 25px
+        }
+
+
+        .fit-image {
+            width: 20%;
+            object-fit: cover
+        }
+    </style>
+</head>
 <body>
 <!--Header-->
 
@@ -96,34 +399,37 @@
 
             <!-- fieldsets -->
 
-            <fieldset action="/postDetails" object="personalDetails" method="POST">
+            <fieldset>
 
                 <div class="form-card">
 
                     <!-- Name starts here -->
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>Full Name:</b></label>
+                            <label><b>Full Name:</b></label>
                         </div>
                         <div class="form-group col-md-3">
 
-                            <input type="text" class="form-control" placeholder="First name" name="fname" required>
+                            <input type="text" class="form-control" id="fname" placeholder="First name" name="fname"
+                                   required>
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Middle name" name="mname">
+                            <input type="text" class="form-control" id="mname" placeholder="Middle name" name="mname">
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Last name" name="lname" required>
+                            <input type="text" class="form-control" id="lname" placeholder="Last name" name="lname"
+                                   required>
                         </div>
                     </div>
                     <!-- Fathers Name starts here -->
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>Father's name:</b></label>
+                            <label><b>Father's name:</b></label>
                         </div>
                         <div class="form-group col-md-6">
 
-                            <input type="text" class="form-control" placeholder="Father name" name="father" required>
+                            <input type="text" class="form-control" id="father" placeholder="Father name" name="father"
+                                   required>
                         </div>
 
 
@@ -131,11 +437,12 @@
                     <!-- Mother's Name starts here -->
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>Mother's name:</b></label>
+                            <label><b>Mother's name:</b></label>
                         </div>
                         <div class="form-group col-md-6">
 
-                            <input type="text" class="form-control" placeholder="Mother name" name="mother" required>
+                            <input type="text" class="form-control" id="mother" placeholder="Mother name" name="mother"
+                                   required>
                         </div>
 
 
@@ -144,7 +451,7 @@
                     <!-- Gender -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Gender:</b></label>
+                            <label><b>Gender:</b></label>
                         </div>
                         <div class="form-group col-md-8">
                             <div class="form-group row-md-4">
@@ -176,7 +483,7 @@
                     <!-- Religion -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="job_title"><strong>Religion:</strong><strong><sup
+                            <label><strong>Religion:</strong><strong><sup
                                     style="color: red; size: A5">*</sup></strong></label>
                         </div>
                         <div class="form-group col-md-4">
@@ -194,7 +501,7 @@
                     <!-- Category -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="job_title"><strong>Caste:</strong><strong><sup
+                            <label><strong>Category:</strong><strong><sup
                                     style="color: red; size: A5">*</sup></strong></label>
                         </div>
 
@@ -212,16 +519,17 @@
                     <!-- Nationality -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Nationality:</b></label>
+                            <label><b>Nationality:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" name="nationality" placeholder="Nationality">
+                            <input type="text" class="form-control" id="nationality" name="nationality"
+                                   placeholder="Nationality">
                         </div>
                     </div>
                     <!-- Marital Status -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Marital Status:</b></label>
+                            <label><b>Marital Status:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="form-check">
@@ -243,7 +551,7 @@
                     <!-- PRC -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Are you permanent Resident of India?</b></label>
+                            <label><b>Are you permanent Resident of India?</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="form-check">
@@ -264,7 +572,7 @@
                     <!-- Handicaped -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Are you physically disabled ?</b></label>
+                            <label><b>Are you physically disabled ?</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="form-check">
@@ -285,7 +593,7 @@
                     <!-- Experienced -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Are you currently working ?</b></label>
+                            <label><b>Are you currently working ?</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="form-check">
@@ -308,7 +616,7 @@
 
 
                 </div>
-                <input type="submit" name="next" class="next action-button" value="Next Step"/>
+                <input type="button" name="next" id="details_button" class="next action-button" value="Next Step"/>
 
             </fieldset>
 
@@ -604,305 +912,3 @@
 
 </body>
 
-<script type="text/javascript">
-    function auto_fill_address() {
-        var same_addr = document.getElementById("same_residential_permanent").checked;
-        var resaddr = document.getElementById("residential_address").value;
-        var respin = document.getElementById("residential_pin").value;
-        //alert(x);
-        if (same_addr) {
-            if ((resaddr == '' || resaddr == null) || (respin == '' || respin == null)) {
-                alert('please fill address and pincode');
-                document.getElementById("same_residential_permanent").checked = false;
-            } else {
-                document.getElementById("permanent_address").value = resaddr;
-                document.getElementById("permanent_pincode").value = respin;
-            }
-        } else {
-            document.getElementById("permanent_address").value = '';
-            document.getElementById("permanent_pincode").value = '';
-        }
-    }
-</script>
-
-
-<script>
-    $(document).ready(function () {
-
-        var current_fs, next_fs, previous_fs; //fieldsets
-        var opacity;
-
-        $(".next").click(function () {
-
-            current_fs = $(this).parent();
-            next_fs = $(this).parent().next();
-
-//Add Class Active
-            $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-
-//show the next fieldset
-            next_fs.show();
-//hide the current fieldset with style
-            current_fs.animate({opacity: 0}, {
-                step: function (now) {
-// for making fielset appear animation
-                    opacity = 1 - now;
-
-                    current_fs.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                    next_fs.css({'opacity': opacity});
-                },
-                duration: 600
-            });
-        });
-
-        $(".previous").click(function () {
-
-            current_fs = $(this).parent();
-            previous_fs = $(this).parent().prev();
-
-//Remove class active
-            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-
-//show the previous fieldset
-            previous_fs.show();
-
-//hide the current fieldset with style
-            current_fs.animate({opacity: 0}, {
-                step: function (now) {
-// for making fielset appear animation
-                    opacity = 1 - now;
-
-                    current_fs.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                    previous_fs.css({'opacity': opacity});
-                },
-                duration: 600
-            });
-        });
-
-        $('.radio-group .radio').click(function () {
-            $(this).parent().find('.radio').removeClass('selected');
-            $(this).addClass('selected');
-        });
-
-        $(".submit").click(function () {
-            return false;
-        })
-
-    });
-</script>
-
-<style>
-    * {
-        margin: 0;
-        padding: 0
-    }
-
-    #grad1 {
-        background-color: #fff;
-
-    }
-
-    #msform {
-        text-align: center;
-        position: relative;
-        margin-top: 20px
-    }
-
-    #msform fieldset .form-card {
-        background: white;
-        border: 0 none;
-        border-radius: 0px;
-        box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
-        padding: 20px 40px 30px 40px;
-        box-sizing: border-box;
-        width: 100%;
-        margin: 0 3% 20px 3%;
-        position: relative
-    }
-
-    #msform fieldset {
-        background: white;
-
-        border-radius: 0.5rem;
-
-        width: 100%;
-        margin: 0;
-        padding-bottom: 20px;
-        position: relative;
-    }
-
-    #msform fieldset:not(:first-of-type) {
-        display: none
-    }
-
-    #msform fieldset .form-card {
-        text-align: left;
-        color: rgb(36, 34, 34)
-    }
-
-    #msform input,
-    #msform input:focus,
-    #msform textarea:focus {
-        -moz-box-shadow: none !important;
-        -webkit-box-shadow: none !important;
-        box-shadow: none !important;
-        border: none;
-        border-bottom: 2px solid;
-        outline-width: 0
-    }
-
-    #msform .action-button {
-        width: 100px;
-        background: skyblue;
-        font-weight: bold;
-        color: white;
-        border: 0 none;
-        border-radius: 0px;
-        cursor: pointer;
-        padding: 10px 5px;
-        margin: 10px 5px
-    }
-
-    #msform .action-button:hover,
-    #msform .action-button:focus {
-        box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue
-    }
-
-    #msform .action-button-previous {
-        width: 100px;
-        background: #616161;
-        font-weight: bold;
-        color: white;
-        border: 0 none;
-        border-radius: 0px;
-        cursor: pointer;
-        padding: 10px 5px;
-        margin: 10px 5px
-    }
-
-    #msform .action-button-previous:hover,
-    #msform .action-button-previous:focus {
-        box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
-    }
-
-    select.list-dt {
-        border: none;
-        outline: 0;
-        border-bottom: 1px solid #ccc;
-        padding: 2px 5px 3px 5px;
-        margin: 2px
-    }
-
-    select.list-dt:focus {
-        border-bottom: 2px solid skyblue
-    }
-
-    .card {
-        z-index: 0;
-        border: none;
-        border-radius: 0.4rem;
-        position: relative
-    }
-
-    .fs-title {
-        font-size: 25px;
-        color: #2C3E50;
-        margin-bottom: 10px;
-        font-weight: bold;
-        text-align: left
-    }
-
-    #progressbar {
-        margin-bottom: 20px;
-        overflow: hidden;
-        color: rgb(255, 0, 0)
-    }
-
-    #progressbar .active {
-        color: #000000
-    }
-
-    #progressbar li {
-        list-style-type: none;
-        font-size: 12px;
-        width: 25%;
-        float: left;
-        position: relative;
-    }
-
-    #progressbar #personal:before {
-        font-family: FontAwesome;
-        content: "\f023"
-    }
-
-    #progressbar #address:before {
-        font-family: FontAwesome;
-        content: "\f007"
-    }
-
-    #progressbar #education:before {
-        font-family: FontAwesome;
-        content: "\f09d"
-    }
-
-    #progressbar #upload:before {
-        font-family: FontAwesome;
-        content: "\f08d"
-    }
-
-    #progressbar #complete:before {
-        font-family: FontAwesome;
-        content: "\f023"
-    }
-
-    #progressbar #confirm:before {
-        font-family: FontAwesome;
-        content: "\f00c"
-    }
-
-    #progressbar li:before {
-        width: 50px;
-        height: 50px;
-        line-height: 45px;
-        display: block;
-        font-size: 18px;
-        color: #ffffff;
-        background: lightgray;
-        border-radius: 50%;
-        margin: 0 auto 10px auto;
-        padding: 2px
-    }
-
-    #progressbar li:after {
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: lightgray;
-        position: absolute;
-        left: 0;
-        top: 25px;
-        z-index: -1
-    }
-
-    #progressbar li.active:before,
-    #progressbar li.active:after {
-        background: skyblue
-    }
-
-    .radio-group {
-        position: relative;
-        margin-bottom: 25px
-    }
-
-
-    .fit-image {
-        width: 20%;
-        object-fit: cover
-    }
-</style>
