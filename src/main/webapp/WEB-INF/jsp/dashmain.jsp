@@ -46,18 +46,35 @@
             var same_addr = document.getElementById("same_residential_permanent").checked;
             var resaddr = document.getElementById("residential_address").value;
             var respin = document.getElementById("residential_pin").value;
+            var rescity= document.getElementById("residential_city").value;
+            var resstate= document.getElementById("residential_state").value;
+            var resdistrict= document.getElementById("residential_district").value;
+
+
             //alert(x);
             if (same_addr) {
-                if ((resaddr == '' || resaddr == null) || (respin == '' || respin == null)) {
-                    alert('please fill address and pincode');
+                if ((resaddr == '' || resaddr == null) || (respin == '' || respin == null) || (rescity  == '' || rescity == null)|| ( resstate == '' || resstate == null)|| (resdistrict == '' || resdistrict == null)) {
+                    alert('please fill the details');
                     document.getElementById("same_residential_permanent").checked = false;
                 } else {
                     document.getElementById("permanent_address").value = resaddr;
                     document.getElementById("permanent_pincode").value = respin;
+                    document.getElementById("permanent_state").value = resstate;
+                    document.getElementById("permanent_city").value = rescity;
+                    document.getElementById("permanent_district").value = resdistrict;
+
+
+
+
+
                 }
             } else {
                 document.getElementById("permanent_address").value = '';
                 document.getElementById("permanent_pincode").value = '';
+
+                document.getElementById("permanent_state").value = '';
+                document.getElementById("permanent_city").value = '';
+                document.getElementById("permanent_district").value = '';
             }
         }
     </script>
@@ -158,7 +175,7 @@
         #msform fieldset .form-card {
             background: #f0ffd0;
             border: 0 none;
-            border-radius: 0px;
+            border-radius: 10px;
             padding: 30px;
             position: relative;
         }
@@ -619,68 +636,121 @@
             <fieldset>
                 <div class="form-card">
 
-                    <div class="form-group col-11">
-                        <p class="font-weight-bold">
-                            <label for="residential_address">Current Address</label>
-                            <textarea cols="2" rows="3" class="form-control" placeholder="Enter address"
-                                      name="residential_address" id="residential_address" required></textarea>
-                        </p>
+                    <div class="form-row">
+                        <div class="form-group col-11">
+                            <p class="font-weight-bold">
+                                <label for="residential_address">Current Address</label>
+                                <textarea cols="2" rows="3" class="form-control" placeholder="Enter address" name="residential_address" id="residential_address" required></textarea>
+                            </p>
+                        </div>
                     </div>
-                    <div class="form-group col-11">
-                        <p class="font-weight-bold">
-                            <label for="residential_pin">Current Pin code</label>
-                            <input type="number" placeholder="Enter Pincode" name="residential_pin" id="residential_pin"
-                                   required/>
-                        </p>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <p class="font-weight-bold">
+                                <label for="residential_pin">Current Pin code</label></div>
+                        <div class="form-group col-6">
+                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin" required/>
+                            </p>
+                        </div></div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="inputAddress2"><p class="font-weight-bold">City/Town:</p></label>
+                        </div>
+                        <div class="form-group col-6">
+                            <input type="text" class="form-control"  name="residential_city" id="residential_city" placeholder="Enter City or Town" required>
+                        </div>
                     </div>
-                    <div class="form-group col-11">
-                        <label for="same_residential_permanent"><strong>If Permanent address is as Cureent
-                            address</strong></label>
-                        <input type="checkbox" name="same_residential_permanent" id="same_residential_permanent"
-                               value="abcde" onclick="return auto_fill_address();"/>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputState"><p class="font-weight-bold">District:</label>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <select  name="residential_district" id="residential_district"class="form-control">
+                                <option selected>Choose</option>
+                                <option>kamrup</option>
+                                <option>kamrup</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group col-11">
-                        <p class="font-weight-bold">
-                            <label for="permanent_address">Permanent Address</label>
-                            <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address"
-                                      name="permanent_address" id="permanent_address"></textarea>
-                        </p>
-                    </div>
-                    <div class="form-group col-11">
-                        <p class="font-weight-bold">
-                            <label for="permanent_pincode">Parmanent Pincode</label>
-                            <input type="number" placeholder="Enter pincode" name="permanent_pincode"
-                                   id="permanent_pincode"/>
-                        </p>
-                    </div>
-                    <div class="form-group col-4">
-                        <label><p class="font-weight-bold">City/Town:</p></label>
-                        <input type="text" class="form-control" id="inputcity" placeholder="Enter City or Town"
-                               required>
-                    </div>
-                    <div class="form-row"></div>
-                    <div class="form-group col-md-3">
-                        <label for="inputState"><p class="font-weight-bold">District:</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Choose</option>
-                            <option>1</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputState"><p class="font-weight-bold">State:</label>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <select  name="residential_state" id="residential_state"class="form-control">
+                                <option selected>Choose</option>
+                                <option>Assam</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-row"></div>
-                    <div class="form-group col-md-3">
-                        <label for="inputState"><p class="font-weight-bold">State:</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Choose</option>
-                            <option>Assam</option>
-                        </select>
 
 
+
+
+
+                    <div class="form-row">
+                        <div class="form-group col-11">
+                            <label for="same_residential_permanent"><strong>If Permanent address is as Cureent address</strong></label>
+                            <input type="checkbox" name="same_residential_permanent" id="same_residential_permanent" value="abcde" onclick="return auto_fill_address();" />
+                        </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-11">
+                            <p class="font-weight-bold">
+                                <label for="permanent_address">Parmanent Address</label>
+                                <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address" name="permanent_address" id="permanent_address"></textarea>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <p class="font-weight-bold">
+                                <label for="permanent_pincode">Parmanent Pincode</label></div>
+                        <div class="form-group col-6">
+                            <input type="text" placeholder="Enter pincode" name="permanent_pincode" id="permanent_pincode" />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="inputAddress2"><p class="font-weight-bold">City/Town:</p></label></div>
+                        <div class="form-group col-6">
+                            <input type="text" class="form-control" name="permanent_city" id="permanent_city" placeholder="Enter City or Town" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="inputState"><p class="font-weight-bold">District:</label></div>
+                        <div class="form-group col-6">
+                            <select name="permanent_district" id="permanent_district" class="form-control">
+                                <option selected>Choose</option>
+                                <option>kamrup</option>
+                                <option>kamrup</option>
+                            </select>
+                        </div></div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="inputState"><p class="font-weight-bold">State:</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <select name="permanent_state" id="permanent_state" class="form-control">
+                                <option selected>Choose</option>
+                                <option>Assam</option>
+                            </select>
+
+
+
+                        </div></div>
 
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                <input type="button" name="next" class="next action-button" value="Next Step"/>
+
+
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next Step" />
             </fieldset>
 
 
@@ -694,11 +764,14 @@
 
                             <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE">
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <input type="text" class="form-control" placeholder="SUBJECT">
                         </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="PERCENTAGE/CGPA">
+                        <div class="form-group col-md-2">
+                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING">
                         </div>
                     </div>
                     <div class="form-row">
@@ -709,11 +782,14 @@
 
                             <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE">
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <input type="text" class="form-control" placeholder="STREAM">
                         </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="PERCENTAGE/CGPA">
+                        <div class="form-group col-md-2">
+                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING">
                         </div>
                     </div>
                     <div class="form-row">
@@ -724,24 +800,40 @@
 
                             <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE">
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <input type="text" class="form-control" placeholder="SPECIFICATION">
                         </div>
-                        <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="PERCENTAGE/CGPA">
+                        <div class="form-group col-md-2">
+                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING">
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="input-group mb-3">
-                            <div class="input-group">
-                                <label class="input-group-text" for="inputGroupSelect01"><b>DIPLOMA</b></label>
-                            </div>
-                            <select class="custom-select" id="inputGroupSelect01">
-                                <option selected>Choose</option>
-                                <option value="1">YES</option>
-                                <option value="2">NO</option>
-                            </select>
+                        <div class="form-group col-md-4">
+                            <label for="formGroupExampleInput"><b>DIPLOMA:</b></label>
                         </div>
+                        <div class="form-group col-md-8">
+                            <div class="form-group row-md-4">
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="diploma">YES
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row-md-4">
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="diploma">NO
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
                     </div>
                 </div>
                 <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
