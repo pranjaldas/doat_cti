@@ -272,6 +272,7 @@
             width: 25%;
             float: left;
             position: relative;
+            padding-left: 100px;
         }
 
         #progressbar #personal:before {
@@ -388,7 +389,7 @@
     <div class="col-md-11 mx-0">
         <form id="msform">
             <!-- progressbar -->
-            <ul id="progressbar">
+            <ul id="progressbar" style="display: inline-flex;">
                 <li class="active" id="personal"><strong>Personal Information</strong></li>
                 <li id="address"><strong>Address</strong></li>
                 <li id="education"><strong>Education Qualification</strong></li>
@@ -633,7 +634,7 @@
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
                             <label for="residential_pin">Current Pin code</label>
-                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin"
+                            <input type="number" placeholder="Enter Pincode" name="residential_pin" id="residential_pin"
                                    required/>
                         </p>
                     </div>
@@ -645,7 +646,7 @@
                     </div>
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
-                            <label for="permanent_address">Parmanent Address</label>
+                            <label for="permanent_address">Permanent Address</label>
                             <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address"
                                       name="permanent_address" id="permanent_address"></textarea>
                         </p>
@@ -653,7 +654,7 @@
                     <div class="form-group col-11">
                         <p class="font-weight-bold">
                             <label for="permanent_pincode">Parmanent Pincode</label>
-                            <input type="text" placeholder="Enter pincode" name="permanent_pincode"
+                            <input type="number" placeholder="Enter pincode" name="permanent_pincode"
                                    id="permanent_pincode"/>
                         </p>
                     </div>
@@ -880,8 +881,9 @@
 
             <fieldset>
                 <div class="form-card">
-                    <h2 class="fs-title text-center">Success !</h2> <br><br>
+
                     <div class="row justify-content-center">
+                        <h2 class="fs-title text-center">Success !</h2> <br><br>
                         <div class="col-3"><img src="https://img.icons8.com/color/96/000000/ok--v2.png"
                                                 class="fit-image"></div>
                     </div>
