@@ -654,7 +654,7 @@
                         </p>
                     </div>
                     <div class="form-group col-4">
-                        <label for="inputAddress2"><p class="font-weight-bold">City/Town:</p></label>
+                        <label><p class="font-weight-bold">City/Town:</p></label>
                         <input type="text" class="form-control" id="inputcity" placeholder="Enter City or Town"
                                required>
                     </div>
