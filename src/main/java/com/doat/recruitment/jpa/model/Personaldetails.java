@@ -6,47 +6,73 @@
 package com.doat.recruitment.jpa.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+
 
 @Entity
+@Table(name = "personaldetails")
 public class Personaldetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personal_details_id")
     private int personal_details_id;
-    @NotBlank
-    private String name;
-    @NotBlank
+    private String reg_id;
+
+    private String fname;
+
+    private String mname;
+
+    private String lname;
+
+
     private String mother;
-    @NotBlank
+
     private String father;
-    @NotBlank
+
+    private String gender;
+
     private String category;
-    @NotBlank
+
     private String religion;
-    @NotBlank
+
     private String disability_status;
-    @NotBlank
+
     private String nationality;
-    @NotBlank
+
+    private String marital_status;
+
     private String prc_status;
-    @NotBlank
-    private String ex_serviceman_status;
 
-    public Personaldetails() {
-    }
+    private String currenty_working_status;
 
-    public Personaldetails(@NotBlank String name, @NotBlank String mother, @NotBlank String father, @NotBlank String category, @NotBlank String religion, @NotBlank String disability_status, @NotBlank String nationality, @NotBlank String prc_status, @NotBlank String ex_serviceman_status) {
+
+    public Personaldetails(int personal_details_id, String reg_id, String fname, String mname, String lname, String mother, String father, String gender, String category, String religion, String disability_status, String nationality, String marital_status, String prc_status, String currenty_working_status) {
         super();
-        this.name = name;
+        this.personal_details_id = personal_details_id;
+        this.reg_id = reg_id;
+        this.fname = fname;
+        this.mname = mname;
+        this.lname = lname;
         this.mother = mother;
         this.father = father;
+        this.gender = gender;
         this.category = category;
         this.religion = religion;
         this.disability_status = disability_status;
         this.nationality = nationality;
+        this.marital_status = marital_status;
         this.prc_status = prc_status;
-        this.ex_serviceman_status = ex_serviceman_status;
+        this.currenty_working_status = currenty_working_status;
+    }
+
+    public Personaldetails() {
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public int getPersonal_details_id() {
@@ -57,12 +83,36 @@ public class Personaldetails {
         this.personal_details_id = personal_details_id;
     }
 
-    public String getName() {
-        return name;
+    public String getReg_id() {
+        return reg_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setReg_id(String reg_id) {
+        this.reg_id = reg_id;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getMname() {
+        return mname;
+    }
+
+    public void setMname(String mname) {
+        this.mname = mname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 
     public String getMother() {
@@ -121,27 +171,40 @@ public class Personaldetails {
         this.prc_status = prc_status;
     }
 
-    public String getEx_serviceman_status() {
-        return ex_serviceman_status;
+    public String getMarital_status() {
+        return marital_status;
     }
 
-    public void setEx_serviceman_status(String ex_serviceman_status) {
-        this.ex_serviceman_status = ex_serviceman_status;
+    public void setMarital_status(String marital_status) {
+        this.marital_status = marital_status;
+    }
+
+    public String getCurrenty_working_status() {
+        return currenty_working_status;
+    }
+
+    public void setCurrenty_working_status(String currenty_working_status) {
+        this.currenty_working_status = currenty_working_status;
     }
 
     @Override
     public String toString() {
         return "Personaldetails{" +
                 "personal_details_id=" + personal_details_id +
-                ", name='" + name + '\'' +
+                ", reg_id='" + reg_id + '\'' +
+                ", fname='" + fname + '\'' +
+                ", mname='" + mname + '\'' +
+                ", lname='" + lname + '\'' +
                 ", mother='" + mother + '\'' +
                 ", father='" + father + '\'' +
+                ", gender='" + gender + '\'' +
                 ", category='" + category + '\'' +
                 ", religion='" + religion + '\'' +
                 ", disability_status='" + disability_status + '\'' +
                 ", nationality='" + nationality + '\'' +
+                ", marital_status='" + marital_status + '\'' +
                 ", prc_status='" + prc_status + '\'' +
-                ", ex_serviceman_status='" + ex_serviceman_status + '\'' +
+                ", currenty_working_status='" + currenty_working_status + '\'' +
                 '}';
     }
 }

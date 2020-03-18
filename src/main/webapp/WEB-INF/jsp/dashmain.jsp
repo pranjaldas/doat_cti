@@ -96,9 +96,9 @@
 
             <!-- fieldsets -->
 
-            <fieldset>
+            <fieldset action="/postDetails" object="personalDetails" method="POST">
 
-                <div class="form-card" >
+                <div class="form-card">
 
                     <!-- Name starts here -->
                     <div class="form-row">
@@ -107,13 +107,13 @@
                         </div>
                         <div class="form-group col-md-3">
 
-                            <input type="text" class="form-control" placeholder="First name" required>
+                            <input type="text" class="form-control" placeholder="First name" name="fname" required>
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Middle name">
+                            <input type="text" class="form-control" placeholder="Middle name" name="mname">
                         </div>
                         <div class="form-group col-md-3">
-                            <input type="text" class="form-control" placeholder="Last name" required>
+                            <input type="text" class="form-control" placeholder="Last name" name="lname" required>
                         </div>
                     </div>
                     <!-- Fathers Name starts here -->
@@ -123,7 +123,7 @@
                         </div>
                         <div class="form-group col-md-6">
 
-                            <input type="text" class="form-control" placeholder="Father name" required>
+                            <input type="text" class="form-control" placeholder="Father name" name="father" required>
                         </div>
 
 
@@ -135,18 +135,7 @@
                         </div>
                         <div class="form-group col-md-6">
 
-                            <input type="text" class="form-control" placeholder="Mother name" required>
-                        </div>
-
-
-                    </div>
-                    <!-- Date of Birth -->
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Date of Birth:</b></label>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <input class="form-control" type="date" required/>
+                            <input type="text" class="form-control" placeholder="Mother name" name="mother" required>
                         </div>
 
 
@@ -161,21 +150,21 @@
                             <div class="form-group row-md-4">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="gender">Male
+                                        <input type="radio" class="form-check-input" value="Male" name="gender">Male
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group row-md-4">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="gender">Female
+                                        <input type="radio" class="form-check-input" value="Female" name="gender">Female
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group row-md-4">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="gender">Others
+                                        <input type="radio" class="form-check-input" value="Others" name="gender">Others
                                     </label>
                                 </div>
                             </div>
@@ -187,11 +176,12 @@
                     <!-- Religion -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="job_title"><strong>Religion:</strong><strong><sup style="color: red; size: A5">*</sup></strong></label>
+                            <label for="job_title"><strong>Religion:</strong><strong><sup
+                                    style="color: red; size: A5">*</sup></strong></label>
                         </div>
                         <div class="form-group col-md-4">
 
-                            <select class="custom-select text-uppercase caste" id="religion" name="job_title" required>
+                            <select class="custom-select text-uppercase caste" id="religion" name="religion" required>
                                 <option>Select</option>
                                 <option value="Hindu">Hindu</option>
                                 <option value="muslim">Muslim</option>
@@ -204,11 +194,12 @@
                     <!-- Category -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="job_title"><strong>Caste:</strong><strong><sup style="color: red; size: A5">*</sup></strong></label>
+                            <label for="job_title"><strong>Caste:</strong><strong><sup
+                                    style="color: red; size: A5">*</sup></strong></label>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <select class="custom-select text-uppercase caste" id="job_title" name="job_title" required>
+                            <select class="custom-select text-uppercase caste" id="category" name="category" required>
                                 <option>Select</option>
                                 <option value="General">General</option>
                                 <option value="OBC">OBC</option>
@@ -224,7 +215,7 @@
                             <label for="formGroupExampleInput"><b>Nationality:</b></label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control" placeholder="Nationality">
+                            <input type="text" class="form-control" name="nationality" placeholder="Nationality">
                         </div>
                     </div>
                     <!-- Marital Status -->
@@ -235,7 +226,7 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="mstatus">Married
+                                    <input type="radio" class="form-check-input" value="Married" name="marital_status">Married
                                 </label>
                             </div>
 
@@ -243,7 +234,8 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="mstatus">Unmarried
+                                    <input type="radio" class="form-check-input" value="Unmarried"
+                                           name="marital_status">Unmarried
                                 </label>
                             </div>
                         </div>
@@ -256,7 +248,7 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="prc">Yes
+                                    <input type="radio" class="form-check-input" value="Yes" name="prc_status">Yes
                                 </label>
                             </div>
 
@@ -264,7 +256,7 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="prc">No
+                                    <input type="radio" class="form-check-input" value="No" name="prc_status">No
                                 </label>
                             </div>
                         </div>
@@ -277,7 +269,7 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="PH">Yes
+                                    <input type="radio" class="form-check-input" value="Yes" name="disability_status">Yes
                                 </label>
                             </div>
 
@@ -285,7 +277,7 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="PH">No
+                                    <input type="radio" class="form-check-input" value="No" name="disability_status">No
                                 </label>
                             </div>
                         </div>
@@ -298,7 +290,8 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="working">Yes
+                                    <input type="radio" class="form-check-input" value="Yes"
+                                           name="currently_working_status">Yes
                                 </label>
                             </div>
 
@@ -306,7 +299,8 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input" name="working">No
+                                    <input type="radio" class="form-check-input" value="No"
+                                           name="currently_working_status">No
                                 </label>
                             </div>
                         </div>
@@ -314,7 +308,7 @@
 
 
                 </div>
-                <input type="button" name="next" class="next action-button" value="Next Step"/>
+                <input type="submit" name="next" class="next action-button" value="Next Step"/>
 
             </fieldset>
 

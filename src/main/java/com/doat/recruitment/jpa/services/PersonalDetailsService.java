@@ -28,6 +28,9 @@ public class PersonalDetailsService {
     }
 
     public void saveNewPersonalDetails(Personaldetails details) {
+
         repo.save(details);
     }
+
+
 }

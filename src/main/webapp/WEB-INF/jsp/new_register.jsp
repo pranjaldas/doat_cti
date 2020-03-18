@@ -61,16 +61,14 @@
 
             <div class="alert alert-primary">
                 <strong>New Candidate</strong><br>
-                <h7 style="color: #000;" > All Star-Marked (*) fileds are COMPULSORY<br>
+                <h7 style="color: #000;"> All Star-Marked (*) fileds are COMPULSORY<br>
                     Please read all the job related instructions before submitting the form.</h>
             </div>
 
             <p class="card-text">
 
-                <form class="register-form" id="register-form" method="POST" action="/saveregistration"object="registration"
-                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+                <form class="register-form" id="register-form" method="POST" action="/saveregistration"
+                      object="registration">
 
                     <!--Register form-->
 
@@ -78,7 +76,8 @@
 
                         <!--post name-->
                         <div class="col-4 mb-3 form-group">
-                            <label for="job_title"><strong>Post:</strong><strong><sup style="color: red; size: A5">*</sup></strong></label>
+                            <label for="job_title"><strong>Post:</strong><strong><sup
+                                    style="color: red; size: A5">*</sup></strong></label>
                             <select class="custom-select text-uppercase caste" id="job_title" name="job_title" required>
                                 <option>Select</option>
                                 <option value="Junior Assistant">Junior Assistant</option>
@@ -92,17 +91,21 @@
 
 
                         <div class="col-12 mb-3">
-                            <label for="name"><strong>Full Name:</strong><sup style="color: red; size: A5">*</sup></label>
+                            <label><strong>Full Name:</strong><sup style="color: red; size: A5">*</sup></label>
                             <div class="row" style=" padding:10px;">
-                                <input class="col-4 form-control fname " type="text" id="fname" name="fname" placeholder="First name" required>
-                                <input class="col-4 form-control  mname" type="text" id="mname" name="mname" placeholder="Middle name">
-                                <input class="col-4 form-control  lname" type="text" id="lname" name="lname" placeholder="Last name" required>
+                                <input class="col-4 form-control fname " type="text" id="fname" name="fname"
+                                       placeholder="First name" required>
+                                <input class="col-4 form-control  mname" type="text" id="mname" name="mname"
+                                       placeholder="Middle name">
+                                <input class="col-4 form-control  lname" type="text" id="lname" name="lname"
+                                       placeholder="Last name" required>
                                 <br></div>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="phone"><strong>Phone number </strong><strong><sup
                                     style="color: red; size: A5">*</sup></strong></label>
-                            <input class="form-control " type="" name="phone" id="phone" placeholder="Enter Phone number"
+                            <input class="form-control " type="" name="phone" id="phone"
+                                   placeholder="Enter Phone number"
                                    pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required maxlength="10">
 
 
@@ -125,7 +128,8 @@
                         <div class="col-6 mb-3">
                             <label for="password"><strong>Password </strong><strong><sup
                                     style="color: red; size: A5">*</sup></strong></label>
-                            <input class="form-control" type="password" id="psw" placeholder="Enter Password" name="psw"
+                            <input class="form-control" type="password" id="password" placeholder="Enter Password"
+                                   name="password"
                                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                                    required></input>
@@ -182,12 +186,12 @@
     // When the user clicks on the password field, show the message box
     myInput.onfocus = function () {
         document.getElementById("message").style.display = "block";
-    }
+    };
 
     // When the user clicks outside of the password field, hide the message box
     myInput.onblur = function () {
         document.getElementById("message").style.display = "none";
-    }
+    };
 
     // When the user starts to type something inside the password field
     myInput.onkeyup = function () {
