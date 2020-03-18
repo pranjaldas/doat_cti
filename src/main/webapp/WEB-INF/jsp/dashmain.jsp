@@ -41,19 +41,20 @@
     <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
     <%--    Script files here--%>
     <script src="../js/post_details.js"></script>
+    <script src="../js/post_address.js"></script>
     <script type="text/javascript">
         function auto_fill_address() {
             var same_addr = document.getElementById("same_residential_permanent").checked;
             var resaddr = document.getElementById("residential_address").value;
             var respin = document.getElementById("residential_pin").value;
-            var rescity= document.getElementById("residential_city").value;
-            var resstate= document.getElementById("residential_state").value;
-            var resdistrict= document.getElementById("residential_district").value;
+            var rescity = document.getElementById("residential_city").value;
+            var resstate = document.getElementById("residential_state").value;
+            var resdistrict = document.getElementById("residential_district").value;
 
 
             //alert(x);
             if (same_addr) {
-                if ((resaddr == '' || resaddr == null) || (respin == '' || respin == null) || (rescity  == '' || rescity == null)|| ( resstate == '' || resstate == null)|| (resdistrict == '' || resdistrict == null)) {
+                if ((resaddr == '' || resaddr == null) || (respin == '' || respin == null) || (rescity == '' || rescity == null) || (resstate == '' || resstate == null) || (resdistrict == '' || resdistrict == null)) {
                     alert('please fill the details');
                     document.getElementById("same_residential_permanent").checked = false;
                 } else {
@@ -639,8 +640,9 @@
                     <div class="form-row">
                         <div class="form-group col-11">
                             <p class="font-weight-bold">
-                                <label for="residential_address">Current Address</label>
-                                <textarea cols="2" rows="3" class="form-control" placeholder="Enter address" name="residential_address" id="residential_address" required></textarea>
+                                <label>Current Address</label>
+                                <textarea cols="2" rows="3" class="form-control" placeholder="Enter address"
+                                          name="residential_address" id="residential_address" required></textarea>
                             </p>
                         </div>
                     </div>
@@ -649,108 +651,117 @@
                             <p class="font-weight-bold">
                                 <label for="residential_pin">Current Pin code</label></div>
                         <div class="form-group col-6">
-                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin" required/>
+                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin"
+                                   required/>
                             </p>
-                        </div></div>
+                        </div>
+                    </div>
 
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="inputAddress2"><p class="font-weight-bold">City/Town:</p></label>
+                            <label><p class="font-weight-bold">City/Town:</p></label>
                         </div>
                         <div class="form-group col-6">
-                            <input type="text" class="form-control"  name="residential_city" id="residential_city" placeholder="Enter City or Town" required>
+                            <input type="text" class="form-control" name="residential_city" id="residential_city"
+                                   placeholder="Enter City or Town" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="inputState"><p class="font-weight-bold">District:</label>
+                            <label><p class="font-weight-bold">District:</label>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <select  name="residential_district" id="residential_district"class="form-control">
+                            <select name="residential_district" id="residential_district" class="form-control">
                                 <option selected>Choose</option>
-                                <option>kamrup</option>
-                                <option>kamrup</option>
+                                <option value="Nagaon">Nagaon</option>
+                                <option value="Kamrup">kamrup</option>
+                                <option value="Jorhat">Jorhat</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="inputState"><p class="font-weight-bold">State:</label>
+                            <label><p class="font-weight-bold">State:</label>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <select  name="residential_state" id="residential_state"class="form-control">
+                            <select name="residential_state" id="residential_state" class="form-control">
                                 <option selected>Choose</option>
-                                <option>Assam</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Meghalaya">Meghalaya</option>
                             </select>
                         </div>
                     </div>
-
-
-
-
 
 
                     <div class="form-row">
                         <div class="form-group col-11">
-                            <label for="same_residential_permanent"><strong>If Permanent address is as Cureent address</strong></label>
-                            <input type="checkbox" name="same_residential_permanent" id="same_residential_permanent" value="abcde" onclick="return auto_fill_address();" />
+                            <label for="same_residential_permanent"><strong>If Permanent address is as Cureent
+                                address</strong></label>
+                            <input type="checkbox" name="same_residential_permanent" id="same_residential_permanent"
+                                   onclick="return auto_fill_address();" required/>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-11">
                             <p class="font-weight-bold">
                                 <label for="permanent_address">Parmanent Address</label>
-                                <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address" name="permanent_address" id="permanent_address"></textarea>
+                                <textarea cols="2" rows="3" class="form-control" placeholder="Enter  address"
+                                          name="permanent_address" id="permanent_address" required></textarea>
                             </p>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
                             <p class="font-weight-bold">
-                                <label for="permanent_pincode">Parmanent Pincode</label></div>
+                                <label>Parmanent Pincode</label></div>
                         <div class="form-group col-6">
-                            <input type="text" placeholder="Enter pincode" name="permanent_pincode" id="permanent_pincode" />
+                            <input type="text" placeholder="Enter pincode" name="permanent_pin" id="permanent_pin"
+                                   required/>
                             </p>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="inputAddress2"><p class="font-weight-bold">City/Town:</p></label></div>
+                            <label><p class="font-weight-bold">City/Town:</p></label></div>
                         <div class="form-group col-6">
-                            <input type="text" class="form-control" name="permanent_city" id="permanent_city" placeholder="Enter City or Town" required>
+                            <input type="text" class="form-control" name="permanent_city" id="permanent_city"
+                                   placeholder="Enter City or Town" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="inputState"><p class="font-weight-bold">District:</label></div>
+                            <label><p class="font-weight-bold">District:</label></div>
                         <div class="form-group col-6">
                             <select name="permanent_district" id="permanent_district" class="form-control">
                                 <option selected>Choose</option>
-                                <option>kamrup</option>
-                                <option>kamrup</option>
+                                <option value="Nagaon">Nagaon</option>
+                                <option value="Kamrup">kamrup</option>
+                                <option value="Jorhat">Jorhat</option>
                             </select>
-                        </div></div>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label for="inputState"><p class="font-weight-bold">State:</label>
+                            <label><p class="font-weight-bold">State:</label>
                         </div>
                         <div class="form-group col-6">
                             <select name="permanent_state" id="permanent_state" class="form-control">
                                 <option selected>Choose</option>
-                                <option>Assam</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Meghalaya">Meghalaya</option>
                             </select>
 
 
-
-                        </div></div>
+                        </div>
+                    </div>
 
                 </div>
 
 
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                <input type="button" name="next" class="next action-button" value="Next Step" />
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" id="address_button" name="next" class="next action-button" value="Next Step"/>
             </fieldset>
 
 
@@ -758,61 +769,69 @@
                 <div class="form-card">
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>10th/EQUIVALENT:</b></label>
+                            <label><b>10th/EQUIVALENT:</b></label>
                         </div>
                         <div class="form-group col-md-3">
 
-                            <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE">
+                            <input type="text" class="form-control" id="hsls_board"
+                                   placeholder="BOARD/UNIVERSITY/INSTITUTE" required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="text" class="form-control" placeholder="SUBJECT">
+                            <input type="text" class="form-control" placeholder="SUBJECT" id="hslc_subjects" required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA">
+                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA" id="hslc_percentage"
+                                   required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="YEAR OF PASSING">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING" id="hslc_year"
+                                   required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>12th/EQUIVALENT:</b></label>
+                            <label><b>12th/EQUIVALENT:</b></label>
                         </div>
                         <div class="form-group col-md-3">
 
-                            <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE">
+                            <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE"
+                                   id="hs_board" required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="text" class="form-control" placeholder="STREAM">
+                            <input type="text" class="form-control" placeholder="STREAM" id="hs_stream">
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA">
+                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA" id="hs_percentage"
+                                   required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="YEAR OF PASSING">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING" id="hs_year" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="formGroupExampleInput"><b>GRADUATION:</b></label>
+                            <label><b>GRADUATION:</b></label>
                         </div>
                         <div class="form-group col-md-3">
 
-                            <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE">
+                            <input type="text" class="form-control" placeholder="BOARD/UNIVERSITY/INSTITUTE"
+                                   id="dig_clg_uni" required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="text" class="form-control" placeholder="SPECIFICATION">
+                            <input type="text" class="form-control" placeholder="SPECIFICATION" id="dig_specification"
+                                   required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA">
+                            <input type="num" class="form-control" placeholder="PERCENTAGE/CGPA" id="dig_percentage"
+                                   required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="YEAR OF PASSING">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING" id="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>DIPLOMA:</b></label>
+                            <label><b>DIPLOMA:</b></label>
                         </div>
                         <div class="form-group col-md-8">
                             <div class="form-group row-md-4">
@@ -837,7 +856,8 @@
                     </div>
                 </div>
                 <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                <input type="button" name="next" class="next action-button" value="Next Step"/>
+                <input type="button" id="qualification_button" name="next" class="next action-button"
+                       value="Next Step"/>
             </fieldset>
 
             <fieldset>
@@ -845,7 +865,7 @@
                     <!-- Photo -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Photo:</b></label>
+                            <label><b>Photo:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="photo" accept="image/*"
@@ -859,7 +879,7 @@
                     <!-- Signature -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Signature:</b></label>
+                            <label><b>Signature:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="signature" accept="image/*"
@@ -873,21 +893,21 @@
                     <!-- HSLC -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>HSLC marksheet:</b></label>
+                            <label><b>HSLC marksheet:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="hslc" accept="application/pdf"
                                    onchange="validateImage('hslc')">
                         </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName5" style="color: red;"></span>
-                            <span id="" style="color:black;"></span>
+                            <span id="errorName" style="color: red;"></span>
+                            <span style="color:black;"></span>
                         </div>
                     </div>
                     <!-- HS -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>HS marksheet:</b></label>
+                            <label><b>HS marksheet:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="hs" accept="application/pdf"
@@ -901,7 +921,7 @@
                     <!-- Degree Marksheet -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Digree marksheet:</b></label>
+                            <label><b>Digree marksheet:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="degree" onchange="validateImage('degree')">
@@ -914,7 +934,7 @@
                     <!-- Disability Certificate -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Disability Certificate:</b></label>
+                            <label><b>Disability Certificate:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="disability" onchange="validateImage('disability')">
@@ -927,7 +947,7 @@
                     <!-- Experience Certificate -->
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="formGroupExampleInput"><b>Experience Certificate:</b></label>
+                            <label><b>Experience Certificate:</b></label>
                         </div>
                         <div class="form-group col-md-4">
                             <input type="file" name="f[]" id="experience" onchange="validateImage('experience')">
