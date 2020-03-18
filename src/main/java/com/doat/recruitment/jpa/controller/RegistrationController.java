@@ -111,4 +111,10 @@ public class RegistrationController {
         }
         return "wrong input";
     }
+
+    @RequestMapping(value = "/register")
+    public String viewRegister() {
+        return "new_register";
+    }
+
 }

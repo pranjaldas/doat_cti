@@ -143,45 +143,40 @@
 
         #grad1 {
             background-color: #fff;
+            padding-left: 50px;
 
         }
 
         #msform {
             text-align: center;
             position: relative;
-            margin-top: 20px
+            margin-top: 20px;
+            padding-left: 30px;
+
         }
 
         #msform fieldset .form-card {
-            background: white;
+            background: #f0ffd0;
             border: 0 none;
             border-radius: 0px;
-            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
-            padding: 20px 40px 30px 40px;
-            box-sizing: border-box;
-            width: 100%;
-            margin: 0 3% 20px 3%;
-            position: relative
+            padding: 30px;
+            position: relative;
         }
 
         #msform fieldset {
             background: white;
-
             border-radius: 0.5rem;
-
-            width: 100%;
-            margin: 0;
             padding-bottom: 20px;
             position: relative;
         }
 
         #msform fieldset:not(:first-of-type) {
-            display: none
+            display: none;
         }
 
         #msform fieldset .form-card {
             text-align: left;
-            color: rgb(36, 34, 34)
+            color: rgb(36, 34, 34);
         }
 
         #msform input,
@@ -209,7 +204,7 @@
 
         #msform .action-button:hover,
         #msform .action-button:focus {
-            box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue
+            box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue;
         }
 
         #msform .action-button-previous {
