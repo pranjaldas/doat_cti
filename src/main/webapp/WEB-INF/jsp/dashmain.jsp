@@ -34,14 +34,14 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link type="text/css" href="lib/dashstyle.css" rel="stylesheet">
-    <!-- Amlan Dependencies end -->
-    <!-- Pranjal Dependencies -->
     <!--Document Validation -->
 
     <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
     <%--    Script files here--%>
-    <script src="../js/post_details.js"></script>
-    <script src="../js/post_address.js"></script>
+    <script src="../js/post_requests.js"></script>
+    <%--    <script src="../js/post_details.js"></script>--%>
+    <%--    <script src="../js/post_address.js"></script>--%>
+    <%--    <script src="../js/post_qualification.js"></script>--%>
     <script type="text/javascript">
         function auto_fill_address() {
             var same_addr = document.getElementById("same_residential_permanent").checked;
@@ -773,7 +773,7 @@
                         </div>
                         <div class="form-group col-md-3">
 
-                            <input type="text" class="form-control" id="hsls_board"
+                            <input type="text" class="form-control" id="hslc_board"
                                    placeholder="BOARD/UNIVERSITY/INSTITUTE" required>
                         </div>
                         <div class="form-group col-md-2">
@@ -826,7 +826,7 @@
                                    required>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="num" class="form-control" placeholder="YEAR OF PASSING" id="">
+                            <input type="num" class="form-control" placeholder="YEAR OF PASSING" id="dig_year">
                         </div>
                     </div>
                     <div class="form-row">
@@ -837,7 +837,7 @@
                             <div class="form-group row-md-4">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="diploma">YES
+                                        <input type="radio" class="form-check-input" value=1 name="diploma">YES
                                     </label>
                                 </div>
                             </div>
@@ -845,7 +845,7 @@
                             <div class="form-group row-md-4">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="diploma">NO
+                                        <input type="radio" class="form-check-input" value=0 name="diploma">NO
                                     </label>
                                 </div>
                             </div>
