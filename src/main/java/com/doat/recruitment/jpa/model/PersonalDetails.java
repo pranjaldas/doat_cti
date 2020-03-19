@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "personaldetails")
-public class Personaldetails {
+public class PersonalDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personal_details_id")
@@ -44,7 +44,7 @@ public class Personaldetails {
     private String currently_working_status;
 
 
-    public Personaldetails(int personal_details_id, String reg_id, String fname, String mname, String lname, String mother, String father, String gender, String category, String religion, String disability_status, String nationality, String marital_status, String prc_status, String currently_working_status) {
+    public PersonalDetails(int personal_details_id, String reg_id, String fname, String mname, String lname, String mother, String father, String gender, String category, String religion, String disability_status, String nationality, String marital_status, String prc_status, String currently_working_status) {
         super();
         this.personal_details_id = personal_details_id;
         this.reg_id = reg_id;
@@ -63,7 +63,7 @@ public class Personaldetails {
         this.currently_working_status = currently_working_status;
     }
 
-    public Personaldetails() {
+    public PersonalDetails() {
     }
 
     public int getPersonal_details_id() {

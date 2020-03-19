@@ -18,9 +18,6 @@ let list = [];
 
 const addressObject = (ev) => {
     ev.preventDefault();  //to stop the form submitting
-    //This method is to find selected value from radios,such a jugadoo (^_^)
-
-
     //personal Details object construction
     let address = {
         reg_id: "Not Done yet",
@@ -60,11 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('address_button').addEventListener('click', addressObject);
 });
 
-
-/*
- * Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
- * @Author: Pranjal Das
- */
 const detailsObject = (ev) => {
     ev.preventDefault();  //to stop the form submitting
     //personal Details object construction
@@ -87,6 +79,7 @@ const detailsObject = (ev) => {
     //for display in the console
     console.warn('added', {details});
     list.push({details});
+
     var settings = {
         "url": "http://localhost:8080/postDetails",
         "method": "POST",
@@ -105,22 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('details_button').addEventListener('click', detailsObject);
 });
 
-/*
- * Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
- * @Author: Pranjal Das
- */
 const qualificationObject = (ev) => {
     ev.preventDefault();  //to stop the form submitting
-    //This method is to find selected value from radios,such a jugadoo (^_^)
-    function findRadioValue(radios) {
-        var value;
-        for (let i = 0; i < radios.length; i++) {
-            if (radios[i].checked)
-                value = radios[i].value;
-        }
-        return value;
-    }
-
     //personal Details object construction
     let qualification = {
         hslc_year: document.getElementById('hslc_year').value,
@@ -143,6 +122,7 @@ const qualificationObject = (ev) => {
     //for display in the console
     console.warn('added', {qualification});
     list.push({qualification});
+
     console.warn("All objects are", list);
     var settings = {
         "url": "http://localhost:8080/postQualification",
@@ -161,3 +141,33 @@ const qualificationObject = (ev) => {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('qualification_button').addEventListener('click', qualificationObject);
 });
+
+
+//pop events
+const qualificationPop = (ev) => {
+    ev.preventDefault();
+    list.pop();
+
+};
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('back_to_qualification').addEventListener('click', qualificationPop);
+});
+const addressPop = (ev) => {
+    ev.preventDefault();
+    list.pop();
+
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('back_to_address').addEventListener('click', addressPop);
+});
+const detailsPop = (ev) => {
+    ev.preventDefault();
+    list.pop();
+
+};
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('back_to_details').addEventListener('click', detailsPop);
+});
+
+//Files upload

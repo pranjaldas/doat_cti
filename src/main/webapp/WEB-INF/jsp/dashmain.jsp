@@ -38,10 +38,9 @@
 
     <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
     <%--    Script files here--%>
-    <script src="../js/post_requests.js"></script>
-    <%--    <script src="../js/post_details.js"></script>--%>
-    <%--    <script src="../js/post_address.js"></script>--%>
-    <%--    <script src="../js/post_qualification.js"></script>--%>
+    <script src="../js/upload.js"></script>
+    <%--    <script src="../js/post_requests.js"></script>--%>
+
     <script type="text/javascript">
         function auto_fill_address() {
             var same_addr = document.getElementById("same_residential_permanent").checked;
@@ -651,7 +650,8 @@
                             <p class="font-weight-bold">
                                 <label for="residential_pin">Current Pin code</label></div>
                         <div class="form-group col-6">
-                            <input type="text" placeholder="Enter Pincode" name="residential_pin" id="residential_pin"
+                            <input type="text" class="form-control" placeholder="Enter Pincode" name="residential_pin"
+                                   id="residential_pin"
                                    required/>
                             </p>
                         </div>
@@ -717,7 +717,8 @@
                             <p class="font-weight-bold">
                                 <label>Parmanent Pincode</label></div>
                         <div class="form-group col-6">
-                            <input type="text" placeholder="Enter pincode" name="permanent_pin" id="permanent_pin"
+                            <input type="text" class="form-control" placeholder="Enter pincode" name="permanent_pin"
+                                   id="permanent_pin"
                                    required/>
                             </p>
                         </div>
@@ -760,7 +761,8 @@
                 </div>
 
 
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" id="back_to_details" name="previous" class="previous action-button-previous"
+                       value="Previous"/>
                 <input type="button" id="address_button" name="next" class="next action-button" value="Next Step"/>
             </fieldset>
 
@@ -855,7 +857,8 @@
 
                     </div>
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" id="back_to_address" name="previous" class="previous action-button-previous"
+                       value="Previous"/>
                 <input type="button" id="qualification_button" name="next" class="next action-button"
                        value="Next Step"/>
             </fieldset>
@@ -864,13 +867,18 @@
                 <div class="form-card">
                     <!-- Photo -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>Photo:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
-                            <input type="file" name="f[]" id="photo" accept="image/*"
-                                   onchange="validateImage('photo','photo_accept')">
-
+                        <div class="form-group col-md-3">
+                            <input type="file" name="file" class="file-input" required id="photo" accept="image/*">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="photo_upload_btn" class="btn btn-secondary btn-sm">Upload</button>
+                        </div>
+                        <div class="upload-response form-group col-md-4">
+                            <div id="photoUploadError"></div>
+                            <div id="photoUploadSuccess"></div>
                         </div>
 
 
@@ -878,90 +886,128 @@
 
                     <!-- Signature -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>Signature:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="file" name="f[]" id="signature" accept="image/*"
                                    onchange="validateImage('signature')">
                         </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="signature_upload_btn" class="btn btn-secondary btn-sm">Upload
+                            </button>
+                        </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName5" style="color: red;"></span>
-                            <span id="" style="color:black;"></span>
+                            <div id="signatureUploadError"></div>
+                            <div id="signatureUploadSuccess"></div>
                         </div>
                     </div>
                     <!-- HSLC -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>HSLC marksheet:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="file" name="f[]" id="hslc" accept="application/pdf"
                                    onchange="validateImage('hslc')">
                         </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="hslc_upload_btn" class="btn btn-secondary btn-sm">Upload</button>
+                        </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName" style="color: red;"></span>
-                            <span style="color:black;"></span>
+                            <div id="hslcUploadError"></div>
+                            <div id="hslcUploadSuccess"></div>
                         </div>
                     </div>
                     <!-- HS -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>HS marksheet:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="file" name="f[]" id="hs" accept="application/pdf"
                                    onchange="validateImage('hs')">
                         </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="hs_upload_btn" class="btn btn-secondary btn-sm">Upload</button>
+                        </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName5" style="color: red;"></span>
-                            <span id="" style="color:black;"></span>
+                            <div id="hsUploadError"></div>
+                            <div id="hsUploadSuccess"></div>
                         </div>
                     </div>
                     <!-- Degree Marksheet -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>Digree marksheet:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="file" name="f[]" id="degree" onchange="validateImage('degree')">
                         </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="dig_upload_btn" class="btn btn-secondary btn-sm">Upload</button>
+                        </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName5" style="color: red;"></span>
-                            <span id="" style="color:black;"></span>
+                            <div id="digreeUploadError"></div>
+                            <div id="digreeUploadSuccess"></div>
+                        </div>
+                    </div>
+                    <%--Prc document--%>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label><b>Address Proof:</b></label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="file" name="f[]" id="prc" onchange="validateImage('degree')">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="prc_upload_btn" class="btn btn-secondary btn-sm">Upload</button>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div id="addressProofUploadError"></div>
+                            <div id="addressProofUploadSuccess"></div>
                         </div>
                     </div>
                     <!-- Disability Certificate -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>Disability Certificate:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="file" name="f[]" id="disability" onchange="validateImage('disability')">
                         </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="disability_upload_btn" class="btn btn-secondary btn-sm">Upload
+                            </button>
+                        </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName5" style="color: red;"></span>
-                            <span id="" style="color:black;"></span>
+                            <div id="disabilityUploadError"></div>
+                            <div id="disabilityUploadSuccess"></div>
                         </div>
                     </div>
                     <!-- Experience Certificate -->
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label><b>Experience Certificate:</b></label>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <input type="file" name="f[]" id="experience" onchange="validateImage('experience')">
                         </div>
+                        <div class="form-group col-md-2">
+                            <button type="button" id="experiece_upload_btn" class="btn btn-secondary btn-sm">Upload
+                            </button>
+                        </div>
                         <div class="form-group col-md-4">
-                            <span id="errorName5" style="color: red;"></span>
-                            <span id="" style="color:black;"></span>
+                            <div id="experienceUploadError"></div>
+                            <div id="experienceUploadSuccess"></div>
                         </div>
                     </div>
 
                 </div>
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                <input type="button" id="back_to_qualification" name="previous" class="previous action-button-previous"
+                       value="Previous"/>
 
-                <input type="button" name="next" class="next action-button" value="Submit"/>
+                <input type="button" id="doc_next_btn" name="next" class="next action-button" value="Submit"/>
             </fieldset>
 
 

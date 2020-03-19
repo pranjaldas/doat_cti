@@ -46,18 +46,18 @@
             <td><b>Post:</b></td>
         </tr>
         <tr>
-            <td><b>Application No</b></td>
+            <td><b>Application No: </b></td>
             <td>aaaaaaaaaaaaa</td>
             <td rowspan="4">photo</td>
 
         </tr>
 
         <tr>
-            <td><b>Name</b></td>
+            <td><b>Name: </b></td>
             <td>aaaaaaaaaaaaa</td>
         </tr>
         <tr>
-            <td><b>Father Name</b></td>
+            <td><b>Father Name:</b></td>
             <td>aaaaaaaa</td>
 
         </tr>

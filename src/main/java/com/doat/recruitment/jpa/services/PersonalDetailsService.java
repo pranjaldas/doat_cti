@@ -5,7 +5,7 @@
 
 package com.doat.recruitment.jpa.services;
 
-import com.doat.recruitment.jpa.model.Personaldetails;
+import com.doat.recruitment.jpa.model.PersonalDetails;
 import com.doat.recruitment.jpa.repository.PersonalDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ public class PersonalDetailsService {
     PersonalDetailsRepository repo;
 
 
-    public List<Personaldetails> showAllpersonalDetails() {
-        List<Personaldetails> details = new ArrayList<>();
+    public List<PersonalDetails> showAllpersonalDetails() {
+        List<PersonalDetails> details = new ArrayList<>();
         repo.findAll().forEach(details::add);
         return details;
     }
 
-    public void saveNewPersonalDetails(Personaldetails details) {
+    public void saveNewPersonalDetails(PersonalDetails details) {
 
         repo.save(details);
     }
