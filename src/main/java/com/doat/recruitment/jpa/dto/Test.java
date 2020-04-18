@@ -3,12 +3,14 @@ package com.doat.recruitment.jpa.dto;
 public class Test {
     private int id;
     private String name;
+    private String age;
 
-    public Test(int id, String name) {
+    public Test(int id, String name,String age) {
         this.id = id;
         this.name = name;
+        this.age=age;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -27,7 +29,15 @@ public class Test {
 
     @Override
     public String toString() {
-        return "Test [id=" + id + ", name=" + name + "]";
+        return "Test [age=" + age + ", id=" + id + ", name=" + name + "]";
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
     
     
