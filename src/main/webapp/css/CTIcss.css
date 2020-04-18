@@ -1,0 +1,204 @@
+   
+*{
+ margin: 0;
+ padding: 0;
+ }
+body{
+   
+     background-color:#fff;
+ }
+
+#con{
+    padding: 40px;
+   
+}
+
+#whole-card{
+ background-color: rgb(249, 255, 253);
+ padding: 10px;
+ border-radius: 5px;
+}
+.card-header{
+	background: rgb(74, 212, 236) ; 
+	padding: 5px; 
+	border-radius: 20px;
+}
+
+.navbar{
+
+ font-size: 15px;
+ font-weight: 300;
+ width: 100%;
+ height: 70%;
+ background-color:#006c9a t;
+ margin-top: 10px;
+ margin-bottom: 10px; 
+ border-radius: 10px;
+ 
+}
+
+.footer {
+ 
+ bottom: 0;
+
+ background-color:  rgb(156, 223, 178);
+ color: white;
+ text-align: center;
+ color: #000;
+}
+.navbar-collapse ul li a {
+ font-size: 15px;
+ color: whitesmoke;
+
+}
+.content{
+ text-align: center;
+}
+
+
+#butn{
+    text-align: center;
+    border-radius: 20px;
+
+}
+ 
+ #collapsibleNavbar ul li a{
+     padding-left: 35px;
+ }
+
+
+
+  
+ input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Style the container for inputs */
+
+.container {
+    
+    padding: 20px;
+}
+
+/* The message box is shown when the user clicks on the password field */
+
+#message {
+    display: none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#message p {
+    padding: 16px 25px;
+    font-size: 15px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    left: -35px;
+    
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -35px;
+   
+}
+
+#icon {
+
+    padding-top: 10px;
+	cursor: pointer
+}
+
+
+.center-align {
+	text-align: center;
+}
+.content {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+.header {
+	/*background-image: url('images/juet-guna.jpg');*/
+	/*background-repeat: no-repeat;
+	background-size: 100px;
+	background-position: left;*/
+	height: 150px;
+	text-align: right;
+	/*vertical-align: middle;*/
+	color: #35a;
+	/*text-transform: uppercase;*/
+	display: table;
+	width: 100%;
+}
+.header-link {
+	display: table-row;
+	color: #35a;
+}
+/*.header-link:focus,.header-link:hover {
+	text-decoration: none;
+	color: #35a;
+	border: none;
+}*/
+.titles {
+	vertical-align: middle;
+	display: table-cell;
+	/*float: right;*/
+}
+.title {
+	font-size: 2em;
+}
+/*.titles > a {
+	color: #35a;
+}
+.titles > a:hover,.titles > a:focus {
+	text-decoration: none;
+	color: #35a;
+	border: none;
+}*/
+.title-logo {
+	padding: 20px 0px 0px 0px;
+	float: left;
+    widows: 120px;;
+    height:130px
+	/*vertical-align: center;*/
+}
+.subtitle {
+	font-size: 1em;
+}
+.footer {
+	background-color: #008cba;
+	color: #fff;
+	font-size: 0.9em;
+	margin-top: 15px;
+	padding: 25px;
+}
+.footer-dark {
+	background-color:#006c9a ;
+	color: #fff;
+	font-size: 0.9em;
+	padding: 15px;
+	text-align: center;
+}
+#logo-footer {
+	width: 100%;
+	margin: 0 auto;
+}

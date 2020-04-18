@@ -13,11 +13,11 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.javacodegeeks.examples</groupId>
-    <artifactId>spring-boot-jpa</artifactId>
+    <groupId>com.cti.examples</groupId>
+    <artifactId>spring-boot-cti</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-jpa</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Project for Central Training Institute</description>
 
 	<properties>
 		<java.version>1.8</java.version>

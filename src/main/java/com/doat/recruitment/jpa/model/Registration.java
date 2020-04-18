@@ -1,127 +1,87 @@
-/*
- * Copyright (c) 2020. All rights reserved to Directorate Of accounts and Treasuries, Guwahati.
- * @Author: Pranjal Das
- */
-
 package com.doat.recruitment.jpa.model;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.Date;
 
 @Entity
-@Table(name = "registration_details")
+@Table(name="registration")
 public class Registration {
-    //Attributes
-    @Id
-    private String reg_id;
+	@Id
+	private String reg_id;
+	private String name;
+	private String employee_no;
+	private String department_no;
+	private String phone;
+	private String email;
+	@Transient
+	private String password;
+	
+	
+	public Registration() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Registration(String reg_id, String name, String employee_no, String department_no, String phone,
+			String email, String password) {
+		super();
+		this.reg_id = reg_id;
+		this.name = name;
+		this.employee_no = employee_no;
+		this.department_no = department_no;
+		this.phone = phone;
+		this.email = email;
+		this.password = password;
+	}
+	public String getReg_id() {
+		return reg_id;
+	}
+	public void setReg_id(String reg_id) {
+		this.reg_id = reg_id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmployee_no() {
+		return employee_no;
+	}
+	public void setEmployee_no(String employee_no) {
+		this.employee_no = employee_no;
+	}
+	public String getDepartment_no() {
+		return department_no;
+	}
+	public void setDepartment_no(String department_no) {
+		this.department_no = department_no;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	@Override
+	public String toString() {
+		return "Registration [reg_id=" + reg_id + ", name=" + name + ", employee_no=" + employee_no + ", department_no="
+				+ department_no + ", phone=" + phone + ", email=" + email + ", password=" + password + "]";
+	}
+	
+	
 
-    private String job_title;
-
-    private String fname;
-    private String mname;
-
-    private String lname;
-
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private Date date_of_birth;
-
-    private String phone;
-
-    private String email;
-    @Transient
-    private String password;
-    //Constructor
-
-    public Registration() {
-    }
-
-    public Registration(String reg_id, String tob_title, String fname, String mname, String lname, Date date_of_birth, String phone, String email, String password) {
-        super();
-        this.reg_id = reg_id;
-        this.job_title = job_title;
-        this.fname = fname;
-        this.mname = mname;
-        this.lname = lname;
-        this.date_of_birth = date_of_birth;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getReg_id() {
-        return reg_id;
-    }
-
-    public void setReg_id(String reg_id) {
-        this.reg_id = reg_id;
-    }
-
-    public String getJob_title() {
-        return job_title;
-    }
-
-    public void setJob_title(String job_title) {
-        this.job_title = job_title;
-    }
-
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public String getMname() {
-        return mname;
-    }
-
-    public void setMname(String mname) {
-        this.mname = mname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
-    public Date getDate_of_birth() {
-        return date_of_birth;
-    }
-
-    public void setDate_of_birth(Date date_of_birth) {
-        this.date_of_birth = date_of_birth;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

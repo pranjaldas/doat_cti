@@ -10,10 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class FormViewController {
-
-    @RequestMapping(value = "/forms")
-    public String viewForms() {
-        return "dashmain";
+   
+    @RequestMapping(value="/web")
+    public String viewNotification() {
+    	return "notificationn";
     }
-
+    @RequestMapping(value="/newtraining")
+    public String viewRegistration() {
+    	return "notificationform";
+    }
+    @RequestMapping(value="/index")
+    public String viewHome() {
+    	return "index";
+    }
+ 
+    @RequestMapping(value="/selected")
+    public String viewSelected(){
+	 return "Selected";
+    }
 }
