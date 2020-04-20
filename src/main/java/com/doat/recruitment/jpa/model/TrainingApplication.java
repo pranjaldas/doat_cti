@@ -17,7 +17,7 @@ public class TrainingApplication {
 	
 	public TrainingApplication() {
 		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 	public TrainingApplication(int application_id, String reg_no, String name, String employee_no,
 			String department_no, String training_prog_id) {
