@@ -302,10 +302,10 @@
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">View</a>
+                        <a class="nav-link active" href="#view_trainings" data-toggle="tab">View</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Create</a>
+                        <a class="nav-link" href="#create_training" data-toggle="tab">Create</a>
                       </li>
                     </ul>
                   </div>
@@ -313,7 +313,7 @@
                 <div class="card-body">
                   <div class="tab-content">
                     <!-- -->
-                    <div class=" tab-pane active" id="revenue-chart" style="position: relative; height: auto;">
+                    <div class=" tab-pane active" id="view_trainings" style="position: relative; height: auto;">
 
                       <table id="all_training_programs" class="table table-light table-striped">
                         <thead>
@@ -339,49 +339,15 @@
                             <td>3/5/2020</td>
                             <td>Created</td>
                             <td>Yes</td>
-                            <td> <button type="button" id="#" class="btn btn-success btn-sm">Priview & Update</button></td>
+                            <td> <button type="button" id="#" class="btn btn-success btn-sm">Priview & Update</button>
+                            </td>
                           </tr>
-                        
+
                         </tbody>
                       </table>
                     </div>
-                    <script>
-                      $(document).ready(function () {
-                    
-                        var settings = {
-                          "url": "http://localhost:8080/trainings",
-                          "method": "GET",
-                          "timeout": 0,
-                          "headers": {
-                            "Content-Type": "application/json"
-                          },
-                          "data": null,
-                        };
-                        $.ajax(settings).done(function (response) {
-                          console.log(response);
-                          var training_prg_data = '';
-                          $.each(response.data, function (key, value) {
-                            training_prg_data += '<tr>';
-                            training_prg_data += '<td>' + value.training_prg_id + '</td>';
-                            training_prg_data += '<td>' + value.training_prg_name + '</td>';
-                            training_prg_data += '<td>' + value.training_prg_type + '</td>';
-                            training_prg_data += '<td>' + value.training_prg_duration + '</td>';
-                            training_prg_data += '<td>' + value.training_start_date + '</td>';
-                            training_prg_data += '<td>' + value.training_create_date + '</td>';
-                            training_prg_data += '<td>' + value.training_status + '</td>';
-                            training_prg_data += '<td>' + value.display_status + '</td>';
-                            training_prg_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Privew & Update</button>' + '</td>';
-                            training_prg_data += '</tr>';
-                            
-                          });
-                          $('#all_training_programs').append(training_prg_data);
-                        });
-          
-                      });
-                    </script>
-                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: auto;">
 
-
+                    <div class="chart tab-pane" id="create_training" style="position: relative; height: auto;">
                       <div class="container">
                         <form id="training_form">
                           <div class="form-card">
@@ -391,14 +357,14 @@
                                 <p class="font-weight-bold">
                                   <label>Description about the Training Program:</label>
                                   <textarea cols="2" rows="3" class="form-control" placeholder="Write about the Program"
-                                    id="training_description" name="training_description" ></textarea>
+                                    id="training_description" name="training_description"></textarea>
                                 </p>
                               </div>
                             </div>
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label for="residential_pin">Training Program Name:</label>
+                                  <label>Training Program Name:</label>
                               </div>
                               <div class="form-group col-6">
                                 <input type="text" class="form-control" placeholder="Write name here"
@@ -414,7 +380,7 @@
                               </div>
 
                               <div class="form-group col-md-6">
-                                <select name="training_type" id="training_type" class="form-control" >
+                                <select name="training_type" id="training_type" class="form-control">
                                   <option value="">Choose</option>
                                   <option value="Induction">Induction</option>
                                   <option value="Service">Service</option>
@@ -432,7 +398,7 @@
                               </div>
                               <div class="form-group col-6">
                                 <input type="text" class="form-control" id="training_duration" name="training_duration"
-                                  placeholder="Write duration of the program" >
+                                  placeholder="Write duration of the program">
                               </div>
                             </div>
                             <div class="form-row">
@@ -443,7 +409,7 @@
                               </div>
                               <div class="form-group col-6">
                                 <input class="form-control" type="date" name="training_start_date"
-                                  id="training_start_date" >
+                                  id="training_start_date">
                               </div>
                             </div>
 
@@ -455,7 +421,7 @@
                               </div>
 
                               <div class="form-group col-md-6">
-                                <select name="training_display" id="training_display" class="form-control" >
+                                <select name="training_display" id="training_display" class="form-control">
                                   <option value="">Choose</option>
                                   <option value=true>Yes</option>
                                   <option value=false>No</option>
@@ -468,6 +434,40 @@
                             <script>
                               $(document).ready(function () {
 
+                                function updateAllTrainings() {
+                                  var settings = {
+                                    "url": "http://localhost:8080/trainings",
+                                    "method": "GET",
+                                    "timeout": 0,
+                                    "headers": {
+                                      "Content-Type": "application/json"
+                                    },
+                                    "data": null,
+                                  };
+                                  $.ajax(settings).done(function (response) {
+                                    console.log(response);
+                                    var training_prg_data = '';
+                                    $.each(response.data, function (key, value) {
+                                      training_prg_data += '<tr>';
+                                      training_prg_data += '<td>' + value.training_prg_id + '</td>';
+                                      training_prg_data += '<td>' + value.training_prg_name + '</td>';
+                                      training_prg_data += '<td>' + value.training_prg_type + '</td>';
+                                      training_prg_data += '<td>' + value.training_prg_duration + '</td>';
+                                      training_prg_data += '<td>' + value.training_start_date + '</td>';
+                                      training_prg_data += '<td>' + value.training_create_date + '</td>';
+                                      training_prg_data += '<td>' + value.training_status + '</td>';
+                                      training_prg_data += '<td>' + value.display_status + '</td>';
+                                      training_prg_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Privew & Update</button>' + '</td>';
+                                      training_prg_data += '</tr>';
+
+                                    });
+                                    $('#all_training_programs').append(training_prg_data);
+                                  });
+                                }
+
+                                //Calling the Function at document load
+                                updateAllTrainings();
+
                                 const saveTraining = (ev) => {
                                   ev.preventDefault();
 
@@ -475,105 +475,104 @@
                                     var newDiv = $(document.createElement('div'));
                                     newDiv.html('Form not submitted,please fillup the training description field');
                                     newDiv.dialog({
-                                        title: "ERROR !!!",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
+                                      title: "ERROR !!!",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
                                     return false;
                                   }
                                   if ($('#training_name').val() == '') {
                                     var newDiv = $(document.createElement('div'));
                                     newDiv.html('Form not submitted, please fillup the training name field');
                                     newDiv.dialog({
-                                        title: "ERROR !!!",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
+                                      title: "ERROR !!!",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
                                     return false;
                                   }
                                   if ($('#training_type').val() == '') {
                                     var newDiv = $(document.createElement('div'));
                                     newDiv.html('Form not submitted,please select the training type');
                                     newDiv.dialog({
-                                        title: "ERROR !!!",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
+                                      title: "ERROR !!!",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
                                     return false;
                                   }
                                   if ($('#training_duration').val() == '') {
                                     var newDiv = $(document.createElement('div'));
                                     newDiv.html('Form not submitted, please fillup the training duration in months');
                                     newDiv.dialog({
-                                        title: "ERROR !!! ",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
+                                      title: "ERROR !!! ",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
                                     return false;
                                   }
                                   if ($('#training_start_date').val() == '') {
                                     var newDiv = $(document.createElement('div'));
                                     newDiv.html('Form not submitted, please fillup the training start date');
                                     newDiv.dialog({
-                                        title: "ERROR !!! ",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
+                                      title: "ERROR !!! ",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
                                     return false;
                                   }
                                   if ($('#training_display').val() == '') {
                                     var newDiv = $(document.createElement('div'));
                                     newDiv.html('Form not submitted, please select yes or no');
                                     newDiv.dialog({
-                                        title: "ERROR !!! ",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
+                                      title: "ERROR !!! ",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
                                     return false;
                                   }
-                                 
 
                                   let training_program = {
                                     training_prg_name: $("#training_name").val(),
@@ -581,7 +580,7 @@
                                     training_description: $("#training_description").val(),
                                     training_prg_duration: $("#training_duration").val(),
                                     training_start_date: $("#training_start_date").val(),
-                                    training_status:"created",
+                                    training_status: "created",
                                     display_status: $("#training_display").val()
 
                                   }
@@ -613,6 +612,8 @@
                                         }]
                                       });
                                       $("#training_form")[0].reset();
+                                      $("#all_training_programs tbody").remove();
+                                      updateAllTrainings();
                                     };
                                   });
 
@@ -622,122 +623,329 @@
                                 });
                               });
                             </script>
-                            </div>
-                            </form>
-                            
-                            </div>
-                            
-                            </div>
-                            </div>
-                            </div><!-- /.card-body -->
-                            </div>
-                            
-                            <!-- /.card -->
-                            
-                            <!-- Design form-->
-                            <div class="card direct-chat direct-chat-primary">
-                              <div class="card-header">
-                                <h3 class="card-title">Design form</h3>
-                            
-                                <div class="card-tools">
-                            
-                                </div>
+                          </div>
+                        </form>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div><!-- /.card-body -->
+              </div>
+
+              <!-- /.card -->
+
+              <!-- Design form-->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Trainees</h3>
+
+                  <div class="card-tools">
+
+                    <ul class="nav nav-pills ml-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="#view_trainees" data-toggle="tab">View selected</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#import_csv" data-toggle="tab">Import New</a>
+                      </li>
+                    </ul>
+
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
+                      <table id="" class="table table-light table-striped">
+                        <thead>
+                          <tr>
+                            <th><b>EmployeeID</b></th>
+                            <th><b>Name</b></th>
+                            <th><b>Department</b></th>
+                            <th><b>Designation</b></th>
+                            <th><b>DDO Code</b></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
+                      <div class="container">
+                        <form id="import_trainee_form">
+                          <div class="form-card">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label><b>Upload the csv file</b></label>
                               </div>
-                              <!-- /.card-header -->
-                              <div class="card-body">
-                            
+                              <div class="form-group col-4">
+                                <input type="file" id="fileUpload" name="myfile">
                               </div>
-                              <!-- /.card-body -->
-                              <div class="card-footer">
-                            
+                              <div class="form-group col-2">
+                                <input class="btn btn-success btn-sm" type="button" id="remove" value="Remove" />
                               </div>
-                              <!-- /.card-footer-->
+  
                             </div>
-                            <!--/.design form -->
-                            
-                            <!-- Centre -->
-                            <div class="card">
-                              <div class="card-header">
-                                <h3 class="card-title">
-                                  <i class="ion ion-clipboard mr-1"></i>
-                                  centre list
-                                </h3>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Select Training Program:</p>
+                                </label>
                               </div>
-                              <!-- /.card-header -->
-                              <div class="card-body">
-                            
+                              <div class="form-group col-4">
+                                <select class="custom-select text-uppercase caste" id="trainings_dropdown">
+                                  <option value="">Select</option>
+                                </select>
                               </div>
-                              <!-- /.card-body -->
-                              <div class="card-footer clearfix">
-                                <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add centre</button>
+                              <div class="form-group col-4">
+                                <input class="btn btn-primary btn-sm" type="button" id="upload" value="Upload" />
                               </div>
                             </div>
-                            <!-- /.card -->
-                            </section>
-                            <!-- /.Left col -->
+  
+                          </div>
+                        </form>
+                        
+
+                      </div>
+                      <div class="container">
+                        <table class="table table-light table-striped" id="trainee_table">
+                          <thead>
+                            <tr>
+                              <th><b>EmployeeID</b></th>
+                              <th><b>Name</b></th>
+                              <th><b>Department</b></th>
+                              <th><b>Designation</b></th>
+                              <th><b>DDO Code</b></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                      <script type="text/javascript">
+                        $(document).ready(function () {
+                          fetchTrainingProgram();
+                          function fetchTrainingProgram() {
+                            var settings = {
+                              "url": "http://localhost:8080/trainings",
+                              "method": "GET",
+                              "timeout": 0,
+                              "headers": {
+                                "Content-Type": "application/json"
+                              },
+                              "data": null,
+                            };
+                            $.ajax(settings).done(function (response) {
+                              console.log("all Trainings are", response);
+                
+                              PopulateDropDownList(response.data);
+
+                            });
+                          }
+                          //To populate dropdownlist
+                          
+                          function PopulateDropDownList(data) {
+                            console.log("ffrom populate",data);
+                            console.log("type of data",typeof(data));
+                            var training_dropdown_list = document.getElementById("trainings_dropdown");
+
+                            //Add the Options to the DropDownList.
+                            for (var i = 0; i < data.length; i++) {
+                              var option = document.createElement("OPTION");
+
+                              //Set Customer Name in Text part.
+                              option.innerHTML = data[i].training_prg_name;
+
+                              //Set CustomerId in Value part.
+                              option.value = data[i].training_prg_id;
+
+                              //Add the Option element to DropDownList.
+                              training_dropdown_list.options.add(option);
+                            }
+                          }
+                          //To convert csv to a json array and to a table
+                          $("#upload").bind("click", function () {
+                            if ($('#trainings_dropdown').val() == '') {
+                                    var newDiv = $(document.createElement('div'));
+                                    newDiv.html('please select a training program');
+                                    newDiv.dialog({
+                                      title: "ERROR !!! ",
+                                      draggable: true,
+                                      modal: true,
+                                      buttons: [{
+                                        text: "Ok",
+                                        class: "btn btn-md btn-primary",
+                                        click: function () {
+                                          $(this).dialog("close");
+                                        }
+                                      }]
+                                    });
+                               return false;
+                            }
+                            $("#remove").click(()=>{
+                              $("#trainee_import_form")[0].reset();
+                              $("#trainee_table tbody").remove();
                             
-                            </div>
-                            <!-- /.row (main row) -->
-                            </div><!-- /.container-fluid -->
-                            </section>
-                            <!-- /.content -->
-                            </div>
-                            <!-- /.content-wrapper -->
-                            <footer class="main-footer">
-                              <strong>Copyright &copy; 2020 <a href="http://adminlte.io">Amlanbrdl122</a>.</strong>
-                              All rights reserved.
-                              <div class="float-right d-none d-sm-inline-block">
-                                <b>Version</b> 3.0.2
-                              </div>
-                            </footer>
-                            
-                            <!-- Control Sidebar -->
-                            <aside class="control-sidebar control-sidebar-dark">
-                              <!-- Control sidebar content goes here -->
-                            
-                            </aside>
-                            <!-- /.control-sidebar -->
-                            </div>
-                            <!-- ./wrapper -->
-                            
-                            <!-- jQuery -->
-                            <script src="plugins/jquery/jquery.min.js"></script>
-                            <!-- jQuery UI 1.11.4 -->
-                            <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-                            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-                            <script>
-                              $.widget.bridge('uibutton', $.ui.button)
-                            </script>
-                            <!-- Bootstrap 4 -->
-                            <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-                            <!-- ChartJS -->
-                            <script src="plugins/chart.js/Chart.min.js"></script>
-                            <!-- Sparkline -->
-                            <script src="plugins/sparklines/sparkline.js"></script>
-                            <!-- JQVMap -->
-                            <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-                            <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-                            <!-- jQuery Knob Chart -->
-                            <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-                            <!-- daterangepicker -->
-                            <script src="plugins/moment/moment.min.js"></script>
-                            <script src="plugins/daterangepicker/daterangepicker.js"></script>
-                            <!-- Tempusdominus Bootstrap 4 -->
-                            <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-                            <!-- Summernote -->
-                            <script src="plugins/summernote/summernote-bs4.min.js"></script>
-                            <!-- overlayScrollbars -->
-                            <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-                            <!-- AdminLTE App -->
-                            <script src="dist/js/adminlte.js"></script>
-                            <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-                            <script src="dist/js/pages/dashboard.js"></script>
-                            <!-- AdminLTE for demo purposes -->
-                            <script src="dist/js/demo.js"></script>
-                            <!-- Jquery Ui plugin -->
-                            <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-                            <!-- <script src="plugins/jquery-validation/jquery.validate.min.js"></script> -->
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-                            </body>
-                            
-                            </html>
+                            });
+
+                            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+                            if (regex.test($("#fileUpload").val().toLowerCase())) {
+                              if (typeof (FileReader) != "undefined") {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                  var employees = new Array();
+                                  var rows = e.target.result.split("\r\n");
+                                  for (var i = 0; i < rows.length; i++) {
+                                    var cells = rows[i].split(",");
+                                    if (cells.length > 1) {
+                                      var employee = {};
+                                      employee.employee_id = cells[0];
+                                      employee.employee_name = cells[1];
+                                      employee.emp_dep_no = cells[2];
+                                      employee.emp_desig = cells[3];
+                                      employee.emp_ddo_code = cells[4];
+                                      employees.push(employee);
+                                    }
+                                  }
+                                  console.log("The json data are :", employees)
+                                  var trainee_data = '';
+                                  $.each(employees, function (key, value) {
+                                    trainee_data += '<tr>';
+                                    trainee_data += '<td>' + value.employee_id + '</td>';
+                                    trainee_data += '<td>' + value.employee_name + '</td>';
+                                    trainee_data += '<td>' + value.emp_dep_no + '</td>';
+                                    trainee_data += '<td>' + value.emp_desig + '</td>';
+                                    trainee_data += '<td>' + value.emp_ddo_code + '</td>';
+                                    trainee_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Select</button>' + '</td>';
+                                    trainee_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Remove</button>' + '</td>';
+                                    trainee_data += '</tr>';
+
+                                  });
+                                  $('#trainee_table').append(trainee_data);
+                                }
+                                reader.readAsText($("#fileUpload")[0].files[0]);
+                              } else {
+                                alert("This browser does not support HTML5.");
+                              }
+                            } else {
+                              alert("Please upload a valid CSV file.");
+                            }
+                          });
+                          //Code from here for the next job
+                      
+                          
+
+                        });
+
+                      </script>
+
+
+                    </div>
+
+                    
+                  </div>
+
+                </div>
+
+
+              </div>
+
+              <!-- /.card-body -->
+              <div class="card-footer">
+
+              </div>
+              <!-- /.card-footer-->
+          </div>
+
+          <!--/.design form -->
+
+          <!-- Centre -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="ion ion-clipboard mr-1"></i>
+                centre list
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add centre</button>
+            </div>
+          </div>
+          <!-- /.card -->
+      </section>
+      <!-- /.Left col -->
+
+    </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2020 <a href="http://adminlte.io">Amlanbrdl122</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.0.2
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+
+  </aside>
+  <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- ChartJS -->
+  <script src="plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="plugins/moment/moment.min.js"></script>
+  <script src="plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Summernote -->
+  <script src="plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="dist/js/adminlte.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="dist/js/pages/dashboard.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="dist/js/demo.js"></script>
+  <!-- Jquery Ui plugin -->
+  <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+  <!-- <script src="plugins/jquery-validation/jquery.validate.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+</body>
+
+</html>

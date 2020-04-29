@@ -1,6 +1,5 @@
 package com.doat.recruitment.jpa.controller;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,12 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
 import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.model.TrainingProgram;
 import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.ApplicationService;
+import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.IdGenerator;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
@@ -36,6 +38,8 @@ public class RestControllers {
 	TraineeEmployeeService traineeEmployeeService;
 	@Autowired
 	TrainingProgramService trainingProgramService;
+	@Autowired
+	EmployeeService eEmployeeService;
 
 	@PostMapping(value = "/postApplication")
 	public String postApplication(@RequestBody TrainingApplication application) {
@@ -115,6 +119,13 @@ public class RestControllers {
         return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
+	//Employee rest apis
+	@GetMapping("/employees")
+	public ResponseEntity<Object> getEmployees(){
+		ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	//
 	
 	
 }
