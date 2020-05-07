@@ -329,23 +329,119 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <!-- <td><input class="noBorder" readonly id="hslc_board__view" type="text"></td> -->
-                            <td>THDBJBJFJMCS</td>
-                            <td>Service Training</td>
-                            <td>Basic</td>
-                            <td>3 months</td>
-                            <td>3/5/2020</td>
-                            <td>3/5/2020</td>
-                            <td>Created</td>
-                            <td>Yes</td>
-                            <td> <button type="button" id="#" class="btn btn-success btn-sm">Priview & Update</button>
-                            </td>
-                          </tr>
+                          
 
                         </tbody>
                       </table>
                     </div>
+                    <!-- Modal to view each trainings -->
+                    <div class="modal fade" id="previewTrainings" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Training Program Details:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Program ID:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_id"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Description:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_description"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Name:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_name"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Type:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_type"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Start Date:</label></p>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_start_date"></p>
+
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Duration: </label></p>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_duration"></p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Advertise Date: </label></p>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_create_date"></p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label> Display Status:</label></p>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_display"></p>
+
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Training Status:</label></p>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_status"></p>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal End -->
 
                     <div class="chart tab-pane" id="create_training" style="position: relative; height: auto;">
                       <div class="container">
@@ -431,198 +527,7 @@
                             <div class="align-self-center mx-auto">
                               <button type="button" id="save_training" class="btn btn-success btn-md">SAVE</button>
                             </div>
-                            <script>
-                              $(document).ready(function () {
-
-                                function updateAllTrainings() {
-                                  var settings = {
-                                    "url": "http://localhost:8080/trainings",
-                                    "method": "GET",
-                                    "timeout": 0,
-                                    "headers": {
-                                      "Content-Type": "application/json"
-                                    },
-                                    "data": null,
-                                  };
-                                  $.ajax(settings).done(function (response) {
-                                    console.log(response);
-                                    var training_prg_data = '';
-                                    $.each(response.data, function (key, value) {
-                                      training_prg_data += '<tr>';
-                                      training_prg_data += '<td>' + value.training_prg_id + '</td>';
-                                      training_prg_data += '<td>' + value.training_prg_name + '</td>';
-                                      training_prg_data += '<td>' + value.training_prg_type + '</td>';
-                                      training_prg_data += '<td>' + value.training_prg_duration + '</td>';
-                                      training_prg_data += '<td>' + value.training_start_date + '</td>';
-                                      training_prg_data += '<td>' + value.training_create_date + '</td>';
-                                      training_prg_data += '<td>' + value.training_status + '</td>';
-                                      training_prg_data += '<td>' + value.display_status + '</td>';
-                                      training_prg_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Privew & Update</button>' + '</td>';
-                                      training_prg_data += '</tr>';
-
-                                    });
-                                    $('#all_training_programs').append(training_prg_data);
-                                  });
-                                }
-
-                                //Calling the Function at document load
-                                updateAllTrainings();
-
-                                const saveTraining = (ev) => {
-                                  ev.preventDefault();
-
-                                  if ($('#training_description').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('Form not submitted,please fillup the training description field');
-                                    newDiv.dialog({
-                                      title: "ERROR !!!",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                                    return false;
-                                  }
-                                  if ($('#training_name').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('Form not submitted, please fillup the training name field');
-                                    newDiv.dialog({
-                                      title: "ERROR !!!",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                                    return false;
-                                  }
-                                  if ($('#training_type').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('Form not submitted,please select the training type');
-                                    newDiv.dialog({
-                                      title: "ERROR !!!",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                                    return false;
-                                  }
-                                  if ($('#training_duration').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('Form not submitted, please fillup the training duration in months');
-                                    newDiv.dialog({
-                                      title: "ERROR !!! ",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                                    return false;
-                                  }
-                                  if ($('#training_start_date').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('Form not submitted, please fillup the training start date');
-                                    newDiv.dialog({
-                                      title: "ERROR !!! ",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                                    return false;
-                                  }
-                                  if ($('#training_display').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('Form not submitted, please select yes or no');
-                                    newDiv.dialog({
-                                      title: "ERROR !!! ",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                                    return false;
-                                  }
-
-                                  let training_program = {
-                                    training_prg_name: $("#training_name").val(),
-                                    training_prg_type: $("#training_type").val(),
-                                    training_description: $("#training_description").val(),
-                                    training_prg_duration: $("#training_duration").val(),
-                                    training_start_date: $("#training_start_date").val(),
-                                    training_status: "created",
-                                    display_status: $("#training_display").val()
-
-                                  }
-                                  console.log(training_program);
-                                  var settings = {
-                                    "url": "http://localhost:8080/postTrainings",
-                                    "method": "POST",
-                                    "timeout": 0,
-                                    "headers": {
-                                      "Content-Type": "application/json"
-                                    },
-                                    "data": JSON.stringify(training_program),
-                                  };
-                                  $.ajax(settings).done(function (response) {
-                                    console.log(response);
-                                    if (response.status == "success") {
-                                      var newDiv = $(document.createElement('div'));
-                                      newDiv.html('New training program has succesfully inserted into database !!!');
-                                      newDiv.dialog({
-                                        title: "Message from Server",
-                                        draggable: true,
-                                        modal: true,
-                                        buttons: [{
-                                          text: "Ok",
-                                          class: "btn btn-md btn-primary",
-                                          click: function () {
-                                            $(this).dialog("close");
-                                          }
-                                        }]
-                                      });
-                                      $("#training_form")[0].reset();
-                                      $("#all_training_programs tbody").remove();
-                                      updateAllTrainings();
-                                    };
-                                  });
-
-                                };
-                                $("#save_training").click(function () {
-                                  saveTraining(event);
-                                });
-                              });
-                            </script>
+                            
                           </div>
                         </form>
 
@@ -688,7 +593,7 @@
                               <div class="form-group col-2">
                                 <input class="btn btn-success btn-sm" type="button" id="remove" value="Remove" />
                               </div>
-  
+
                             </div>
                             <div class="form-row">
                               <div class="form-group col-4">
@@ -705,10 +610,10 @@
                                 <input class="btn btn-primary btn-sm" type="button" id="upload" value="Upload" />
                               </div>
                             </div>
-  
+
                           </div>
                         </form>
-                        
+
 
                       </div>
                       <div class="container">
@@ -720,133 +625,20 @@
                               <th><b>Department</b></th>
                               <th><b>Designation</b></th>
                               <th><b>DDO Code</b></th>
+                              <th><button class="btn btn-sm btn-primary" id="select_all">Select All</button></th>
+                              <th><button class="btn btn-sm btn-info" id="remove_all">Remove All</button></th>
                             </tr>
                           </thead>
                           <tbody>
                           </tbody>
                         </table>
                       </div>
-                      <script type="text/javascript">
-                        $(document).ready(function () {
-                          fetchTrainingProgram();
-                          function fetchTrainingProgram() {
-                            var settings = {
-                              "url": "http://localhost:8080/trainings",
-                              "method": "GET",
-                              "timeout": 0,
-                              "headers": {
-                                "Content-Type": "application/json"
-                              },
-                              "data": null,
-                            };
-                            $.ajax(settings).done(function (response) {
-                              console.log("all Trainings are", response);
-                
-                              PopulateDropDownList(response.data);
-
-                            });
-                          }
-                          //To populate dropdownlist
-                          
-                          function PopulateDropDownList(data) {
-                            console.log("ffrom populate",data);
-                            console.log("type of data",typeof(data));
-                            var training_dropdown_list = document.getElementById("trainings_dropdown");
-
-                            //Add the Options to the DropDownList.
-                            for (var i = 0; i < data.length; i++) {
-                              var option = document.createElement("OPTION");
-
-                              //Set Customer Name in Text part.
-                              option.innerHTML = data[i].training_prg_name;
-
-                              //Set CustomerId in Value part.
-                              option.value = data[i].training_prg_id;
-
-                              //Add the Option element to DropDownList.
-                              training_dropdown_list.options.add(option);
-                            }
-                          }
-                          //To convert csv to a json array and to a table
-                          $("#upload").bind("click", function () {
-                            if ($('#trainings_dropdown').val() == '') {
-                                    var newDiv = $(document.createElement('div'));
-                                    newDiv.html('please select a training program');
-                                    newDiv.dialog({
-                                      title: "ERROR !!! ",
-                                      draggable: true,
-                                      modal: true,
-                                      buttons: [{
-                                        text: "Ok",
-                                        class: "btn btn-md btn-primary",
-                                        click: function () {
-                                          $(this).dialog("close");
-                                        }
-                                      }]
-                                    });
-                               return false;
-                            }
-                            $("#remove").click(()=>{
-                              $("#trainee_import_form")[0].reset();
-                              $("#trainee_table tbody").remove();
-                            
-                            });
-
-                            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-                            if (regex.test($("#fileUpload").val().toLowerCase())) {
-                              if (typeof (FileReader) != "undefined") {
-                                var reader = new FileReader();
-                                reader.onload = function (e) {
-                                  var employees = new Array();
-                                  var rows = e.target.result.split("\r\n");
-                                  for (var i = 0; i < rows.length; i++) {
-                                    var cells = rows[i].split(",");
-                                    if (cells.length > 1) {
-                                      var employee = {};
-                                      employee.employee_id = cells[0];
-                                      employee.employee_name = cells[1];
-                                      employee.emp_dep_no = cells[2];
-                                      employee.emp_desig = cells[3];
-                                      employee.emp_ddo_code = cells[4];
-                                      employees.push(employee);
-                                    }
-                                  }
-                                  console.log("The json data are :", employees)
-                                  var trainee_data = '';
-                                  $.each(employees, function (key, value) {
-                                    trainee_data += '<tr>';
-                                    trainee_data += '<td>' + value.employee_id + '</td>';
-                                    trainee_data += '<td>' + value.employee_name + '</td>';
-                                    trainee_data += '<td>' + value.emp_dep_no + '</td>';
-                                    trainee_data += '<td>' + value.emp_desig + '</td>';
-                                    trainee_data += '<td>' + value.emp_ddo_code + '</td>';
-                                    trainee_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Select</button>' + '</td>';
-                                    trainee_data += '<td>' + '<button type="button" id="#" class="btn btn-success btn-sm">Remove</button>' + '</td>';
-                                    trainee_data += '</tr>';
-
-                                  });
-                                  $('#trainee_table').append(trainee_data);
-                                }
-                                reader.readAsText($("#fileUpload")[0].files[0]);
-                              } else {
-                                alert("This browser does not support HTML5.");
-                              }
-                            } else {
-                              alert("Please upload a valid CSV file.");
-                            }
-                          });
-                          //Code from here for the next job
                       
-                          
-
-                        });
-
-                      </script>
 
 
                     </div>
 
-                    
+
                   </div>
 
                 </div>
@@ -860,6 +652,166 @@
               </div>
               <!-- /.card-footer-->
           </div>
+          <!-- Emloyee card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="ion ion-clipboard mr-1"></i>
+                Employees
+              </h3>
+              <div class="card-tools">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search Employee by name">
+                  <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button">
+                      <i class="fa fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="container">
+                <table class="table table-light table-striped" id="allEmployees">
+                  <thead>
+                    <tr>
+                      <th><b>EmployeeID</b></th>
+                      <th><b>Name</b></th>
+                      <th><b>Department</b></th>
+                      <th><b>Designation</b></th>
+                      <th><b>DDO Code</b></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+            <script>
+             
+            </script>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"><b>Employee Details</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Employee ID:</label>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_id"></p>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Name:</label>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_name"></p>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Department:</label>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_dept"></p>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Designation:</label>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_desig"></p>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Join Date:</label></p>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_join_date"></p>
+
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Original Salary: ₹</label></p>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_original_salary"></p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Current Salary: ₹</label></p>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_current_salary"></p>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label> DDO code:</label></p>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_ddo_code"></p>
+
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-4">
+                        <p class="font-weight-bold">
+                          <label>Region:</label></p>
+                      </div>
+                      <div class="form-group col-6">
+                        <p id="emp_region"></p>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+
+
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <button type="button" class="btn btn-info float-right" data-toggle="modal"
+                data-target="#exampleModalCenter"><i class="fas fa-plus"></i> Add centre</button>
+            </div>
+          </div>
+          <!-- /Employee Card End -->
 
           <!--/.design form -->
 
@@ -877,7 +829,8 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-              <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add centre</button>
+              <button type="button" class="btn btn-info float-right" data-target="#previewTrainings"
+                data-toggle="modal"><i class="fas fa-plus"></i> Add centre</button>
             </div>
           </div>
           <!-- /.card -->
@@ -946,6 +899,7 @@
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- <script src="plugins/jquery-validation/jquery.validate.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 
 </html>
