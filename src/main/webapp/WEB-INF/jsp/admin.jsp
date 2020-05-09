@@ -562,21 +562,27 @@
                 <div class="card-body">
                   <div class="tab-content">
                     <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
-                      <table id="" class="table table-light table-striped">
+                      <table id="applications_table" class="table table-light table-striped">
                         <thead>
                           <tr>
                             <th><b>EmployeeID</b></th>
+                            <th><b>TrainingID</b></th>
                             <th><b>Name</b></th>
                             <th><b>Department</b></th>
                             <th><b>Designation</b></th>
                             <th><b>DDO Code</b></th>
+                            <th><b>Status</b></th>
                           </tr>
                         </thead>
                         <tbody>
+                         
 
 
                         </tbody>
                       </table>
+                      <div class="card-footer clearfix">
+                        <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i> Publish </button>
+                      </div>
                     </div>
 
                     <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">

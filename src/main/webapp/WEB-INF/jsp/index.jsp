@@ -308,7 +308,7 @@
             $(document).ready(function () {
               var data = [];
               var settings = {
-                "url": "http://localhost:8080/selectedTrainee",
+                "url": "http://localhost:8080/selectedPublishApplications",
                 "method": "GET",
                 "timeout": 0,
                 "headers": {
@@ -323,11 +323,11 @@
                 $.each(response.data, function (key, value) {
                   trainee_data += '<tr>';
                   trainee_data += '<td>' + sn + '</td>';
-                  trainee_data += '<td>' + value.trainee_name + '</td>';
+                  trainee_data += '<td>' + value.name + '</td>';
                   trainee_data += '<td>' + value.designation + '</td>';
-                  trainee_data += '<td>' + value.ddo_code + '</td>';
-                  trainee_data += '<td>' + value.employee_id + '</td>';
-                  trainee_data += '<td>' + value.training_program_id + '</td>';
+                  trainee_data += '<td>' + value.DDO_CODE + '</td>';
+                  trainee_data += '<td>' + value.employee_no + '</td>';
+                  trainee_data += '<td>' + value.training_prog_id + '</td>';
                   trainee_data += '</tr>';
                   sn++;
                 });

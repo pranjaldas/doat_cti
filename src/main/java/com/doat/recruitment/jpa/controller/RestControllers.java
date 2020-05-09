@@ -40,17 +40,7 @@ public class RestControllers {
 	TrainingProgramService trainingProgramService;
 	@Autowired
 	EmployeeService eEmployeeService;
-
-	@PostMapping(value = "/postApplication")
-	public String postApplication(@RequestBody TrainingApplication application) {
-		service.saveApplication(application);
-		return "saved";
-	}
-
-	@GetMapping(value = "/getApplication")
-	public List<TrainingApplication> getApplication() {
-		return service.viewApplications();
-	}
+	
 
 	// Registration Controllers
 	@PostMapping(value = "/postRegistration")
@@ -125,7 +115,31 @@ public class RestControllers {
 		ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
-	//
+	//Training Applications
+	//this api is for updating publish attribute
+	@PostMapping(value = "/postApplication")
+	public ResponseEntity<Object> postApplication(@RequestBody TrainingApplication application) {
+		service.saveApplication(application);
+		ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/getApplications")
+	public ResponseEntity<Object> getApplication() {
+		ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.viewApplications());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	@GetMapping(value="/selectedPublishApplications")
+	public ResponseEntity<Object> getSelectedApplication() {
+		ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedPublishApplications());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	@GetMapping(value="/selectedApplications")
+	public ResponseEntity<Object> getSelectedUnpublishApplication() {
+		ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedApplications());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
 	
 	
 }

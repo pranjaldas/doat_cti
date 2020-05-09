@@ -24,4 +24,18 @@ public class ApplicationService {
 		repo.findAll().forEach(list::add);
 		return list;
 	}
+
+	public List<TrainingApplication> selectedPublishApplications() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findByApplication_statusAndPublished().forEach(list::add);
+		return list;
+	}
+
+	public List<TrainingApplication> selectedApplications() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findByApplication_status().forEach(list::add);
+		return list;
+	}
+
+	
 }
