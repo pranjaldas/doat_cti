@@ -17,4 +17,8 @@ public List<Employee> findAllEmployees() {
     rEmployeeRepository.findAll().forEach(list::add);
 	return list;
 }
+public boolean checkIfExist(String employee_id) {
+    boolean res=rEmployeeRepository.findById(employee_id).isPresent();
+	return res;
+}
 }

@@ -18,6 +18,7 @@ public class ApplicationService {
 		repo.save(application);
 		
 	}
+	
 
 	public List<TrainingApplication> viewApplications() {
 		List<TrainingApplication> list=new ArrayList<>();

@@ -115,6 +115,16 @@ public class RestControllers {
 		ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+	@PostMapping("/testEmployee")
+	public String checkEmployee(@RequestBody Employee employee){
+		System.out.println(employee.toString());
+		boolean res=eEmployeeService.checkIfExist(employee.getEmployee_id());
+		if(res==true){
+			return "found";
+		}
+		return "not Found";
+
+	}
 	//Training Applications
 	//this api is for updating publish attribute
 	@PostMapping(value = "/postApplication")
@@ -123,6 +133,18 @@ public class RestControllers {
 		ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
 
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+	@PostMapping(value = "/checkApplication")
+	public String checkApplication(@RequestBody TrainingApplication application) {
+		System.out.println(application);
+		String empNo=application.getEmployee_no();
+		System.out.println("Employee Number is "+empNo);
+		boolean res=eEmployeeService.checkIfExist(empNo);
+		if(res==true){
+			return "found";
+		}
+		return "not Found";
+
 	}
 
 	@GetMapping(value = "/getApplications")
