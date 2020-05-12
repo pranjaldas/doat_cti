@@ -9,15 +9,19 @@
   <!--bootstrap css framework-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <!--jquery cdn-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   <!-- Popper JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <!-- Latest compiled JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="css/CTIcss.css">
   <!-- <link rel="stylesheet" href="css/style.css" /> -->
+  <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
+  <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.theme.css">
+  <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
 
 
 </head>
@@ -81,67 +85,16 @@
 
             <div id="notification" style="margin-top: 20px; margin-left: 20px;">
             </div>
-            <script>
-              $(document).ready(function () {
-
-                var settings = {
-                  "url": "http://localhost:8080/trainingsStatus",
-                  "method": "GET",
-                  "timeout": 0,
-                  "headers": {
-                    "Content-Type": "application/json"
-                  },
-                  "data": null,
-                };
-                $.ajax(settings).done(function (response) {
-                  console.log(response);
-                  var trainee_data = '';
-                  $.each(response.data, function (key, value) {
-                    trainee_data += '<table class=" table addTable" style="border: 2px solid black ">';
-                    trainee_data += '<thead>';
-                    trainee_data += '<tr>';
-                    trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button" id="apply" class="btn btn-link" data-toggle="modal" data-target="#modalApplyTraining">here</button>' + '</td>';
-                    trainee_data += '</tr>';
-                    trainee_data += '</thead>';
-                    trainee_data += '<tbody>';
-                    trainee_data += '<tr>';
-                    trainee_data += '<td>' + '<b>' + "Training Program ID: " + '</b>' + '<span>' + value.training_prg_id + '</span>' + '</td>';
-                    trainee_data += '</tr>';
-                    trainee_data += '<tr>';
-                    trainee_data += '<td>' + '<b>' + "Training Program name: " + '</b>' + value.training_prg_name + '</td>';
-                    trainee_data += '</tr>';
-                    trainee_data += '<tr>';
-                    trainee_data += '<td>' + '<b>' + "Training Program Type: " + '</b>' + value.training_prg_type + '</td>';
-                    trainee_data += '</tr>';
-                    trainee_data += '<tr>';
-                    trainee_data += '<td>' + '<b>' + "Start date: " + '</b>' + value.training_start_date + '</td>';
-                    trainee_data += '</tr>';
-                    trainee_data += '<tr>';
-                    trainee_data += '<td>' + '<b>' + "Duration: " + '</b>' + value.training_prg_duration + '</td>';
-                    trainee_data += '</tr>';
-                    trainee_data += '</tbody>';
-                    trainee_data += '</table>';
-                  });
-
-
-                  $('#notification').append(trainee_data);
-
-                });
-
-
-
-                //To apply
-
-              });
-
-            </script>
+           
+            <input type="text" id="apply_emp_id_autocomplete" name="emp_no" class="form-control">
+            <button class="btn btn-sm btn-primary" id="apply">apply</button>
 
 
 
 
             <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
               aria-hidden="true">
-              <div class="modal-dialog" role="document">
+              <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header text-center">
                     <h4 class="modal-title w-100 font-weight-bold">Apply for Training</h4>
@@ -152,7 +105,7 @@
                   <div class="modal-body mx-3">
                     <div class="md-form mb-5">
                       <label data-error="wrong" data-success="right" for="emp_no">Enter your Employee Number:</label>
-                      <input type="text" id="apply_emp_id_autocomplete" name="emp_no" class="form-control">
+                      <input type="text" id="emp_id_autocomplete" onclick="popUp()" name="emp_no" class="form-control">
 
                     </div>
 
@@ -336,38 +289,7 @@
         </div>
       </div>
     </div>
-    <script>
-      $(document).ready(function () {
-        var data = [];
-        var settings = {
-          "url": "http://localhost:8080/selectedPublishApplications",
-          "method": "GET",
-          "timeout": 0,
-          "headers": {
-            "Content-Type": "application/json"
-          },
-          "data": null,
-        };
-        $.ajax(settings).done(function (response) {
-          console.log(response);
-          var trainee_data = '';
-          var sn = 1;
-          $.each(response.data, function (key, value) {
-            trainee_data += '<tr>';
-            trainee_data += '<td>' + sn + '</td>';
-            trainee_data += '<td>' + value.name + '</td>';
-            trainee_data += '<td>' + value.designation + '</td>';
-            trainee_data += '<td>' + value.DDO_CODE + '</td>';
-            trainee_data += '<td>' + value.employee_no + '</td>';
-            trainee_data += '<td>' + value.training_prog_id + '</td>';
-            trainee_data += '</tr>';
-            sn++;
-          });
-          $('#trainee_table').append(trainee_data);
-        });
-
-      });
-    </script>
+    
 
     <div class="tab-pane " id="about">
       <div class="container" id="con">
@@ -399,13 +321,18 @@
       <a href="#"> DOAT</a>
     </p>
   </div>
-  <script src="../js/post_registration.js"></script>
+  
+  <script
+			  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+			  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+			  crossorigin="anonymous"></script>
+  <script src="../js/index.js"></script>
 </body>
 
 </html>
 
 <!--Validation JS-->
-<script>
+<!-- <script>
   var myInput = document.getElementById("psw");
   var letter = document.getElementById("letter");
   var capital = document.getElementById("capital");
@@ -479,4 +406,4 @@
 
   psw.onchange = validatePassword;
   conpassword.onkeyup = validatePassword;
-</script>
+</script> -->
