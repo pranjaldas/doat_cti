@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
@@ -22,6 +23,7 @@ import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.model.TrainingProgram;
 import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.ApplicationService;
+import com.doat.recruitment.jpa.services.DepartmentService;
 import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.IdGenerator;
 import com.doat.recruitment.jpa.services.RegistrationService;
@@ -40,23 +42,26 @@ public class RestControllers {
 	TrainingProgramService trainingProgramService;
 	@Autowired
 	EmployeeService eEmployeeService;
+
 	
 
 	// Registration Controllers
 	@PostMapping(value = "/postRegistration")
-	public ResponseEntity<Object> postRegistration(@RequestBody Registration registration) {
-
+	public ResponseEntity<Object> postRegistration(@RequestBody final Registration registration) {
 		registrationService.saveRegistration(registration);
-		ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
+		final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
 
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
+
+		
+		
 	}
 
 	// To get all the selected employees_trainee in the website
 	@GetMapping(value = "/selectedTrainee")
 	public ResponseEntity<Object> getSelectedTrainee() {
-		List<TraineeEmployee> list = traineeEmployeeService.viewSelectedTrainee();
-		ServiceResponse<List<TraineeEmployee>> response = new ServiceResponse<>("success", list);
+		final List<TraineeEmployee> list = traineeEmployeeService.viewSelectedTrainee();
+		final ServiceResponse<List<TraineeEmployee>> response = new ServiceResponse<>("success", list);
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 
@@ -71,54 +76,54 @@ public class RestControllers {
 	// To advertise a upcomming training program
 	@GetMapping(value = "/trainings")
 	public ResponseEntity<Object> getTrainingPrograms() {
-		List<TrainingProgram> list = trainingProgramService.viewTraining();
-		ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
+		final List<TrainingProgram> list = trainingProgramService.viewTraining();
+		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 
 	// To get flagged training notification
 	@GetMapping(value = "/trainingsStatus")
 	public ResponseEntity<Object> getTraining() {
-		List<TrainingProgram> list = trainingProgramService.viewNoticeTraining();
-		ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
+		final List<TrainingProgram> list = trainingProgramService.viewNoticeTraining();
+		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	// To post new training
 
 	@PostMapping(value = "/postTrainings")
-	public ResponseEntity<Object> saveDetails(@RequestBody TrainingProgram trainingProgram) throws ParseException {
-		Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
-		String time = sdf.format(cal.getTime());
+	public ResponseEntity<Object> saveDetails(@RequestBody final TrainingProgram trainingProgram) throws ParseException {
+		final Calendar cal = Calendar.getInstance();
+        final SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+		final String time = sdf.format(cal.getTime());
 		
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
-        Date startdate = trainingProgram.getTraining_start_date();
-		String date = dateFormat.format(startdate).replaceAll("\\s", "");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        final Date startdate = trainingProgram.getTraining_start_date();
+		final String date = dateFormat.format(startdate).replaceAll("\\s", "");
 		
 		
 		
 
-        IdGenerator generator=new IdGenerator();
-		String id=generator.IdGenerate(time,trainingProgram.getTraining_prg_type(),date, trainingProgram.getTraining_prg_name(),"TRAIN");
+        final IdGenerator generator=new IdGenerator();
+		final String id=generator.IdGenerate(time,trainingProgram.getTraining_prg_type(),date, trainingProgram.getTraining_prg_name(),"TRAIN");
 		System.out.println("The generated Id is:"+id);
 
 		trainingProgram.setTraining_prg_id(id);
         trainingProgramService.saveTraining(trainingProgram);
-        ServiceResponse<TrainingProgram> response = new ServiceResponse<>("success", trainingProgram);
+        final ServiceResponse<TrainingProgram> response = new ServiceResponse<>("success", trainingProgram);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	
 	//Employee rest apis
 	@GetMapping("/employees")
 	public ResponseEntity<Object> getEmployees(){
-		ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
+		final ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 	@PostMapping("/testEmployee")
-	public String checkEmployee(@RequestBody Employee employee){
+	public String checkEmployee(@RequestBody final Employee employee){
 		System.out.println(employee.toString());
-		boolean res=eEmployeeService.checkIfExist(employee.getEmployee_id());
+		final boolean res=eEmployeeService.checkIfExist(employee.getEmployee_id());
 		if(res==true){
 			return "found";
 		}
@@ -128,40 +133,55 @@ public class RestControllers {
 	//Training Applications
 	//this api is for updating publish attribute
 	@PostMapping(value = "/postApplication")
-	public ResponseEntity<Object> postApplication(@RequestBody TrainingApplication application) {
+	public ResponseEntity<Object> postApplication(@RequestBody final TrainingApplication application) {
 		service.saveApplication(application);
-		ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+		final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
 
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@PostMapping(value = "/checkApplication")
-	public String checkApplication(@RequestBody TrainingApplication application) {
+	public ResponseEntity<Object> checkApplication(@RequestBody final TrainingApplication application) {
 		System.out.println(application);
-		String empNo=application.getEmployee_no();
+		final String empNo=application.getEmployee_no();
 		System.out.println("Employee Number is "+empNo);
-		boolean res=eEmployeeService.checkIfExist(empNo);
+		final boolean res=eEmployeeService.checkIfExist(empNo);
 		if(res==true){
-			return "found";
+			service.saveApplication(application);
+			final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
 		}
-		return "not Found";
+		final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("failure", application);
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
 
 	}
 
 	@GetMapping(value = "/getApplications")
 	public ResponseEntity<Object> getApplication() {
-		ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.viewApplications());
+		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.viewApplications());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 	@GetMapping(value="/selectedPublishApplications")
 	public ResponseEntity<Object> getSelectedApplication() {
-		ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedPublishApplications());
+		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedPublishApplications());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 	@GetMapping(value="/selectedApplications")
 	public ResponseEntity<Object> getSelectedUnpublishApplication() {
-		ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedApplications());
+		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedApplications());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+	
+
+
+	//Department Api's
+	@Autowired
+	DepartmentService deptService;
+	@GetMapping(value = "/getDept")
+	public ResponseEntity<Object> getDepts() {
+		final ServiceResponse<List<Department>> response=new ServiceResponse<>("success", (List<Department>) deptService.findAllDepartment());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	
 	
 	
 }

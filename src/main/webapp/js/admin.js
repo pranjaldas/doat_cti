@@ -26,14 +26,19 @@ $(document).ready(() => {
         + '<td>' + value.department_id + '</td>'
         + '<td>' + value.designation + '</td>'
         + '<td>' + value.ddo_code + '</td>'
-        + '<td>' + '<button type="button" id="#" class="btn btn-info btn-sm" data-toggle="modal" onclick="fillEmployeeModalPopup(this)" data-target="#exampleModalCenter">View</button>' + '</td>'
+        + '<td>' + '<button type="button" id="#" class="btn btn-info btn-sm delete" data-toggle="modal" onclick="fillEmployeeModalPopup(this)" data-target="#exampleModalCenter">View</button>' + '</td>'
         + '</tr>';
 
     });
     $('#allEmployees').append(employee_data);
 
   }
-
+  //test
+  $("#allEmployees").on('click', '.delete', function () {
+    var currentRow=$(this).closest("tr").index();
+    var id=currentRow.find("td:eq(0)").text();
+    console.log(id);
+  });
 
 
 
@@ -160,6 +165,7 @@ $(document).ready(() => {
         text: "yes",
         class: "btn btn-md btn-danger",
         click: function () {
+          $(this).dialog("close");
           // get the current row
 
           var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
@@ -181,7 +187,7 @@ $(document).ready(() => {
           }
           console.log(object);
           var settings = {
-            "url": "http://localhost:8080/postApplication",
+            "url": "http://localhost:8080/checkApplication",
             "method": "POST",
             "timeout": 0,
             "headers": {
@@ -190,13 +196,51 @@ $(document).ready(() => {
             "data": JSON.stringify(object),
           };
           $.ajax(settings).done(function (response) {
-
             console.log(response);
+            if (response.status == "success") {
+              var newDiv = $(document.createElement('div'));
+              newDiv.html('Succesfully inserted!!!');
+              newDiv.dialog({
+                title: "Message from Server",
+                draggable: true,
+                modal: true,
+                buttons: [{
+                  text: "Ok",
+                  class: "btn btn-md btn-primary",
+                  click: function () {
+                    $(this).dialog("close");
+                                    
+      
+                  }
+                }]
+              });
+             
+            }
+            else{
+              var newDiv = $(document.createElement('div'));
+              newDiv.html('Error occured, may be Employee Id or Department Id is not valid!!!');
+              newDiv.dialog({
+                title: "Message from Server",
+                draggable: true,
+                modal: true,
+                buttons: [{
+                  text: "Ok",
+                  class: "btn btn-md btn-primary",
+                  click: function () {
+                    $(this).dialog("close");
+                                    
+  
+                  }
+                }]
+              });
+
+            }
+            
             $('#applications_table').refresh();
           });
           currentRow.remove();
 
-          $(this).dialog("close");
+          
         }
       }]
     });
@@ -398,6 +442,7 @@ $(document).ready(() => {
         training_prg_data += '<td>' + value.training_status + '</td>';
         training_prg_data += '<td>' + value.display_status + '</td>';
         training_prg_data += '<td>' + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fillTrainingModal(this)"  data-target="#previewTrainings">Privew & Update</button>' + '</td>';
+        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm trainingDelete" onclick="deleteTraining(this)" >Delete</button>' + '</td>';
         training_prg_data += '</tr>';
 
       });
@@ -406,6 +451,11 @@ $(document).ready(() => {
 
   }
 
+  // //to Delete training program
+  $("#all_training_programs").on('click', '.trainingDelete', function () {
+    var currentRow=$(this).closest("tr").index();
+    alert(currentRow);
+  });
 
 
 
@@ -594,6 +644,10 @@ function sayHii(x) {
   });
 
 }
+
+
+
+
 
 // Code to fill the Training program modal
 function fillTrainingModal(x) {
