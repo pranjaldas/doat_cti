@@ -67,11 +67,45 @@
   </div>
 
   <div class="tab-content">
-
-
     <div class="tab-pane fade show active" id="home">
-      <div class="container" id="con">
 
+      
+      
+
+      <div class="container" id="con"> 
+        <div class="row">
+          <div class="col-lg-5" >
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="img/image1.jpeg" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="img/image2.jpeg" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="img/image3.jpeg" alt="Third slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+    
+    
+        </div>
+        <div class="col-lg-7 ">
+          
         <div class="card" id="whole-card">
 
           <div class="card-header" style="background: rgb(74, 212, 236) ; 
@@ -81,18 +115,31 @@
               <marquee><b>NOTIFICATIONS</b></marquee>
             </h4>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="overflow-y: scroll;
+          height: 300px;
+          padding: 1rem">
 
             <div id="notification" style="margin-top: 20px; margin-left: 20px;">
             </div>
-           
-            <input type="text" id="apply_emp_id_autocomplete" name="emp_no" class="form-control">
-            <button class="btn btn-sm btn-primary" id="apply">apply</button>
+
+  
+
+            
+
+          </div>
+
+        </div>
+  
+        </div>
 
 
+        </div>
 
 
-            <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+       
+      </div>
+    </div>
+    <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
               aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -104,23 +151,26 @@
                   </div>
                   <div class="modal-body mx-3">
                     <div class="md-form mb-4">
-                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right" for="defaultForm-pass">Your Employee ID:</label></i>
+                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
+                          for="defaultForm-pass">Your Employee ID:</label></i>
                       <input type="text" id="emp_id_autocomplete" name="emp_no" class="form-control">
 
                     </div>
                     <div class="md-form mb-4">
-                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right" for="defaultForm-pass">Your Registration ID:</label></i>
+                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
+                          for="defaultForm-pass">Your Registration ID:</label></i>
                       <input type="text" id="" class="form-control validate">
-                      
+
                     </div>
                     <div class="md-form mb-4">
-                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right" for="defaultForm-pass">Your password:</label></i>
+                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
+                          for="defaultForm-pass">Your password:</label></i>
                       <input type="password" id="defaultForm-pass" class="form-control validate">
-                      
+
                     </div>
 
                   </div>
-                  
+
                   <div class="modal-footer d-flex justify-content-center">
                     <button class="btn btn-primary btn-sm">Apply</button>
                   </div>
@@ -128,12 +178,6 @@
               </div>
             </div>
 
-
-          </div>
-
-        </div>
-      </div>
-    </div>
 
 
 
@@ -149,99 +193,100 @@
             <div class="card-body">
 
               <div class="alert alert-primary">
-  
+
                 <h7 style="color: #000;"> All Star-Marked (*) fileds are COMPULSORY<br>
                   Please read all the training related instructions before submitting the form.</h>
               </div>
-  
+
               <p class="card-text">
-  
-  
-  
+
+
+
                 <!--Register form-->
-  
+
               <div class="form-row" id="register_home">
-                
-                  <div class="col-6 mb-11">
-                    <label for="job_title"><strong>Department Name:</strong><strong><sup
-                          style="color: red; size: A5">*</sup></strong></label>
-                    <select class="custom-select text-uppercase caste" id="department_name" required>
-                      <option value="">Select</option>
-                    </select>
-    
+
+                <div class="col-6 mb-11">
+                  <label for="job_title"><strong>Department Name:</strong><strong><sup
+                        style="color: red; size: A5">*</sup></strong></label>
+                  <select class="custom-select text-uppercase caste" id="department_name" required>
+                    <option value="">Select</option>
+                  </select>
+
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="text"><strong>Employee Number: </strong><strong><sup
+                        style="color: red; size: A5">*</sup></strong></label>
+                  <input class="form-control " type="text" id="emp_id" placeholder="Enter your Emplyee ID" required>
+
+
+                </div>
+
+
+
+                <div class="col-12 mb-3">
+                  <label for="name"><strong>Employee Full Name:</strong><sup
+                      style="color: red; size: A5">*</sup></label>
+
+                  <input class="col-12 form-control fname " type="text" id="fname" name="fname" placeholder=" name"
+                    required>
+
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="phone"><strong>Employee Phone number </strong><strong><sup
+                        style="color: red; size: A5">*</sup></strong></label>
+                  <input class="form-control " type="" name="phone" id="phone" placeholder="Enter Phone number"
+                    pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required maxlength="10">
+
+
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="email"><strong>Email </strong><strong><sup
+                        style="color: red; size: A5">*</sup></strong></label>
+                  <input class="form-control " type="Enter email" id="email" name="email" placeholder="Email Address"
+                    required>
+
+
+                </div>
+
+
+
+                <div class="col-6 mb-3">
+                  <label for="password"><strong>Password </strong><strong><sup
+                        style="color: red; size: A5">*</sup></strong></label>
+                  <input class="form-control" type="password" id="psw" placeholder="Enter Password" name="psw"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                    required></input>
+                  <!--PValidation-->
+                  <div id="message">
+                    <h3>Password must contain the following:</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
                   </div>
-                  <div class="col-6 mb-3">
-                    <label for="text"><strong>Employee Number: </strong><strong><sup
-                          style="color: red; size: A5">*</sup></strong></label>
-                    <input class="form-control " type="text" id="emp_id"  placeholder="Enter your Emplyee ID" required>
-    
-    
-                  </div>
-    
-    
-    
-                  <div class="col-12 mb-3">
-                    <label for="name"><strong>Employee Full Name:</strong><sup style="color: red; size: A5">*</sup></label>
-    
-                    <input class="col-12 form-control fname " type="text" id="fname" name="fname" placeholder=" name"
-                      required>
-    
-                  </div>
-                  <div class="col-6 mb-3">
-                    <label for="phone"><strong>Employee Phone number </strong><strong><sup
-                          style="color: red; size: A5">*</sup></strong></label>
-                    <input class="form-control " type="" name="phone" id="phone" placeholder="Enter Phone number"
-                      pattern="[0-9]{3}[0-9]{3}[0-9]{4}" required maxlength="10">
-    
-    
-                  </div>
-                  <div class="col-6 mb-3">
-                    <label for="email"><strong>Email </strong><strong><sup
-                          style="color: red; size: A5">*</sup></strong></label>
-                    <input class="form-control " type="Enter email" id="email" name="email" placeholder="Email Address"
-                      required>
-    
-    
-                  </div>
-    
-    
-    
-                  <div class="col-6 mb-3">
-                    <label for="password"><strong>Password </strong><strong><sup
-                          style="color: red; size: A5">*</sup></strong></label>
-                    <input class="form-control" type="password" id="psw" placeholder="Enter Password" name="psw"
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                      required></input>
-                    <!--PValidation-->
-                    <div id="message">
-                      <h3>Password must contain the following:</h3>
-                      <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-                      <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-                      <p id="number" class="invalid">A <b>number</b></p>
-                      <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-                    </div>
-    
-                  </div>
-                  <div class="col-6 mb-3">
-                    <label for="conpassword"><strong>Confirm Password </strong><strong><sup
-                          style="color: red; size: A5">*</sup></strong></label>
-                    <input class="form-control" type="password" id="conpassword" placeholder="Confirm Password" required>
-                    <br>
-                  </div>
-    
-    
-                  <div align="center" class="align-self-center mx-auto">
-                    <button type="button" id="registerButton" class="btn btn-success btn-sm">REGISTER</button>
-                  </div>  
-                
+
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="conpassword"><strong>Confirm Password </strong><strong><sup
+                        style="color: red; size: A5">*</sup></strong></label>
+                  <input class="form-control" type="password" id="conpassword" placeholder="Confirm Password" required>
+                  <br>
+                </div>
+
+
+                <div align="center" class="align-self-center mx-auto">
+                  <button type="button" id="registerButton" class="btn btn-success btn-sm">REGISTER</button>
+                </div>
+
               </div>
-  
+
             </div>
 
           </form>
 
-          
+
         </div>
 
 
@@ -276,29 +321,30 @@
             <h4 align="center"><strong>Selected Candidate</strong></h4>
           </div>
           <div class="card-body">
-            <h3<p>Selected Employee List for the Training program</p></h3>
-            <table class="table table-light table-striped" id="trainee_table">
+            <h3<p>Selected Employee List for the Training program</p>
+              </h3>
+              <table class="table table-light table-striped" id="trainee_table">
 
-              <thead>
+                <thead>
 
-                <tr>
-                  <th><b>Sr.No.</b></th>
-                  <th><b>Name</b></th>
-                  <th><b>Degignation</b></th>
-                  <th><b>EmpID</b></th>
-                  <th><b>DDO_No</b></th>
-                  <th><b>Traning Program</b></th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+                  <tr>
+                    <th><b>Sr.No.</b></th>
+                    <th><b>Name</b></th>
+                    <th><b>Degignation</b></th>
+                    <th><b>EmpID</b></th>
+                    <th><b>DDO_No</b></th>
+                    <th><b>Traning Program</b></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
           </div>
 
         </div>
       </div>
     </div>
-    
+
 
     <div class="tab-pane " id="about">
       <div class="container" id="con">
@@ -313,7 +359,8 @@
 
             <div class="alert alert-danger " id="ale" style="margin-top: 25px; margin-left: 25px;">
 
-              <h7 style="color: #000;"><b>For any query:</b> <br>Call-9678186292 <br> Email-pranjaldas525@gmail.com </h7>
+              <h7 style="color: #000;"><b>For any query:</b> <br>Call-9678186292 <br> Email-pranjaldas525@gmail.com
+              </h7>
             </div>
 
           </div>
@@ -330,11 +377,9 @@
       <a href="#"> DOAT</a>
     </p>
   </div>
-  
-  <script
-			  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-			  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-			  crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   <script src="../js/index.js"></script>
 </body>
 

@@ -1,4 +1,9 @@
 $(document).ready(() => {
+  $('.carousel').carousel({
+    interval: 1000
+  })
+
+
   populateAdvertisement();
   function populateAdvertisement() {
     var settings = {
