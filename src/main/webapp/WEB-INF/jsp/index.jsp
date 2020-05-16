@@ -14,6 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -30,7 +31,7 @@
   <div class="header content">
     <a href="index.html"><img src="img/assam.png" class="title-logo" alt="Home"></a>
     <div class="titles">
-      <p class="title">Central Trainng Institute (CTI)</p>
+      <p class="title">Central Training Institute (CTI)</p>
       <p class="subtitle">Kar Bhawan,Ganeshguri,Assam-781006</p>
     </div>
   </div>
@@ -69,10 +70,7 @@
   <div class="tab-content">
     <div class="tab-pane fade show active" id="home">
 
-      
-      
-
-      <div class="container" id="con"> 
+      <div id="con" style="padding-left: 50px;padding-right: 50px;"> 
         <div class="row">
           <div class="col-lg-5" >
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -116,27 +114,19 @@
             </h4>
           </div>
           <div class="card-body" style="overflow-y: scroll;
-          height: 300px;
+          height: 400px;
           padding: 1rem">
 
             <div id="notification" style="margin-top: 20px; margin-left: 20px;">
             </div>
-
-  
-
-            
 
           </div>
 
         </div>
   
         </div>
-
-
         </div>
-
-
-       
+     
       </div>
     </div>
     <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -184,6 +174,16 @@
     <div class="tab-pane" id="register">
 
       <div class="container" id="con">
+        <!-- Alert boxes start -->
+        <div class="alert alert-success" id="success-alert">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Congratulations! </strong> you are succesfully registered, please check your email form confirmation.
+        </div>
+        <div class="alert alert-danger" id="failure-alert" role="alert">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <strong>Opps!</strong> <a href="#" class="alert-link">Some thing went wront, change a few things up</a> and try submitting again.
+        </div>
+        <!-- Alert boxes end -->
 
         <div class="card" id="whole-card">
           <div class="card-header" style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">

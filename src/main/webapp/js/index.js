@@ -1,4 +1,8 @@
 $(document).ready(() => {
+  //to hide the alert box
+  $("#success-alert").hide();
+  $("#failure-alert").hide();
+ //to set interval of slideshow
   $('.carousel').carousel({
     interval: 1000
   })
@@ -359,48 +363,20 @@ $(document).ready(() => {
     $.ajax(settings).done(function (response) {
       console.log(response);
       if (response.status == "success") {
-        var newDiv = $(document.createElement('div'));
-        newDiv.html('Congratulations You are succesfully registered!!!');
-        newDiv.dialog({
-          title: "Message from Server",
-          draggable: true,
-          modal: true,
-          buttons: [{
-            text: "Ok",
-            class: "btn btn-md btn-primary",
-            click: function () {
-              $(this).dialog("close");
-              $("#register_employee")[0].reset();
-              // $("#fname").val('');
-              // $("#psw").val('');
-              // $("#emp_id").val('');
-              // $("#department_name").val('');
-              // $("#conpassword").val('');
-              // $("#email").val('');
-              // $("#phone").val('');
-              
-
-            }
-          }]
+        
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+          $("#success-alert").slideUp(500);
+          $("#register_employee")[0].reset();
         });
+        
        
       }
       else{
-        var newDiv = $(document.createElement('div'));
-        newDiv.html('Opps, Something went wrong !!!');
-        newDiv.dialog({
-          title: "Message from Server",
-          draggable: true,
-          modal: true,
-          buttons: [{
-            text: "Ok",
-            class: "btn btn-md btn-primary",
-            click: function () {
-              $(this).dialog("close");
-            }
-          }]
+         
+        $("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+          $("#failure-alert").slideUp(500);
+        
         });
-
       }
     });
 

@@ -26,6 +26,7 @@ import com.doat.recruitment.jpa.services.ApplicationService;
 import com.doat.recruitment.jpa.services.DepartmentService;
 import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.IdGenerator;
+import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
 import com.doat.recruitment.jpa.services.TrainingProgramService;
@@ -42,18 +43,28 @@ public class RestControllers {
 	TrainingProgramService trainingProgramService;
 	@Autowired
 	EmployeeService eEmployeeService;
+	@Autowired
+	MailService MailService;
 
 	
 
 	// Registration Controllers
 	@PostMapping(value = "/postRegistration")
 	public ResponseEntity<Object> postRegistration(@RequestBody final Registration registration) {
-		registrationService.saveRegistration(registration);
-		final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
-
-		return new ResponseEntity<Object>(response, HttpStatus.OK);
-
 		
+
+		try {
+			registrationService.saveRegistration(registration);
+			MailService.sendMail(registration);
+			final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);	
+		} 
+		catch (Exception e) {
+			System.out.println("The error is "+e);
+		}
+
+		final ServiceResponse<Registration> response = new ServiceResponse<>("failure", registration);
+		return new ResponseEntity<Object>(response, HttpStatus.OK);	
 		
 	}
 
