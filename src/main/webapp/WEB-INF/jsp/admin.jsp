@@ -274,7 +274,7 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>44</h3>
+                  <h3 id="totalRegistrations"></h3>
 
                   <p>Total Registrations</p>
                 </div>
@@ -826,7 +826,7 @@
             <div class="card-header">
               <h3 class="card-title">
                 <i class="ion ion-clipboard mr-1"></i>
-                centre list
+                Events Handler
               </h3>
             </div>
             <!-- /.card-header -->
@@ -872,7 +872,7 @@
             <!-- /.card-body -->
             <div class="card-footer clearfix">
               <button type="button" class="btn btn-info float-right" data-target="#previewTrainings"
-                data-toggle="modal"><i class="fas fa-plus"></i> Add centre</button>
+                data-toggle="modal"><i class="fas fa-plus"></i> Events</button>
             </div>
           </div>
           <!-- /.card -->

@@ -1,4 +1,21 @@
 $(document).ready(() => {
+  //Total Registrations
+  fetchTotalRegistration();
+  function fetchTotalRegistration(){
+    var settings = {
+      "url": "http://localhost:8080/countRegistration",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+      console.log("Total Registrations :",response);
+      $("#totalRegistrations").text(response.data);
+    });
+  }
   //For Employee Card
   function fetchAllEmployees() {
     var settings = {
@@ -324,7 +341,7 @@ $(document).ready(() => {
         + '<td>' + value.designation + '</td>'
         + '<td>' + value.DDO_CODE + '</td>'
         + '<td>' + value.application_status + '</td>'
-        + '<td>' + '<button type="button" id="#" class="btn btn-sm btn-primary" data-toggle="modal"  data-target="#selected_trainee_modal">Update</button>' + '</td>'
+        + '<td>' + '<button type="button" id="#" class="btn btn-sm btn-primary" onclick="updateApplication(this)" data-toggle="modal"  data-target="#selected_trainee_modal">Update</button>' + '</td>'
         + '</tr>';
 
     });
@@ -332,7 +349,7 @@ $(document).ready(() => {
 
   }
 
-
+  
   // To publish all trainees
   $("#publish").click(function () {
     if ($("#applications_table tbody").children().length == 0) {
@@ -417,8 +434,10 @@ $(document).ready(() => {
   //For Training Programs
   //Calling the Function at document load
   updateAllTrainings()
+  
 
   function updateAllTrainings() {
+    $('#all_training_programs tbody').empty();
     var settings = {
       "url": "http://localhost:8080/trainings",
       "method": "GET",
@@ -429,6 +448,7 @@ $(document).ready(() => {
       "data": null,
     };
     $.ajax(settings).done(function (response) {
+     
 
       var training_prg_data = '';
       $.each(response.data, function (key, value) {
@@ -442,7 +462,7 @@ $(document).ready(() => {
         training_prg_data += '<td>' + value.training_status + '</td>';
         training_prg_data += '<td>' + value.display_status + '</td>';
         training_prg_data += '<td>' + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fillTrainingModal(this)"  data-target="#previewTrainings">Privew & Update</button>' + '</td>';
-        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm trainingDelete" onclick="deleteTraining(this)" >Delete</button>' + '</td>';
+        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm trainingDelete">Delete</button>' + '</td>';
         training_prg_data += '</tr>';
 
       });
@@ -452,10 +472,44 @@ $(document).ready(() => {
   }
 
   // //to Delete training program
+ 
   $("#all_training_programs").on('click', '.trainingDelete', function () {
     var currentRow=$(this).closest("tr").index();
-    alert(currentRow);
+    console.log("Selected row",currentRow);
+    $.getJSON("http://localhost:8080/trainings", function(response){
+      var data=response.data;
+      console.log("All trainings",data);
+      for(var i=0;i<=data.length;i++){
+        if(i===currentRow){
+          console.log("selected id id:",data[i].training_prg_id);
+          var training_prg_id=data[i].training_prg_id;
+          var settings = {
+            "url": "http://localhost:8080/deleteTraining/"+training_prg_id,
+            "method": "DELETE",
+            "timeout": 0,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "data": null,
+          };
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            if(response.status=="success"){
+              updateAllTrainings();
+            }
+            else{
+              console.log("not deleted")
+            }
+          });
+          
+
+        }
+        
+      }
+    });
+    
   });
+ 
 
 
 
@@ -643,11 +697,18 @@ $(document).ready(() => {
 
 
 
-
-
-
 })
 // End of document.ready()
+
+
+//Selected trainee Update
+function updateApplication(x){
+  var index = $(x).closest('tr').index();
+  console.log("Selected Trainee table index : ", index);
+  var empId=index.find("td:eq(0)").text();
+  alert(empId);
+}
+
 
 
 function sayHii(x) {

@@ -10,7 +10,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,6 +71,14 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);	
 		
 	}
+	@GetMapping("/countRegistration")
+	public ResponseEntity<Object> countRegistration(){
+		Long total=registrationService.countTotal();
+		System.out.println(total);
+		ServiceResponse<Long> response=new ServiceResponse<>("success",total);
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
 
 	// To get all the selected employees_trainee in the website
 	@GetMapping(value = "/selectedTrainee")
@@ -93,6 +103,19 @@ public class RestControllers {
 		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	@DeleteMapping(value="/deleteTraining/{training_prg_id}")
+	public ResponseEntity<Object> deleteCompany(@PathVariable String training_prg_id) {
+		try {
+			trainingProgramService.deleteTraining(training_prg_id);
+			ServiceResponse<String> response=new ServiceResponse<>("success",training_prg_id);
+			return new ResponseEntity<Object>(response,HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("conflict",training_prg_id);
+		return new ResponseEntity<Object>(response,HttpStatus.CONFLICT);
+	}
+
 
 	// To get flagged training notification
 	@GetMapping(value = "/trainingsStatus")
@@ -133,6 +156,7 @@ public class RestControllers {
 		final ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+	
 	@PostMapping("/testEmployee")
 	public String checkEmployee(@RequestBody final Employee employee){
 		System.out.println(employee.toString());
