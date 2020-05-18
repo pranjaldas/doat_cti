@@ -614,6 +614,32 @@ $(document).ready(() => {
   });
 
 
+  //Events
+  $("#sendEvent").click(() => {
+                
+    const colours = ["#78bc6d", "#d08244", "#103e36", "#fd8311", "#088da5", "#4a6855", "#0094fb", "#419c99", "#b3e835"];
+               
+    let event = {
+        text: $("#event_description").val(),
+        start: $("#event_start_date").val()+"T23:00:00.000Z",
+        end: $("#event_end_date").val()+"T23:00:00.000Z",
+        color: colours[Math.floor(Math.random() * colours.length)]
+    }
+   
+    var settings = {
+      "url": "http://localhost:8080/postEvent",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(event),
+    };
+    $.ajax(settings).done(function (response) {
+      console.log("The event save:",response);
+    });
+})
+
 
 
 

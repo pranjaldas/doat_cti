@@ -364,7 +364,7 @@ $(document).ready(() => {
       console.log(response);
       if (response.status == "success") {
         
-        $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#success-alert").fadeTo(4000, 500).slideUp(500, function(){
           $("#success-alert").slideUp(500);
           $("#register_employee")[0].reset();
         });
@@ -373,7 +373,7 @@ $(document).ready(() => {
       }
       else{
          
-        $("#failure-alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#failure-alert").fadeTo(4000, 500).slideUp(500, function(){
           $("#failure-alert").slideUp(500);
         
         });

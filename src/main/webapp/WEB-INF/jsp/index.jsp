@@ -14,7 +14,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -23,6 +25,7 @@
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.theme.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
+  <link rel="stylesheet" href="css/mobiscroll.jquery.min.css">
 
 
 </head>
@@ -70,9 +73,9 @@
   <div class="tab-content">
     <div class="tab-pane fade show active" id="home">
 
-      <div id="con" style="padding-left: 50px;padding-right: 50px;"> 
+      <div id="con" style="padding-left: 50px;padding-right: 50px;">
         <div class="row">
-          <div class="col-lg-5" >
+          <div class="col-lg-5">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
               <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -99,74 +102,74 @@
                 <span class="sr-only">Next</span>
               </a>
             </div>
-    
-    
-        </div>
-        <div class="col-lg-7 ">
-          
-        <div class="card" id="whole-card">
 
-          <div class="card-header" style="background: rgb(74, 212, 236) ; 
+
+          </div>
+          <div class="col-lg-7 ">
+
+            <div class="card" id="whole-card">
+
+              <div class="card-header" style="background: rgb(74, 212, 236) ; 
                 padding: 5px; 
                 border-radius: 20px;">
-            <h4 align="center">
-              <marquee><b>NOTIFICATIONS</b></marquee>
-            </h4>
-          </div>
-          <div class="card-body" style="overflow-y: scroll;
+                <h4 align="center">
+                  <marquee><b>NOTIFICATIONS</b></marquee>
+                </h4>
+              </div>
+              <div class="card-body" style="overflow-y: scroll;
           height: 400px;
           padding: 1rem">
 
-            <div id="notification" style="margin-top: 20px; margin-left: 20px;">
+                <div id="notification" style="margin-top: 20px; margin-left: 20px;">
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">APPY FOR TRAINING</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+            <div class="md-form mb-4">
+              <i class="fas prefix grey-text"><label data-error="wrong" data-success="right" for="defaultForm-pass">Your
+                  Employee ID:</label></i>
+              <input type="text" id="emp_id_autocomplete" name="emp_no" class="form-control">
+
+            </div>
+            <div class="md-form mb-4">
+              <i class="fas prefix grey-text"><label data-error="wrong" data-success="right" for="defaultForm-pass">Your
+                  Registration ID:</label></i>
+              <input type="text" id="" class="form-control validate">
+
+            </div>
+            <div class="md-form mb-4">
+              <i class="fas prefix grey-text"><label data-error="wrong" data-success="right" for="defaultForm-pass">Your
+                  password:</label></i>
+              <input type="password" id="defaultForm-pass" class="form-control validate">
+
             </div>
 
           </div>
 
+          <div class="modal-footer d-flex justify-content-center">
+            <button class="btn btn-primary btn-sm">Apply</button>
+          </div>
         </div>
-  
-        </div>
-        </div>
-     
       </div>
     </div>
-    <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">APPY FOR TRAINING</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body mx-3">
-                    <div class="md-form mb-4">
-                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
-                          for="defaultForm-pass">Your Employee ID:</label></i>
-                      <input type="text" id="emp_id_autocomplete" name="emp_no" class="form-control">
-
-                    </div>
-                    <div class="md-form mb-4">
-                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
-                          for="defaultForm-pass">Your Registration ID:</label></i>
-                      <input type="text" id="" class="form-control validate">
-
-                    </div>
-                    <div class="md-form mb-4">
-                      <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
-                          for="defaultForm-pass">Your password:</label></i>
-                      <input type="password" id="defaultForm-pass" class="form-control validate">
-
-                    </div>
-
-                  </div>
-
-                  <div class="modal-footer d-flex justify-content-center">
-                    <button class="btn btn-primary btn-sm">Apply</button>
-                  </div>
-                </div>
-              </div>
-            </div>
 
 
 
@@ -181,7 +184,8 @@
         </div>
         <div class="alert alert-danger" id="failure-alert" role="alert">
           <button type="button" class="close" data-dismiss="alert">x</button>
-          <strong>Opps!</strong> <a href="#" class="alert-link">Some thing went wront, change a few things up</a> and try submitting again.
+          <strong>Opps!</strong> <a href="#" class="alert-link">Some thing went wront, change a few things up</a> and
+          try submitting again.
         </div>
         <!-- Alert boxes end -->
 
@@ -297,20 +301,71 @@
 
     <div class="tab-pane" id="calender">
       <div class="container" id="con">
-
-        <div class="card" id="whole-card">
-
-
-          <div class="card-header" style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-            <h3 align="center"><strong>Calander</strong></h3>
+        <div mbsc-page class="demo-desktop-month-view">
+          <div style="height:100%">
+            <div id="demo-desktop-month-view"></div>
           </div>
-          <div class="card-body">
-
-          </div>
-
         </div>
+
       </div>
     </div>
+    <script>
+      $(document).ready(() => {
+        mobiscroll.settings = {
+          theme: 'windows',
+          themeVariant: 'light',
+          lang: 'en'
+        };
+
+        $(function () {
+
+          var inst = $('#demo-desktop-month-view').mobiscroll().eventcalendar({
+
+            lang: 'en',                // Specify language like: lang: 'pl' or omit setting to use default
+            theme: 'windows',                        // Specify theme like: theme: 'ios' or omit setting to use default
+            themeVariant: 'light',                   // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-themeVariant
+            display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
+            calendarHeight: 614,                     // More info about calendarHeight: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-calendarHeight
+            view: {                                  // More info about view: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-view
+              calendar: {
+                labels: true                     // More info about labels: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-labels
+              }
+            },
+            onEventSelect: function (event, inst) {  // More info about onEventSelect: https://docs.mobiscroll.com/4-10-3/eventcalendar#event-onEventSelect
+              mobiscroll.toast({
+
+                message: event.event.text
+              });
+            }
+          }).mobiscroll('getInst');
+
+          // from test dummy data
+
+            
+            var settings = {
+              "url": "http://localhost:8080/getEvents",
+              "method": "GET",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "data": null,
+            };
+            $.ajax(settings).done(function (response) {
+              let eventss=response.data;
+              console.log("The events are:",eventss);
+              inst.setEvents(eventss);
+            });
+
+              
+            
+            //end dummy data
+
+
+          });
+        })
+
+    </script>
 
     <div class="tab-pane" id="selected">
       <div class="container" id="con">
@@ -381,6 +436,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
     integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   <script src="../js/index.js"></script>
+  <!-- for event calender -->
+
+  <script src="js/mobiscroll.jquery.min.js"></script>
 </body>
 
 </html>

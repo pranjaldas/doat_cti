@@ -831,7 +831,43 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              <div class="form-card">
 
+                <div class="form-row">
+                    <div class="form-group col-11">
+                        <p class="font-weight-bold">
+                            <label>Description about the event:</label>
+                            <textarea cols="2" rows="3" class="form-control" placeholder="Write about the Program"
+                                id="event_description" name="training_description"></textarea>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <label>
+                            <p class="font-weight-bold">Event Start Date:</p>
+                        </label>
+                    </div>
+                    <div class="form-group col-6">
+                        <input class="form-control" type="date" name="training_start_date" id="event_start_date">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <label>
+                            <p class="font-weight-bold">Event End Date:</p>
+                        </label>
+                    </div>
+                    <div class="form-group col-6">
+                        <input class="form-control" type="date" name="training_start_date" id="event_end_date">
+                    </div>
+                </div>
+                <div class="align-self-center mx-auto">
+                    <button type="button" id="sendEvent" class="btn btn-success btn-md">SAVE</button>
+                </div>
+    
+    
+            </div>
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">

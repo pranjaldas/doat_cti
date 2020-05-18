@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
+import com.doat.recruitment.jpa.model.Events;
 import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
 import com.doat.recruitment.jpa.model.TrainingApplication;
@@ -25,6 +26,7 @@ import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.ApplicationService;
 import com.doat.recruitment.jpa.services.DepartmentService;
 import com.doat.recruitment.jpa.services.EmployeeService;
+import com.doat.recruitment.jpa.services.EventsService;
 import com.doat.recruitment.jpa.services.IdGenerator;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.RegistrationService;
@@ -54,12 +56,12 @@ public class RestControllers {
 		
 
 		try {
-			registrationService.saveRegistration(registration);
 			MailService.sendMail(registration);
+			registrationService.saveRegistration(registration);
 			final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
 			return new ResponseEntity<Object>(response, HttpStatus.OK);	
 		} 
-		catch (Exception e) {
+		catch (final Exception e) {
 			System.out.println("The error is "+e);
 		}
 
@@ -192,7 +194,24 @@ public class RestControllers {
 		final ServiceResponse<List<Department>> response=new ServiceResponse<>("success", (List<Department>) deptService.findAllDepartment());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+
+	//Events API's
+	@Autowired
+	EventsService eventService;
+	@GetMapping(value="/getEvents")
+	public ResponseEntity<Object> getAllEvents(){
+		ServiceResponse<List<Events>> response=new ServiceResponse<List<Events>>("success", eventService.findAllEvents());
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
 	
+	@PostMapping(value="/postEvent")
+	public ResponseEntity<Object> postMapping(@RequestBody Events event){
+		eventService.saveEvent(event);
+		ServiceResponse<Events> response=new ServiceResponse<>("success",event);
+
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+
+	}
 	
 	
 }
