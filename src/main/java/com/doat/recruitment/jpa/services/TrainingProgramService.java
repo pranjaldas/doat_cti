@@ -34,6 +34,10 @@ public class TrainingProgramService {
 		 return list;
 	}
 
+	public void deleteTraining(String training_prg_id) {
+		repo.deleteById(training_prg_id);
+	}
+
 
 	
 

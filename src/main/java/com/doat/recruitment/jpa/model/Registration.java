@@ -21,7 +21,7 @@ public class Registration {
 	
 	public Registration() {
 		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 	public Registration(String reg_id, String name, String employee_no, String department_no, String phone,
 			String email, String password) {

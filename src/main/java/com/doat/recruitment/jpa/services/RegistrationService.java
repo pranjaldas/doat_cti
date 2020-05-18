@@ -15,4 +15,9 @@ public class RegistrationService {
 		repo.save(registration);
 	}
 
+	public Long countTotal() {
+
+		return repo.count();
+	}
+
 }

@@ -1,0 +1,835 @@
+$(document).ready(() => {
+  //Total Registrations
+  fetchTotalRegistration();
+  function fetchTotalRegistration(){
+    var settings = {
+      "url": "http://localhost:8080/countRegistration",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+      console.log("Total Registrations :",response);
+      $("#totalRegistrations").text(response.data);
+    });
+  }
+  //For Employee Card
+  function fetchAllEmployees() {
+    var settings = {
+      "url": "http://localhost:8080/employees",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+      console.log("all Employees are", response);
+      PopulateEmployeeTable(response.data);
+    });
+  }
+  fetchAllEmployees();
+  function PopulateEmployeeTable(employees) {
+    var employee_data = '';
+    $.each(employees, function (key, value) {
+
+      employee_data += '<tr>'
+        + '<td>' + value.employee_id + '</td>'
+        + '<td>' + value.employee_name + '</td>'
+        + '<td>' + value.department_id + '</td>'
+        + '<td>' + value.designation + '</td>'
+        + '<td>' + value.ddo_code + '</td>'
+        + '<td>' + '<button type="button" id="#" class="btn btn-info btn-sm delete" data-toggle="modal" onclick="fillEmployeeModalPopup(this)" data-target="#exampleModalCenter">View</button>' + '</td>'
+        + '</tr>';
+
+    });
+    $('#allEmployees').append(employee_data);
+
+  }
+  //test
+  $("#allEmployees").on('click', '.delete', function () {
+    var currentRow=$(this).closest("tr").index();
+    var id=currentRow.find("td:eq(0)").text();
+    console.log(id);
+  });
+
+
+
+
+
+
+
+  //For Trainee Card
+  fetchTrainingProgram();
+  function fetchTrainingProgram() {
+    var settings = {
+      "url": "http://localhost:8080/trainings",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+
+
+      PopulateDropDownList(response.data);
+
+    });
+  }
+  //To populate dropdownlist
+
+  function PopulateDropDownList(data) {
+    console.log("ffrom populate", data);
+    console.log("type of data", typeof (data));
+    var training_dropdown_list = document.getElementById("trainings_dropdown");
+
+    //Add the Options to the DropDownList.
+    for (var i = 0; i < data.length; i++) {
+      var option = document.createElement("OPTION");
+
+      //Set Customer Name in Text part.
+      option.innerHTML = data[i].training_prg_name;
+
+      //Set CustomerId in Value part.
+      option.value = data[i].training_prg_id;
+
+      //Add the Option element to DropDownList.
+      training_dropdown_list.options.add(option);
+    }
+  }
+  //To convert csv to a json array and to a table
+  $("#upload").bind("click", function () {
+    if ($('#trainings_dropdown').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('please select a training program');
+      newDiv.dialog({
+        title: "ERROR !!! ",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+
+    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+    if (regex.test($("#fileUpload").val().toLowerCase())) {
+      if (typeof (FileReader) != "undefined") {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var employees = new Array();
+          var rows = e.target.result.split("\r\n");
+          for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].split(",");
+            if (cells.length > 1) {
+              var employee = {};
+              employee.employee_id = cells[0];
+              employee.employee_name = cells[1];
+              employee.emp_dep_no = cells[2];
+              employee.emp_desig = cells[3];
+              employee.emp_ddo_code = cells[4];
+              employees.push(employee);
+            }
+          }
+          console.log("The json data are :", employees)
+          var trainee_data = '';
+          $.each(employees, function (key, value) {
+            trainee_data += '<tr>';
+            trainee_data += '<td>' + value.employee_id + '</td>';
+            trainee_data += '<td>' + value.employee_name + '</td>';
+            trainee_data += '<td>' + value.emp_dep_no + '</td>';
+            trainee_data += '<td>' + value.emp_desig + '</td>';
+            trainee_data += '<td>' + value.emp_ddo_code + '</td>';
+            trainee_data += '<td>' + '<button type="button" id="#"  class="btn btn-success btn-sm selectEmployee">Select</button>' + '</td>';
+            trainee_data += '<td>' + '<button type="button" id="#" class="remove btn btn-sm btn-info" >Remove</button>' + '</td>';
+            trainee_data += '</tr>';
+
+          });
+          $('#trainee_table').append(trainee_data);
+        }
+        reader.readAsText($("#fileUpload")[0].files[0]);
+      } else {
+        alert("This browser does not support HTML5.");
+      }
+    } else {
+      alert("Please upload a valid CSV file.");
+    }
+  });
+
+
+
+  // code to read selected table row cell data (values).
+  $("#trainee_table").on('click', '.selectEmployee', function () {
+    var currentRow = $(this).closest("tr");
+    var newDiv = $(document.createElement('div'));
+    newDiv.html('Are you sure??');
+    newDiv.dialog({
+      title: "ALERT !!! ",
+      draggable: true,
+      modal: true,
+      buttons: [{
+        text: "yes",
+        class: "btn btn-md btn-danger",
+        click: function () {
+          $(this).dialog("close");
+          // get the current row
+
+          var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+          var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+          var col3 = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
+          var col4 = currentRow.find("td:eq(3)").text();
+          var col5 = currentRow.find("td:eq(4)").text();
+
+          let object = {
+            employee_no: col1,
+            name: col2,
+            department_no: col3,
+            designation: col4,
+            DDO_CODE: col5,
+            training_prog_id: $("#trainings_dropdown").val(),
+            publish: false,
+            application_status: 'accepted',
+
+          }
+          console.log(object);
+          var settings = {
+            "url": "http://localhost:8080/checkApplication",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "data": JSON.stringify(object),
+          };
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            if (response.status == "success") {
+              var newDiv = $(document.createElement('div'));
+              newDiv.html('Succesfully inserted!!!');
+              newDiv.dialog({
+                title: "Message from Server",
+                draggable: true,
+                modal: true,
+                buttons: [{
+                  text: "Ok",
+                  class: "btn btn-md btn-primary",
+                  click: function () {
+                    $(this).dialog("close");
+                                    
+      
+                  }
+                }]
+              });
+             
+            }
+            else{
+              var newDiv = $(document.createElement('div'));
+              newDiv.html('Error occured, may be Employee Id or Department Id is not valid!!!');
+              newDiv.dialog({
+                title: "Message from Server",
+                draggable: true,
+                modal: true,
+                buttons: [{
+                  text: "Ok",
+                  class: "btn btn-md btn-primary",
+                  click: function () {
+                    $(this).dialog("close");
+                                    
+  
+                  }
+                }]
+              });
+
+            }
+            
+            $('#applications_table').refresh();
+          });
+          currentRow.remove();
+
+          
+        }
+      }]
+    });
+
+
+
+
+
+
+
+
+
+
+
+  });
+  //To Remove the Row
+  $("#trainee_table").on('click', '.remove', function () {
+    var currentRow=$(this).closest("tr");
+    var newDiv = $(document.createElement('div'));
+    newDiv.html('Do you want to remove this Employee???');
+    newDiv.dialog({
+      title: "ALERT !!! ",
+      draggable: true,
+      modal: true,
+      buttons: [{
+        text: "Yes",
+        class: "btn btn-md btn-danger",
+        click: function () {
+          currentRow.remove();
+          $(this).dialog("close");
+        }
+      }]
+    });
+    
+
+  });
+
+
+
+
+
+
+
+
+
+  //Code from here for the next job
+  $("#remove").click(function () {
+    $("#fileUpload").val('');
+
+  });
+  $("#remove_all").click(() => {
+    $("#trainee_table tbody").remove();
+  })
+
+  function fetchAllApplications() {
+    var settings = {
+      "url": "http://localhost:8080/getApplications",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+      PopulateApplications(response.data);
+    });
+  }
+  fetchAllApplications();
+  function PopulateApplications(applications) {
+    console.log("All Applications are ", applications);
+    var application_data = '';
+
+    $.each(applications, function (key, value) {
+
+      application_data += '<tr>'
+        + '<td>' + value.employee_no + '</td>'
+        + '<td>' + value.training_prog_id + '</td>'
+        + '<td>' + value.name + '</td>'
+        + '<td>' + value.department_no + '</td>'
+        + '<td>' + value.designation + '</td>'
+        + '<td>' + value.DDO_CODE + '</td>'
+        + '<td>' + value.application_status + '</td>'
+        + '<td>' + '<button type="button" id="#" class="btn btn-sm btn-primary" onclick="updateApplication(this)" data-toggle="modal"  data-target="#selected_trainee_modal">Update</button>' + '</td>'
+        + '</tr>';
+
+    });
+    $('#applications_table').append(application_data);
+
+  }
+
+  
+  // To publish all trainees
+  $("#publish").click(function () {
+    if ($("#applications_table tbody").children().length == 0) {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('No Applications to publish');
+      newDiv.dialog({
+        title: "ALERT !!! ",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "close",
+          class: "btn btn-md btn-danger",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+    if ($("#applications_table tbody").children().length !== 0) {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Are You sure you want to publish ???');
+      newDiv.dialog({
+        title: "ALERT !!! ",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Yes",
+          class: "btn btn-md btn-danger",
+          click: function () {
+            var settings = {
+              "url": "http://localhost:8080/selectedApplications",
+              "method": "GET",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "data": null,
+            };
+            $.ajax(settings).done(function (response) {
+              console.log("publish", response);
+              $.each(response.data, function (key, value) {
+                console.log("key is", key);
+                console.log("value is", value);
+                value.publish = true;
+                var settings = {
+                  "url": "http://localhost:8080/postApplication",
+                  "method": "POST",
+                  "timeout": 0,
+                  "headers": {
+                    "Content-Type": "application/json"
+                  },
+                  "data": JSON.stringify(value),
+                };
+                $.ajax(settings).done(function (response) {
+                  console.log("updated data ", response)
+                });
+
+              });
+            });
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return true;
+    }
+
+
+
+
+
+  });
+
+
+
+
+
+
+
+
+
+  //For Training Programs
+  //Calling the Function at document load
+  updateAllTrainings()
+  
+
+  function updateAllTrainings() {
+    $('#all_training_programs tbody').empty();
+    var settings = {
+      "url": "http://localhost:8080/trainings",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+     
+
+      var training_prg_data = '';
+      $.each(response.data, function (key, value) {
+        training_prg_data += '<tr>';
+        training_prg_data += '<td>' + value.training_prg_id + '</td>';
+        training_prg_data += '<td>' + value.training_prg_name + '</td>';
+        training_prg_data += '<td>' + value.training_prg_type + '</td>';
+        training_prg_data += '<td>' + value.training_prg_duration + '</td>';
+        training_prg_data += '<td>' + value.training_start_date + '</td>';
+        training_prg_data += '<td>' + value.training_create_date + '</td>';
+        training_prg_data += '<td>' + value.training_status + '</td>';
+        training_prg_data += '<td>' + value.display_status + '</td>';
+        training_prg_data += '<td>' + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fillTrainingModal(this)"  data-target="#previewTrainings">Privew & Update</button>' + '</td>';
+        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm trainingDelete">Delete</button>' + '</td>';
+        training_prg_data += '</tr>';
+
+      });
+      $('#all_training_programs').append(training_prg_data);
+    });
+
+  }
+
+  // //to Delete training program
+ 
+  $("#all_training_programs").on('click', '.trainingDelete', function () {
+    var currentRow=$(this).closest("tr").index();
+    console.log("Selected row",currentRow);
+    $.getJSON("http://localhost:8080/trainings", function(response){
+      var data=response.data;
+      console.log("All trainings",data);
+      for(var i=0;i<=data.length;i++){
+        if(i===currentRow){
+          console.log("selected id id:",data[i].training_prg_id);
+          var training_prg_id=data[i].training_prg_id;
+          var settings = {
+            "url": "http://localhost:8080/deleteTraining/"+training_prg_id,
+            "method": "DELETE",
+            "timeout": 0,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "data": null,
+          };
+          $.ajax(settings).done(function (response) {
+            console.log(response);
+            if(response.status=="success"){
+              updateAllTrainings();
+            }
+            else{
+              console.log("not deleted")
+            }
+          });
+          
+
+        }
+        
+      }
+    });
+    
+  });
+ 
+
+
+
+  const saveTraining = (ev) => {
+    ev.preventDefault();
+
+    if ($('#training_description').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Form not submitted,please fillup the training description field');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+    if ($('#training_name').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Form not submitted, please fillup the training name field');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+    if ($('#training_type').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Form not submitted,please select the training type');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+    if ($('#training_duration').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Form not submitted, please fillup the training duration in months');
+      newDiv.dialog({
+        title: "ERROR !!! ",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+    if ($('#training_start_date').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Form not submitted, please fillup the training start date');
+      newDiv.dialog({
+        title: "ERROR !!! ",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+    if ($('#training_display').val() == '') {
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Form not submitted, please select yes or no');
+      newDiv.dialog({
+        title: "ERROR !!! ",
+        draggable: true,
+        modal: true,
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      return false;
+    }
+
+    let training_program = {
+      training_prg_name: $("#training_name").val(),
+      training_prg_type: $("#training_type").val(),
+      training_description: $("#training_description").val(),
+      training_prg_duration: $("#training_duration").val(),
+      training_start_date: $("#training_start_date").val(),
+      training_status: "created",
+      display_status: $("#training_display").val()
+
+    }
+    console.log(training_program);
+    var settings = {
+      "url": "http://localhost:8080/postTrainings",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(training_program),
+    };
+    $.ajax(settings).done(function (response) {
+
+      if (response.status == "success") {
+        var newDiv = $(document.createElement('div'));
+        newDiv.html('New training program has succesfully inserted into database !!!');
+        newDiv.dialog({
+          title: "Message from Server",
+          draggable: true,
+          modal: true,
+          buttons: [{
+            text: "Ok",
+            class: "btn btn-md btn-primary",
+            click: function () {
+              $(this).dialog("close");
+            }
+          }]
+        });
+        $("#training_form")[0].reset();
+        $("#all_training_programs tbody").remove();
+        updateAllTrainings();
+      };
+    });
+
+  };
+  $("#save_training").click(function () {
+    saveTraining(event);
+  });
+
+
+  //Events
+  $("#sendEvent").click(() => {
+                
+    const colours = ["#78bc6d", "#d08244", "#103e36", "#fd8311", "#088da5", "#4a6855", "#0094fb", "#419c99", "#b3e835"];
+               
+    let event = {
+        text: $("#event_description").val(),
+        start: $("#event_start_date").val()+"T23:00:00.000Z",
+        end: $("#event_end_date").val()+"T23:00:00.000Z",
+        color: colours[Math.floor(Math.random() * colours.length)]
+    }
+   
+    var settings = {
+      "url": "http://localhost:8080/postEvent",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(event),
+    };
+    $.ajax(settings).done(function (response) {
+      console.log("The event save:",response);
+    });
+})
+
+
+
+
+})
+// End of document.ready()
+
+
+//Selected trainee Update
+function updateApplication(x){
+  var index = $(x).closest('tr').index();
+  console.log("Selected Trainee table index : ", index);
+  var empId=index.find("td:eq(0)").text();
+  alert(empId);
+}
+
+
+
+function sayHii(x) {
+  var index = $(x).closest('tr').index();
+  console.log("Trainee table index : ", index);
+
+  var newDiv = $(document.createElement('div'));
+  newDiv.html('Select button has clicked');
+  newDiv.dialog({
+    title: "BUTTON CLICKED ",
+    draggable: true,
+    modal: true,
+    buttons: [{
+      text: "Ok",
+      class: "btn btn-md btn-primary",
+      click: function () {
+        $(this).dialog("close");
+      }
+    }]
+  });
+
+}
+
+
+
+
+
+// Code to fill the Training program modal
+function fillTrainingModal(x) {
+
+  var index = $(x).closest('tr').index();
+  console.log("Trainee table index : ", index);
+  var settings = {
+    "url": "http://localhost:8080/trainings",
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": null,
+  };
+  $.ajax(settings).done(function (response) {
+    var data = response.data;
+    console.log("The Selected data are: ", data);
+    for (var i = 0; i < data.length; i++) {
+      if (i === index) {
+        console.log("selected data", data[i]);
+        $("#prg_id").text(data[i].training_prg_id);
+        $("#prg_description").text(data[i].training_description);
+        $("#prg_name").text(data[i].training_prg_name);
+        $("#prg_type").text(data[i].training_prg_type);
+        $("#prg_start_date").text(data[i].training_start_date);
+        $("#prg_duration").text(data[i].training_prg_duration);
+        $("#prg_create_date").text(data[i].training_create_date);
+        $("#prg_display").text(data[i].display_status);
+        $("#prg_status").text(data[i].training_status);
+      }
+
+    }
+
+  });
+}
+
+// Code to fill the employee modal
+function fillEmployeeModalPopup(x) {
+  var index = $(x).closest('tr').index();
+  console.log("Id is ", index);
+
+
+  var settings = {
+    "url": "http://localhost:8080/employees",
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": null,
+  };
+  $.ajax(settings).done(function (response) {
+    console.log("all Employees from select row are", response.data);
+    var data = response.data;
+    for (var i = 0; i < data.length; i++) {
+      if (i === index) {
+        console.log("selected data", data[i]);
+        $("#emp_id").text(data[i].employee_id);
+        $("#emp_name").text(data[i].employee_name);
+        $("#emp_dept").text(data[i].department_id);
+        $("#emp_desig").text(data[i].designation);
+        $("#emp_join_date").text(data[i].employee_join_date);
+        $("#emp_ddo_code").text(data[i].ddo_code);
+        $("#emp_original_salary").text(data[i].original_salary);
+        $("#emp_current_salary").text(data[i].current_salary);
+        $("#emp_region").text(data[i].region);
+      }
+
+    }
+
+  });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

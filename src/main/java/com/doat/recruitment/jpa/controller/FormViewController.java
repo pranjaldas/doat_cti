@@ -28,4 +28,8 @@ public class FormViewController {
     public String viewSelected(){
 	 return "Selected";
     }
+    @RequestMapping(value = "/admin")
+    public String adminPannel(){
+        return "admin";
+    }
 }

@@ -15,8 +15,8 @@ body{
 
 #whole-card{
  background-color: rgb(249, 255, 253);
- padding: 10px;
- border-radius: 5px;
+ padding: 5px;
+ border-radius: 1px;
 }
 .card-header{
 	background: rgb(74, 212, 236) ; 

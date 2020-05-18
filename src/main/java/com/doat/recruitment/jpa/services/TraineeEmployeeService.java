@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doat.recruitment.jpa.repository.TraineeEmployeeRepository;
-import com.doat.recruitment.jpa.dto.DTOselectedEmployee;
 import com.doat.recruitment.jpa.model.TraineeEmployee;;
 
 @Service
@@ -26,10 +25,10 @@ public class TraineeEmployeeService {
 	}
 
 
-	public List<DTOselectedEmployee> fetchJoinData() {
-		List<DTOselectedEmployee> list=new ArrayList<>();
-		repo.fetchEmpTrainingDataInnerJoin().forEach(list::add);
-		return list;
-	}
+	// public List<DTOselectedEmployee> fetchJoinData() {
+	// 	List<DTOselectedEmployee> list=new ArrayList<>();
+	// 	repo.fetchEmpTrainingDataInnerJoin().forEach(list::add);
+	// 	return list;
+	// }
 
 }
