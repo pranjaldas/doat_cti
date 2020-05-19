@@ -206,6 +206,7 @@ $(document).ready(() => {
 //   psw.onchange = validatePassword;
 //   conpassword.onkeyup = validatePassword;
 
+
  register.click(function (event) {
    event.preventDefault();
     
@@ -218,129 +219,38 @@ $(document).ready(() => {
     var data6=$("#conpassword").val();
 
     if (data2 == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Please select your department...');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Please select your department...", "error");
       return false;
     }
     if (data == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Please select your unique EmployeeId..');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Please select your unique EmployeeId...", "error");
       return false;
     }
     if (data1 == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Please Enter your full name..');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");      
-            
-          }
-        }]
-      });
+      swal("ERROR !!!", "Please enter your full name...", "error");
       return false;
     }
     
     if (data3 == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Please enter your phone number...');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Please enter your phone number...", "error");
       return false;
     }
     if (data4 == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Please enter your email...');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Please enter your email address...", "error");
       return false;
     }
     if (data5 == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Please give a valid password as suggested...');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Please give a valid password as suggested...", "error");
       return false;
     }
     if (data5 != data6) {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Password do not matches');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Password do not matches...", "error");
       return false;
     }
+    $(".preloader").fadeIn(1000);
    
     let registration_object = {
-      reg_id:"hjbkvjs",
+      reg_id:"REGNO00978WER",
       name: data1,
       department_no:data2,
       employee_no: data,
@@ -363,8 +273,8 @@ $(document).ready(() => {
     $.ajax(settings).done(function (response) {
       console.log(response);
       if (response.status == "success") {
-        
-        $("#success-alert").fadeTo(4000, 500).slideUp(500, function(){
+        $(".preloader").fadeOut(); 
+        $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
           $("#success-alert").slideUp(500);
           $("#register_employee")[0].reset();
         });
@@ -372,8 +282,8 @@ $(document).ready(() => {
        
       }
       else{
-         
-        $("#failure-alert").fadeTo(4000, 500).slideUp(500, function(){
+        $(".preloader").fadeOut();          
+        $("#failure-alert").fadeTo(3000, 500).slideUp(500, function(){
           $("#failure-alert").slideUp(500);
         
         });

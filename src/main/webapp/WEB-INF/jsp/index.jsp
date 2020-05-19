@@ -31,6 +31,10 @@
 </head>
 
 <body>
+  
+
+ 
+  
   <div class="header content">
     <a href="index.html"><img src="img/assam.png" class="title-logo" alt="Home"></a>
     <div class="titles">
@@ -174,7 +178,7 @@
 
 
 
-    <div class="tab-pane" id="register">
+    <div class="tab-pane" id="register"> 
 
       <div class="container" id="con">
         <!-- Alert boxes start -->
@@ -432,12 +436,15 @@
       <a href="#"> DOAT</a>
     </p>
   </div>
+  <div class="preloader">
+    <img src="img/ajax-loader.gif">
+ </div>
 
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
     integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   <script src="../js/index.js"></script>
   <!-- for event calender -->
-
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="js/mobiscroll.jquery.min.js"></script>
 </body>
 
