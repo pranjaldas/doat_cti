@@ -20,12 +20,16 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="css/CTIcss.css">
   <!-- <link rel="stylesheet" href="css/style.css" /> -->
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.theme.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
   <link rel="stylesheet" href="css/mobiscroll.jquery.min.css">
+  <!-- for loading animation -->
+  <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
+  <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
 
 
 </head>
@@ -64,6 +68,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#about" data-toggle="tab"><i class="fa fa-info-circle"></i> About</a>
+          </li>
+          <li class="nav-item" style="float: right;">
+            <a class="nav-link" href="#myLoginModal" data-toggle="modal"><i class="fa fa-info-circle"></i> Log In</a>
           </li>
         </ul>
       </div>
@@ -174,7 +181,7 @@
 
 
 
-    <div class="tab-pane" id="register">
+    <div class="tab-pane" id="register"> 
 
       <div class="container" id="con">
         <!-- Alert boxes start -->
@@ -309,63 +316,6 @@
 
       </div>
     </div>
-    <script>
-      $(document).ready(() => {
-        mobiscroll.settings = {
-          theme: 'windows',
-          themeVariant: 'light',
-          lang: 'en'
-        };
-
-        $(function () {
-
-          var inst = $('#demo-desktop-month-view').mobiscroll().eventcalendar({
-
-            lang: 'en',                // Specify language like: lang: 'pl' or omit setting to use default
-            theme: 'windows',                        // Specify theme like: theme: 'ios' or omit setting to use default
-            themeVariant: 'light',                   // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-themeVariant
-            display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
-            calendarHeight: 614,                     // More info about calendarHeight: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-calendarHeight
-            view: {                                  // More info about view: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-view
-              calendar: {
-                labels: true                     // More info about labels: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-labels
-              }
-            },
-            onEventSelect: function (event, inst) {  // More info about onEventSelect: https://docs.mobiscroll.com/4-10-3/eventcalendar#event-onEventSelect
-              mobiscroll.toast({
-
-                message: event.event.text
-              });
-            }
-          }).mobiscroll('getInst');
-
-          // from test dummy data
-
-            
-            var settings = {
-              "url": "http://localhost:8080/getEvents",
-              "method": "GET",
-              "timeout": 0,
-              "headers": {
-                "Content-Type": "application/json"
-              },
-              "data": null,
-            };
-            $.ajax(settings).done(function (response) {
-              let eventss=response.data;
-              console.log("The events are:",eventss);
-              inst.setEvents(eventss);
-            });
-
-              
-            
-            //end dummy data
-
-
-          });
-        })
-
-    </script>
 
     <div class="tab-pane" id="selected">
       <div class="container" id="con">
@@ -426,19 +376,58 @@
 
   </div>
 
+
+  
+<!-- Modal HTML -->
+<div id="myLoginModal" class="modal fade">
+	<div class="modal-dialog modal-dialog-centered modal-login">
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title">Trainee Login</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action="/examples/actions/confirmation.php" method="post">
+					<div class="form-group">
+						<i class="fa fa-user"></i>
+						<input type="text" class="form-control" placeholder="Username" required="required">
+					</div>
+					<div class="form-group">
+						<i class="fa fa-lock"></i>
+						<input type="password" class="form-control" placeholder="Password" required="required">					
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
+					</div>
+				</form>				
+				
+			</div>
+			<div class="modal-footer">
+				<a href="#">Forgot Password?</a>
+			</div>
+		</div>
+	</div>
+</div>     
+
   <!--footer-->
   <div class="footer">
     <p>© 2020 Copyright:
       <a href="#"> DOAT</a>
     </p>
   </div>
+  <div class="preloader">
+    <img src="img/ajax-loader.gif">
+ </div>
 
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
     integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
   <script src="../js/index.js"></script>
   <!-- for event calender -->
-
   <script src="js/mobiscroll.jquery.min.js"></script>
+  <!-- for sweet alert -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- loading animation  -->
+  <script type="text/javascript" src="js/modal-loading.js"></script>
 </body>
 
 </html>

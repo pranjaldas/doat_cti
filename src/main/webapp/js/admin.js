@@ -1,7 +1,7 @@
 $(document).ready(() => {
   //Total Registrations
   fetchTotalRegistration();
-  function fetchTotalRegistration(){
+  function fetchTotalRegistration() {
     var settings = {
       "url": "http://localhost:8080/countRegistration",
       "method": "GET",
@@ -12,7 +12,7 @@ $(document).ready(() => {
       "data": null,
     };
     $.ajax(settings).done(function (response) {
-      console.log("Total Registrations :",response);
+      console.log("Total Registrations :", response);
       $("#totalRegistrations").text(response.data);
     });
   }
@@ -52,8 +52,8 @@ $(document).ready(() => {
   }
   //test
   $("#allEmployees").on('click', '.delete', function () {
-    var currentRow=$(this).closest("tr").index();
-    var id=currentRow.find("td:eq(0)").text();
+    var currentRow = $(this).closest("tr").index();
+    var id = currentRow.find("td:eq(0)").text();
     console.log(id);
   });
 
@@ -215,6 +215,7 @@ $(document).ready(() => {
           $.ajax(settings).done(function (response) {
             console.log(response);
             if (response.status == "success") {
+              fetchAllApplications();
               var newDiv = $(document.createElement('div'));
               newDiv.html('Succesfully inserted!!!');
               newDiv.dialog({
@@ -226,14 +227,14 @@ $(document).ready(() => {
                   class: "btn btn-md btn-primary",
                   click: function () {
                     $(this).dialog("close");
-                                    
-      
+
+
                   }
                 }]
               });
-             
+
             }
-            else{
+            else {
               var newDiv = $(document.createElement('div'));
               newDiv.html('Error occured, may be Employee Id or Department Id is not valid!!!');
               newDiv.dialog({
@@ -245,19 +246,19 @@ $(document).ready(() => {
                   class: "btn btn-md btn-primary",
                   click: function () {
                     $(this).dialog("close");
-                                    
-  
+
+
                   }
                 }]
               });
 
             }
-            
+
             $('#applications_table').refresh();
           });
           currentRow.remove();
 
-          
+
         }
       }]
     });
@@ -275,7 +276,7 @@ $(document).ready(() => {
   });
   //To Remove the Row
   $("#trainee_table").on('click', '.remove', function () {
-    var currentRow=$(this).closest("tr");
+    var currentRow = $(this).closest("tr");
     var newDiv = $(document.createElement('div'));
     newDiv.html('Do you want to remove this Employee???');
     newDiv.dialog({
@@ -291,7 +292,7 @@ $(document).ready(() => {
         }
       }]
     });
-    
+
 
   });
 
@@ -328,6 +329,7 @@ $(document).ready(() => {
   }
   fetchAllApplications();
   function PopulateApplications(applications) {
+    $('#applications_table tbody').empty();
     console.log("All Applications are ", applications);
     var application_data = '';
 
@@ -349,7 +351,7 @@ $(document).ready(() => {
 
   }
 
-  
+
   // To publish all trainees
   $("#publish").click(function () {
     if ($("#applications_table tbody").children().length == 0) {
@@ -434,7 +436,7 @@ $(document).ready(() => {
   //For Training Programs
   //Calling the Function at document load
   updateAllTrainings()
-  
+
 
   function updateAllTrainings() {
     $('#all_training_programs tbody').empty();
@@ -448,7 +450,7 @@ $(document).ready(() => {
       "data": null,
     };
     $.ajax(settings).done(function (response) {
-     
+
 
       var training_prg_data = '';
       $.each(response.data, function (key, value) {
@@ -472,44 +474,76 @@ $(document).ready(() => {
   }
 
   // //to Delete training program
- 
+
   $("#all_training_programs").on('click', '.trainingDelete', function () {
-    var currentRow=$(this).closest("tr").index();
-    console.log("Selected row",currentRow);
-    $.getJSON("http://localhost:8080/trainings", function(response){
-      var data=response.data;
-      console.log("All trainings",data);
-      for(var i=0;i<=data.length;i++){
-        if(i===currentRow){
-          console.log("selected id id:",data[i].training_prg_id);
-          var training_prg_id=data[i].training_prg_id;
-          var settings = {
-            "url": "http://localhost:8080/deleteTraining/"+training_prg_id,
-            "method": "DELETE",
-            "timeout": 0,
-            "headers": {
-              "Content-Type": "application/json"
-            },
-            "data": null,
-          };
-          $.ajax(settings).done(function (response) {
-            console.log(response);
-            if(response.status=="success"){
-              updateAllTrainings();
-            }
-            else{
-              console.log("not deleted")
+
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          var loading = new Loading({
+            title: ' Please Wait',
+            direction: 'hor',
+            discription: 'Sending data...',
+            defaultApply: true,
+          });
+          var currentRow = $(this).closest("tr").index();
+          console.log("Selected row", currentRow);
+          $.getJSON("http://localhost:8080/trainings", function (response) {
+            var data = response.data;
+            console.log("All trainings", data);
+            for (var i = 0; i <= data.length; i++) {
+              if (i === currentRow) {
+                console.log("selected id:", data[i].training_prg_id);
+                var training_prg_id = data[i].training_prg_id;
+                var settings = {
+                  "url": "http://localhost:8080/deleteTraining/" + training_prg_id,
+                  "method": "DELETE",
+                  "timeout": 0,
+                  "headers": {
+                    "Content-Type": "application/json"
+                  },
+                  "data": null,
+                };
+                $.ajax(settings).done(function (response) {
+                  console.log(response);
+                  if (response.status == "success") {
+                    loading.out();
+                    updateAllTrainings();
+                    swal("Poof! Your imaginary file has been deleted!", {
+                      icon: "success",
+                    });
+                  }
+                  else if (response.status == "conflict") {
+                    loading.out();
+                    alert("not deleted foreign key conflict");
+                  }
+                  else {
+                    loading.out();
+                    alert("not deleted");
+                  }
+                });
+
+
+              }
+
             }
           });
-          
+
+
+
 
         }
-        
-      }
-    });
-    
+      });
+
+
   });
- 
+
 
 
 
@@ -517,107 +551,36 @@ $(document).ready(() => {
     ev.preventDefault();
 
     if ($('#training_description').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Form not submitted,please fillup the training description field');
-      newDiv.dialog({
-        title: "ERROR !!!",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted,please fillup the training description field", "error");
       return false;
     }
     if ($('#training_name').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Form not submitted, please fillup the training name field');
-      newDiv.dialog({
-        title: "ERROR !!!",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted, please fillup the training name field", "error");
       return false;
     }
     if ($('#training_type').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Form not submitted,please select the training type');
-      newDiv.dialog({
-        title: "ERROR !!!",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted, please select the training type", "error");
       return false;
     }
     if ($('#training_duration').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Form not submitted, please fillup the training duration in months');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted, please fillup the training duration in months", "error");
       return false;
     }
     if ($('#training_start_date').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Form not submitted, please fillup the training start date');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted,  please fillup the training start date", "error");
       return false;
     }
     if ($('#training_display').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Form not submitted, please select yes or no');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted, please select yes or no", "error");
       return false;
     }
+    // to view the loading animation
+    var loading = new Loading({
+      title: ' Please Wait',
+      direction: 'hor',
+      discription: 'Sending data...',
+      defaultApply: true,
+    });
 
     let training_program = {
       training_prg_name: $("#training_name").val(),
@@ -642,22 +605,9 @@ $(document).ready(() => {
     $.ajax(settings).done(function (response) {
 
       if (response.status == "success") {
-        var newDiv = $(document.createElement('div'));
-        newDiv.html('New training program has succesfully inserted into database !!!');
-        newDiv.dialog({
-          title: "Message from Server",
-          draggable: true,
-          modal: true,
-          buttons: [{
-            text: "Ok",
-            class: "btn btn-md btn-primary",
-            click: function () {
-              $(this).dialog("close");
-            }
-          }]
-        });
+        loading.out();
+        swal("Success!", "New Training program has successfully inserted!", "success");
         $("#training_form")[0].reset();
-        $("#all_training_programs tbody").remove();
         updateAllTrainings();
       };
     });
@@ -670,16 +620,16 @@ $(document).ready(() => {
 
   //Events
   $("#sendEvent").click(() => {
-                
+
     const colours = ["#78bc6d", "#d08244", "#103e36", "#fd8311", "#088da5", "#4a6855", "#0094fb", "#419c99", "#b3e835"];
-               
+
     let event = {
-        text: $("#event_description").val(),
-        start: $("#event_start_date").val()+"T23:00:00.000Z",
-        end: $("#event_end_date").val()+"T23:00:00.000Z",
-        color: colours[Math.floor(Math.random() * colours.length)]
+      text: $("#event_description").val(),
+      start: $("#event_start_date").val() + "T23:00:00.000Z",
+      end: $("#event_end_date").val() + "T23:00:00.000Z",
+      color: colours[Math.floor(Math.random() * colours.length)]
     }
-   
+
     var settings = {
       "url": "http://localhost:8080/postEvent",
       "method": "POST",
@@ -690,9 +640,9 @@ $(document).ready(() => {
       "data": JSON.stringify(event),
     };
     $.ajax(settings).done(function (response) {
-      console.log("The event save:",response);
+      console.log("The event save:", response);
     });
-})
+  })
 
 
 
@@ -702,11 +652,10 @@ $(document).ready(() => {
 
 
 //Selected trainee Update
-function updateApplication(x){
+function updateApplication(x) {
   var index = $(x).closest('tr').index();
   console.log("Selected Trainee table index : ", index);
-  var empId=index.find("td:eq(0)").text();
-  alert(empId);
+
 }
 
 

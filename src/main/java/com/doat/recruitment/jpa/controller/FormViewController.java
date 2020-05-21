@@ -11,23 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class FormViewController {
    
-    @RequestMapping(value="/web")
-    public String viewNotification() {
-    	return "notificationn";
+    @RequestMapping(value="/user")
+    public String viewUserProfile() {
+    	return "profile";
     }
-    @RequestMapping(value="/newtraining")
-    public String viewRegistration() {
-    	return "notificationform";
-    }
+
     @RequestMapping(value="/index")
     public String viewHome() {
     	return "index";
     }
  
-    @RequestMapping(value="/selected")
-    public String viewSelected(){
-	 return "Selected";
-    }
+   
     @RequestMapping(value = "/admin")
     public String adminPannel(){
         return "admin";
