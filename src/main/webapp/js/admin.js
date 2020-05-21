@@ -486,6 +486,12 @@ $(document).ready(() => {
     })
       .then((willDelete) => {
         if (willDelete) {
+          var loading = new Loading({
+            title: ' Please Wait',
+            direction: 'hor',
+            discription: 'Sending data...',
+            defaultApply: true,
+          });
           var currentRow = $(this).closest("tr").index();
           console.log("Selected row", currentRow);
           $.getJSON("http://localhost:8080/trainings", function (response) {
@@ -507,15 +513,18 @@ $(document).ready(() => {
                 $.ajax(settings).done(function (response) {
                   console.log(response);
                   if (response.status == "success") {
+                    loading.out();
                     updateAllTrainings();
                     swal("Poof! Your imaginary file has been deleted!", {
                       icon: "success",
                     });
                   }
                   else if (response.status == "conflict") {
+                    loading.out();
                     alert("not deleted foreign key conflict");
                   }
                   else {
+                    loading.out();
                     alert("not deleted");
                   }
                 });
@@ -565,6 +574,13 @@ $(document).ready(() => {
       swal("ERROR !!!", "Form not submitted, please select yes or no", "error");
       return false;
     }
+    // to view the loading animation
+    var loading = new Loading({
+      title: ' Please Wait',
+      direction: 'hor',
+      discription: 'Sending data...',
+      defaultApply: true,
+    });
 
     let training_program = {
       training_prg_name: $("#training_name").val(),
@@ -589,6 +605,7 @@ $(document).ready(() => {
     $.ajax(settings).done(function (response) {
 
       if (response.status == "success") {
+        loading.out();
         swal("Success!", "New Training program has successfully inserted!", "success");
         $("#training_form")[0].reset();
         updateAllTrainings();

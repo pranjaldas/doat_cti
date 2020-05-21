@@ -7,21 +7,9 @@ body{
    
      background-color:#fff;
  }
- /* for Spinner placeholder */
- .preloader {
-	background-color: transparent;
-	display: none; 
-	margin: 0;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-right: -50%;
-	translate: translate(-50%, -50%); 
-
-}
 
 #con{
-    padding: 40px;
+    padding: 30px;
    
 }
 

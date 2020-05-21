@@ -26,7 +26,7 @@ $(document).ready(() => {
         trainee_data += '<table class=" table addTable" style="border: 2px solid black ">';
         trainee_data += '<thead>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button" id="apply" class="btn btn-link" data-toggle="modal" data-target="#modalApplyTraining">here</button>' + '</td>';
+        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button" id="apply"  class="btn btn-link" data-toggle="modal" data-target="#modalApplyTraining">here</button>' + '</td>';
         trainee_data += '</tr>';
         trainee_data += '</thead>';
         trainee_data += '<tbody>';
@@ -247,7 +247,13 @@ $(document).ready(() => {
       swal("ERROR !!!", "Password do not matches...", "error");
       return false;
     }
-    $(".preloader").fadeIn(1000);
+    // to view the loading animation
+    var loading = new Loading({
+      title: ' Please Wait',
+      direction: 'hor',
+      discription: 'Sending data...',
+      defaultApply: true,
+    });
    
     let registration_object = {
       reg_id:"REGNO00978WER",
@@ -273,7 +279,7 @@ $(document).ready(() => {
     $.ajax(settings).done(function (response) {
       console.log(response);
       if (response.status == "success") {
-        $(".preloader").fadeOut(); 
+        loading.out();
         $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
           $("#success-alert").slideUp(500);
           $("#register_employee")[0].reset();
@@ -282,7 +288,7 @@ $(document).ready(() => {
        
       }
       else{
-        $(".preloader").fadeOut();          
+        loading.out();    
         $("#failure-alert").fadeTo(3000, 500).slideUp(500, function(){
           $("#failure-alert").slideUp(500);
         
@@ -292,6 +298,62 @@ $(document).ready(() => {
 
 
   });
+
+
+// For event handler
+
+  mobiscroll.settings = {
+    theme: 'windows',
+    themeVariant: 'light',
+    lang: 'en'
+  };
+
+  $(function () {
+
+    var inst = $('#demo-desktop-month-view').mobiscroll().eventcalendar({
+
+      lang: 'en',                // Specify language like: lang: 'pl' or omit setting to use default
+      theme: 'windows',                        // Specify theme like: theme: 'ios' or omit setting to use default
+      themeVariant: 'light',                   // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-themeVariant
+      display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
+      calendarHeight: 614,                     // More info about calendarHeight: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-calendarHeight
+      view: {                                  // More info about view: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-view
+        calendar: {
+          labels: true                     // More info about labels: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-labels
+        }
+      },
+      onEventSelect: function (event, inst) {  // More info about onEventSelect: https://docs.mobiscroll.com/4-10-3/eventcalendar#event-onEventSelect
+        mobiscroll.toast({
+
+          message: event.event.text
+        });
+      }
+    }).mobiscroll('getInst');
+
+    // from test dummy data
+
+      
+      var settings = {
+        "url": "http://localhost:8080/getEvents",
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": null,
+      };
+      $.ajax(settings).done(function (response) {
+        let eventss=response.data;
+        console.log("The events are:",eventss);
+        inst.setEvents(eventss);
+      });
+
+        
+      
+      //end dummy data
+
+
+    });
 
     
 
@@ -373,3 +435,7 @@ $(document).ready(() => {
 
 
 })
+
+function testMethod(id){
+  console.log(id);
+}

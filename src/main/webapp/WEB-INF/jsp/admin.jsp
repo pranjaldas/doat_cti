@@ -33,6 +33,10 @@
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.theme.css">
+
+  <!-- for loading animation -->
+  <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
+  <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
   <style>
     @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -941,7 +945,10 @@
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- <script src="plugins/jquery-validation/jquery.validate.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  <!-- to add sweet alerts -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <!-- loading animation  -->
+   <script type="text/javascript" src="js/modal-loading.js"></script>
   <script src="js/admin.js"></script>
 </body>
 
