@@ -24,12 +24,14 @@ import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
 import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.model.TrainingProgram;
+import com.doat.recruitment.jpa.model.User;
 import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.ApplicationService;
 import com.doat.recruitment.jpa.services.DepartmentService;
 import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.EventsService;
 import com.doat.recruitment.jpa.services.IdGenerator;
+import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
@@ -49,8 +51,17 @@ public class RestControllers {
 	EmployeeService eEmployeeService;
 	@Autowired
 	MailService MailService;
-
+	@Autowired 
+	LoginService loginService;
 	
+	@PostMapping(value = "/check")
+	public String checkLogin(@RequestBody User user){
+		boolean response=loginService.authUser(user);
+		if(response==true){
+			return "found";
+		}
+		return "not found";
+	}
 
 	// Registration Controllers
 	@PostMapping(value = "/postRegistration")
@@ -58,7 +69,13 @@ public class RestControllers {
 		
 
 		try {
-			MailService.sendMail(registration);
+			// MailService.sendMail(registration);
+			User user=new User();
+			user.setUsername(registration.getEmail());
+			user.setRole("TRAINEE");
+			user.setActive(true);
+			user.setPassword(registration.getPassword());
+			loginService.saveLogin(user);
 			registrationService.saveRegistration(registration);
 			final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
 			return new ResponseEntity<Object>(response, HttpStatus.OK);	

@@ -300,6 +300,35 @@ $(document).ready(() => {
   });
 
 
+// Login  code 
+$("#login").click(()=>{
+  var login={
+    username:$("#username").val(),
+    password:$("#password").val()
+  }
+  console.log(login);
+  // var settings = {
+  //   "url": "http://localhost:8080/user",
+  //   "method": "POST",
+  //   "timeout": 0,
+  //   "headers": {
+  //     "Content-Type": "application/json"
+  //   },
+  //   "data": JSON.stringify(login),
+  // };
+  // $.ajax(settings).done(function () {
+  // })
+})
+
+
+
+
+
+
+
+
+
+
 // For event handler
 
   mobiscroll.settings = {

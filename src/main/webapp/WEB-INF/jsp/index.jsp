@@ -387,17 +387,17 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form action="/examples/actions/confirmation.php" method="post">
+				<form action="/user" method="post" object="login" >
 					<div class="form-group">
 						<i class="fa fa-user"></i>
-						<input type="text" class="form-control" placeholder="Username" required="required">
+						<input type="text" id="username" name="username" class="form-control" placeholder="Username" required="required">
 					</div>
 					<div class="form-group">
 						<i class="fa fa-lock"></i>
-						<input type="password" class="form-control" placeholder="Password" required="required">					
+						<input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">					
 					</div>
 					<div class="form-group">
-						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
+						<input type="submit" id="login" class="btn btn-primary btn-block btn-lg" value="Login">
 					</div>
 				</form>				
 				
