@@ -2,6 +2,8 @@ $(document).ready(() => {
   //to hide the alert box
   $("#success-alert").hide();
   $("#failure-alert").hide();
+  $("#login-failure-alert").hide();
+  $("#used-email-failure-alert").hide();
  //to set interval of slideshow
   $('.carousel').carousel({
     interval: 1000
@@ -287,9 +289,16 @@ $(document).ready(() => {
         
        
       }
-      else{
+      else if(response.status=="emailNotSendfailure"){
         loading.out();    
         $("#failure-alert").fadeTo(3000, 500).slideUp(500, function(){
+          $("#failure-alert").slideUp(500);
+        
+        });
+      }
+      else{
+        loading.out();    
+        $("#used-email-failure-alert").fadeTo(3000, 500).slideUp(500, function(){
           $("#failure-alert").slideUp(500);
         
         });
@@ -306,19 +315,43 @@ $("#login").click(()=>{
     username:$("#username").val(),
     password:$("#password").val()
   }
-  console.log(login);
-  // var settings = {
-  //   "url": "http://localhost:8080/user",
-  //   "method": "POST",
-  //   "timeout": 0,
-  //   "headers": {
-  //     "Content-Type": "application/json"
-  //   },
-  //   "data": JSON.stringify(login),
-  // };
-  // $.ajax(settings).done(function () {
-  // })
+
+  var settings = {
+    "url": "http://localhost:8080/login",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(login),
+  };
+  $.ajax(settings).done(function (response) {
+    
+    if(response.status=="success"){
+      console.log(response);
+      fillUserProfile(response.data);
+      $("#profile").show();
+      $("#home").hide();
+      $('#myLoginModal').modal('hide') 
+    }
+    else{
+      $("#login-failure-alert").fadeTo(1000, 500).slideUp(500, function(){
+        $("#login-failure-alert").slideUp(500);
+      });
+    }
+
+  });
+
 })
+function fillUserProfile(data){
+  $("#view_regid").text(data.reg_id);
+  $("#view_username").text(data.email);
+  $("#view_useremail").text(data.email);
+  $("#view_userphone").text(data.phone);
+
+
+
+}
 
 
 
@@ -384,6 +417,24 @@ $("#login").click(()=>{
 
     });
 
+
+    //Code for User profile
+    $("#logout").click(() => {
+      swal({
+          title: "Log Out",
+          text: "Are you sure ?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+          .then((willLogOut) => {
+              if (willLogOut) {
+                  console.log("logged out");
+                  $("#profile").hide();
+                  $("#home").show();
+              }
+          })
+  })
     
 
 

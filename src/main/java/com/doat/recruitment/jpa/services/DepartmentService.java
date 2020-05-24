@@ -12,12 +12,9 @@ import org.springframework.stereotype.Service;
 public class DepartmentService {
     @Autowired
     DepartmentRepository repo;
-
 	public Object findAllDepartment() {
         List<Department> list=new ArrayList<>();
         repo.findAll().forEach(list::add);
         return list;
-	}
-
-    
+	}   
 }

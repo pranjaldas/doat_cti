@@ -54,45 +54,60 @@ public class RestControllers {
 	@Autowired 
 	LoginService loginService;
 	
-	@PostMapping(value = "/check")
-	public String checkLogin(@RequestBody User user){
-		boolean response=loginService.authUser(user);
-		if(response==true){
-			return "found";
+	@PostMapping(value = "/login")
+	public ResponseEntity<Object> checkLogin(@RequestBody final User user){
+		System.out.println(user);
+		final boolean auth=loginService.authUser(user);
+		if(auth==true){
+			final Registration reg=registrationService.findRegistration(user.getUsername());
+			final ServiceResponse<Registration> response=new ServiceResponse<>("success",reg);
+			return new ResponseEntity<>(response,HttpStatus.OK);
 		}
-		return "not found";
+		ServiceResponse<String> response=new ServiceResponse<>("failure","not found");
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
+
 
 	// Registration Controllers
 	@PostMapping(value = "/postRegistration")
 	public ResponseEntity<Object> postRegistration(@RequestBody final Registration registration) {
 		
+		Registration reg=registrationService.findRegistration(registration.getEmail());
+		if(reg==null){
+			try {
+				MailService.sendMail(registration);
+				final User user=new User();
+				user.setUsername(registration.getEmail());
+				user.setRole("TRAINEE");
+				user.setActive(true);
+				user.setPassword(registration.getPassword());
+				loginService.saveLogin(user);
+				registrationService.saveRegistration(registration);
+				final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
+				return new ResponseEntity<Object>(response, HttpStatus.OK);	
+			} 
+			catch (final Exception e) {
+				System.out.println("The error is "+e);
+			}
+	
+			final ServiceResponse<Registration> response = new ServiceResponse<>("emailNotSendfailure", registration);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
 
-		try {
-			// MailService.sendMail(registration);
-			User user=new User();
-			user.setUsername(registration.getEmail());
-			user.setRole("TRAINEE");
-			user.setActive(true);
-			user.setPassword(registration.getPassword());
-			loginService.saveLogin(user);
-			registrationService.saveRegistration(registration);
-			final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
-			return new ResponseEntity<Object>(response, HttpStatus.OK);	
-		} 
-		catch (final Exception e) {
-			System.out.println("The error is "+e);
 		}
+		else{
+			final ServiceResponse<Registration> response = new ServiceResponse<>("usedEmailfailure", registration);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
 
-		final ServiceResponse<Registration> response = new ServiceResponse<>("failure", registration);
-		return new ResponseEntity<Object>(response, HttpStatus.OK);	
+
+		}
+			
 		
 	}
 	@GetMapping("/countRegistration")
 	public ResponseEntity<Object> countRegistration(){
-		Long total=registrationService.countTotal();
+		final Long total=registrationService.countTotal();
 		System.out.println(total);
-		ServiceResponse<Long> response=new ServiceResponse<>("success",total);
+		final ServiceResponse<Long> response=new ServiceResponse<>("success",total);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
@@ -121,16 +136,16 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@DeleteMapping(value="/deleteTraining/{training_prg_id}")
-	public ResponseEntity<Object> deleteCompany(@PathVariable String training_prg_id) {
+	public ResponseEntity<Object> deleteCompany(@PathVariable final String training_prg_id) {
 		try {
 			trainingProgramService.deleteTraining(training_prg_id);
-			ServiceResponse<String> response=new ServiceResponse<>("success",training_prg_id);
+			final ServiceResponse<String> response=new ServiceResponse<>("success",training_prg_id);
 			return new ResponseEntity<Object>(response,HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-		ServiceResponse<String> response=new ServiceResponse<>("conflict",training_prg_id);
-		return new ResponseEntity<Object>(response,HttpStatus.CONFLICT);
+		final ServiceResponse<String> response=new ServiceResponse<>("conflict",training_prg_id);
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 
 
@@ -241,18 +256,14 @@ public class RestControllers {
 	EventsService eventService;
 	@GetMapping(value="/getEvents")
 	public ResponseEntity<Object> getAllEvents(){
-		ServiceResponse<List<Events>> response=new ServiceResponse<List<Events>>("success", eventService.findAllEvents());
+		final ServiceResponse<List<Events>> response=new ServiceResponse<List<Events>>("success", eventService.findAllEvents());
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/postEvent")
-	public ResponseEntity<Object> postMapping(@RequestBody Events event){
+	public ResponseEntity<Object> postMapping(@RequestBody final Events event){
 		eventService.saveEvent(event);
-		ServiceResponse<Events> response=new ServiceResponse<>("success",event);
-
+		final ServiceResponse<Events> response=new ServiceResponse<>("success",event);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
-
-	}
-	
-	
+	}	
 }
