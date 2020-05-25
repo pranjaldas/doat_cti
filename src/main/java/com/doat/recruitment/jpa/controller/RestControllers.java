@@ -6,8 +6,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doat.recruitment.jpa.dto.ProfileDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
@@ -53,17 +56,37 @@ public class RestControllers {
 	MailService MailService;
 	@Autowired 
 	LoginService loginService;
-	
+	@PostMapping(value = "/test")
+	public String checkDept(@RequestBody Registration registration){
+		Optional <Department> optional=deptService.findDepartment(registration.getDepartment_no());
+		Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
+		
+		if(optional.isPresent() && optional1.isPresent()){
+			Department department=optional.get();
+			Employee employee=optional1.get();
+			ProfileDTO profile=new ProfileDTO(registration,employee,department);
+			return profile.toString();
+		}
+		else{
+			return null;
+		}
+		
+	}
 	@PostMapping(value = "/login")
 	public ResponseEntity<Object> checkLogin(@RequestBody final User user){
 		System.out.println(user);
 		final boolean auth=loginService.authUser(user);
 		if(auth==true){
-			final Registration reg=registrationService.findRegistration(user.getUsername());
-			final ServiceResponse<Registration> response=new ServiceResponse<>("success",reg);
+			final Registration registration=registrationService.findRegistration(user.getUsername());
+			Optional <Department> optional=deptService.findDepartment(registration.getDepartment_no());
+			Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
+			Department department=optional.get();
+			Employee employee=optional1.get();
+			ProfileDTO profile=new ProfileDTO(registration,employee,department);
+			final ServiceResponse<ProfileDTO> response=new ServiceResponse<>("success",profile);
 			return new ResponseEntity<>(response,HttpStatus.OK);
 		}
-		ServiceResponse<String> response=new ServiceResponse<>("failure","not found");
+		final ServiceResponse<String> response=new ServiceResponse<>("failure","not found");
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
@@ -72,7 +95,7 @@ public class RestControllers {
 	@PostMapping(value = "/postRegistration")
 	public ResponseEntity<Object> postRegistration(@RequestBody final Registration registration) {
 		
-		Registration reg=registrationService.findRegistration(registration.getEmail());
+		final Registration reg=registrationService.findRegistration(registration.getEmail());
 		if(reg==null){
 			try {
 				MailService.sendMail(registration);

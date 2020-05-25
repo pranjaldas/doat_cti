@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doat.recruitment.jpa.model.Registration;
-import com.doat.recruitment.jpa.model.User;
 import com.doat.recruitment.jpa.repository.RegistrationRepository;
 
 @Service

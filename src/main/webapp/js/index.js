@@ -4,7 +4,7 @@ $(document).ready(() => {
   $("#failure-alert").hide();
   $("#login-failure-alert").hide();
   $("#used-email-failure-alert").hide();
- //to set interval of slideshow
+  //to set interval of slideshow
   $('.carousel').carousel({
     interval: 1000
   })
@@ -63,7 +63,7 @@ $(document).ready(() => {
   //Registration of Trainee 
 
   fetchDepartment();
-  function fetchDepartment(){
+  function fetchDepartment() {
     var settings = {
       "url": "http://localhost:8080/getDept",
       "method": "GET",
@@ -74,14 +74,14 @@ $(document).ready(() => {
       "data": null,
     };
     $.ajax(settings).done(function (response) {
-        console.log(response);
-        populateDepartment(response.data);
+      console.log(response);
+      populateDepartment(response.data);
     });
-    
+
   }
-  function populateDepartment(data){
-    console.log("From populate ",data);
-    var deptDropDown=document.getElementById("department_name");
+  function populateDepartment(data) {
+    console.log("From populate ", data);
+    var deptDropDown = document.getElementById("department_name");
     //Add the Options to the DropDownList.
     for (var i = 0; i < data.length; i++) {
       var option = document.createElement("OPTION");
@@ -133,27 +133,27 @@ $(document).ready(() => {
 
 
 
-// // Validation of registration
+  // // Validation of registration
 
   var myInput = document.getElementById("psw");
-//   var letter = document.getElementById("letter");
-//   var capital = document.getElementById("capital");
-//   var number = document.getElementById("number");
-//   var length = document.getElementById("length");
-  var register=$("#registerButton");
-  
+  //   var letter = document.getElementById("letter");
+  //   var capital = document.getElementById("capital");
+  //   var number = document.getElementById("number");
+  //   var length = document.getElementById("length");
+  var register = $("#registerButton");
 
-//   // When the user clicks on the password field, show the message box
+
+  //   // When the user clicks on the password field, show the message box
   myInput.onfocus = function () {
     document.getElementById("message").style.display = "block";
   }
 
-//   // When the user clicks outside of the password field, hide the message box
+  //   // When the user clicks outside of the password field, hide the message box
   myInput.onblur = function () {
     document.getElementById("message").style.display = "none";
   }
 
-//   // When the user starts to type something inside the password field
+  //   // When the user starts to type something inside the password field
   myInput.onkeyup = function () {
     // Validate lowercase letters
     var lowerCaseLetters = /[a-z]/g;
@@ -165,7 +165,7 @@ $(document).ready(() => {
       letter.classList.add("invalid");
     }
 
-//     // Validate capital letters
+    //     // Validate capital letters
     var upperCaseLetters = /[A-Z]/g;
     if (myInput.value.match(upperCaseLetters)) {
       capital.classList.remove("invalid");
@@ -174,7 +174,7 @@ $(document).ready(() => {
       capital.classList.remove("valid");
       capital.classList.add("invalid");
     }
- // Validate numbers
+    // Validate numbers
     var numbers = /[0-9]/g;
     if (myInput.value.match(numbers)) {
       number.classList.remove("invalid");
@@ -194,31 +194,31 @@ $(document).ready(() => {
     }
   }
 
-//   var psw = document.getElementById("psw")
-//     , conpassword = document.getElementById("conpassword");
+  //   var psw = document.getElementById("psw")
+  //     , conpassword = document.getElementById("conpassword");
 
-//   function validatePassword() {
-//     if (psw.value != conpassword.value) {
-//       conpassword.setCustomValidity("Passwords Don't Match");
-//     } else {
-//       conpassword.setCustomValidity('');
-//     }
-//   }
+  //   function validatePassword() {
+  //     if (psw.value != conpassword.value) {
+  //       conpassword.setCustomValidity("Passwords Don't Match");
+  //     } else {
+  //       conpassword.setCustomValidity('');
+  //     }
+  //   }
 
-//   psw.onchange = validatePassword;
-//   conpassword.onkeyup = validatePassword;
+  //   psw.onchange = validatePassword;
+  //   conpassword.onkeyup = validatePassword;
 
 
- register.click(function (event) {
-   event.preventDefault();
-    
-    var data=$("#emp_id").val();
-    var data1=$("#fname").val();
-    var data2=$("#department_name").val();
-    var data3=$("#phone").val();
-    var data4=$("#email").val();
-    var data5=$("#psw").val();
-    var data6=$("#conpassword").val();
+  register.click(function (event) {
+    event.preventDefault();
+
+    var data = $("#emp_id").val();
+    var data1 = $("#fname").val();
+    var data2 = $("#department_name").val();
+    var data3 = $("#phone").val();
+    var data4 = $("#email").val();
+    var data5 = $("#psw").val();
+    var data6 = $("#conpassword").val();
 
     if (data2 == '') {
       swal("ERROR !!!", "Please select your department...", "error");
@@ -232,7 +232,7 @@ $(document).ready(() => {
       swal("ERROR !!!", "Please enter your full name...", "error");
       return false;
     }
-    
+
     if (data3 == '') {
       swal("ERROR !!!", "Please enter your phone number...", "error");
       return false;
@@ -256,16 +256,16 @@ $(document).ready(() => {
       discription: 'Sending data...',
       defaultApply: true,
     });
-   
+
     let registration_object = {
-      reg_id:"REGNO00978WER",
+      reg_id: "REGNO00978WER",
       name: data1,
-      department_no:data2,
+      department_no: data2,
       employee_no: data,
-      phone:data3,
-      email:data4,
+      phone: data3,
+      email: data4,
       password: data5
-     
+
 
     }
     console.log(registration_object);
@@ -282,25 +282,25 @@ $(document).ready(() => {
       console.log(response);
       if (response.status == "success") {
         loading.out();
-        $("#success-alert").fadeTo(3000, 500).slideUp(500, function(){
+        $("#success-alert").fadeTo(3000, 500).slideUp(500, function () {
           $("#success-alert").slideUp(500);
           $("#register_employee")[0].reset();
         });
-        
-       
+
+
       }
-      else if(response.status=="emailNotSendfailure"){
-        loading.out();    
-        $("#failure-alert").fadeTo(3000, 500).slideUp(500, function(){
+      else if (response.status == "emailNotSendfailure") {
+        loading.out();
+        $("#failure-alert").fadeTo(3000, 500).slideUp(500, function () {
           $("#failure-alert").slideUp(500);
-        
+
         });
       }
-      else{
-        loading.out();    
-        $("#used-email-failure-alert").fadeTo(3000, 500).slideUp(500, function(){
+      else {
+        loading.out();
+        $("#used-email-failure-alert").fadeTo(3000, 500).slideUp(500, function () {
           $("#failure-alert").slideUp(500);
-        
+
         });
       }
     });
@@ -309,49 +309,59 @@ $(document).ready(() => {
   });
 
 
-// Login  code 
-$("#login").click(()=>{
-  var login={
-    username:$("#username").val(),
-    password:$("#password").val()
+  // Login  code 
+  $("#login").click(() => {
+    var login = {
+      username: $("#username").val(),
+      password: $("#password").val()
+    }
+
+    var settings = {
+      "url": "http://localhost:8080/login",
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(login),
+    };
+    $.ajax(settings).done(function (response) {
+
+      if (response.status == "success") {
+        console.log(response);
+        fillUserProfile(response.data);
+        $("#profile").show();
+        $("#home").hide();
+        $('#myLoginModal').modal('hide')
+      }
+      else {
+        $("#login-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
+          $("#login-failure-alert").slideUp(500);
+        });
+      }
+
+    });
+
+  })
+  function fillUserProfile(data) {
+    $("#view_regid").text(data.reg_id);
+    $("#view_username").text(data.email);
+    $("#view_useremail").text(data.email);
+    $("#view_userphone").text(data.phone);
+    $("#view_depid").text(data.department_no);
+    $("#view_dep_name").text(data.department_name);
+    $("#view_dept_loc").text(data.department_loc);
+    $("#view_empid").text(data.employee_id);
+    $("#view_name").text(data.name);
+    $("#view_join_date").text(data.employee_join_date);
+    $("#view_desig").text(data.designation);
+    $("#view_region").text(data.region);
+    $("#view_ddo_code").text(data.ddo_code);
+
+
+
   }
 
-  var settings = {
-    "url": "http://localhost:8080/login",
-    "method": "POST",
-    "timeout": 0,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "data": JSON.stringify(login),
-  };
-  $.ajax(settings).done(function (response) {
-    
-    if(response.status=="success"){
-      console.log(response);
-      fillUserProfile(response.data);
-      $("#profile").show();
-      $("#home").hide();
-      $('#myLoginModal').modal('hide') 
-    }
-    else{
-      $("#login-failure-alert").fadeTo(1000, 500).slideUp(500, function(){
-        $("#login-failure-alert").slideUp(500);
-      });
-    }
-
-  });
-
-})
-function fillUserProfile(data){
-  $("#view_regid").text(data.reg_id);
-  $("#view_username").text(data.email);
-  $("#view_useremail").text(data.email);
-  $("#view_userphone").text(data.phone);
-
-
-
-}
 
 
 
@@ -361,8 +371,7 @@ function fillUserProfile(data){
 
 
 
-
-// For event handler
+  // For event handler
 
   mobiscroll.settings = {
     theme: 'windows',
@@ -394,54 +403,54 @@ function fillUserProfile(data){
 
     // from test dummy data
 
-      
-      var settings = {
-        "url": "http://localhost:8080/getEvents",
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "data": null,
-      };
-      $.ajax(settings).done(function (response) {
-        let eventss=response.data;
-        console.log("The events are:",eventss);
-        inst.setEvents(eventss);
-      });
 
-        
-      
-      //end dummy data
-
-
+    var settings = {
+      "url": "http://localhost:8080/getEvents",
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": null,
+    };
+    $.ajax(settings).done(function (response) {
+      let eventss = response.data;
+      console.log("The events are:", eventss);
+      inst.setEvents(eventss);
     });
 
 
-    //Code for User profile
-    $("#logout").click(() => {
-      swal({
-          title: "Log Out",
-          text: "Are you sure ?",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
+
+    //end dummy data
+
+
+  });
+
+
+  //Code for User profile
+  $("#logout").click(() => {
+    swal({
+      title: "Log Out",
+      text: "Are you sure ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willLogOut) => {
+        if (willLogOut) {
+          console.log("logged out");
+          $("#profile").hide();
+          $("#home").show();
+        }
       })
-          .then((willLogOut) => {
-              if (willLogOut) {
-                  console.log("logged out");
-                  $("#profile").hide();
-                  $("#home").show();
-              }
-          })
   })
-    
 
 
 
 
 
- 
+
+
 
 
 
@@ -485,7 +494,7 @@ function fillUserProfile(data){
   }
 
   //Test apply
-  
+
   // function test() {
   //   jQuery.ajax({
   //     url: 'http://localhost:8080/employees',
@@ -515,7 +524,8 @@ function fillUserProfile(data){
 
 
 })
+//End of ready()
 
-function testMethod(id){
+function testMethod(id) {
   console.log(id);
 }

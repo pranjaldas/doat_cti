@@ -2,6 +2,7 @@ package com.doat.recruitment.jpa.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.repository.EmployeeRepository;
@@ -20,5 +21,8 @@ public List<Employee> findAllEmployees() {
 public boolean checkIfExist(String employee_id) {
     boolean res=rEmployeeRepository.findById(employee_id).isPresent();
 	return res;
+}
+public Optional<Employee> findEmployee(String employee_no) {
+	return rEmployeeRepository.findById(employee_no);
 }
 }
