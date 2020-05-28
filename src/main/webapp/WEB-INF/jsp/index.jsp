@@ -30,6 +30,16 @@
   <!-- for loading animation -->
   <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
   <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
+  <!-- for full calender -->
+  <link href='../packages/core/main.css' rel='stylesheet' />
+  <link href='../packages/daygrid/main.css' rel='stylesheet' />
+  <link href='../packages/timegrid/main.css' rel='stylesheet' />
+  <link href='../packages/list/main.css' rel='stylesheet' />
+  <script src='../packages/core/main.js'></script>
+  <script src='../packages/interaction/main.js'></script>
+  <script src='../packages/daygrid/main.js'></script>
+  <script src='../packages/timegrid/main.js'></script>
+  <script src='../packages/list/main.js'></script>
   <style>
     #profile {
         display: none;
@@ -335,20 +345,59 @@
 
 
           <div class="tab-pane" id="calender">
-              <div class="container" id="con">
-                  <div mbsc-page class="demo-desktop-month-view">
-                      <div style="height:100%">
-                          <div id="demo-desktop-month-view"></div>
-                      </div>
+            <div id="con" style="padding-left: 50px;padding-right: 50px;">  
+              <div class="row">
+                  <div class="col-lg-8">
+                    <div id="view_calendar" style="overflow-y: scroll;
+                    height: 400px;
+                    padding: 1rem"></div>
                   </div>
+                  <div class="col-lg-4">
+                      
+                    <table id="calendar_download" >
+                        <thead>
+                            <tr>
+                                <th>Training Name</th>
+                                <th>Month</th>
+                                <th>Download</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Service Training</td>
+                                <td>January 2020</td>
+                                <td align="center"><button   onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></button></i></td>
+                              </tr>
+                              <tr>
+                                <td>Basic Training</td>
+                                <td>December 2019</td>
+                                <td align="center"><button  onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></i></td>
+                              </tr>
+                              <tr>
+                                <td>Induction Training</td>
+                                <td>January 2020</td>
+                                <td align="center"><button  onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></i></td>
+                              </tr>
+                      
+                              <tr>
+                                <td>Demo Training</td>
+                                <td>August 2019</td>
+                                <td align="center"><button  onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></i></td>
+                              </tr>
+                            
+                        </tbody>
+                   
+                      </table>
 
+                  </div>
+              </div>
+                                 
+               
               </div>
           </div>
-
           <div class="tab-pane" id="selected">
               <div class="container" id="con">
                   <div class="card" id="whole-card">
-
 
                       <div class="card-header"
                           style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
@@ -365,8 +414,8 @@
                                           <th><b>Sr.No.</b></th>
                                           <th><b>Name</b></th>
                                           <th><b>Degignation</b></th>
-                                          <th><b>EmpID</b></th>
                                           <th><b>DDO_No</b></th>
+                                          <th><b>EmpID</b></th>
                                           <th><b>Traning Program</b></th>
                                       </tr>
                                   </thead>
@@ -478,122 +527,108 @@
       <div class="tab-content">
           <div class="tab-pane fade show active" id="profileView">
 
-              <div id="con" class="container">
-                  <div class="card" id="whole-card">
+            <div id="con" class="container">
+                <table class="profile_trainee_table" id="trainee_registration">
+                    <thead>
+                        <tr>
+                            <th colspan="2"><i class="fa fa-info-circle" aria-hidden="true"></i>
+                                <b>REGISTRATION DETAILS</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa fa-registered" aria-hidden="true"></i>
+                                Registration ID:</td>
+                            <td id="view_regid">AERSGDTH45212</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-lock" aria-hidden="true"></i>
+                                User Name:</td>
+                            <td id="view_username">EMP001234</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-phone" aria-hidden="true"></i>
+                                Phone No:</td>
+                            <td id="view_userphone">9678186292</td>
+                        </tr>
+                        <tr>
+                            <td> <i class="fa fa-envelope" aria-hidden="true"></i>
+                                Email:</td>
+                            <td id="view_userphone">pranjaldas@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="profile_trainee_table" id="trainee_department">
+                    <thead>
+                        <tr>
+                            <th colspan="2"><i class="fa fa-info-circle" aria-hidden="true"></i>
+                                <b>DEPARTMENT DETAILS</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa fa-key" aria-hidden="true"></i>
+                                Department ID:</td>
+                            <td id="view_depid">DEP005212</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-info" aria-hidden="true"></i>
+                                Department Name:</td>
+                            <td id="view_dep_name">Information Technology</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                Location:</td>
+                            <td id="view_dept_loc">Kar Bhawan,Guwahati</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="profile_trainee_table" id="trainee_employment">
+                    <thead>
+                        <tr>
+                            <th colspan="2"><b><i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    EMPLOYMENT DETAILS</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fa fa-id-badge" aria-hidden="true"></i>
+                                Employee ID:</td>
+                            <td id="view_empid">EMP005212</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                Name:</td>
 
 
-                      <div class="card-header"
-                          style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                          <h4 align="center"><strong>Trainee Profile</strong></h4>
-                      </div>
-                      <div class="card-body">
-                          <table class="table table-light table-striped" id="trainee_registration">
-                              <thead>
+                            <td id="view_name">Pranjal Das</td>
+                        </tr>
+                        <tr>
+                            <td> <i class="fa fa-calendar" aria-hidden="true"></i>
+                                Join Date:</td>
+                            <td id="view_join_date">18/12/2012</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                Designation:</td>
+                            <td id="view_desig">Software Engineer</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-info" aria-hidden="true"></i>
+                                Region:</td>
+                            <td id="view_region">Guwahati</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-info" aria-hidden="true"></i>
+                                DDO Code:</td>
+                            <td id="view_ddo_code">DDO00345</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                                  <th><i class="fa fa-info-circle" aria-hidden="true"></i>
+         </div>
 
-                                      <b>REGISTRATION DETAILS</b></th>
-
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td><i class="fa fa-registered" aria-hidden="true"></i>
-                                          Registration ID:</td>
-                                      <td id="view_regid"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-lock" aria-hidden="true"></i>
-                                          User Name:</td>
-                                      <td id="view_username"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-phone" aria-hidden="true"></i>
-                                          Phone No:</td>
-                                      <td id="view_userphone"></td>
-                                  </tr>
-                                  <tr>
-                                      <td> <i class="fa fa-envelope" aria-hidden="true"></i>
-                                          Email:</td>
-                                      <td id="view_useremail"></td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                          <table class="table table-light table-striped" id="trainee_department">
-                              <thead>
-                                  <tr>
-                                      <th><i class="fa fa-info-circle" aria-hidden="true"></i>
-                                          <b>DEPARTMENT DETAILS</b></th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td><i class="fa fa-key" aria-hidden="true"></i>
-                                          Department ID:</td>
-                                      <td id="view_depid"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-info" aria-hidden="true"></i>
-                                          Department Name:</td>
-                                      <td id="view_dep_name"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-map-marker" aria-hidden="true"></i>
-                                          Location:</td>
-                                      <td id="view_dept_loc"></td>
-                                  </tr>
-
-                              </tbody>
-                          </table>
-                          <table class="table table-light table-striped" id="trainee_employment">
-                              <thead>
-                                  <tr>
-                                      <th align="center"><b><i class="fa fa-info-circle" aria-hidden="true"></i>
-                                              EMPLOYMENT DETAILS</b></th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td><i class="fa fa-id-badge" aria-hidden="true"></i>
-                                          Employee ID:</td>
-                                      <td id="view_empid"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                          Name:</td>
-
-
-                                      <td id="view_name"></td>
-                                  </tr>
-                                  <tr>
-                                      <td> <i class="fa fa-calendar" aria-hidden="true"></i>
-                                          Join Date:</td>
-                                      <td id="view_join_date"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                                          Designation:</td>
-                                      <td id="view_desig"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-info" aria-hidden="true"></i>
-                                          Region:</td>
-                                      <td id="view_region"></td>
-                                  </tr>
-                                  <tr>
-                                      <td><i class="fa fa-info" aria-hidden="true"></i>
-                                          DDO Code:</td>
-                                      <td id="view_ddo_code"></td>
-                                  </tr>
-                              </tbody>
-                          </table>
-
-                      </div>
-
-                  </div>
-
-
-              </div>
-              <button class="btn btn-lg" id="idBtn">Check Id</button>
 
 
           </div>
@@ -602,27 +637,189 @@
 
           <div class="tab-pane" id="activity">
               <div class="container" id="con">
-                  <div class="card" id="whole-card">
+                <div class="card" id="whole-card">
 
 
-                      <div class="card-header"
-                          style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                          <h4 align="center"><strong>Activities</strong></h4>
-                      </div>
-                      <div class="card-body">
+                    <div class="card-header"
+                        style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
+                        <h4 align="center"><strong>Training Applications</strong></h4>
+                    </div>
+                    <div class="card-body">
 
-                          <table class="table table-light table-striped" id="trainee_table">
-
-                              <thead>
-
-
-                              </thead>
-                              <tbody>
-                              </tbody>
+                        <table id="applications_table" class="table table-light table-striped">
+                            <thead>
+                              <tr>
+                                <th><b>TrainingID</b></th>
+                                <th><b>Type</b></th>
+                                <th><b>Duration</b></t>
+                                <th><b>Start Date</b></th>
+                                <th><b>Status</b></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TRAIN12345JK</td>
+                                    <td>Service Training</td>
+                                    <td>60 days</td>
+                                    <td>2020-07-06</td>
+                                    <td>Pending</td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIm321455JK</td>
+                                    <td>Induction Training</td>
+                                    <td>30 days</td>
+                                    <td>2020-05-05</td>
+                                    <td>Accepted</td>
+                                </tr>
+                               
+                            </tbody>
                           </table>
-                      </div>
+                    </div>
 
-                  </div>
+                </div>
+                <div class="card" id="whole-card">
+
+
+                    <div class="card-header"
+                        style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
+                        <h4 align="center"><strong>Trainings Ongoing</strong></h4>
+                    </div>
+                    <div class="card-body" style="overflow-y: scroll;
+                    height: 300px;
+                    padding: 1rem">
+
+                        <table class="table table-light table-striped" id="trainings_ongoing">
+
+                            <thead>
+                                <tr>
+                                    <th><b>TrainingID</b></th>
+                                    <th><b>Trainer Name</b></th>
+                                    <th><b>Date</b></th>
+                                    <th><b>Start Time</b></th>
+                                    <th><b>Attendance</b></th>
+                                    <th><b>Preview</b></th>
+                                    
+                                </tr>
+                            </thead>                                    
+                            <tbody>
+                                <tr>
+                                <td>TRAIL52864JK</td>
+                                <td>Dr. Mrinal Bhatta</td>
+                                <td>2020-05-20</td>
+                                <td>10.00 AM</td>
+                                <td>Present</td>
+                                <td>Excelent Guy :)</td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-21</td>
+                                    <td>10.00 AM</td>
+                                    <td>Present</td>
+                                    <td>Good :)</td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-22</td>
+                                    <td>10.00 AM</td>
+                                    <td>Present</td>
+                                    <td>Good :)</td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-22</td>
+                                    <td>10.00 AM</td>
+                                    <td>Absent</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-24</td>
+                                    <td>10.00 AM</td>
+                                    <td>Present</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-25</td>
+                                    <td>10.00 AM</td>
+                                    <td>Present</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-26</td>
+                                    <td>10.00 AM</td>
+                                    <td>Present</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIL52864JK</td>
+                                    <td>Dr. Mrinal Bhatta</td>
+                                    <td>2020-05-27</td>
+                                    <td>10.00 AM</td>
+                                    <td>Present</td>
+                                    <td>Very Good</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="card" id="whole-card">
+
+
+                    <div class="card-header"
+                        style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
+                        <h4 align="center"><strong>Trainings Attended</strong></h4>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table table-light table-striped" id="trainings_attended">
+
+                            <thead>
+                               
+                                    <tr>
+                                      <th><b>TrainingID</b></th>
+                                      <th><b>Type</b></th>
+                                      <th><b>Duration</b></t>
+                                      <th><b>Start Date</b></th>
+                                      <th><b>Status</b></th>
+                                      <th><b>Score</b></th>
+                                      <th><b>Attendance</b></th>
+                                    </tr>
+                        
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TRAIL78945JK</td>
+                                    <td>Basic Training</td>
+                                    <td>45 days</td>
+                                    <td>2020-01-12</td>
+                                    <td>Completed</td>
+                                    <td>86%</td>
+                                    <td>60%</td>
+                                </tr>
+                                <tr>
+                                    <td>TRAIK456783JK</td>
+                                    <td>Induction Training</td>
+                                    <td>30 days</td>
+                                    <td>2019-12-05</td>
+                                    <td>Comlpleted</td>
+                                    <td>90%</td>
+                                    <td>70%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+               
               </div>
           </div>
 

@@ -1,6 +1,5 @@
 package com.doat.recruitment.jpa.dto;
 
-import java.util.Optional;
 
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
@@ -170,9 +169,11 @@ public class ProfileDTO {
 				+ department_id + ", department_loc=" + department_loc + ", department_name=" + department_name
 				+ ", department_no=" + department_no + ", designation=" + designation + ", email=" + email
 				+ ", employee_id=" + employee_id + ", employee_join_date=" + employee_join_date + ", employee_name="
-				+ employee_name + ", employee_no=" + employee_no + ", name=" + name + ", original_salary="
-				+ original_salary + ", phone=" + phone + ", reg_id=" + reg_id + ", region=" + region + "]";
+				+ employee_name + ", name=" + name + ", original_salary=" + original_salary + ", phone=" + phone
+				+ ", reg_id=" + reg_id + ", region=" + region + "]";
 	}
+
+	
     
     
     

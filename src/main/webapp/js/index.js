@@ -311,6 +311,11 @@ $(document).ready(() => {
 
   // Login  code 
   $("#login").click(() => {
+    var loading = new Loading({
+      title: ' Please Wait',
+      direction: 'hor',
+      defaultApply: true,
+    });
     var login = {
       username: $("#username").val(),
       password: $("#password").val()
@@ -328,6 +333,7 @@ $(document).ready(() => {
     $.ajax(settings).done(function (response) {
 
       if (response.status == "success") {
+        loading.out();
         console.log(response);
         fillUserProfile(response.data);
         $("#profile").show();
@@ -335,6 +341,7 @@ $(document).ready(() => {
         $('#myLoginModal').modal('hide')
       }
       else {
+        loading.out();
         $("#login-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
           $("#login-failure-alert").slideUp(500);
         });
@@ -363,68 +370,163 @@ $(document).ready(() => {
   }
 
 
-
-
-
-
-
-
-
-
   // For event handler
+  var calendarEl = document.getElementById('view_calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
+    defaultDate: '2020-05-27',
+    navLinks: true, // can click day/week names to navigate views
 
-  mobiscroll.settings = {
-    theme: 'windows',
-    themeVariant: 'light',
-    lang: 'en'
-  };
+    weekNumbers: true,
+    weekNumbersWithinDays: true,
+    weekNumberCalculation: 'ISO',
 
-  $(function () {
-
-    var inst = $('#demo-desktop-month-view').mobiscroll().eventcalendar({
-
-      lang: 'en',                // Specify language like: lang: 'pl' or omit setting to use default
-      theme: 'windows',                        // Specify theme like: theme: 'ios' or omit setting to use default
-      themeVariant: 'light',                   // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-themeVariant
-      display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
-      calendarHeight: 614,                     // More info about calendarHeight: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-calendarHeight
-      view: {                                  // More info about view: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-view
-        calendar: {
-          labels: true                     // More info about labels: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-labels
-        }
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    events: [
+      {
+        title: 'All Day Event',
+        start: '2020-02-01'
       },
-      onEventSelect: function (event, inst) {  // More info about onEventSelect: https://docs.mobiscroll.com/4-10-3/eventcalendar#event-onEventSelect
-        mobiscroll.toast({
-
-          message: event.event.text
-        });
+      {
+        title: 'Long Event',
+        start: '2020-02-07',
+        end: '2020-02-10'
+      },
+      {
+        groupId: 999,
+        title: 'Repeating Event',
+        start: '2020-02-09T16:00:00'
+      },
+      {
+        groupId: 999,
+        title: 'Repeating Event',
+        start: '2020-02-16T16:00:00'
+      },
+      {
+        title: 'Conference',
+        start: '2020-02-11',
+        end: '2020-02-13'
+      },
+      {
+        title: 'Meeting',
+        start: '2020-02-12T10:30:00',
+        end: '2020-02-12T12:30:00'
+      },
+      {
+        title: 'Lunch',
+        start: '2020-02-12T12:00:00'
+      },
+      {
+        title: 'Meeting',
+        start: '2020-02-12T14:30:00'
+      },
+      {
+        title: 'Happy Hour',
+        start: '2020-02-12T17:30:00'
+      },
+      {
+        title: 'Dinner',
+        start: '2020-02-12T20:00:00'
+      },
+      {
+        title: 'Birthday Party',
+        start: '2020-02-13T07:00:00'
+      },
+      {
+        title: 'Click for Google',
+        url: 'http://google.com/',
+        start: '2020-02-28'
+      },
+      {
+        title: 'Conference',
+        start: '2020-05-11',
+        end: '2020-05-15'
+      },
+      {
+        title: 'Induction Training',
+        start: '2020-05-12T10:30:00',
+        end: '2020-06-12T12:30:00'
+      },
+      {
+        title: 'Basic Training',
+        start: '2020-04-12T12:00:00',
+        end: '2020-05-12T12:30:00'
+      },
+      {
+        title: 'Service Training',
+        start: '2020-04-12T09:00:00',
+        end: '2020-05-12T12:30:00'
+      },
+      {
+        title: 'Click for Google',
+        url: 'http://google.com/',
+        start: '2020-05-28'
       }
-    }).mobiscroll('getInst');
-
-    // from test dummy data
-
-
-    var settings = {
-      "url": "http://localhost:8080/getEvents",
-      "method": "GET",
-      "timeout": 0,
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "data": null,
-    };
-    $.ajax(settings).done(function (response) {
-      let eventss = response.data;
-      console.log("The events are:", eventss);
-      inst.setEvents(eventss);
-    });
-
-
-
-    //end dummy data
-
-
+    ]
   });
+
+  
+
+  calendar.render();
+
+  // mobiscroll.settings = {
+  //   theme: 'windows',
+  //   themeVariant: 'light',
+  //   lang: 'en'
+  // };
+
+  // $(function () {
+
+  //   var inst = $('#demo-desktop-month-view').mobiscroll().eventcalendar({
+
+  //     lang: 'en',                // Specify language like: lang: 'pl' or omit setting to use default
+  //     theme: 'windows',                        // Specify theme like: theme: 'ios' or omit setting to use default
+  //     themeVariant: 'light',                   // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-themeVariant
+  //     display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
+  //     calendarHeight: 614,                     // More info about calendarHeight: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-calendarHeight
+  //     view: {                                  // More info about view: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-view
+  //       calendar: {
+  //         labels: true                     // More info about labels: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-labels
+  //       }
+  //     },
+  //     onEventSelect: function (event, inst) {  // More info about onEventSelect: https://docs.mobiscroll.com/4-10-3/eventcalendar#event-onEventSelect
+  //       mobiscroll.toast({
+
+  //         message: event.event.text
+  //       });
+  //     }
+  //   }).mobiscroll('getInst');
+
+  //   // from test dummy data
+
+
+  //   var settings = {
+  //     "url": "http://localhost:8080/getEvents",
+  //     "method": "GET",
+  //     "timeout": 0,
+  //     "headers": {
+  //       "Content-Type": "application/json"
+  //     },
+  //     "data": null,
+  //   };
+  //   $.ajax(settings).done(function (response) {
+  //     let eventss = response.data;
+  //     console.log("The events are:", eventss);
+  //     inst.setEvents(eventss);
+  //   });
+
+
+
+  //   //end dummy data
+
+
+  // });
 
 
   //Code for User profile
