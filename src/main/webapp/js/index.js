@@ -377,7 +377,7 @@ $(document).ready(() => {
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: 'dayGridMonth,listWeek'
     },
     defaultDate: '2020-05-27',
     navLinks: true, // can click day/week names to navigate views

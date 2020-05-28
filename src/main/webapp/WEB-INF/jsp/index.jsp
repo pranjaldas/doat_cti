@@ -366,23 +366,23 @@
                             <tr>
                                 <td>Service Training</td>
                                 <td>January 2020</td>
-                                <td align="center"><button   onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></button></i></td>
+                                <td align="center"><button   onclick="alert('hii')"><i class="fa fa-file-pdf-o" style="font-size:36px;color:red"></button></i></td>
                               </tr>
                               <tr>
                                 <td>Basic Training</td>
                                 <td>December 2019</td>
-                                <td align="center"><button  onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></i></td>
+                                <td align="center"><button  onclick="alert('hii')"><i class="fa fa-file-pdf-o" style="font-size:36px;color:red"></button></i></td>
                               </tr>
                               <tr>
                                 <td>Induction Training</td>
                                 <td>January 2020</td>
-                                <td align="center"><button  onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></i></td>
+                                <td align="center"><button  onclick="alert('hii')"><i class="fa fa-file-pdf-o" style="font-size:36px;color:red"></button></i></td>
                               </tr>
                       
                               <tr>
                                 <td>Demo Training</td>
                                 <td>August 2019</td>
-                                <td align="center"><button  onclick="alert('hii')"><i class="fas fa-file-pdf"></i></button></i></td>
+                                <td align="center"><button  onclick="alert('hii')"><i class="fa fa-file-pdf-o" style="font-size:36px;color:red"></i></button></i></td>
                               </tr>
                             
                         </tbody>
