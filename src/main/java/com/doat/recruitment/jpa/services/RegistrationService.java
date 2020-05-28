@@ -1,5 +1,6 @@
 package com.doat.recruitment.jpa.services;
 
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,11 @@ public class RegistrationService {
 	public Long countTotal() {
 
 		return repo.count();
+	}
+	
+
+	public Registration findRegistration(String email) {
+		return repo.findByEmail(email);
 	}
 
 }

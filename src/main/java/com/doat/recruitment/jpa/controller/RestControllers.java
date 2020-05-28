@@ -6,8 +6,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doat.recruitment.jpa.dto.ProfileDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
@@ -24,12 +27,14 @@ import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
 import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.model.TrainingProgram;
+import com.doat.recruitment.jpa.model.User;
 import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.ApplicationService;
 import com.doat.recruitment.jpa.services.DepartmentService;
 import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.EventsService;
 import com.doat.recruitment.jpa.services.IdGenerator;
+import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
@@ -49,33 +54,83 @@ public class RestControllers {
 	EmployeeService eEmployeeService;
 	@Autowired
 	MailService MailService;
+	@Autowired 
+	LoginService loginService;
+	@PostMapping(value = "/test")
+	public String checkDept(@RequestBody Registration registration){
+		Optional <Department> optional=deptService.findDepartment(registration.getDepartment_no());
+		Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
+		
+		if(optional.isPresent() && optional1.isPresent()){
+			Department department=optional.get();
+			Employee employee=optional1.get();
+			ProfileDTO profile=new ProfileDTO(registration,employee,department);
+			return profile.toString();
+		}
+		else{
+			return null;
+		}
+		
+	}
+	@PostMapping(value = "/login")
+	public ResponseEntity<Object> checkLogin(@RequestBody final User user){
+		System.out.println(user);
+		final boolean auth=loginService.authUser(user);
+		if(auth==true){
+			final Registration registration=registrationService.findRegistration(user.getUsername());
+			Optional <Department> optional=deptService.findDepartment(registration.getDepartment_no());
+			Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
+			Department department=optional.get();
+			Employee employee=optional1.get();
+			ProfileDTO profile=new ProfileDTO(registration,employee,department);
+			final ServiceResponse<ProfileDTO> response=new ServiceResponse<>("success",profile);
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		final ServiceResponse<String> response=new ServiceResponse<>("failure","not found");
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
 
-	
 
 	// Registration Controllers
 	@PostMapping(value = "/postRegistration")
 	public ResponseEntity<Object> postRegistration(@RequestBody final Registration registration) {
 		
+		final Registration reg=registrationService.findRegistration(registration.getEmail());
+		if(reg==null){
+			try {
+				MailService.sendMail(registration);
+				final User user=new User();
+				user.setUsername(registration.getEmail());
+				user.setRole("TRAINEE");
+				user.setActive(true);
+				user.setPassword(registration.getPassword());
+				loginService.saveLogin(user);
+				registrationService.saveRegistration(registration);
+				final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
+				return new ResponseEntity<Object>(response, HttpStatus.OK);	
+			} 
+			catch (final Exception e) {
+				System.out.println("The error is "+e);
+			}
+	
+			final ServiceResponse<Registration> response = new ServiceResponse<>("emailNotSendfailure", registration);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
 
-		try {
-			MailService.sendMail(registration);
-			registrationService.saveRegistration(registration);
-			final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
-			return new ResponseEntity<Object>(response, HttpStatus.OK);	
-		} 
-		catch (final Exception e) {
-			System.out.println("The error is "+e);
 		}
+		else{
+			final ServiceResponse<Registration> response = new ServiceResponse<>("usedEmailfailure", registration);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
 
-		final ServiceResponse<Registration> response = new ServiceResponse<>("failure", registration);
-		return new ResponseEntity<Object>(response, HttpStatus.OK);	
+
+		}
+			
 		
 	}
 	@GetMapping("/countRegistration")
 	public ResponseEntity<Object> countRegistration(){
-		Long total=registrationService.countTotal();
+		final Long total=registrationService.countTotal();
 		System.out.println(total);
-		ServiceResponse<Long> response=new ServiceResponse<>("success",total);
+		final ServiceResponse<Long> response=new ServiceResponse<>("success",total);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
@@ -104,16 +159,16 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@DeleteMapping(value="/deleteTraining/{training_prg_id}")
-	public ResponseEntity<Object> deleteCompany(@PathVariable String training_prg_id) {
+	public ResponseEntity<Object> deleteCompany(@PathVariable final String training_prg_id) {
 		try {
 			trainingProgramService.deleteTraining(training_prg_id);
-			ServiceResponse<String> response=new ServiceResponse<>("success",training_prg_id);
+			final ServiceResponse<String> response=new ServiceResponse<>("success",training_prg_id);
 			return new ResponseEntity<Object>(response,HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
-		ServiceResponse<String> response=new ServiceResponse<>("conflict",training_prg_id);
-		return new ResponseEntity<Object>(response,HttpStatus.CONFLICT);
+		final ServiceResponse<String> response=new ServiceResponse<>("conflict",training_prg_id);
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 
 
@@ -224,18 +279,14 @@ public class RestControllers {
 	EventsService eventService;
 	@GetMapping(value="/getEvents")
 	public ResponseEntity<Object> getAllEvents(){
-		ServiceResponse<List<Events>> response=new ServiceResponse<List<Events>>("success", eventService.findAllEvents());
+		final ServiceResponse<List<Events>> response=new ServiceResponse<List<Events>>("success", eventService.findAllEvents());
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/postEvent")
-	public ResponseEntity<Object> postMapping(@RequestBody Events event){
+	public ResponseEntity<Object> postMapping(@RequestBody final Events event){
 		eventService.saveEvent(event);
-		ServiceResponse<Events> response=new ServiceResponse<>("success",event);
-
+		final ServiceResponse<Events> response=new ServiceResponse<>("success",event);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
-
-	}
-	
-	
+	}	
 }

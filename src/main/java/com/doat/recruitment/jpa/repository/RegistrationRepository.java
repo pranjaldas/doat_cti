@@ -6,4 +6,6 @@ import com.doat.recruitment.jpa.model.Registration;
 
 public interface RegistrationRepository extends JpaRepository<Registration, String> {
 
+	Registration findByEmail(String email);
+
 }

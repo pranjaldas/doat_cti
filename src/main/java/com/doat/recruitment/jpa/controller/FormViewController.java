@@ -5,16 +5,15 @@
 
 package com.doat.recruitment.jpa.controller;
 
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Controller
 public class FormViewController {
-   
-    @RequestMapping(value="/user")
-    public String viewUserProfile() {
-    	return "profile";
-    }
+    
 
     @RequestMapping(value="/index")
     public String viewHome() {

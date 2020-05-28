@@ -29,6 +29,7 @@ body{
  background-color: rgb(249, 255, 253);
  padding: 5px;
  border-radius: 1px;
+ margin-bottom: 20px;
 }
 .card-header{
 	background: rgb(74, 212, 236) ; 
@@ -289,3 +290,51 @@ body{
 	display: inline-block;
 	margin: 100px auto;
 }
+/* Download calender table styles */
+#calendar_download {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	margin-top: 25px;
+	width: 100%;
+  }
+  
+  #calendar_download td, #calendar_download th {
+	border: 1px solid #ddd;
+	padding: 8px;
+  }
+  
+  #calendar_download tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #calendar_download tr:hover {background-color: #ddd;}
+  
+  #calendar_download th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
+  }
+  /* Profile details table styles */
+.profile_trainee_table {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 25px;
+  }
+  
+  .profile_trainee_table td, .profile_trainee_table th {
+	border: 1px solid #ddd;
+	padding: 8px;
+  }
+  
+  .profile_trainee_table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  .profile_trainee_table tr:hover {background-color: #ddd;}
+  
+ .profile_trainee_table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: center;
+	background-color: #4CAF50;
+	color: white;
+  }
