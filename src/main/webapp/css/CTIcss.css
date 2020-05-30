@@ -320,11 +320,13 @@ body{
 	border-collapse: collapse;
 	width: 100%;
 	margin-bottom: 25px;
+ 
   }
   
   .profile_trainee_table td, .profile_trainee_table th {
 	border: 1px solid #ddd;
 	padding: 8px;
+	width: 50%;
   }
   
   .profile_trainee_table tr:nth-child(even){background-color: #f2f2f2;}
@@ -332,6 +334,7 @@ body{
   .profile_trainee_table tr:hover {background-color: #ddd;}
   
  .profile_trainee_table th {
+	color: #000;
 	padding-top: 12px;
 	padding-bottom: 12px;
 	text-align: center;

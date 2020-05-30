@@ -152,6 +152,12 @@ public class RestControllers {
 	// return new ResponseEntity<Object>(response,HttpStatus.OK);
 	// }
 	// To advertise a upcomming training program
+	@GetMapping(value="/testNative/{month}")
+	public ResponseEntity<Object> getTestTrainingPrograms(@PathVariable String month) {
+		final List<TrainingProgram> list = trainingProgramService.viewTestTraining(month);
+		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
 	@GetMapping(value = "/trainings")
 	public ResponseEntity<Object> getTrainingPrograms() {
 		final List<TrainingProgram> list = trainingProgramService.viewTraining();

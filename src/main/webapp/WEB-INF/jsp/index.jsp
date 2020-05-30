@@ -52,7 +52,7 @@
   <div class="header content">
       <a href="index.html"><img src="img/assam.png" class="title-logo" alt="Home"></a>
       <div class="titles">
-          <p class="title">Central Training Institute (CTI)</p>
+          <p class="title"><b>CENTRAL <span style="color: green;">TRAINING</span> INSTITUTE<span style="color: coral;">(CTI)</span></b></p>
           <p class="subtitle">Kar Bhawan,Ganeshguri,Assam-781006</p>
       </div>
   </div>

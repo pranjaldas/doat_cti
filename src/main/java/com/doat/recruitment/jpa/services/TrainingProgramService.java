@@ -38,6 +38,12 @@ public class TrainingProgramService {
 		repo.deleteById(training_prg_id);
 	}
 
+	public List<TrainingProgram> viewTestTraining(String month) {
+		List<TrainingProgram> list=new ArrayList<>();
+		repo.findTrainings(month).forEach(list::add);
+		return list;
+	}
+
 
 	
 
