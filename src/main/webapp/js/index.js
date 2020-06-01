@@ -697,7 +697,7 @@ html2canvas(document.getElementById('dvTable'), {
                 width: 500
             }]
         };
-        pdfMake.createPdf(docDefinition).download("JSON.pdf");
+        pdfMake.createPdf(docDefinition).download(col1+'.pdf');
 
         //Remove the Table.
         dvTable.innerHTML = "";

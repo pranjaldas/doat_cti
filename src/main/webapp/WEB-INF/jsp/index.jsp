@@ -834,32 +834,32 @@
     </div>
     <!-- footer light -->
     <div class="footer">
-        <div class="content">
-            <div class="row main">
-                <div class="col-xs-3 padawan">
+        
+            <div class="row">
+                <div class="col-3 padawan">
                     <p><a href="#" class="white">CTI - Mandatory Disclosure</a></p>
                     <p><a href="#" class="white">Information under RTI Act</a></p>
                     <p><a href="#" class="white">Certification Policy</a></p>
                 </div>
-                <div class="col-xs-2 padawan">
-
+                <div class="col-2 padawan" >
+                    <p><a href="#" class="white">Trainees Acitivities</a></p>
+                    <p><a href="#" class="white">Notice Archives</a></p>
                     <p><a href="#" class="white">About Us</a></p>
                     <p><a href="#" class="white">Location</a></p>
                     <p><a href="#" class="white">Address</a></p>
-                    <p><a href="#" class="white">Trainees Acitivities</a></p>
-                    <p><a href="#" class="white">Notice Archives</a></p>
+                    
                 </div>
-                <div class="col-xs-2 padawan no-padding">
-                    <img src="img/assam.png" id="logo-footer" alt="" style="width: 80px; height: 100px;">
+                <div class="col-2 padawan no-padding">
+                    <img src="img/assam.png" id="logo-footer" alt="" style="width: 150px; height: 200px;">
                 </div>
-                <div class="col-xs-2 padawan">
+                <div class="col-2 padawan">
                     <p><a href="#" class="white">Training Programs</a></p>
                     <p><a href="#" class="white">Training Eligibility</a></p>
                     <p><a href="#" class="white">Trainers</a></p>
                     <p><a href="#" class="white">Examination</a></p>
                     <p><a href="#" class="white">The Observer</a></p>
                 </div>
-                <div class="col-xs-3 padawan">
+                <div class="col-3 padawan">
                     <!-- <h4 class="no-margin">Contact Us</h4><br> -->
                     <p>
                         Directorate Of Accounts and Treasuries,<br>
@@ -872,7 +872,6 @@
                         Email: cti@juet.ac.in
                     </p>
                 </div>
-            </div>
         </div>
     </div>
     <!--footer-->
