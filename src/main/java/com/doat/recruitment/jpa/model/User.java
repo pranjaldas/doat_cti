@@ -13,11 +13,11 @@ public class User {
     private String role;
     private Boolean active;
      
-	public User(String username, String password, String role, Boolean active) {
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.active = active;
+	public User(Registration registration) {
+		this.username = registration.getEmail();
+		this.password = registration.getPassword();
+		this.role = "USER";
+		this.active = true;
 	}
 	public User() {
 	}

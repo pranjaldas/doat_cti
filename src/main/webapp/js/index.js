@@ -628,6 +628,80 @@ $(document).ready(() => {
 })
 //End of ready()
 
-function testMethod(id) {
-  console.log(id);
+function download(x) {
+  var index = $(x).closest('tr');
+  console.log("Trainee table index : ", index);
+  var col1 = index.find("td:eq(1)").text(); 
+  console.log(col1);
+  var json = [{
+    "Training ID": "TRAI34HJK",
+    "Training Type": "Induction",
+    "Start Date": "2020-05-06",
+    "End Date": "2020-06-12",
+    "Trainer Name":"Ramesh Goyel",
+}, {
+    "Training ID": "TRAI345yu",
+    "Training Type": "Service Training",
+    "Start Date": "2020-05-12",
+    "End Date": "2020-06-29",
+    "Trainer Name":"Phunsukh Wangru",
+},{
+    "Training ID": "TRAI34HJK",
+    "Training Type": "Demo Training",
+    "Start Date": "2020-05-01",
+    "End Date": "2020-06-12",
+    "Trainer Name":"Ramesh Goyel",
+}];
+
+//Convert JSON to HTML Table.
+var table = document.createElement("TABLE");
+table.border = "1";
+
+
+//Get the count of columns.
+var columnCount =json.length;
+
+//Add the header row.
+var row = table.insertRow(-1);
+for (var i = 0; i < Object.keys(json[0]).length; i++) {
+    var headerCell = document.createElement("TH");
+    headerCell.innerHTML = Object.keys(json[0])[i];
+    row.appendChild(headerCell);
+}
+
+//Add the data rows.
+for (var i = 1; i < Object.keys(json).length; i++) {
+    row = table.insertRow(-1);
+    for (var j = 0; j < Object.keys(json[0]).length; j++) {
+        var cell = row.insertCell(-1);
+        cell.innerHTML =json[i][Object.keys(json[0])[j]];
+    }
+}
+table.setAttribute("class", "table table-striped  table-bordered");
+
+var title = document.createElement("h1");               // Create a <p> element
+title.innerText = "Calendar "+col1;
+
+//Append the Table to the HTML DIV.
+var dvTable = document.getElementById("dvTable");
+dvTable.innerHTML = "";
+dvTable.appendChild(title);
+dvTable.appendChild(table);
+// Convert Table to PDF.
+html2canvas(document.getElementById('dvTable'), {
+    onrendered: function (canvas) {
+        var data = canvas.toDataURL();
+        var docDefinition = {
+            content: [{
+                image: data,
+                width: 500
+            }]
+        };
+        pdfMake.createPdf(docDefinition).download("JSON.pdf");
+
+        //Remove the Table.
+        dvTable.innerHTML = "";
+    }
+});
+
 }

@@ -205,7 +205,7 @@ body{
 	padding: 25px;
 }
 .footer-dark {
-	background-color:#006c9a ;
+	background-color: #006c9a;
 	color: #fff;
 	font-size: 0.9em;
 	padding: 15px;
@@ -341,3 +341,32 @@ body{
 	background-color:  rgb(74, 212, 236);
 	color: white;
   }
+
+  /* New footer Styles */
+ 
+.padawan {
+	padding-left: 11px;
+	padding-right: 11px;
+}
+.no-padding {
+	padding: 0px;
+}
+.content {
+	max-width: 1000px;
+	margin: 0 auto;
+}
+.row {
+	margin: 0 !important;
+}
+.main {
+	margin-bottom: 16px !important;
+}
+.white {
+	color: #fff;
+}
+.white:hover,.white:focus {
+	color: #fff;
+}
+.right-align {
+	text-align: right;
+}

@@ -98,12 +98,8 @@ public class RestControllers {
 		final Registration reg=registrationService.findRegistration(registration.getEmail());
 		if(reg==null){
 			try {
-				MailService.sendMail(registration);
-				final User user=new User();
-				user.setUsername(registration.getEmail());
-				user.setRole("TRAINEE");
-				user.setActive(true);
-				user.setPassword(registration.getPassword());
+				// MailService.sendMail(registration);
+				final User user=new User(registration);				
 				loginService.saveLogin(user);
 				registrationService.saveRegistration(registration);
 				final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
