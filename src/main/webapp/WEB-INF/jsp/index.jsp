@@ -837,7 +837,7 @@
         <div class="content">
             <div class="row main">
                 <div class="col-xs-3 padawan">
-                    <p><a href="#" class="white">AICTE - Mandatory Disclosure</a></p>
+                    <p><a href="#" class="white">CTI - Mandatory Disclosure</a></p>
                     <p><a href="#" class="white">Information under RTI Act</a></p>
                     <p><a href="#" class="white">Certification Policy</a></p>
                 </div>
@@ -862,7 +862,8 @@
                 <div class="col-xs-3 padawan">
                     <!-- <h4 class="no-margin">Contact Us</h4><br> -->
                     <p>
-                        Directorate Of Accounts and Treasuries, Govt. of Assam.<br>
+                        Directorate Of Accounts and Treasuries,<br>
+                        Govt. of Assam,<br>
                         G-S Road, Ganeshguri,<br>
                         Distt. - Kamrup<br>
                         PIN - 781006 , India<br>
@@ -876,7 +877,7 @@
     </div>
     <!--footer-->
     <div class="footer-dark">
-        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by <strong><a href="#" class="white">Pranjal
+        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by <strong><a href="https://www.linkedin.com/in/pranjal-das-03bba217b" class="white">Pranjal
                 Das</a></strong>
     </div>
 
