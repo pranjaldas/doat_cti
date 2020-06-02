@@ -700,9 +700,7 @@
               </div>
 
             </div>
-            <script>
-             
-            </script>
+          
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"

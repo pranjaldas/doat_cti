@@ -1,4 +1,4 @@
-$(document).ready(() => {
+
   //Total Registrations
   fetchTotalRegistration();
   function fetchTotalRegistration() {
@@ -464,7 +464,7 @@ $(document).ready(() => {
         training_prg_data += '<td>' + value.training_status + '</td>';
         training_prg_data += '<td>' + value.display_status + '</td>';
         training_prg_data += '<td>' + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fillTrainingModal(this)"  data-target="#previewTrainings">Privew & Update</button>' + '</td>';
-        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm trainingDelete">Delete</button>' + '</td>';
+        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm " onclick="deleteTraining(this)">Delete</button>' + '</td>';
         training_prg_data += '</tr>';
 
       });
@@ -473,76 +473,58 @@ $(document).ready(() => {
 
   }
 
-  // //to Delete training program
-
-  $("#all_training_programs").on('click', '.trainingDelete', function () {
-
-    swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this imaginary file!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          var loading = new Loading({
-            title: ' Please Wait',
-            direction: 'hor',
-            discription: 'Sending data...',
-            defaultApply: true,
-          });
-          var currentRow = $(this).closest("tr").index();
-          console.log("Selected row", currentRow);
-          $.getJSON("http://localhost:8080/trainings", function (response) {
-            var data = response.data;
-            console.log("All trainings", data);
-            for (var i = 0; i <= data.length; i++) {
-              if (i === currentRow) {
-                console.log("selected id:", data[i].training_prg_id);
-                var training_prg_id = data[i].training_prg_id;
-                var settings = {
-                  "url": "http://localhost:8080/deleteTraining/" + training_prg_id,
-                  "method": "DELETE",
-                  "timeout": 0,
-                  "headers": {
-                    "Content-Type": "application/json"
-                  },
-                  "data": null,
-                };
-                $.ajax(settings).done(function (response) {
-                  console.log(response);
-                  if (response.status == "success") {
-                    loading.out();
-                    updateAllTrainings();
-                    swal("Poof! Your imaginary file has been deleted!", {
-                      icon: "success",
-                    });
-                  }
-                  else if (response.status == "conflict") {
-                    loading.out();
-                    alert("not deleted foreign key conflict");
-                  }
-                  else {
-                    loading.out();
-                    alert("not deleted");
-                  }
-                });
-
-
-              }
-
-            }
-          });
-
-
-
-
-        }
-      });
-
-
-  });
+   //to Delete training program
+  
+function deleteTraining(x){
+  var currentRow = $(x).closest("tr");
+  var training_prg_id=currentRow.find("td:eq(0)").text();
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this imaginary file!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willDelete) => {
+      if (willDelete) {
+        var loading = new Loading({
+          title: ' Please Wait',
+          direction: 'hor',
+          discription: 'Sending data...',
+          defaultApply: true,
+        });
+       
+        console.log("Selected row", training_prg_id);
+        var settings = {
+          "url": "http://localhost:8080/deleteTraining/" + training_prg_id,
+          "method": "DELETE",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": null,
+        };
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+          if (response.status == "success") {
+            loading.out();
+            updateAllTrainings();
+            swal("Poof! Deleted successfully!", {
+              icon: "success",
+            });
+          }
+          else if (response.status == "conflict") {
+            loading.out();
+            swal("ERROR !!!", "Not deleted, May be training has beeing used", "error");
+          }
+          else {
+            loading.out();
+            alert("not deleted");
+          }
+        });
+      }
+    });
+}
 
 
 
@@ -647,7 +629,6 @@ $(document).ready(() => {
 
 
 
-})
 // End of document.ready()
 
 
@@ -655,6 +636,9 @@ $(document).ready(() => {
 function updateApplication(x) {
   var index = $(x).closest('tr').index();
   console.log("Selected Trainee table index : ", index);
+  var currentRow=$(x).closest('tr');
+  var empId=currentRow.find("td:eq(0)").text(); 
+  alert(empId);
 
 }
 
@@ -758,6 +742,7 @@ function fillEmployeeModalPopup(x) {
   });
 
 }
+
 
 
 

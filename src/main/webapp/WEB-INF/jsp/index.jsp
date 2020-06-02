@@ -48,7 +48,7 @@
 
 </head>
 
-<body>
+<body >
     <div class="header content">
         <a href="index.html"><img src="img/assam.png" class="title-logo" alt="Home"></a>
         <div class="titles">
@@ -107,18 +107,15 @@
                                 <ol class="carousel-indicators">
                                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                                 </ol>
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <img class="d-block w-100" src="img/image1.jpeg" alt="First slide">
+                                        <img class="d-block w-100" src="img/image2.jpeg" alt="First slide">
                                     </div>
                                     <div class="carousel-item">
-                                        <img class="d-block w-100" src="img/image2.jpeg" alt="Second slide">
+                                        <img class="d-block w-100" src="img/image3.jpeg" alt="Second slide">
                                     </div>
-                                    <div class="carousel-item">
-                                        <img class="d-block w-100" src="img/image3.jpeg" alt="Third slide">
-                                    </div>
+                                
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
                                     data-slide="prev">
@@ -161,44 +158,46 @@
 
                 </div>
             </div>
-            <div class="modal fade" id="modalApplyTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+        
+            <!-- Apply model -->
+            <div id="applyModal" class="modal fade">
+                <div class="modal-dialog modal-dialog-centered modal-login">
                     <div class="modal-content">
-                        <div class="modal-header text-center">
-                            <h4 class="modal-title w-100 font-weight-bold">APPLY FOR TRAINING</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="modal-header">
+                            <h4 class="modal-title"><b>APPLY TRAINING</b></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
-                        <div class="modal-body mx-3">
-                            <div class="md-form mb-4">
-                                <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
-                                        for="defaultForm-pass">Your
-                                        Employee ID:</label></i>
-                                <input type="text" id="emp_id_autocomplete" name="emp_no" class="form-control">
-
-                            </div>
-                            <div class="md-form mb-4">
-                                <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
-                                        for="defaultForm-pass">Your
-                                        Registration ID:</label></i>
-                                <input type="text" id="" class="form-control validate">
-
-                            </div>
-                            <div class="md-form mb-4">
-                                <i class="fas prefix grey-text"><label data-error="wrong" data-success="right"
-                                        for="defaultForm-pass">Your
-                                        password:</label></i>
-                                <input type="password" id="defaultForm-pass" class="form-control validate">
-
-                            </div>
-
+                        <div class="modal-body">
+                            <form action="#" method="" id="apply_form">
+                                <div class="form-group">
+                                    <i class="fa fa-registered"></i>
+                                    <input type="text" id="apply_reg_id" name="regId" class="form-control" placeholder="Registration Id"
+                                        required="required">
+                                </div>
+                                <div class="alert alert-danger" id="user-regId-failure-alert" role="alert">
+                                    <strong>Opps!</strong> <a href="#" class="alert-link">Registration ID is not valid</a>
+                                </div>
+                                <div class="form-group">
+                                    <i class="fa fa-user"></i>
+                                    <input type="text" id="apply_username" name="username" class="form-control" placeholder="Username"
+                                        required="required">
+                                </div>
+                                <div class="form-group">
+                                    <i class="fa fa-lock"></i>
+                                    <input type="password" id="apply_password" name="password" class="form-control"
+                                        placeholder="Password" required="required">
+                                </div>
+                                <div class="alert alert-danger" id="user-auth-failure-alert" role="alert">
+                                    <strong>Opps!</strong> <a href="#" class="alert-link">username and password mismatch</a>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="button" id="apply_training_button" class="btn btn-primary btn-block btn-lg" value="Apply">
+                                </div>
+                            </form>
+        
                         </div>
-
-                        <div class="modal-footer d-flex justify-content-center">
-                            <button class="btn btn-primary btn-sm">Apply</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -537,105 +536,164 @@
             <div class="tab-pane fade show active" id="profileView">
 
                 <div id="con" class="container">
-                    <table class="profile_trainee_table" id="trainee_registration">
-                        <thead>
-                            <tr>
-                                <th colspan="2"><i class="fa fa-info-circle" aria-hidden="true"></i>
-                                    <b>REGISTRATION DETAILS</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><i class="fa fa-registered" aria-hidden="true"></i>
-                                    Registration ID:</td>
-                                <td id="view_regid">AERSGDTH45212</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-lock" aria-hidden="true"></i>
-                                    User Name:</td>
-                                <td id="view_username">EMP001234</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-phone" aria-hidden="true"></i>
-                                    Phone No:</td>
-                                <td id="view_userphone">9678186292</td>
-                            </tr>
-                            <tr>
-                                <td> <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    Email:</td>
-                                <td id="view_userphone">pranjaldas@gmail.com</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="profile_trainee_table" id="trainee_department">
-                        <thead>
-                            <tr>
-                                <th colspan="2"><i class="fa fa-info-circle" aria-hidden="true"></i>
-                                    <b>DEPARTMENT DETAILS</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><i class="fa fa-key" aria-hidden="true"></i>
-                                    Department ID:</td>
-                                <td id="view_depid">DEP005212</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-info" aria-hidden="true"></i>
-                                    Department Name:</td>
-                                <td id="view_dep_name">Information Technology</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-map-marker" aria-hidden="true"></i>
-                                    Location:</td>
-                                <td id="view_dept_loc">Kar Bhawan,Guwahati</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <table class="profile_trainee_table" id="trainee_employment">
-                        <thead>
-                            <tr>
-                                <th colspan="2"><b><i class="fa fa-info-circle" aria-hidden="true"></i>
-                                        EMPLOYMENT DETAILS</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><i class="fa fa-id-badge" aria-hidden="true"></i>
-                                    Employee ID:</td>
-                                <td id="view_empid">EMP005212</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                    Name:</td>
 
 
-                                <td id="view_name">Pranjal Das</td>
-                            </tr>
-                            <tr>
-                                <td> <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    Join Date:</td>
-                                <td id="view_join_date">18/12/2012</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                                    Designation:</td>
-                                <td id="view_desig">Software Engineer</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-info" aria-hidden="true"></i>
-                                    Region:</td>
-                                <td id="view_region">Guwahati</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-info" aria-hidden="true"></i>
-                                    DDO Code:</td>
-                                <td id="view_ddo_code">DDO00345</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="card" id="whole-card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="ion ion-clipboard mr-1"></i>
+                            Registration Details
+                          </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="profile_trainee_table" id="trainee_registration">
+                                <thead>
+                                    <tr>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><i class="fa fa-registered" aria-hidden="true"></i>
+                                            Registration ID:</td>
+                                        <td id="view_regid">AERSGDTH45212</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-lock" aria-hidden="true"></i>
+                                            User Name:</td>
+                                        <td id="view_username">EMP001234</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-phone" aria-hidden="true"></i>
+                                            Phone No:</td>
+                                        <td id="view_userphone">9678186292</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            Email:</td>
+                                        <td id="view_userphone">pranjaldas@gmail.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+            
+                        </div>
+            
+            
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <button type="button" id="publish" class="btn btn-info float-right"><i class="fa fa-wrench" aria-hidden="true"></i>
+                                Update </button>
+                          </div>
+                       
+                      </div>
 
+                      <div class="card" id="whole-card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            Department Details
+                          </h3>
+                          
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="profile_trainee_table" id="trainee_department">
+                                <thead>
+                                    <tr>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><i class="fa fa-key" aria-hidden="true"></i>
+                                            Department ID:</td>
+                                        <td id="view_depid">DEP005212</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-info" aria-hidden="true"></i>
+                                            Department Name:</td>
+                                        <td id="view_dep_name">Information Technology</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            Location:</td>
+                                        <td id="view_dept_loc">Kar Bhawan,Guwahati</td>
+                                    </tr>
+        
+                                </tbody>
+                            </table>
+            
+                        </div>
+            
+            
+                        <!-- /.card-body -->
+                    
+                      </div>
+
+
+
+
+                    <div class="card" id="whole-card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                          
+                            Employee Details
+                          </h3>
+                
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="profile_trainee_table" id="trainee_employment">
+                                <thead>
+                                    <tr>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><i class="fa fa-id-badge" aria-hidden="true"></i>
+                                            Employee ID:</td>
+                                        <td id="view_empid">EMP005212</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                            Name:</td>
+        
+        
+                                        <td id="view_name">Pranjal Das</td>
+                                    </tr>
+                                    <tr>
+                                        <td> <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            Join Date:</td>
+                                        <td id="view_join_date">18/12/2012</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                            Designation:</td>
+                                        <td id="view_desig">Software Engineer</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-info" aria-hidden="true"></i>
+                                            Region:</td>
+                                        <td id="view_region">Guwahati</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-info" aria-hidden="true"></i>
+                                            DDO Code:</td>
+                                        <td id="view_ddo_code">DDO00345</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+        
+            
+                        </div>
+            
+            
+                        <!-- /.card-body -->
+                    
+                      </div>
+
+                   
                 </div>
 
 
@@ -646,15 +704,26 @@
 
             <div class="tab-pane" id="activity">
                 <div class="container" id="con">
+
                     <div class="card" id="whole-card">
-
-
-                        <div class="card-header"
-                            style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                            <h4 align="center"><strong>Training Applications</strong></h4>
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="ion ion-clipboard mr-1"></i>
+                            Trainings applied
+                          </h3>
+                          <div class="card-tools">
+                            <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Search Trainings by ID">
+                              <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button">
+                                  <i class="fa fa-search"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
+                        <!-- /.card-header -->
                         <div class="card-body">
-
                             <table id="applications_table" class="table table-light table-striped">
                                 <thead>
                                     <tr>
@@ -683,20 +752,29 @@
 
                                 </tbody>
                             </table>
+            
                         </div>
-
-                    </div>
-                    <div class="card" id="whole-card">
-
-
-                        <div class="card-header"
-                            style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                            <h4 align="center"><strong>Trainings Ongoing</strong></h4>
+            
+            
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                          <button type="button" class="btn btn-info float-right" data-toggle="modal"
+                            data-target="#exampleModalCenter"><i class="fas fa-plus"></i> Apply New</button>
                         </div>
+                      </div>
+
+                      <div class="card" id="whole-card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="ion ion-clipboard mr-1"></i>
+                            Trainings Ongoing
+                          </h3>
+                          
+                        </div>
+                        <!-- /.card-header -->
                         <div class="card-body" style="overflow-y: scroll;
-                    height: 300px;
-                    padding: 1rem">
-
+                        height:350px;
+                        padding: 1rem">
                             <table class="table table-light table-striped" id="trainings_ongoing">
 
                                 <thead>
@@ -777,14 +855,32 @@
                                     </tr>
                                 </tbody>
                             </table>
+            
                         </div>
+            
+            
+                        <!-- /.card-body -->
+                        
+                      </div>
 
-                    </div>
-                    <div class="card" id="whole-card">
-                        <div class="card-header"
-                            style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                            <h4 align="center"><strong>Trainings Attended</strong></h4>
+                      <div class="card" id="whole-card">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <i class="ion ion-clipboard mr-1"></i>
+                            Trainings Attended
+                          </h3>
+                          <div class="card-tools">
+                            <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Search Trainings by ID">
+                              <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button">
+                                  <i class="fa fa-search"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
+                        <!-- /.card-header -->
                         <div class="card-body">
                             <table class="table table-light table-striped" id="trainings_attended">
                                 <thead>
@@ -819,9 +915,16 @@
                                     </tr>
                                 </tbody>
                             </table>
+            
                         </div>
-
-                    </div>
+            
+            
+                        <!-- /.card-body -->
+                        
+                      </div>
+            
+                    
+        
 
                 </div>
             </div>

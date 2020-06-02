@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doat.recruitment.jpa.dto.ApplicationDTO;
 import com.doat.recruitment.jpa.dto.ProfileDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
@@ -225,6 +226,38 @@ public class RestControllers {
 
 	}
 	//Training Applications
+	@PostMapping(value="/apply")
+	public ResponseEntity<Object> apply(@RequestBody ApplicationDTO application){
+		ServiceResponse<ApplicationDTO> response=new ServiceResponse<>("success",application);
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	@PostMapping(value="/applyTraining")
+	public ResponseEntity<Object> applyTraining(@RequestBody ApplicationDTO application){
+		User user=new User(application);
+		final boolean auth=loginService.authUser(user);
+		if(auth==true){
+			Optional <Registration> optional=registrationService.findRegistrationById(application.getReg_id());
+			if(optional.isPresent()){
+				Registration registration=optional.get();
+				Optional<Employee> optional2=eEmployeeService.findEmployee(registration.getEmployee_no());
+				if(optional2.isPresent()){
+				  Employee employee=optional2.get();
+				  TrainingApplication trainingApplication=new TrainingApplication(registration, application, employee);
+				  service.saveApplication(trainingApplication);
+				  final ServiceResponse<TrainingApplication> response=new ServiceResponse<>("success",trainingApplication);
+				return new ResponseEntity<>(response,HttpStatus.OK);
+				}
+				final ServiceResponse<String> response=new ServiceResponse<>("Not Found","Employee Not Found");
+				return new ResponseEntity<>(response,HttpStatus.OK);
+			}			
+			final ServiceResponse<String> response=new ServiceResponse<>("Not Found","Registration Not Found");
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("Wrong Input","Not a valid user");
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	
+
 	//this api is for updating publish attribute
 	@PostMapping(value = "/postApplication")
 	public ResponseEntity<Object> postApplication(@RequestBody final TrainingApplication application) {

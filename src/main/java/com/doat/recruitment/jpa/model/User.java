@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.doat.recruitment.jpa.dto.ApplicationDTO;
+
 @Entity
 @Table(name="user")
 public class User {
@@ -20,6 +22,10 @@ public class User {
 		this.active = true;
 	}
 	public User() {
+	}
+	public User(ApplicationDTO application) {
+		this.username = application.getUsername();
+		this.password = application.getPassword();
 	}
     
 	public String getUsername() {
@@ -50,6 +56,7 @@ public class User {
 	public String toString() {
 		return "User [active=" + active + ", password=" + password + ", role=" + role + ", username=" + username + "]";
     }
+	
    
     
     
