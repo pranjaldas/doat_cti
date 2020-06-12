@@ -26,6 +26,7 @@ import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
 import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
+import com.doat.recruitment.jpa.model.Trainer;
 import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.model.TrainingProgram;
 import com.doat.recruitment.jpa.model.User;
@@ -39,6 +40,7 @@ import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
+import com.doat.recruitment.jpa.services.TrainerService;
 import com.doat.recruitment.jpa.services.TrainingProgramService;
 
 @RestController
@@ -99,10 +101,15 @@ public class RestControllers {
 		final Registration reg=registrationService.findRegistration(registration.getEmail());
 		if(reg==null){
 			try {
-				// MailService.sendMail(registration);
-				final User user=new User(registration);				
+				MailService.sendMail(registration);
+				final User user=new User(registration);	
+
+				String id=IdGenerator.generate(getTime(), registration.getName(), registration.getEmployee_no(), registration.getEmail(), registration.getPhone());
+				registration.setReg_id(id);
+
 				loginService.saveLogin(user);
 				registrationService.saveRegistration(registration);
+
 				final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
 				return new ResponseEntity<Object>(response, HttpStatus.OK);	
 			} 
@@ -123,11 +130,17 @@ public class RestControllers {
 			
 		
 	}
+	public String getTime(){
+		long time=System.currentTimeMillis();
+        String timee=Long.toString(time);
+        StringBuilder input=new StringBuilder(timee);
+		String timeee=input.toString();
+		return timeee;
+	}
+
 	@GetMapping("/countRegistration")
 	public ResponseEntity<Object> countRegistration(){
-		final Long total=registrationService.countTotal();
-		System.out.println(total);
-		final ServiceResponse<Long> response=new ServiceResponse<>("success",total);
+		final ServiceResponse<Long> response=new ServiceResponse<>("success",registrationService.countTotal());
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
@@ -194,19 +207,24 @@ public class RestControllers {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         final Date startdate = trainingProgram.getTraining_start_date();
 		final String date = dateFormat.format(startdate).replaceAll("\\s", "");
-		
-		
-		
-
-        final IdGenerator generator=new IdGenerator();
-		final String id=generator.IdGenerate(time,trainingProgram.getTraining_prg_type(),date, trainingProgram.getTraining_prg_name(),"TRAIN");
+		final String id=IdGenerator.generate(time,trainingProgram.getTraining_prg_type(),date, trainingProgram.getTraining_prg_name(),"TRAIN");
+	
 		System.out.println("The generated Id is:"+id);
+		Events event=new Events(trainingProgram);
+		eventService.saveEvent(event);
 
 		trainingProgram.setTraining_prg_id(id);
         trainingProgramService.saveTraining(trainingProgram);
         final ServiceResponse<TrainingProgram> response = new ServiceResponse<>("success", trainingProgram);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	@GetMapping(value = "admin/totalTrainings")
+	public ResponseEntity<Object> countTrainings(){
+		ServiceResponse<Long> response=new ServiceResponse<Long>("success", trainingProgramService.countAll());
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
+
 	
 	//Employee rest apis
 	@GetMapping("/employees")
@@ -281,6 +299,36 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 
 	}
+	@DeleteMapping(value = "/admin/deleteApplication/{application_id}")
+	public ResponseEntity<Object> deletApplication(@PathVariable Integer application_id){
+		try {
+			service.deleteTrainingApplication(application_id);
+			final ServiceResponse<String> response = new ServiceResponse<>("success", "Deleted Successfully");
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Unable to delete");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+	@GetMapping(value = "/admin/findApplication/{application_id}")
+	public ResponseEntity<Object> findApplication(@PathVariable Integer application_id){
+		
+		Optional<TrainingApplication> optional=service.findApplication(application_id);
+		if(optional.isPresent()){
+			TrainingApplication application=optional.get();
+			final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Not Found");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+
+
+
+
+
 
 	@GetMapping(value = "/getApplications")
 	public ResponseEntity<Object> getApplication() {
@@ -324,4 +372,12 @@ public class RestControllers {
 		final ServiceResponse<Events> response=new ServiceResponse<>("success",event);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}	
+	//Trainer APIs
+	@Autowired
+	TrainerService trainerService;
+	@GetMapping(value="/admin/trainers")
+	public ResponseEntity<Object> alltrainers(){
+		ServiceResponse<List<Trainer>> response=new ServiceResponse<>("success",trainerService.findAllTrainers());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
 }

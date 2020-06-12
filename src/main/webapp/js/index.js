@@ -47,7 +47,7 @@
         trainee_data += '<td>' + '<b>' + "Start date: " + '</b>' + value.training_start_date + '</td>';
         trainee_data += '</tr>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Duration: " + '</b>' + value.training_prg_duration + '</td>';
+        trainee_data += '<td>' + '<b>' + "End Date: " + '</b>' + value.training_end_date + '</td>';
         trainee_data += '</tr>';
         trainee_data += '</tbody>';
         trainee_data += '</table>';
@@ -319,7 +319,6 @@ $("#apply_training_button").click(()=>{
     });
 
     let registration_object = {
-      reg_id: "REGNO00978WER",
       name: data1,
       department_no: data2,
       employee_no: data,
@@ -426,9 +425,28 @@ $("#apply_training_button").click(()=>{
     $("#view_region").text(data.region);
     $("#view_ddo_code").text(data.ddo_code);
 
-
+  }
+  //to Update Registration
+  
+  function fillRegistrationModal(){
+    var regid=$("#view_regid").text();
+    $("#editReg_registration_id").val(regid);
+    $("#editReg_username").val($("#view_username").text());
+    $("#editReg_phone").val($("#view_userphone").text());
+    $("#editReg_email").val($("#view_useremail").text());
 
   }
+ $("#saveRegUpdates").click(()=>{
+   var registration={
+    reg_id:$("#editReg_registration_id").val(),
+    email:$("#editReg_email").val(),
+    phone:$("#editReg_phone").val(),
+    password:$("#editReg_password").val()
+   }
+   console.log(registration);
+
+ })
+ 
 
 
   // For event handler

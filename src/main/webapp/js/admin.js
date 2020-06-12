@@ -1,4 +1,11 @@
+  //Total Trainings
+  fetchTotalTrainings();
+  function fetchTotalTrainings(){
+    $.getJSON( "http://localhost:8080/admin/totalTrainings", function(response) {
+      $("#view_total_trainings").text(response.data);
 
+    });
+  }
   //Total Registrations
   fetchTotalRegistration();
   function fetchTotalRegistration() {
@@ -43,12 +50,37 @@
         + '<td>' + value.department_id + '</td>'
         + '<td>' + value.designation + '</td>'
         + '<td>' + value.ddo_code + '</td>'
-        + '<td>' + '<button type="button" id="#" class="btn btn-info btn-sm delete" data-toggle="modal" onclick="fillEmployeeModalPopup(this)" data-target="#exampleModalCenter">View</button>' + '</td>'
+        + '<td>' +'<a type="button" title="View" data-toggle="modal" onclick="fillEmployeeModalPopup(this)" data-target="#exampleModalCenter" class="delete" onclick="updateApplication(this)" data-toggle="modal"  data-target="#selected_trainee_modal" style="align:center;"><i class="fa fa-eye" aria-hidden="true"></i></a>' + '</td>'
         + '</tr>';
 
     });
     $('#allEmployees').append(employee_data);
 
+  }
+  //Employee Search bar
+  populateEmployeeInSearch();
+  function populateEmployeeInSearch(){
+   $.getJSON( "http://localhost:8080/employees", function(response) {
+    
+       var emoloyeeSuggestions = [];
+       var i = 0;
+       $.each(response.data, function (key, value) {
+         emoloyeeSuggestions[i] = value.employee_id;
+         i++;
+       });
+       console.log(emoloyeeSuggestions);
+       //now the magic begins
+       $("#search_employee_byId").autocomplete({
+         source: emoloyeeSuggestions
+ 
+       }, {
+         autoFocus: true,
+         delay: 0,
+         minlength: 1
+       });
+ 
+   })
+ 
   }
   //test
   $("#allEmployees").on('click', '.delete', function () {
@@ -151,8 +183,8 @@
             trainee_data += '<td>' + value.emp_dep_no + '</td>';
             trainee_data += '<td>' + value.emp_desig + '</td>';
             trainee_data += '<td>' + value.emp_ddo_code + '</td>';
-            trainee_data += '<td>' + '<button type="button" id="#"  class="btn btn-success btn-sm selectEmployee">Select</button>' + '</td>';
-            trainee_data += '<td>' + '<button type="button" id="#" class="remove btn btn-sm btn-info" >Remove</button>' + '</td>';
+            trainee_data += '<td>' + '<a type="button" title="Select" class="edit selectEmployee"   style="color: #00b300;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-check" aria-hidden="true"></i></a>' + 
+                            '<a type="button" title="Remove" class="edit remove"   style="color: #e60000;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-times" aria-hidden="true"></i></a>' + '</td>';
             trainee_data += '</tr>';
 
           });
@@ -336,20 +368,89 @@
     $.each(applications, function (key, value) {
 
       application_data += '<tr>'
+        + '<td>' + value.application_id + '</td>'
         + '<td>' + value.employee_no + '</td>'
         + '<td>' + value.training_prog_id + '</td>'
         + '<td>' + value.name + '</td>'
         + '<td>' + value.department_no + '</td>'
         + '<td>' + value.designation + '</td>'
-        + '<td>' + value.DDO_CODE + '</td>'
         + '<td>' + value.application_status + '</td>'
-        + '<td>' + '<button type="button" id="#" class="btn btn-sm btn-primary" onclick="updateApplication(this)" data-toggle="modal"  data-target="#selected_trainee_modal">Update</button>' + '</td>'
+        + '<td>' +'<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
+                '<a type="button" class="delete"  title="Delete" onclick="deleteApplication(this)" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>'
         + '</tr>';
 
     });
     $('#applications_table').append(application_data);
 
   }
+  
+//Selected trainee Update
+function updateApplication(x) {
+  var currentRow=$(x).closest('tr');
+  var applicationId=currentRow.find("td:eq(0)").text(); 
+  $.getJSON('http://localhost:8080/admin/findApplication/'+applicationId,function(response){
+    console.log("Applicatiion",response);
+    var data=response.data;
+    $("#editApp_application_id").val(data.application_id);
+    $("#editApp_name").val(data.name);
+    $("#editApp_employee_id").val(data.employee_no);
+    $("#editApp_department_id").val(data.department_no);
+    $("#editApp_ddo_code").val(data.ddo_CODE);
+    $("#editApp_designation").val(data.designation);
+    $("#editApp_status").val(data.application_status);
+    $("#editApp_regid").val(data.reg_no);
+
+
+  })
+  
+
+}
+//to delete a Application
+function deleteApplication(x){
+  var currentRow=$(x).closest('tr');
+  var application_id=currentRow.find("td:eq(0)").text(); 
+  console.log("app Id",application_id);
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this imaginary file!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willDelete) => {
+      if (willDelete) {
+        var loading = new Loading({
+          title: ' Please Wait',
+          direction: 'hor',
+          discription: 'Sending data...',
+          defaultApply: true,
+        });
+        var settings = {
+          "url": "http://localhost:8080/admin/deleteApplication/" + application_id,
+          "method": "DELETE",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": null,
+        };
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+          if (response.status == "success") {
+            fetchAllApplications();
+            loading.out();
+            swal("Poof! Deleted successfully!", {
+              icon: "success",
+            });
+          }
+         
+          loading.out();
+          alert("not deleted");
+          
+        });
+      }
+    });
+}
 
 
   // To publish all trainees
@@ -424,15 +525,6 @@
 
 
   });
-
-
-
-
-
-
-
-
-
   //For Training Programs
   //Calling the Function at document load
   updateAllTrainings()
@@ -458,13 +550,13 @@
         training_prg_data += '<td>' + value.training_prg_id + '</td>';
         training_prg_data += '<td>' + value.training_prg_name + '</td>';
         training_prg_data += '<td>' + value.training_prg_type + '</td>';
-        training_prg_data += '<td>' + value.training_prg_duration + '</td>';
         training_prg_data += '<td>' + value.training_start_date + '</td>';
+        training_prg_data += '<td>' + value.training_end_date + '</td>';
         training_prg_data += '<td>' + value.training_create_date + '</td>';
         training_prg_data += '<td>' + value.training_status + '</td>';
         training_prg_data += '<td>' + value.display_status + '</td>';
-        training_prg_data += '<td>' + '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="fillTrainingModal(this)"  data-target="#previewTrainings">Privew & Update</button>' + '</td>';
-        training_prg_data += '<td>' + '<button type="button" class="btn btn-danger btn-sm " onclick="deleteTraining(this)">Delete</button>' + '</td>';
+        training_prg_data += '<td>' +' <a type="button" class="edit" title="Edit" data-toggle="modal" onclick="fillTrainingModal(this)" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" data-target="#previewTrainings"><i class="material-icons">&#xE254;</i></a>'
+                             +'<a type="button" class="delete" onclick="deleteTraining(this)" title="Delete" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>';
         training_prg_data += '</tr>';
 
       });
@@ -525,7 +617,32 @@ function deleteTraining(x){
       }
     });
 }
+ populateTrainers();
+ function populateTrainers(){
+  $.getJSON( "http://localhost:8080/admin/trainers", function(response) {
+    console.log("trainers are",response)
+    
+      //to fill the array
+      var trainerSuggestions = [];
+      var i = 0;
+      $.each(response.data, function (key, value) {
+        trainerSuggestions[i] = value.trainer_name+' ,'+value.trainer_id;
+        i++;
+      });
+      console.log(trainerSuggestions);
+      //now the magic begins
+      $("#training_prg_trainer").autocomplete({
+        source: trainerSuggestions
 
+      }, {
+        autoFocus: true,
+        delay: 0,
+        minlength: 1
+      });
+
+  })
+
+ }
 
 
 
@@ -544,8 +661,8 @@ function deleteTraining(x){
       swal("ERROR !!!", "Form not submitted, please select the training type", "error");
       return false;
     }
-    if ($('#training_duration').val() == '') {
-      swal("ERROR !!!", "Form not submitted, please fillup the training duration in months", "error");
+    if ($('#training_end_date').val() == '') {
+      swal("ERROR !!!", "Form not submitted, please fillup the training end date", "error");
       return false;
     }
     if ($('#training_start_date').val() == '') {
@@ -554,6 +671,10 @@ function deleteTraining(x){
     }
     if ($('#training_display').val() == '') {
       swal("ERROR !!!", "Form not submitted, please select yes or no", "error");
+      return false;
+    }
+    if ($('#training_prg_trainer').val() == '') {
+      swal("ERROR !!!", "Form not submitted,please select a trainer", "error");
       return false;
     }
     // to view the loading animation
@@ -568,9 +689,10 @@ function deleteTraining(x){
       training_prg_name: $("#training_name").val(),
       training_prg_type: $("#training_type").val(),
       training_description: $("#training_description").val(),
-      training_prg_duration: $("#training_duration").val(),
+      training_end_date: $("#training_end_date").val(),
       training_start_date: $("#training_start_date").val(),
       training_status: "created",
+      training_prg_trainer_id:$("#training_prg_trainer").val(),
       display_status: $("#training_display").val()
 
     }
@@ -632,15 +754,6 @@ function deleteTraining(x){
 // End of document.ready()
 
 
-//Selected trainee Update
-function updateApplication(x) {
-  var index = $(x).closest('tr').index();
-  console.log("Selected Trainee table index : ", index);
-  var currentRow=$(x).closest('tr');
-  var empId=currentRow.find("td:eq(0)").text(); 
-  alert(empId);
-
-}
 
 
 
@@ -694,7 +807,8 @@ function fillTrainingModal(x) {
         $("#prg_name").text(data[i].training_prg_name);
         $("#prg_type").text(data[i].training_prg_type);
         $("#prg_start_date").text(data[i].training_start_date);
-        $("#prg_duration").text(data[i].training_prg_duration);
+        $("#prg_trainer").text(data[i].training_prg_trainer_id);
+        $("#prg_end_date").text(data[i].training_end_date);
         $("#prg_create_date").text(data[i].training_create_date);
         $("#prg_display").text(data[i].display_status);
         $("#prg_status").text(data[i].training_status);

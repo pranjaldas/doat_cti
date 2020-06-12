@@ -409,10 +409,10 @@
 
                         <div class="card-header"
                             style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                            <h4 align="center"><strong>Selected Candidate</strong></h4>
+                            <h4 align="center"><strong>Selected Candidates</strong></h4>
                         </div>
                         <div class="card-body">
-                            <h3<p>Selected Employee List for the Training program</p>
+                            <h3<p>Selected Trainee List for the Training program</p>
                                 </h3>
                                 <table class="table table-light table-striped" id="trainee_table">
 
@@ -445,7 +445,7 @@
 
                         <div class="card-header"
                             style="background: rgb(74, 212, 236) ; padding: 5px; border-radius: 20px;">
-                            <h4 align="center"><strong>About</strong></h4>
+                            <h4 align="center"><strong>About Us</strong></h4>
                         </div>
                         <div class="card-body">
 
@@ -557,36 +557,113 @@
                                     <tr>
                                         <td><i class="fa fa-registered" aria-hidden="true"></i>
                                             Registration ID:</td>
-                                        <td id="view_regid">AERSGDTH45212</td>
+                                        <td id="view_regid"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-lock" aria-hidden="true"></i>
                                             User Name:</td>
-                                        <td id="view_username">EMP001234</td>
+                                        <td id="view_username"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-phone" aria-hidden="true"></i>
                                             Phone No:</td>
-                                        <td id="view_userphone">9678186292</td>
+                                        <td id="view_userphone"></td>
                                     </tr>
                                     <tr>
                                         <td> <i class="fa fa-envelope" aria-hidden="true"></i>
                                             Email:</td>
-                                        <td id="view_userphone">pranjaldas@gmail.com</td>
+                                        <td id="view_useremail"></td>
                                     </tr>
                                 </tbody>
                             </table>
             
                         </div>
+                       
             
             
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            <button type="button" id="publish" class="btn btn-info float-right"><i class="fa fa-wrench" aria-hidden="true"></i>
+                            <button type="button" id="publish" onclick="fillRegistrationModal()" data-toggle="modal" data-target="#updateUserRegistrationDetails" class="btn btn-info float-right"><i class="fa fa-wrench" aria-hidden="true"></i>
                                 Update </button>
                           </div>
                        
                       </div>
+                       <!-- Registration Details update -->
+                       <div class="modal fade" id="updateUserRegistrationDetails" tabindex="-1" role="dialog"
+                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                       <div class="modal-dialog modal-dialog-centered" role="document">
+                         <div class="modal-content">
+                           <div class="modal-header">
+                             <h5 class="modal-title" id="exampleModalLongTitle"><b>Update Registration Details:</b></h5>
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                             </button>
+                           </div>
+                           <div class="modal-body">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Registration Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                  id="editReg_registration_id" readonly/>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>User Name:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editReg_username" />
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                  <p class="font-weight-bold">
+                                    <label>Phone Number:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                  <input type="text" class="form-control" 
+                                     id="editReg_phone"  />
+                                  </p>
+                                </div>
+                              </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Email Address:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editReg_email"  />
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                  <p class="font-weight-bold">
+                                    <label>New Password:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                  <input type="password" class="form-control" 
+                                     id="editReg_password" placeholder="Enter a New password" />
+                                  </p>
+                                </div>
+                              </div>
+                            
+                           </div>
+                           
+                           <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveRegUpdates">Save</button>
+                          </div>
+                         </div>
+                       </div>
+                     </div>
 
                       <div class="card" id="whole-card">
                         <div class="card-header">
@@ -607,17 +684,17 @@
                                     <tr>
                                         <td><i class="fa fa-key" aria-hidden="true"></i>
                                             Department ID:</td>
-                                        <td id="view_depid">DEP005212</td>
+                                        <td id="view_depid"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-info" aria-hidden="true"></i>
                                             Department Name:</td>
-                                        <td id="view_dep_name">Information Technology</td>
+                                        <td id="view_dep_name"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-map-marker" aria-hidden="true"></i>
                                             Location:</td>
-                                        <td id="view_dept_loc">Kar Bhawan,Guwahati</td>
+                                        <td id="view_dept_loc"></td>
                                     </tr>
         
                                 </tbody>
@@ -653,34 +730,34 @@
                                     <tr>
                                         <td><i class="fa fa-id-badge" aria-hidden="true"></i>
                                             Employee ID:</td>
-                                        <td id="view_empid">EMP005212</td>
+                                        <td id="view_empid"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                             Name:</td>
         
         
-                                        <td id="view_name">Pranjal Das</td>
+                                        <td id="view_name"></td>
                                     </tr>
                                     <tr>
                                         <td> <i class="fa fa-calendar" aria-hidden="true"></i>
                                             Join Date:</td>
-                                        <td id="view_join_date">18/12/2012</td>
+                                        <td id="view_join_date"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-graduation-cap" aria-hidden="true"></i>
                                             Designation:</td>
-                                        <td id="view_desig">Software Engineer</td>
+                                        <td id="view_desig"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-info" aria-hidden="true"></i>
                                             Region:</td>
-                                        <td id="view_region">Guwahati</td>
+                                        <td id="view_region"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-info" aria-hidden="true"></i>
                                             DDO Code:</td>
-                                        <td id="view_ddo_code">DDO00345</td>
+                                        <td id="view_ddo_code"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -979,7 +1056,7 @@
     </div>
     <!--footer-->
     <div class="footer-dark">
-        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by <strong><a href="https://www.linkedin.com/in/pranjal-das-03bba217b" class="white">Pranjal
+        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by <strong><a href="#" onclick="window.open('https://www.linkedin.com/in/pranjal-das-03bba217b')" class="white">Pranjal
                 Das</a></strong>
     </div>
 

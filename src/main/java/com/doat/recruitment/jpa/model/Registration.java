@@ -17,6 +17,8 @@ public class Registration {
 	private String email;
 	@Transient
 	private String password;
+	@Transient
+	private String username;
 	
 	
 	public Registration() {
@@ -34,6 +36,8 @@ public class Registration {
 		this.email = email;
 		this.password = password;
 	}
+	
+	
 	public String getReg_id() {
 		return reg_id;
 	}
@@ -76,10 +80,25 @@ public class Registration {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	@Override
 	public String toString() {
-		return "Registration [reg_id=" + reg_id + ", name=" + name + ", employee_no=" + employee_no + ", department_no="
-				+ department_no + ", phone=" + phone + ", email=" + email + ", password=" + password + "]";
+		return "Registration [department_no=" + department_no + ", email=" + email + ", employee_no=" + employee_no
+				+ ", name=" + name + ", password=" + password + ", phone=" + phone + ", reg_id=" + reg_id
+				+ ", username=" + username + "]";
+	}
+	public Registration(String reg_id, String phone, String email, String password, String username) {
+		this.reg_id = reg_id;
+		this.phone = phone;
+		this.email = email;
+		this.password = password;
+		this.username = username;
 	}
 	
 	

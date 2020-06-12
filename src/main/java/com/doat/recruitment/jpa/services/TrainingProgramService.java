@@ -44,6 +44,10 @@ public class TrainingProgramService {
 		return list;
 	}
 
+	public Long countAll() {
+		return repo.count();
+	}
+
 
 	
 

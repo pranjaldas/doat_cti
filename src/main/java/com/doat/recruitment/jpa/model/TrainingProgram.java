@@ -22,10 +22,14 @@ public class TrainingProgram {
 	@Lob
 	@Column(columnDefinition = "TEXT")
 	private String training_description;
-	private String training_prg_duration;
+
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	private Date training_end_date;
+
 	private String training_prg_type;
 	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	private Date training_start_date;
+
 	@CreationTimestamp
 	private LocalDate training_create_date;
 	@UpdateTimestamp
@@ -34,26 +38,12 @@ public class TrainingProgram {
 	private String training_status;
 	private boolean display_status;
 
+
 	public TrainingProgram() {
 		super();
 	}
 
-	public TrainingProgram(String training_prg_id, String training_prg_name, String training_description,
-			String training_prg_duration, String training_prg_type, Date training_start_date,
-			LocalDate training_create_date, String training_prg_trainer_id, String training_status,
-			boolean display_status) {
-		super();
-		this.training_prg_id = training_prg_id;
-		this.training_prg_name = training_prg_name;
-		this.training_description = training_description;
-		this.training_prg_duration = training_prg_duration;
-		this.training_prg_type = training_prg_type;
-		this.training_start_date = training_start_date;
-		this.training_create_date = training_create_date;
-		this.training_prg_trainer_id = training_prg_trainer_id;
-		this.training_status = training_status;
-		this.display_status = display_status;
-	}
+	
 
 	public String getTraining_prg_id() {
 		return training_prg_id;
@@ -79,13 +69,6 @@ public class TrainingProgram {
 		this.training_description = training_description;
 	}
 
-	public String getTraining_prg_duration() {
-		return training_prg_duration;
-	}
-
-	public void setTraining_prg_duration(String training_prg_duration) {
-		this.training_prg_duration = training_prg_duration;
-	}
 
 	public String getTraining_prg_type() {
 		return training_prg_type;
@@ -135,13 +118,50 @@ public class TrainingProgram {
 		this.display_status = display_status;
 	}
 
+	
+
+
+
+	public TrainingProgram(String training_prg_id, String training_prg_name, String training_description,
+			Date training_end_date, String training_prg_type, Date training_start_date,
+			LocalDate training_create_date, LocalDateTime training_update_date, String training_prg_trainer_id,
+			String training_status, boolean display_status) {
+		this.training_prg_id = training_prg_id;
+		this.training_prg_name = training_prg_name;
+		this.training_description = training_description;
+		this.training_end_date = training_end_date;
+		this.training_prg_type = training_prg_type;
+		this.training_start_date = training_start_date;
+		this.training_create_date = training_create_date;
+		this.training_update_date = training_update_date;
+		this.training_prg_trainer_id = training_prg_trainer_id;
+		this.training_status = training_status;
+		this.display_status = display_status;
+	
+	}
+
+
+
+	public Date getTraining_end_date() {
+		return training_end_date;
+	}
+
+
+
+	public void setTraining_end_date(Date training_end_date) {
+		this.training_end_date = training_end_date;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "TrainingProgram [display_status=" + display_status + ", training_create_date=" + training_create_date
-				+ ", training_description=" + training_description + ", training_prg_duration=" + training_prg_duration
+				+ ", training_description=" + training_description + ", training_end_date=" + training_end_date
 				+ ", training_prg_id=" + training_prg_id + ", training_prg_name=" + training_prg_name
 				+ ", training_prg_trainer_id=" + training_prg_trainer_id + ", training_prg_type=" + training_prg_type
-				+ ", training_start_date=" + training_start_date + ", training_status=" + training_status + "]";
+				+ ", training_start_date=" + training_start_date + ", training_status=" + training_status
+				+ ", training_update_date=" + training_update_date + "]";
 	}
-
+	
 }
