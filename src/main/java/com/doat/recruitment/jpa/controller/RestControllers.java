@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.doat.recruitment.jpa.dto.ApplicationDTO;
 import com.doat.recruitment.jpa.dto.ProfileDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
 import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
+import com.doat.recruitment.jpa.model.Trainer;
 import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.model.TrainingProgram;
 import com.doat.recruitment.jpa.model.User;
@@ -38,6 +40,7 @@ import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
+import com.doat.recruitment.jpa.services.TrainerService;
 import com.doat.recruitment.jpa.services.TrainingProgramService;
 
 @RestController
@@ -99,13 +102,14 @@ public class RestControllers {
 		if(reg==null){
 			try {
 				MailService.sendMail(registration);
-				final User user=new User();
-				user.setUsername(registration.getEmail());
-				user.setRole("TRAINEE");
-				user.setActive(true);
-				user.setPassword(registration.getPassword());
+				final User user=new User(registration);	
+
+				String id=IdGenerator.generate(getTime(), registration.getName(), registration.getEmployee_no(), registration.getEmail(), registration.getPhone());
+				registration.setReg_id(id);
+
 				loginService.saveLogin(user);
 				registrationService.saveRegistration(registration);
+
 				final ServiceResponse<Registration> response = new ServiceResponse<>("success", registration);
 				return new ResponseEntity<Object>(response, HttpStatus.OK);	
 			} 
@@ -126,11 +130,17 @@ public class RestControllers {
 			
 		
 	}
+	public String getTime(){
+		long time=System.currentTimeMillis();
+        String timee=Long.toString(time);
+        StringBuilder input=new StringBuilder(timee);
+		String timeee=input.toString();
+		return timeee;
+	}
+
 	@GetMapping("/countRegistration")
 	public ResponseEntity<Object> countRegistration(){
-		final Long total=registrationService.countTotal();
-		System.out.println(total);
-		final ServiceResponse<Long> response=new ServiceResponse<>("success",total);
+		final ServiceResponse<Long> response=new ServiceResponse<>("success",registrationService.countTotal());
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
@@ -152,6 +162,12 @@ public class RestControllers {
 	// return new ResponseEntity<Object>(response,HttpStatus.OK);
 	// }
 	// To advertise a upcomming training program
+	@GetMapping(value="/testNative/{month}")
+	public ResponseEntity<Object> getTestTrainingPrograms(@PathVariable String month) {
+		final List<TrainingProgram> list = trainingProgramService.viewTestTraining(month);
+		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
 	@GetMapping(value = "/trainings")
 	public ResponseEntity<Object> getTrainingPrograms() {
 		final List<TrainingProgram> list = trainingProgramService.viewTraining();
@@ -191,19 +207,24 @@ public class RestControllers {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         final Date startdate = trainingProgram.getTraining_start_date();
 		final String date = dateFormat.format(startdate).replaceAll("\\s", "");
-		
-		
-		
-
-        final IdGenerator generator=new IdGenerator();
-		final String id=generator.IdGenerate(time,trainingProgram.getTraining_prg_type(),date, trainingProgram.getTraining_prg_name(),"TRAIN");
+		final String id=IdGenerator.generate(time,trainingProgram.getTraining_prg_type(),date, trainingProgram.getTraining_prg_name(),"TRAIN");
+	
 		System.out.println("The generated Id is:"+id);
+		Events event=new Events(trainingProgram);
+		eventService.saveEvent(event);
 
 		trainingProgram.setTraining_prg_id(id);
         trainingProgramService.saveTraining(trainingProgram);
         final ServiceResponse<TrainingProgram> response = new ServiceResponse<>("success", trainingProgram);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	@GetMapping(value = "admin/totalTrainings")
+	public ResponseEntity<Object> countTrainings(){
+		ServiceResponse<Long> response=new ServiceResponse<Long>("success", trainingProgramService.countAll());
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
+
 	
 	//Employee rest apis
 	@GetMapping("/employees")
@@ -223,6 +244,38 @@ public class RestControllers {
 
 	}
 	//Training Applications
+	@PostMapping(value="/apply")
+	public ResponseEntity<Object> apply(@RequestBody ApplicationDTO application){
+		ServiceResponse<ApplicationDTO> response=new ServiceResponse<>("success",application);
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	@PostMapping(value="/applyTraining")
+	public ResponseEntity<Object> applyTraining(@RequestBody ApplicationDTO application){
+		User user=new User(application);
+		final boolean auth=loginService.authUser(user);
+		if(auth==true){
+			Optional <Registration> optional=registrationService.findRegistrationById(application.getReg_id());
+			if(optional.isPresent()){
+				Registration registration=optional.get();
+				Optional<Employee> optional2=eEmployeeService.findEmployee(registration.getEmployee_no());
+				if(optional2.isPresent()){
+				  Employee employee=optional2.get();
+				  TrainingApplication trainingApplication=new TrainingApplication(registration, application, employee);
+				  service.saveApplication(trainingApplication);
+				  final ServiceResponse<TrainingApplication> response=new ServiceResponse<>("success",trainingApplication);
+				return new ResponseEntity<>(response,HttpStatus.OK);
+				}
+				final ServiceResponse<String> response=new ServiceResponse<>("Not Found","Employee Not Found");
+				return new ResponseEntity<>(response,HttpStatus.OK);
+			}			
+			final ServiceResponse<String> response=new ServiceResponse<>("Not Found","Registration Not Found");
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("Wrong Input","Not a valid user");
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	
+
 	//this api is for updating publish attribute
 	@PostMapping(value = "/postApplication")
 	public ResponseEntity<Object> postApplication(@RequestBody final TrainingApplication application) {
@@ -246,6 +299,36 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 
 	}
+	@DeleteMapping(value = "/admin/deleteApplication/{application_id}")
+	public ResponseEntity<Object> deletApplication(@PathVariable Integer application_id){
+		try {
+			service.deleteTrainingApplication(application_id);
+			final ServiceResponse<String> response = new ServiceResponse<>("success", "Deleted Successfully");
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Unable to delete");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+	@GetMapping(value = "/admin/findApplication/{application_id}")
+	public ResponseEntity<Object> findApplication(@PathVariable Integer application_id){
+		
+		Optional<TrainingApplication> optional=service.findApplication(application_id);
+		if(optional.isPresent()){
+			TrainingApplication application=optional.get();
+			final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Not Found");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+
+
+
+
+
 
 	@GetMapping(value = "/getApplications")
 	public ResponseEntity<Object> getApplication() {
@@ -289,4 +372,12 @@ public class RestControllers {
 		final ServiceResponse<Events> response=new ServiceResponse<>("success",event);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}	
+	//Trainer APIs
+	@Autowired
+	TrainerService trainerService;
+	@GetMapping(value="/admin/trainers")
+	public ResponseEntity<Object> alltrainers(){
+		ServiceResponse<List<Trainer>> response=new ServiceResponse<>("success",trainerService.findAllTrainers());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
 }

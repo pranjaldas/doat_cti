@@ -1,9 +1,11 @@
-$(document).ready(() => {
+
   //to hide the alert box
   $("#success-alert").hide();
   $("#failure-alert").hide();
   $("#login-failure-alert").hide();
   $("#used-email-failure-alert").hide();
+  $("#user-regId-failure-alert").hide();
+  $("#user-auth-failure-alert").hide();
   //to set interval of slideshow
   $('.carousel').carousel({
     interval: 1000
@@ -28,12 +30,12 @@ $(document).ready(() => {
         trainee_data += '<table class=" table addTable" style="border: 2px solid black ">';
         trainee_data += '<thead>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button" id="apply"  class="btn btn-link" data-toggle="modal" data-target="#modalApplyTraining">here</button>' + '</td>';
+        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button"  onclick="applyTraining(this)" class="btn btn-link" data-toggle="modal" data-target="#applyModal">here</button>' + '</td>';
         trainee_data += '</tr>';
         trainee_data += '</thead>';
         trainee_data += '<tbody>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Training Program ID: " + '</b>' + '<span>' + value.training_prg_id + '</span>' + '</td>';
+        trainee_data += '<td>' + '<b>' + "Training Program ID: " + '</b>' + '<span class="id">' + value.training_prg_id + '</span>' + '</td>';
         trainee_data += '</tr>';
         trainee_data += '<tr>';
         trainee_data += '<td>' + '<b>' + "Training Program name: " + '</b>' + value.training_prg_name + '</td>';
@@ -45,7 +47,7 @@ $(document).ready(() => {
         trainee_data += '<td>' + '<b>' + "Start date: " + '</b>' + value.training_start_date + '</td>';
         trainee_data += '</tr>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Duration: " + '</b>' + value.training_prg_duration + '</td>';
+        trainee_data += '<td>' + '<b>' + "End Date: " + '</b>' + value.training_end_date + '</td>';
         trainee_data += '</tr>';
         trainee_data += '</tbody>';
         trainee_data += '</table>';
@@ -57,7 +59,66 @@ $(document).ready(() => {
     });
 
   }
+//To apply training 
+// This piece of code took my whole day but finally I did it, 2020-06-01
+var selected_id="";
+function applyTraining(x){
+ selected_id=$(x).parents("table").find(".id").text();
+ console.log(selected_id);
+}
+$("#apply_training_button").click(()=>{ 
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    defaultApply: true,
+  });
+ 
+  var application={
+    training_prg_id:selected_id,
+    username:$("#apply_username").val(),
+    password:$("#apply_password").val(),
+    reg_id:$("#apply_reg_id").val()
+  }
+  var settings = {
+    "url": "http://localhost:8080/applyTraining",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(application),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    if (response.status == "success") {
+      loading.out();
+      $("#apply_form")[0].reset();
+      $('#applyModal').modal('hide');
+      swal("Poof! Applied successfully!", {
+        icon: "success",
+      });
+    }
+    else if(response.status=="Wrong Input") {
+      loading.out();
+      $("#user-auth-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
+        $("#user-auth-failure-alert").slideUp(500);
+      });
+    } 
+    else if("Not Found"){
+      loading.out();
+      $("#user-regId-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
+        $("#user-regId-failure-alert").slideUp(500);
+      });
 
+    }
+    else{
+      loading.out();
+      alert("Najannu dei ki hoise")
+    }
+
+  });
+ 
+  })
 
 
   //Registration of Trainee 
@@ -258,7 +319,6 @@ $(document).ready(() => {
     });
 
     let registration_object = {
-      reg_id: "REGNO00978WER",
       name: data1,
       department_no: data2,
       employee_no: data,
@@ -365,9 +425,28 @@ $(document).ready(() => {
     $("#view_region").text(data.region);
     $("#view_ddo_code").text(data.ddo_code);
 
-
+  }
+  //to Update Registration
+  
+  function fillRegistrationModal(){
+    var regid=$("#view_regid").text();
+    $("#editReg_registration_id").val(regid);
+    $("#editReg_username").val($("#view_username").text());
+    $("#editReg_phone").val($("#view_userphone").text());
+    $("#editReg_email").val($("#view_useremail").text());
 
   }
+ $("#saveRegUpdates").click(()=>{
+   var registration={
+    reg_id:$("#editReg_registration_id").val(),
+    email:$("#editReg_email").val(),
+    phone:$("#editReg_phone").val(),
+    password:$("#editReg_password").val()
+   }
+   console.log(registration);
+
+ })
+ 
 
 
   // For event handler
@@ -377,7 +456,7 @@ $(document).ready(() => {
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: 'dayGridMonth,listWeek'
     },
     defaultDate: '2020-05-27',
     navLinks: true, // can click day/week names to navigate views
@@ -471,63 +550,7 @@ $(document).ready(() => {
     ]
   });
 
-  
-
   calendar.render();
-
-  // mobiscroll.settings = {
-  //   theme: 'windows',
-  //   themeVariant: 'light',
-  //   lang: 'en'
-  // };
-
-  // $(function () {
-
-  //   var inst = $('#demo-desktop-month-view').mobiscroll().eventcalendar({
-
-  //     lang: 'en',                // Specify language like: lang: 'pl' or omit setting to use default
-  //     theme: 'windows',                        // Specify theme like: theme: 'ios' or omit setting to use default
-  //     themeVariant: 'light',                   // More info about themeVariant: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-themeVariant
-  //     display: 'inline',                       // Specify display mode like: display: 'bottom' or omit setting to use default
-  //     calendarHeight: 614,                     // More info about calendarHeight: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-calendarHeight
-  //     view: {                                  // More info about view: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-view
-  //       calendar: {
-  //         labels: true                     // More info about labels: https://docs.mobiscroll.com/4-10-3/eventcalendar#opt-labels
-  //       }
-  //     },
-  //     onEventSelect: function (event, inst) {  // More info about onEventSelect: https://docs.mobiscroll.com/4-10-3/eventcalendar#event-onEventSelect
-  //       mobiscroll.toast({
-
-  //         message: event.event.text
-  //       });
-  //     }
-  //   }).mobiscroll('getInst');
-
-  //   // from test dummy data
-
-
-  //   var settings = {
-  //     "url": "http://localhost:8080/getEvents",
-  //     "method": "GET",
-  //     "timeout": 0,
-  //     "headers": {
-  //       "Content-Type": "application/json"
-  //     },
-  //     "data": null,
-  //   };
-  //   $.ajax(settings).done(function (response) {
-  //     let eventss = response.data;
-  //     console.log("The events are:", eventss);
-  //     inst.setEvents(eventss);
-  //   });
-
-
-
-  //   //end dummy data
-
-
-  // });
-
 
   //Code for User profile
   $("#logout").click(() => {
@@ -625,9 +648,79 @@ $(document).ready(() => {
 
 
 
-})
+
 //End of ready()
 
-function testMethod(id) {
-  console.log(id);
+function download(x) {
+  var index = $(x).closest('tr');
+  console.log("Trainee table index : ", index);
+  var col1 = index.find("td:eq(1)").text(); 
+  console.log(col1);
+  var json = [{
+    "Training ID": "TRAI34HJK",
+    "Training Type": "Induction",
+    "Start Date": "2020-05-06",
+    "End Date": "2020-06-12",
+    "Trainer Name":"Ramesh Goyel",
+}, {
+    "Training ID": "TRAI345yu",
+    "Training Type": "Service Training",
+    "Start Date": "2020-05-12",
+    "End Date": "2020-06-29",
+    "Trainer Name":"Phunsukh Wangru",
+},{
+    "Training ID": "TRAI34HJK",
+    "Training Type": "Demo Training",
+    "Start Date": "2020-05-01",
+    "End Date": "2020-06-12",
+    "Trainer Name":"Ramesh Goyel",
+}];
+
+//Convert JSON to HTML Table.
+var table = document.createElement("TABLE");
+table.border = "1";
+
+//Add the header row.
+var row = table.insertRow(-1);
+for (var i = 0; i < Object.keys(json[0]).length; i++) {
+    var headerCell = document.createElement("TH");
+    headerCell.innerHTML = Object.keys(json[0])[i];
+    row.appendChild(headerCell);
+}
+
+//Add the data rows.
+for (var i = 1; i < Object.keys(json).length; i++) {
+    row = table.insertRow(-1);
+    for (var j = 0; j < Object.keys(json[0]).length; j++) {
+        var cell = row.insertCell(-1);
+        cell.innerHTML =json[i][Object.keys(json[0])[j]];
+    }
+}
+table.setAttribute("class", "table table-striped  table-bordered");
+
+var title = document.createElement("h1");               // Create a <p> element
+title.innerText = "Calendar "+col1;
+
+//Append the Table to the HTML DIV.
+var dvTable = document.getElementById("dvTable");
+dvTable.innerHTML = "";
+dvTable.appendChild(title);
+dvTable.appendChild(table);
+// Convert Table to PDF.
+html2canvas(document.getElementById('dvTable'), {
+    onrendered: function (canvas) {
+        var data = canvas.toDataURL();
+        var docDefinition = {
+            content: [{
+                image: data,
+                width: 500
+            }]
+        };
+        pdfMake.createPdf(docDefinition).download(col1+'.pdf');
+
+        //Remove the Table.
+        dvTable.innerHTML = "";
+    }
+});
+
 }

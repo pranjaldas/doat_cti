@@ -33,10 +33,15 @@
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
   <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.theme.css">
-
+  <!-- Material icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- for loading animation -->
   <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
   <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
+  <!-- My Css -->
+  <link rel="stylesheet" type="text/css" href="css/adminStyle.css" />
   <style>
     @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -248,9 +253,9 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>150</h3>
+                  <h3 id="view_total_trainings"></h3>
 
-                  <p>Has logged in</p>
+                  <p>Total Training Programs</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-bag"></i>
@@ -263,9 +268,9 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+                  <h3>0</h3>
 
-                  <p>Complete from fill up</p>
+                  <p>Total Trainees</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
@@ -325,11 +330,12 @@
                             <th><b> Training ID</b></th>
                             <th><b> Name</b></th>
                             <th><b> Type</b></th>
-                            <th><b> Duration</b></t>
                             <th><b> Start Date</b></th>
+                            <th><b> End Date</b></t>
                             <th><b> Create Date</b></th>
                             <th><b> Current Status</b></th>
                             <th><b> In display</b></th>
+                            <th><b> Action</b></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -403,10 +409,19 @@
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label>Training Duration: </label></p>
+                                  <label>Training End Date: </label></p>
                               </div>
                               <div class="form-group col-6">
-                                <p id="prg_duration"></p>
+                                <p id="prg_end_date"></p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Trainier ID: </label></p>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="prg_trainer"></p>
                               </div>
                             </div>
                             <div class="form-row">
@@ -489,18 +504,6 @@
                                 </select>
                               </div>
                             </div>
-
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <label>
-                                  <p class="font-weight-bold">Training Program Duration:</p>
-                                </label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" id="training_duration" name="training_duration"
-                                  placeholder="Write duration of the program">
-                              </div>
-                            </div>
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <label>
@@ -512,6 +515,30 @@
                                   id="training_start_date">
                               </div>
                             </div>
+
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Training Program End Date:</p>
+                                </label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input class="form-control" type="date" name="training_end_date"
+                                  id="training_end_date" placeholder="Training End Date">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Training program Trainer:</p>
+                                </label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input class="form-control" type="text" name="training_prg_trainer"
+                                  id="training_prg_trainer" placeholder="Write Trainer Name ">
+                              </div>
+                            </div>
+                            
 
                             <div class="form-row">
                               <div class="form-group col-md-4">
@@ -545,9 +572,9 @@
               <!-- /.card -->
 
               <!-- Design form-->
-              <div class="card">
+              <div class="card" class="whole-card">
                 <div class="card-header">
-                  <h3 class="card-title">Trainees</h3>
+                  <h3 class="card-title">Training Application</h3>
 
                   <div class="card-tools">
 
@@ -562,20 +589,21 @@
 
                   </div>
                 </div>
-                <!-- /.card-header -->
+                <!-- /.cadrd-header -->
                 <div class="card-body">
                   <div class="tab-content">
                     <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
                       <table id="applications_table" class="table table-light table-striped">
                         <thead>
                           <tr>
+                            <th><b>Application ID</b></th>
                             <th><b>EmployeeID</b></th>
                             <th><b>TrainingID</b></th>
                             <th><b>Name</b></th>
                             <th><b>Department</b></th>
                             <th><b>Designation</b></th>
-                            <th><b>DDO Code</b></th>
                             <th><b>Status</b></th>
+                            <th><b>Action</b></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -588,6 +616,118 @@
                         <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i> Publish </button>
                       </div>
                     </div>
+                     <!-- Modal to view each training Application -->
+                     <div class="modal fade" id="updateApplicationModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                     <div class="modal-dialog modal-dialog-centered" role="document">
+                       <div class="modal-content">
+                         <div class="modal-header">
+                           <h5 class="modal-title" id="exampleModalLongTitle"><b>Training Application Details:</b></h5>
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                           </button>
+                         </div>
+                         <div class="modal-body">
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Application Id:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                id="editApp_application_id" />
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Registration No:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_regid" />
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Applicant Name:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_name" readonly />
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Employee Id:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_employee_id" readonly />
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Department Id:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_department_id" readonly/>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>DDO Code:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_ddo_code" readonly/>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Designation:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_designation" readonly/>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-4">
+                              <p class="font-weight-bold">
+                                <label>Application Status:</label>
+                            </div>
+                            <div class="form-group col-6">
+                              <input type="text" class="form-control" 
+                                 id="editApp_status" />
+                              </p>
+                            </div>
+                          </div>
+                           
+                           
+                           
+                         </div>
+                         
+                         <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        </div>
+                       </div>
+                     </div>
+                   </div>
+                   <!-- Modal End -->
 
                     <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
                       <div class="container">
@@ -635,8 +775,7 @@
                               <th><b>Department</b></th>
                               <th><b>Designation</b></th>
                               <th><b>DDO Code</b></th>
-                              <th><button class="btn btn-sm btn-primary" id="select_all">Select All</button></th>
-                              <th><button class="btn btn-sm btn-info" id="remove_all">Remove All</button></th>
+                              <th><b>Action</b></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -671,7 +810,7 @@
               </h3>
               <div class="card-tools">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search Employee by name">
+                  <input type="text" class="form-control" placeholder="Search Employee by name" id="search_employee_byId">
                   <div class="input-group-append">
                     <button class="btn btn-secondary" type="button">
                       <i class="fa fa-search"></i>
@@ -691,6 +830,7 @@
                       <th><b>Department</b></th>
                       <th><b>Designation</b></th>
                       <th><b>DDO Code</b></th>
+                      <th><b>Action</b></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -700,9 +840,7 @@
               </div>
 
             </div>
-            <script>
-             
-            </script>
+          
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -817,8 +955,7 @@
 
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-              <button type="button" class="btn btn-info float-right" data-toggle="modal"
-                data-target="#exampleModalCenter"><i class="fas fa-plus"></i> Add centre</button>
+              <button type="button" class="btn btn-info float-right" ><i class="fas fa-plus"></i> Add centre</button>
             </div>
           </div>
           <!-- /Employee Card End -->
@@ -894,7 +1031,7 @@
     <strong>Copyright &copy; 2020 <a href="http://adminlte.io">DOAT,Guwahati</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.2
+      <b>Version</b> 1.0
     </div>
   </footer>
 

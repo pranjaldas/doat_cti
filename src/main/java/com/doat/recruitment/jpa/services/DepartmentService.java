@@ -15,6 +15,8 @@ public class DepartmentService {
     DepartmentRepository repo;
 	public Object findAllDepartment() {
         List<Department> list=new ArrayList<>();
+        //This is called method referencing as like call by method, introduced in java Stream Api at java 1.8
+        //Internal Iteration
         repo.findAll().forEach(list::add);
         return list;
 	}

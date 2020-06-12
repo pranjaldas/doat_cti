@@ -2,11 +2,8 @@ package com.doat.recruitment.jpa.services;
 
 
 public class IdGenerator {
-    public IdGenerator() {
-		
-	}
 	//Id generator method
-	 public String IdGenerate( String str1,String str2,String str3,String str4, String str5) {
+	 public static String generate( String str1,String str2,String str3,String str4, String str5) {
 		 	str1.replaceAll("\\s", "");
 		 	str2.replaceAll("\\s", "");
 		 	str3.replaceAll("\\s", "");

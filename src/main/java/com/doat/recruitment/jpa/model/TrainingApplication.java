@@ -2,6 +2,9 @@ package com.doat.recruitment.jpa.model;
 
 import javax.persistence.*;
 
+import com.doat.recruitment.jpa.dto.ApplicationDTO;
+
+
 @Entity
 @Table(name = "training_applications")
 public class TrainingApplication {
@@ -19,7 +22,18 @@ public class TrainingApplication {
 	public String reason;
 	public Boolean publish;
 	
-	
+	public TrainingApplication(Registration registration,ApplicationDTO application,Employee employee) {
+		this.reg_no = registration.getReg_id();
+		this.name = registration.getName();
+		this.employee_no = registration.getEmployee_no();
+		this.department_no = registration.getDepartment_no();
+		this.training_prog_id = application.getTraining_prg_id();
+		this.application_status = "pending";
+		this.designation = employee.getDesignation();
+		this.DDO_CODE = employee.getDdo_code();
+		this.reason = "";
+		this.publish = false;
+	}
 	public TrainingApplication() {
 		super();
 	
@@ -124,6 +138,7 @@ public class TrainingApplication {
 				+ designation + ", employee_no=" + employee_no + ", name=" + name + ", publish=" + publish + ", reason="
 				+ reason + ", reg_no=" + reg_no + ", training_prog_id=" + training_prog_id + "]";
 	}
+	
 	
 	
 	

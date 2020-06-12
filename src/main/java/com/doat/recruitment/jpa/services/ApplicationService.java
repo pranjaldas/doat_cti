@@ -2,6 +2,7 @@ package com.doat.recruitment.jpa.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,17 @@ public class ApplicationService {
 		List<TrainingApplication> list=new ArrayList<>();
 		repo.findByApplication_status().forEach(list::add);
 		return list;
+	}
+
+
+	public void deleteTrainingApplication(Integer application_id) {
+		repo.deleteById(application_id);
+	}
+
+
+	public Optional<TrainingApplication> findApplication(Integer application_id) {
+		
+		return repo.findById(application_id);
 	}
 
 	
