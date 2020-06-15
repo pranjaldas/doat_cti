@@ -795,8 +795,8 @@
                                   </label>
                                 </div>
                                 <div class="form-group col-4">
-                                  <input class="form-control" type="date" name="training_start_date"
-                                    id="join_date_criteria set">
+                                  <input class="form-control" type="date" name="join_date_criteria_set"
+                                    id="join_date_criteria_set">
                                 </div>
                               </div>
                               <div class="form-row">
@@ -809,7 +809,7 @@
                                    <div class="input-group">
                                       <input type="text" class="form-control" placeholder="Write Trainer Name and add him " id="criteria_desig">
                                       <div class="input-group-append">
-                                        <button class="btn btn-secondary" title="Add Designation" type="button" id="criteria_add_desig">
+                                        <button class="btn btn-secondary btn-sm" title="Add Designation" type="button" id="criteria_add_desig">
                                           <i class="fa fa-plus" aria-hidden="true"></i>
                                         </button>
                                       </div>
@@ -821,6 +821,19 @@
                                   </ul>
                                </div>
   
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-6">
+                                  <button  class="btn btn-primary  float-right" title="set criteria" type="button" id="criteria_set">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+
+                                  </button>
+                                </div>
+                                <div class="form-group col-6">
+                                  <button  class="btn btn-primary " title="reset criteria" type="button" id="criteria_reset">
+                                    <i class="fa fa-recycle" aria-hidden="true"></i>
+                                  </button>
+                                </div>
                               </div>
                               
 
@@ -835,6 +848,7 @@
                                   <tr>
                                     <th><b>EmployeeID</b></th>
                                     <th><b>Name</b></th>
+                                    <th><b>Join Date</b></th>
                                     <th><b>Department</b></th>
                                     <th><b>Designation</b></th>
                                     <th><b>DDO Code</b></th>

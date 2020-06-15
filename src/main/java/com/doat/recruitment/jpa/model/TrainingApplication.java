@@ -17,6 +17,7 @@ public class TrainingApplication {
 	public String reg_no;
 	public String name;
 	public String employee_no;
+	
 	public String department_no;
 	public String training_prog_id;
 	public String application_status;

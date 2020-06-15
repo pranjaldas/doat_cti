@@ -192,6 +192,30 @@
     test = false;
 
 })
+var join_date_criteria='';
+var designation_criteria = [];
+
+$("#criteria_set").click(()=>{
+  join_date_criteria=$("#join_date_criteria_set").val();
+  if (($("#criteria_desig_list").has("li").length === 0)) {
+    swal("ERROR !!!", "please select any designation criteria", "error");
+    return false;
+  }
+  if (join_date_criteria==null) {
+    swal("ERROR !!!", "please select a join date criteria", "error");
+    return false;
+  }
+
+  $("#criteria_desig_list li").each(function () {
+    designation_criteria.push($(this).text());
+  });
+  console.log(join_date_criteria,designation_criteria);
+
+})
+$("#criteria_reset").click(()=>{
+  join_date_criteria='';
+  console.log(join_date_criteria);
+})
 
 
 
@@ -201,20 +225,7 @@
   $("#upload").bind("click", function () {
     $("#trainee_table tbody").empty();
     if ($('#trainings_dropdown').val() == '') {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('please select a training program');
-      newDiv.dialog({
-        title: "ERROR !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "Form not submitted, please select a Training program","error")
       return false;
     }
 
@@ -231,9 +242,10 @@
               var employee = {};
               employee.employee_id = cells[0];
               employee.employee_name = cells[1];
-              employee.emp_dep_no = cells[2];
-              employee.emp_desig = cells[3];
-              employee.emp_ddo_code = cells[4];
+              employee.emp_join_date = cells[2];
+              employee.emp_dep_no = cells[3];
+              employee.emp_desig = cells[4];
+              employee.emp_ddo_code = cells[5];
               employees.push(employee);
             }
           }
@@ -243,6 +255,7 @@
             trainee_data += '<tr>';
             trainee_data += '<td>' + value.employee_id + '</td>';
             trainee_data += '<td>' + value.employee_name + '</td>';
+            trainee_data += '<td>' + value.emp_join_date + '</td>';
             trainee_data += '<td>' + value.emp_dep_no + '</td>';
             trainee_data += '<td>' + value.emp_desig + '</td>';
             trainee_data += '<td>' + value.emp_ddo_code + '</td>';
@@ -255,10 +268,10 @@
         }
         reader.readAsText($("#fileUpload")[0].files[0]);
       } else {
-        alert("This browser does not support HTML5.");
+        swal("ERROR !!!","Browser doesnot support HTML5","error");
       }
     } else {
-      alert("Please upload a valid CSV file.");
+      swal("ERROR !!!","Please upload a valid csv file","error");
     }
   });
 
@@ -282,16 +295,18 @@
 
           var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
           var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
-          var col3 = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
-          var col4 = currentRow.find("td:eq(3)").text();
+          var col3 = currentRow.find("td:eq(2)").text();
+          var col4 = currentRow.find("td:eq(3)").text(); // get current row 3rd TD
           var col5 = currentRow.find("td:eq(4)").text();
+          var col6 = currentRow.find("td:eq(5)").text();
 
           let object = {
             employee_no: col1,
             name: col2,
-            department_no: col3,
-            designation: col4,
-            DDO_CODE: col5,
+            join_date:col3,
+            department_no: col4,
+            designation: col5,
+            DDO_CODE: col6,
             training_prog_id: $("#trainings_dropdown").val(),
             publish: false,
             application_status: 'accepted',
@@ -311,41 +326,12 @@
             console.log(response);
             if (response.status == "success") {
               fetchAllApplications();
-              var newDiv = $(document.createElement('div'));
-              newDiv.html('Succesfully inserted!!!');
-              newDiv.dialog({
-                title: "Message from Server",
-                draggable: true,
-                modal: true,
-                buttons: [{
-                  text: "Ok",
-                  class: "btn btn-md btn-primary",
-                  click: function () {
-                    $(this).dialog("close");
-
-
-                  }
-                }]
-              });
+             swal("Poof!!!","Inserted successfully!!!","success");
 
             }
             else {
-              var newDiv = $(document.createElement('div'));
-              newDiv.html('Error occured, may be Employee Id or Department Id is not valid!!!');
-              newDiv.dialog({
-                title: "Message from Server",
-                draggable: true,
-                modal: true,
-                buttons: [{
-                  text: "Ok",
-                  class: "btn btn-md btn-primary",
-                  click: function () {
-                    $(this).dialog("close");
-
-
-                  }
-                }]
-              });
+            
+              swal("Message From Server !!!","Error occured, may be Employee Id or Department Id is not valid!!!","error");
 
             }
 
