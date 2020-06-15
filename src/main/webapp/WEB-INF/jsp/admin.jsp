@@ -544,7 +544,7 @@
                                   </div>
                               </div>
                               <div class="form-group col-4">
-                                <ul id="trainer_list_selected">
+                                <ul id="trainer_list_selected" class="list-group">
                                   
                                 </ul>
                              </div>

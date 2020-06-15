@@ -201,20 +201,25 @@ $("#criteria_set").click(()=>{
     swal("ERROR !!!", "please select any designation criteria", "error");
     return false;
   }
-  if (join_date_criteria==null) {
+  if (join_date_criteria=='') {
     swal("ERROR !!!", "please select a join date criteria", "error");
     return false;
   }
 
   $("#criteria_desig_list li").each(function () {
-    designation_criteria.push($(this).text());
+    // if(!$.inArray($(this).text(), designation_criteria))array.push($(this).text());
+    // designation_criteria.push($(this).text());
+    if (designation_criteria.indexOf($(this).text()) === -1) designation_criteria.push($(this).text());
   });
   console.log(join_date_criteria,designation_criteria);
 
 })
 $("#criteria_reset").click(()=>{
+  $("#join_date_criteria_set").val('');
+  $("#criteria_desig_list").empty();
   join_date_criteria='';
-  console.log(join_date_criteria);
+  designation_criteria=[];
+  console.log(join_date_criteria,designation_criteria);
 })
 
 
@@ -280,19 +285,16 @@ $("#criteria_reset").click(()=>{
   // code to read selected table row cell data (values).
   $("#trainee_table").on('click', '.selectEmployee', function () {
     var currentRow = $(this).closest("tr");
-    var newDiv = $(document.createElement('div'));
-    newDiv.html('Are you sure??');
-    newDiv.dialog({
-      title: "ALERT !!! ",
-      draggable: true,
-      modal: true,
-      buttons: [{
-        text: "yes",
-        class: "btn btn-md btn-danger",
-        click: function () {
-          $(this).dialog("close");
-          // get the current row
 
+    swal({
+      title: "Are you sure?",
+      text: "You want to insert it?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willInsert) => {
+        if (willInsert) {
           var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
           var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
           var col3 = currentRow.find("td:eq(2)").text();
@@ -312,37 +314,51 @@ $("#criteria_reset").click(()=>{
             application_status: 'accepted',
 
           }
-          console.log(object);
-          var settings = {
-            "url": "http://localhost:8080/checkApplication",
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-              "Content-Type": "application/json"
-            },
-            "data": JSON.stringify(object),
-          };
-          $.ajax(settings).done(function (response) {
-            console.log(response);
-            if (response.status == "success") {
+          
+          console.log(object.join_date);
+          var criteriaDate=new Date(join_date_criteria);
+          var joinDate=new Date(object.join_date)
+          if(criteriaDate > joinDate){
+            console.log("selected");
+            var settings = {
+              "url": "http://localhost:8080/checkApplication",
+              "method": "POST",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "data": JSON.stringify(object),
+            };
+            $.ajax(settings).done(function (response) {
+              console.log(response);
+              if (response.status == "success") {
               fetchAllApplications();
-             swal("Poof!!!","Inserted successfully!!!","success");
-
-            }
-            else {
+              currentRow.remove();
+               swal("Poof!!!","Inserted successfully!!!","success");
+  
+              }
+              else {
+              
+                swal("Message From Server !!!","Error occured, may be Employee Id or Department Id is not valid!!!","error");
+  
+              }
+  
+              $('#applications_table').refresh();
+            });
             
-              swal("Message From Server !!!","Error occured, may be Employee Id or Department Id is not valid!!!","error");
-
-            }
-
-            $('#applications_table').refresh();
-          });
-          currentRow.remove();
-
+          }
+          else{
+            swal("ERROR !!!","The Employee do not pass the join date criteria","error");
+          }
 
         }
-      }]
-    });
+      });
+    
+          // get the current row
+
+      
+      
+   });
 
 
 
@@ -354,7 +370,6 @@ $("#criteria_reset").click(()=>{
 
 
 
-  });
   //To Remove the Row
   $("#trainee_table").on('click', '.remove', function () {
     var currentRow = $(this).closest("tr");
@@ -752,6 +767,7 @@ function deleteTraining(x){
   }
   var li = document.createElement('li');  // create li element.
   li.innerHTML = selected;
+  li.setAttribute('class', 'list-group-item');
   $("#trainer_list_selected").append(li);
   $("#training_prg_trainer").val('');
   test = false;
