@@ -1,3 +1,10 @@
+  //For accordion
+  $(function() {
+    $( "#accordian" ).accordion({
+       collapsible: true,
+       heightStyle: "content"
+    });
+ });
   //Total Trainings
   fetchTotalTrainings();
   function fetchTotalTrainings(){
@@ -135,8 +142,64 @@
       training_dropdown_list.options.add(option);
     }
   }
+  //Criteria set to select trainee_table
+  populateDesig();
+  function populateDesig(){
+    var desigSuggestions = ['Tester','Developer','Software Engineer','HR'];
+    var i = 0;
+    $.each(desigSuggestions, function (key, value) {
+        desigSuggestions[i] = value;
+        i++;
+    });
+    console.log(desigSuggestions);
+    //now the magic begins
+
+    $("#criteria_desig").autocomplete({
+        source: desigSuggestions
+
+    }, {
+        autoFocus: true,
+        delay: 0,
+        minlength: 1
+    });
+  }
+  $("#criteria_add_desig").click(() => {
+    if ($("#criteria_desig").val() == "") {
+        swal("ERROR !!!","Please Enter a Designation","error");
+        return false;
+    }
+    var selected = $("#criteria_desig").val();
+    var test = false;
+    $('#criteria_desig_list li').each(function () {
+        if ($(this).text() == selected) {
+
+            test = true;
+        }
+    });
+    if (test == true) {
+      swal("ERROR !!!","Already Select","error");
+        $("#criteria_desig").val('');
+        return false;
+    }
+    var li = document.createElement('li');  // create li element.
+    li.setAttribute('class', 'list-group-item');
+    li.innerHTML = selected;
+    $("#criteria_desig_list").append(li);
+    empIdsuggestions = $.grep(empIdsuggestions, function (value) {
+        return value != selected;
+    });
+    $("#criteria_desig_list").val('');
+    test = false;
+
+})
+
+
+
+
+
   //To convert csv to a json array and to a table
   $("#upload").bind("click", function () {
+    $("#trainee_table tbody").empty();
     if ($('#trainings_dropdown').val() == '') {
       var newDiv = $(document.createElement('div'));
       newDiv.html('please select a training program');
@@ -339,6 +402,7 @@
   //Code from here for the next job
   $("#remove").click(function () {
     $("#fileUpload").val('');
+    $("#trainee_table body").empty();
 
   });
   $("#remove_all").click(() => {
@@ -565,7 +629,46 @@ function deleteApplication(x){
 
   }
 
-   //to Delete training program
+  // Code to fill the Training program modal
+  function fillTrainingModal(x) {
+
+    var currentRow = $(x).closest("tr");
+    var training_prg_id=currentRow.find("td:eq(0)").text();
+    console.log(training_prg_id);
+    $.getJSON("http://localhost:8080/admin/getTraining/"+training_prg_id,(response)=>{
+      console.log(response);
+      fillTheTrainingViewModal(response.data);
+    });
+   
+  }
+  function fillTheTrainingViewModal(data){
+    
+
+    $("#prg_id").text(data.training_prg_id);
+    $("#prg_description").text(data.training_description);
+    $("#prg_name").text(data.training_prg_name);
+    $("#prg_type").text(data.training_prg_type);
+    $("#prg_start_date").text(data.training_start_date);
+    $("#prg_end_date").text(data.training_end_date);
+    $("#prg_create_date").text(data.training_create_date);
+    $("#prg_display").text(data.display_status);
+    $("#prg_status").text(data.training_status);
+    $("#prg_trainer").text(data.training_prg_trainer_id);
+    // var trairsArray=data.training_prg_trainer_id.split(',');
+    // console.log(trairsArray);
+    // var ul_list=$("#prg_trainer");
+    // $.each(trairsArray,function(key,value){
+    //   console.log(value,key);
+    //   var list = document.createElement('div');
+    //   list.innerHTML(value);
+    //   ul_list.append(list);
+      
+    // })     
+
+
+  }
+
+ //to Delete training program
   
 function deleteTraining(x){
   var currentRow = $(x).closest("tr");
@@ -607,7 +710,7 @@ function deleteTraining(x){
           }
           else if (response.status == "conflict") {
             loading.out();
-            swal("ERROR !!!", "Not deleted, May be training has beeing used", "error");
+            swal("ERROR !!!", "Not deleted, May be training has been beeing in use", "error");
           }
           else {
             loading.out();
@@ -626,7 +729,7 @@ function deleteTraining(x){
       var trainerSuggestions = [];
       var i = 0;
       $.each(response.data, function (key, value) {
-        trainerSuggestions[i] = value.trainer_name+' ,'+value.trainer_id;
+        trainerSuggestions[i] = value.trainer_name+':'+value.trainer_id;
         i++;
       });
       console.log(trainerSuggestions);
@@ -643,6 +746,31 @@ function deleteTraining(x){
   })
 
  }
+ $("#add_trainer_to_list").click(() => {
+  if ($("#training_prg_trainer").val() == "") {
+    swal("ERROR !!!", "Please select a trainer", "error");
+    return false;
+     
+  }
+  var selected = $("#training_prg_trainer").val();
+  var test = false;
+  $('#trainer_list_selected li').each(function () {
+      if ($(this).text() == selected) {
+          test = true;
+      }
+  });
+  if (test == true) {
+      swal("ERROR!!!","Already selected trainer","error");
+      $("#training_prg_trainer").val('');
+      return false;
+  }
+  var li = document.createElement('li');  // create li element.
+  li.innerHTML = selected;
+  $("#trainer_list_selected").append(li);
+  $("#training_prg_trainer").val('');
+  test = false;
+
+});
 
 
 
@@ -673,16 +801,20 @@ function deleteTraining(x){
       swal("ERROR !!!", "Form not submitted, please select yes or no", "error");
       return false;
     }
-    if ($('#training_prg_trainer').val() == '') {
+    if (($("#trainer_list_selected").has("li").length === 0)) {
       swal("ERROR !!!", "Form not submitted,please select a trainer", "error");
       return false;
     }
-    // to view the loading animation
+   // to view the loading animation
     var loading = new Loading({
       title: ' Please Wait',
       direction: 'hor',
       discription: 'Sending data...',
       defaultApply: true,
+    });
+    var trainerArray = [];
+    $('#trainer_list_selected li').each(function () {
+      trainerArray.push($(this).text());
     });
 
     let training_program = {
@@ -692,11 +824,12 @@ function deleteTraining(x){
       training_end_date: $("#training_end_date").val(),
       training_start_date: $("#training_start_date").val(),
       training_status: "created",
-      training_prg_trainer_id:$("#training_prg_trainer").val(),
+      training_prg_trainer_id:trainerArray.toString(),
       display_status: $("#training_display").val()
 
     }
     console.log(training_program);
+
     var settings = {
       "url": "http://localhost:8080/postTrainings",
       "method": "POST",
@@ -712,6 +845,7 @@ function deleteTraining(x){
         loading.out();
         swal("Success!", "New Training program has successfully inserted!", "success");
         $("#training_form")[0].reset();
+        $('#trainer_list_selected').empty();
         updateAllTrainings();
       };
     });
@@ -720,6 +854,9 @@ function deleteTraining(x){
   $("#save_training").click(function () {
     saveTraining(event);
   });
+
+
+
 
 
   //Events
@@ -782,42 +919,7 @@ function sayHii(x) {
 
 
 
-// Code to fill the Training program modal
-function fillTrainingModal(x) {
 
-  var index = $(x).closest('tr').index();
-  console.log("Trainee table index : ", index);
-  var settings = {
-    "url": "http://localhost:8080/trainings",
-    "method": "GET",
-    "timeout": 0,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "data": null,
-  };
-  $.ajax(settings).done(function (response) {
-    var data = response.data;
-    console.log("The Selected data are: ", data);
-    for (var i = 0; i < data.length; i++) {
-      if (i === index) {
-        console.log("selected data", data[i]);
-        $("#prg_id").text(data[i].training_prg_id);
-        $("#prg_description").text(data[i].training_description);
-        $("#prg_name").text(data[i].training_prg_name);
-        $("#prg_type").text(data[i].training_prg_type);
-        $("#prg_start_date").text(data[i].training_start_date);
-        $("#prg_trainer").text(data[i].training_prg_trainer_id);
-        $("#prg_end_date").text(data[i].training_end_date);
-        $("#prg_create_date").text(data[i].training_create_date);
-        $("#prg_display").text(data[i].display_status);
-        $("#prg_status").text(data[i].training_status);
-      }
-
-    }
-
-  });
-}
 
 // Code to fill the employee modal
 function fillEmployeeModalPopup(x) {

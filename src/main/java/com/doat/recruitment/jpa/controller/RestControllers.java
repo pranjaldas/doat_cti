@@ -2,12 +2,14 @@ package com.doat.recruitment.jpa.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -16,15 +18,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doat.recruitment.jpa.dto.ApplicationDTO;
 import com.doat.recruitment.jpa.dto.ProfileDTO;
+import com.doat.recruitment.jpa.dto.RegistrationUpdateDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
 import com.doat.recruitment.jpa.model.Registration;
+import com.doat.recruitment.jpa.dto.Test;
 import com.doat.recruitment.jpa.model.TraineeEmployee;
 import com.doat.recruitment.jpa.model.Trainer;
 import com.doat.recruitment.jpa.model.TrainingApplication;
@@ -85,7 +90,8 @@ public class RestControllers {
 			Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
 			Department department=optional.get();
 			Employee employee=optional1.get();
-			ProfileDTO profile=new ProfileDTO(registration,employee,department);
+			List<TrainingApplication> applications=service.findAllappByRegId(registration.getReg_id());
+			ProfileDTO profile=new ProfileDTO(registration,employee,department,applications);
 			final ServiceResponse<ProfileDTO> response=new ServiceResponse<>("success",profile);
 			return new ResponseEntity<>(response,HttpStatus.OK);
 		}
@@ -101,7 +107,7 @@ public class RestControllers {
 		final Registration reg=registrationService.findRegistration(registration.getEmail());
 		if(reg==null){
 			try {
-				MailService.sendMail(registration);
+				// MailService.sendMail(registration);
 				final User user=new User(registration);	
 
 				String id=IdGenerator.generate(getTime(), registration.getName(), registration.getEmployee_no(), registration.getEmail(), registration.getPhone());
@@ -136,6 +142,33 @@ public class RestControllers {
         StringBuilder input=new StringBuilder(timee);
 		String timeee=input.toString();
 		return timeee;
+	}
+	@PutMapping(value = "user/updateRegistration/{reg_id}")
+	public ResponseEntity<Object> updateRegistration(@PathVariable(value = "reg_id")String reg_id,@RequestBody RegistrationUpdateDTO registrationUpdateDTO){
+		Optional<Registration> optional=registrationService.findRegistrationById(registrationUpdateDTO.getReg_id());
+		if(optional.isPresent()){
+			Registration registration=optional.get();
+			System.out.println("Found registration is"+registration);
+			registration.setPhone(registrationUpdateDTO.getPhone());
+			try {
+				registrationService.saveRegistration(registration);
+				// User user=new User(registration,reg_id);
+				// loginService.saveLogin(user);
+				ServiceResponse<Registration> response=new ServiceResponse<>("success",registration);
+				return new ResponseEntity<>(response,HttpStatus.OK);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			ServiceResponse<Registration> response=new ServiceResponse<>("failure",registration);
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("Not Found","registration id not found");
+		return new ResponseEntity<>(response,HttpStatus.OK);
+		
+		
+		
 	}
 
 	@GetMapping("/countRegistration")
@@ -195,8 +228,18 @@ public class RestControllers {
 		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
-	// To post new training
 
+	@GetMapping(value = "/admin/getTraining/{training_prg_id}")
+	public ResponseEntity<Object> getTheTraining(@PathVariable String training_prg_id){
+		Optional<TrainingProgram> optional=trainingProgramService.findTheTraining(training_prg_id);
+		if(optional.isPresent()){
+			ServiceResponse<TrainingProgram> response=new ServiceResponse<>("success",optional.get());
+			return new ResponseEntity<>(response,HttpStatus.OK);
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("success",training_prg_id+" This training program is not found");
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	// To post new training
 	@PostMapping(value = "/postTrainings")
 	public ResponseEntity<Object> saveDetails(@RequestBody final TrainingProgram trainingProgram) throws ParseException {
 		final Calendar cal = Calendar.getInstance();
@@ -244,14 +287,44 @@ public class RestControllers {
 
 	}
 	//Training Applications
-	@PostMapping(value="/apply")
-	public ResponseEntity<Object> apply(@RequestBody ApplicationDTO application){
-		ServiceResponse<ApplicationDTO> response=new ServiceResponse<>("success",application);
-		return new ResponseEntity<>(response,HttpStatus.OK);
+	@PostMapping(value="/user/applyTraining")
+	public ResponseEntity<Object> apply(@RequestBody TrainingApplication application){
+		Optional<TrainingProgram> optional=trainingProgramService.findTheTraining(application.getTraining_prog_id());
+		if(optional.isPresent()){
+			Optional<TrainingApplication> optional1=service.findApplicationByregId(application.getReg_no(),application.getTraining_prog_id());
+			if(optional1.isPresent()){
+			ServiceResponse<String> response=new ServiceResponse<>("Overrite","Already applied");
+			return new ResponseEntity<Object>(response,HttpStatus.OK);
+
+			}else{
+			String time=getTime();
+			String id=IdGenerator.generateV2(time,application.getName());
+			application.setApplication_id(id);
+			service.saveApplication(application);
+			ServiceResponse<TrainingApplication> response=new ServiceResponse<>("success",application);
+			return new ResponseEntity<Object>(response,HttpStatus.OK);
+
+			}
+
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("failure","Not Found Training Program");
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+
+
+
 	@PostMapping(value="/applyTraining")
 	public ResponseEntity<Object> applyTraining(@RequestBody ApplicationDTO application){
+		System.out.println("Application details"+application.toString());
+		Optional<TrainingApplication> optional1=service.findApplicationByregId(application.getReg_id(),application.getTraining_prg_id());
+		if(optional1.isPresent()){
+			ServiceResponse<String> response=new ServiceResponse<>("Overrite","Already applied");
+			return new ResponseEntity<>(response,HttpStatus.OK);
+
+		}
+		else{
 		User user=new User(application);
+		System.out.println("User Details"+user.toString());
 		final boolean auth=loginService.authUser(user);
 		if(auth==true){
 			Optional <Registration> optional=registrationService.findRegistrationById(application.getReg_id());
@@ -261,6 +334,9 @@ public class RestControllers {
 				if(optional2.isPresent()){
 				  Employee employee=optional2.get();
 				  TrainingApplication trainingApplication=new TrainingApplication(registration, application, employee);
+				  	String time=getTime();
+					String id=IdGenerator.generateV2(time,trainingApplication.getName());
+					trainingApplication.setApplication_id(id);
 				  service.saveApplication(trainingApplication);
 				  final ServiceResponse<TrainingApplication> response=new ServiceResponse<>("success",trainingApplication);
 				return new ResponseEntity<>(response,HttpStatus.OK);
@@ -273,12 +349,23 @@ public class RestControllers {
 		}
 		ServiceResponse<String> response=new ServiceResponse<>("Wrong Input","Not a valid user");
 		return new ResponseEntity<>(response,HttpStatus.OK);
+
+		}
+
+
+
+
+
+		
 	}
 	
 
 	//this api is for updating publish attribute
 	@PostMapping(value = "/postApplication")
 	public ResponseEntity<Object> postApplication(@RequestBody final TrainingApplication application) {
+		String time=getTime();
+		String id=IdGenerator.generateV2(time, application.getName());
+		application.setApplication_id(id);
 		service.saveApplication(application);
 		final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
 
@@ -291,6 +378,9 @@ public class RestControllers {
 		System.out.println("Employee Number is "+empNo);
 		final boolean res=eEmployeeService.checkIfExist(empNo);
 		if(res==true){
+			String time=getTime();
+			String id=IdGenerator.generateV2(time, application.getName());
+			application.setApplication_id(id);
 			service.saveApplication(application);
 			final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
 			return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -300,7 +390,7 @@ public class RestControllers {
 
 	}
 	@DeleteMapping(value = "/admin/deleteApplication/{application_id}")
-	public ResponseEntity<Object> deletApplication(@PathVariable Integer application_id){
+	public ResponseEntity<Object> deletApplication(@PathVariable String application_id){
 		try {
 			service.deleteTrainingApplication(application_id);
 			final ServiceResponse<String> response = new ServiceResponse<>("success", "Deleted Successfully");
@@ -313,7 +403,7 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@GetMapping(value = "/admin/findApplication/{application_id}")
-	public ResponseEntity<Object> findApplication(@PathVariable Integer application_id){
+	public ResponseEntity<Object> findApplication(@PathVariable String application_id){
 		
 		Optional<TrainingApplication> optional=service.findApplication(application_id);
 		if(optional.isPresent()){
@@ -322,6 +412,11 @@ public class RestControllers {
 			return new ResponseEntity<Object>(response, HttpStatus.OK);
 		}
 		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Not Found");
+		return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+	@GetMapping(value = "/admin/findApplicationsByregID/{reg_no}")
+	public ResponseEntity<Object> findApplicationByregId(@PathVariable String reg_no){	
+		final ServiceResponse<List<TrainingApplication>> response = new ServiceResponse<>("success", service.findAllappByRegId(reg_no));
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 
@@ -342,6 +437,7 @@ public class RestControllers {
 	}
 	@GetMapping(value="/selectedApplications")
 	public ResponseEntity<Object> getSelectedUnpublishApplication() {
+		
 		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedApplications());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}

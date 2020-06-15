@@ -418,10 +418,10 @@
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label>Trainier ID: </label></p>
+                                  <label>Trainiers: </label></p>
                               </div>
-                              <div class="form-group col-6">
-                                <p id="prg_trainer"></p>
+                              <div class="form-group col-6" >
+                                <p id="prg_trainer"> </p>
                               </div>
                             </div>
                             <div class="form-row">
@@ -481,7 +481,7 @@
                                 <p class="font-weight-bold">
                                   <label>Training Program Name:</label>
                               </div>
-                              <div class="form-group col-6">
+                              <div class="form-group col-4">
                                 <input type="text" class="form-control" placeholder="Write name here"
                                   name="training_name" id="training_name" />
                                 </p>
@@ -494,7 +494,7 @@
                                 </label>
                               </div>
 
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-4">
                                 <select name="training_type" id="training_type" class="form-control">
                                   <option value="">Choose</option>
                                   <option value="Induction">Induction</option>
@@ -510,7 +510,7 @@
                                   <p class="font-weight-bold">Training Program Start Date:</p>
                                 </label>
                               </div>
-                              <div class="form-group col-6">
+                              <div class="form-group col-4">
                                 <input class="form-control" type="date" name="training_start_date"
                                   id="training_start_date">
                               </div>
@@ -522,7 +522,7 @@
                                   <p class="font-weight-bold">Training Program End Date:</p>
                                 </label>
                               </div>
-                              <div class="form-group col-6">
+                              <div class="form-group col-4">
                                 <input class="form-control" type="date" name="training_end_date"
                                   id="training_end_date" placeholder="Training End Date">
                               </div>
@@ -533,10 +533,22 @@
                                   <p class="font-weight-bold">Training program Trainer:</p>
                                 </label>
                               </div>
-                              <div class="form-group col-6">
-                                <input class="form-control" type="text" name="training_prg_trainer"
-                                  id="training_prg_trainer" placeholder="Write Trainer Name ">
+                              <div class="form-group col-4">
+                                 <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Write Trainer Name and add him " id="training_prg_trainer">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-secondary" title="Add Trainer" type="button" id="add_trainer_to_list">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                      </button>
+                                    </div>
+                                  </div>
                               </div>
+                              <div class="form-group col-4">
+                                <ul id="trainer_list_selected">
+                                  
+                                </ul>
+                             </div>
+
                             </div>
                             
 
@@ -547,7 +559,7 @@
                                 </label>
                               </div>
 
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-4">
                                 <select name="training_display" id="training_display" class="form-control">
                                   <option value="">Choose</option>
                                   <option value=true>Yes</option>
@@ -572,228 +584,288 @@
               <!-- /.card -->
 
               <!-- Design form-->
-              <div class="card" class="whole-card">
-                <div class="card-header">
-                  <h3 class="card-title">Training Application</h3>
-
-                  <div class="card-tools">
-
-                    <ul class="nav nav-pills ml-auto">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="#view_trainees" data-toggle="tab">View selected</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#import_csv" data-toggle="tab">Import New</a>
-                      </li>
-                    </ul>
-
-                  </div>
-                </div>
-                <!-- /.cadrd-header -->
-                <div class="card-body">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
-                      <table id="applications_table" class="table table-light table-striped">
-                        <thead>
-                          <tr>
-                            <th><b>Application ID</b></th>
-                            <th><b>EmployeeID</b></th>
-                            <th><b>TrainingID</b></th>
-                            <th><b>Name</b></th>
-                            <th><b>Department</b></th>
-                            <th><b>Designation</b></th>
-                            <th><b>Status</b></th>
-                            <th><b>Action</b></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                         
-
-
-                        </tbody>
-                      </table>
-                      <div class="card-footer clearfix">
-                        <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i> Publish </button>
-                      </div>
+              
+                <div class="card" id="whole-card">
+                  <div class="card-header">
+                    <h3 class="card-title">Training Application</h3>
+  
+                    <div class="card-tools">
+  
+                      <ul class="nav nav-pills ml-auto">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#view_trainees" data-toggle="tab"><i class="fa fa-eye" aria-hidden="true"></i> View selected </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#import_csv" data-toggle="tab"><i class="fas fa-plus"></i> Import New </a>
+                        </li>
+                      </ul>
+  
                     </div>
-                     <!-- Modal to view each training Application -->
-                     <div class="modal fade" id="updateApplicationModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                     <div class="modal-dialog modal-dialog-centered" role="document">
-                       <div class="modal-content">
-                         <div class="modal-header">
-                           <h5 class="modal-title" id="exampleModalLongTitle"><b>Training Application Details:</b></h5>
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                           </button>
-                         </div>
-                         <div class="modal-body">
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Application Id:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                id="editApp_application_id" />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Registration No:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_regid" />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Applicant Name:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_name" readonly />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Employee Id:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_employee_id" readonly />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Department Id:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_department_id" readonly/>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>DDO Code:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_ddo_code" readonly/>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Designation:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_designation" readonly/>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Application Status:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_status" />
-                              </p>
-                            </div>
-                          </div>
-                           
-                           
-                           
-                         </div>
-                         
-                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                        </div>
-                       </div>
-                     </div>
-                   </div>
-                   <!-- Modal End -->
-
-                    <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
-                      <div class="container">
-                        <form id="import_trainee_form">
-                          <div class="form-card">
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <label><b>Upload the csv file</b></label>
-                              </div>
-                              <div class="form-group col-4">
-                                <input type="file" id="fileUpload" name="myfile">
-                              </div>
-                              <div class="form-group col-2">
-                                <input class="btn btn-success btn-sm" type="button" id="remove" value="Remove" />
-                              </div>
-
-                            </div>
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <label>
-                                  <p class="font-weight-bold">Select Training Program:</p>
-                                </label>
-                              </div>
-                              <div class="form-group col-4">
-                                <select class="custom-select text-uppercase caste" id="trainings_dropdown">
-                                  <option value="">Select</option>
-                                </select>
-                              </div>
-                              <div class="form-group col-4">
-                                <input class="btn btn-primary btn-sm" type="button" id="upload" value="Upload" />
-                              </div>
-                            </div>
-
-                          </div>
-                        </form>
-
-
-                      </div>
-                      <div class="container">
-                        <table class="table table-light table-striped" id="trainee_table">
+                  </div>
+                  <!-- /.cadrd-header -->
+                  <div class="card-body">
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
+                        <table id="applications_table" class="table table-light table-striped">
                           <thead>
                             <tr>
+                              <th><b>Application ID</b></th>
                               <th><b>EmployeeID</b></th>
+                              <th><b>TrainingID</b></th>
                               <th><b>Name</b></th>
                               <th><b>Department</b></th>
                               <th><b>Designation</b></th>
-                              <th><b>DDO Code</b></th>
+                              <th><b>Status</b></th>
                               <th><b>Action</b></th>
                             </tr>
                           </thead>
                           <tbody>
+                           
+  
+  
                           </tbody>
                         </table>
+                        <div class="card-footer clearfix">
+                          <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i> Publish </button>
+                        </div>
                       </div>
-                      
+                       <!-- Modal to view each training Application -->
+                       <div class="modal fade" id="updateApplicationModal" tabindex="-1" role="dialog"
+                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                       <div class="modal-dialog modal-dialog-centered" role="document">
+                         <div class="modal-content">
+                           <div class="modal-header">
+                             <h5 class="modal-title" id="exampleModalLongTitle"><b>Training Application Details:</b></h5>
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                             </button>
+                           </div>
+                           <div class="modal-body">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                  id="editApp_application_id" />
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Registration No:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_regid" />
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Applicant Name:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_name" readonly />
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Employee Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_employee_id" readonly />
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Department Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_department_id" readonly/>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>DDO Code:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_ddo_code" readonly/>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Designation:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_designation" readonly/>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Status:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <input type="text" class="form-control" 
+                                   id="editApp_status" />
+                                </p>
+                              </div>
+                            </div>
+                             
+                             
+                             
+                           </div>
+                           
+                           <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                          </div>
+                         </div>
+                       </div>
+                     </div>
+                     <!-- Modal End -->
+  
+                      <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
+                        <div class="container">
+                          <form id="import_trainee_form">
+                            <div class="form-card">
+                              <div class="form-row">
+                                <div class="form-group col-4">
+                                  <label><b>Upload the csv file</b></label>
+                                </div>
+                                <div class="form-group col-4">
+                                  <input type="file" id="fileUpload" name="myfile">
+                                </div>
+                                <div class="form-group col-2">
+                                  <button class="btn btn-success btn-sm" type="button" id="remove"><i class="fa fa-minus-circle" aria-hidden="true"></i> Remove </button>
 
+                                </div>
+  
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-4">
+                                  <label>
+                                    <p class="font-weight-bold">Select Training Program:</p>
+                                  </label>
+                                </div>
+                                <div class="form-group col-4">
+                                  <select class="custom-select text-uppercase caste" id="trainings_dropdown">
+                                    <option value="">Select</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-4">
+                                  <button class="btn btn-primary btn-sm" type="button" id="upload"  ><i class="fa fa-upload" aria-hidden="true"></i> Upload</button>
 
+                                </div>
+                              </div>
+  
+                            </div>
+                          </form>
+  
+  
+                        </div>
+                        <div class="container">
+
+                          <div id="accordian">
+                            <h3><i class="fa fa-cogs" aria-hidden="true"></i>
+                              Set Criterias</h3>
+                            <div>
+      
+                              <div class="form-row">
+                                <div class="form-group col-4">
+                                  <label>
+                                    <p class="font-weight-bold">Minimum Join Date:</p>
+                                  </label>
+                                </div>
+                                <div class="form-group col-4">
+                                  <input class="form-control" type="date" name="training_start_date"
+                                    id="join_date_criteria set">
+                                </div>
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-4">
+                                  <label>
+                                    <p class="font-weight-bold">Required Designations:</p>
+                                  </label>
+                                </div>
+                                <div class="form-group col-4">
+                                   <div class="input-group">
+                                      <input type="text" class="form-control" placeholder="Write Trainer Name and add him " id="criteria_desig">
+                                      <div class="input-group-append">
+                                        <button class="btn btn-secondary" title="Add Designation" type="button" id="criteria_add_desig">
+                                          <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-4">
+                                  <ul id="criteria_desig_list" class="list-group">
+                                    
+                                  </ul>
+                               </div>
+  
+                              </div>
+                              
+
+                            </div>
+                           
+
+                            <h3><i class="fa fa-list" aria-hidden="true"></i>
+                              Show Candidates</h3>
+                            <div>
+                              <table class="table table-light table-striped" id="trainee_table">
+                                <thead>
+                                  <tr>
+                                    <th><b>EmployeeID</b></th>
+                                    <th><b>Name</b></th>
+                                    <th><b>Department</b></th>
+                                    <th><b>Designation</b></th>
+                                    <th><b>DDO Code</b></th>
+                                    <th><button class="btn btn-primary btn-sm" type="button" id="select_all" value="select_all"><i class="fa fa-check-square-o" aria-hidden="true"></i> All</button></i>
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                              </table>
+
+                            </div>
+                            
+
+                          </div>
+
+                        </div>
+                        
+  
+  
+                      </div>
+  
+  
                     </div>
-
-
+  
                   </div>
-
+  
+  
                 </div>
-
-
-              </div>
+              
+              
 
               <!-- /.card-body -->
               <div class="card-footer">

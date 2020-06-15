@@ -20,7 +20,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Material icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/CTIcss.css">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
     <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
@@ -557,22 +561,28 @@
                                     <tr>
                                         <td><i class="fa fa-registered" aria-hidden="true"></i>
                                             Registration ID:</td>
-                                        <td id="view_regid"></td>
+                                        <td class="updated" id="view_regid"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-user" aria-hidden="true"></i>
+
+                                            Trainee Name:</td>
+                                        <td class="updated" id="view_regname"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-lock" aria-hidden="true"></i>
                                             User Name:</td>
-                                        <td id="view_username"></td>
+                                        <td class="updated" id="view_username"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-phone" aria-hidden="true"></i>
                                             Phone No:</td>
-                                        <td id="view_userphone"></td>
+                                        <td class="updated" id="view_userphone"></td>
                                     </tr>
                                     <tr>
                                         <td> <i class="fa fa-envelope" aria-hidden="true"></i>
                                             Email:</td>
-                                        <td id="view_useremail"></td>
+                                        <td class="updated" id="view_useremail"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -612,9 +622,20 @@
                               </div>
                             </div>
                             <div class="form-row">
+                                <div class="form-group col-4">
+                                  <p class="font-weight-bold">
+                                    <label>Trainee Name:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                  <input type="text" class="form-control" 
+                                    id="editReg_name" readonly/>
+                                  </p>
+                                </div>
+                              </div>
+                            <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label>User Name:</label>
+                                  <label>New User Name:</label>
                               </div>
                               <div class="form-group col-6">
                                 <input type="text" class="form-control" 
@@ -625,7 +646,7 @@
                             <div class="form-row">
                                 <div class="form-group col-4">
                                   <p class="font-weight-bold">
-                                    <label>Phone Number:</label>
+                                    <label>New Phone No.:</label>
                                 </div>
                                 <div class="form-group col-6">
                                   <input type="text" class="form-control" 
@@ -636,7 +657,7 @@
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label>Email Address:</label>
+                                  <label>New Email Address:</label>
                               </div>
                               <div class="form-group col-6">
                                 <input type="text" class="form-control" 
@@ -801,31 +822,29 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="applications_table" class="table table-light table-striped">
+                            <table id="profile_applications_table" class="table table-light table-striped">
                                 <thead>
                                     <tr>
+                                        <th><b>Sr.No.</b></th>
+                                        <th><b>Application ID</b></th>
                                         <th><b>TrainingID</b></th>
-                                        <th><b>Type</b></th>
-                                        <th><b>Duration</b></t>
-                                        <th><b>Start Date</b></th>
+                                        <th><b>Apply Date</b></th>                           
                                         <th><b>Status</b></th>
+                                        <th><b>Alert</b></th>
+                                        <th><b>Action</b></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <!-- <tr>
+                                        <td>896</td>
                                         <td>TRAIN12345JK</td>
                                         <td>Service Training</td>
                                         <td>60 days</td>
                                         <td>2020-07-06</td>
                                         <td>Pending</td>
+                                        <td><a type="button" title="Update" class="edit"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a></td>
                                     </tr>
-                                    <tr>
-                                        <td>TRAIm321455JK</td>
-                                        <td>Induction Training</td>
-                                        <td>30 days</td>
-                                        <td>2020-05-05</td>
-                                        <td>Accepted</td>
-                                    </tr>
+                                     -->
 
                                 </tbody>
                             </table>
@@ -836,9 +855,38 @@
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
                           <button type="button" class="btn btn-info float-right" data-toggle="modal"
-                            data-target="#exampleModalCenter"><i class="fas fa-plus"></i> Apply New</button>
+                            data-target="#applyTrainingfromProfileModal"><i class="fas fa-plus"></i> Apply New</button>
                         </div>
                       </div>
+                      <!-- Apply trainings -->
+                      <div id="applyTrainingfromProfileModal" class="modal fade">
+                        <div class="modal-dialog modal-dialog-centered modal-login">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><b>APPLY TRAINING</b></h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="#" method="" >
+                                        <div class="form-group">
+                                            <i class="fa fa-key" aria-hidden="true"></i>
+                                            <input type="text" id="profile_apply" name="profile_apply" class="form-control" placeholder="Write Training Program Id">
+                                                
+                                        </div>
+                                        <div class="alert alert-danger" id="trainingIdnotValid-failure-alert" role="alert">
+                                            <strong>Opps!</strong> <a href="#" class="alert-link">Training ID is not valid</a>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <input type="button" id="profile_apply_training_button" class="btn btn-primary btn-block btn-lg" value="Apply">
+                                        </div>
+                                    </form>
+                
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
 
                       <div class="card" id="whole-card">
                         <div class="card-header">
@@ -856,6 +904,7 @@
 
                                 <thead>
                                     <tr>
+                                        
                                         <th><b>TrainingID</b></th>
                                         <th><b>Trainer Name</b></th>
                                         <th><b>Date</b></th>

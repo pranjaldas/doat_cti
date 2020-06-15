@@ -6,6 +6,7 @@
   $("#used-email-failure-alert").hide();
   $("#user-regId-failure-alert").hide();
   $("#user-auth-failure-alert").hide();
+  $("#trainingIdnotValid-failure-alert").hide();
   //to set interval of slideshow
   $('.carousel').carousel({
     interval: 1000
@@ -27,10 +28,10 @@
       console.log(response);
       var trainee_data = '';
       $.each(response.data, function (key, value) {
-        trainee_data += '<table class=" table addTable" style="border: 2px solid black ">';
+        trainee_data += '<table class="table table-light table-striped addTable" style="border: 2px solid black ">';
         trainee_data += '<thead>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button"  onclick="applyTraining(this)" class="btn btn-link" data-toggle="modal" data-target="#applyModal">here</button>' + '</td>';
+        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click here" +'<a type="button"  onclick="applyTraining(this)" class="btn btn-link" data-toggle="modal" data-target="#applyModal"><i style="color:blue" class="fa fa-hand-o-right" aria-hidden="true"></i></a>' + '</td>';
         trainee_data += '</tr>';
         trainee_data += '</thead>';
         trainee_data += '<tbody>';
@@ -67,11 +68,7 @@ function applyTraining(x){
  console.log(selected_id);
 }
 $("#apply_training_button").click(()=>{ 
-  var loading = new Loading({
-    title: ' Please Wait',
-    direction: 'hor',
-    defaultApply: true,
-  });
+  
  
   var application={
     training_prg_id:selected_id,
@@ -79,6 +76,12 @@ $("#apply_training_button").click(()=>{
     password:$("#apply_password").val(),
     reg_id:$("#apply_reg_id").val()
   }
+  console.log(application);
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    defaultApply: true,
+  });
   var settings = {
     "url": "http://localhost:8080/applyTraining",
     "method": "POST",
@@ -104,16 +107,21 @@ $("#apply_training_button").click(()=>{
         $("#user-auth-failure-alert").slideUp(500);
       });
     } 
-    else if("Not Found"){
+    else if(response.status=="Not Found"){
       loading.out();
       $("#user-regId-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
         $("#user-regId-failure-alert").slideUp(500);
       });
 
     }
-    else{
+    else if(response.status=="Overrite"){
       loading.out();
-      alert("Najannu dei ki hoise")
+      $("#apply_form")[0].reset();
+      $('#applyModal').modal('hide');
+      swal("ERROR !!!", "You already applied", "error");
+    }
+    else{
+      alert("IDK");
     }
 
   });
@@ -396,9 +404,11 @@ $("#apply_training_button").click(()=>{
         loading.out();
         console.log(response);
         fillUserProfile(response.data);
+        var data=response.data;
+        fillprofileViewApplicationTable(data.applications);
         $("#profile").show();
         $("#home").hide();
-        $('#myLoginModal').modal('hide')
+        $('#myLoginModal').modal('hide');
       }
       else {
         loading.out();
@@ -410,8 +420,34 @@ $("#apply_training_button").click(()=>{
     });
 
   })
+  function fillprofileViewApplicationTable(list){
+    console.log(list);
+    $('#profile_applications_table tbody').empty();
+
+    var applications_data = '';
+    var i=1;
+      $.each(list, function (key, value) {
+        console.log(value)
+    
+        
+        applications_data += '<tr>'
+        + '<td>' + i + '</td>'
+        + '<td>' + value.application_id + '</td>'
+        + '<td>' + value.training_prog_id + '</td>'
+        + '<td>' + value.training_apply_date + '</td>'
+        + '<td>' + value.application_status + '</td>'
+        + '<td>' + '<i class="fa fa-bell-o" aria-hidden="true"></i>' + '</td>'
+        + '<td>' +' <a type="button" class="edit" title="Update" data-toggle="modal"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="material-icons">&#xE254;</i></a>' + '</td>'
+        + '</tr>';
+        i++;
+      });
+    $('#profile_applications_table').append(applications_data);
+
+  }
   function fillUserProfile(data) {
+    
     $("#view_regid").text(data.reg_id);
+    $("#view_regname").text(data.name);
     $("#view_username").text(data.email);
     $("#view_useremail").text(data.email);
     $("#view_userphone").text(data.phone);
@@ -431,21 +467,150 @@ $("#apply_training_button").click(()=>{
   function fillRegistrationModal(){
     var regid=$("#view_regid").text();
     $("#editReg_registration_id").val(regid);
+    $("#editReg_name").val($("#view_regname").text());    
     $("#editReg_username").val($("#view_username").text());
     $("#editReg_phone").val($("#view_userphone").text());
     $("#editReg_email").val($("#view_useremail").text());
 
   }
  $("#saveRegUpdates").click(()=>{
-   var registration={
+   var regId=$("#editReg_registration_id").val();
+   var registrationUpdateDTO={
     reg_id:$("#editReg_registration_id").val(),
+    name:$("#editReg_name").val(),
     email:$("#editReg_email").val(),
+    username:$("#editReg_username").val(),
     phone:$("#editReg_phone").val(),
     password:$("#editReg_password").val()
    }
-   console.log(registration);
+   var settings = {
+    "url": "http://localhost:8080/user/updateRegistration/"+regId,
+    "method": "PUT",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(registrationUpdateDTO),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log("Updated registration",response);
+    var data=response.data;
+    if(response.status=="success"){
+      $("#view_regid").text(data.reg_id);
+      $("#view_regname").text(data.name);
+      $("#view_username").text(data.email);
+      $("#view_useremail").text(data.email);
+      $("#view_userphone").text(data.phone);
+    }
+   
+
+  });
+  
 
  })
+autocompleteTrainingID();
+function autocompleteTrainingID() {
+  $.getJSON( "http://localhost:8080/trainings", function(response) {
+    console.log("trainers are",response)
+    
+      //to fill the array
+      var trainerSuggestions = [];
+      var i = 0;
+      $.each(response.data, function (key, value) {
+        trainerSuggestions[i] = value.training_prg_id;
+        i++;
+      });
+      console.log("autocomplete",trainerSuggestions);
+      //now the magic begins
+      $("#profile_apply").autocomplete({
+        source: trainerSuggestions
+
+      }, {
+        autoFocus: true,
+        delay: 0,
+        minlength: 1
+      });
+
+  })
+
+}
+$("#profile_apply_training_button").click(()=>{
+
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    defaultApply: true,
+  });
+
+  let application = {
+    reg_no:$("#view_regid").text(),
+    employee_no: $("#view_empid").text(),
+    name:  $("#view_name").text(),
+    department_no:$("#view_depid").text(),
+    designation:$("#view_desig").text(),
+    DDO_CODE:  $("#view_ddo_code").text(),
+    training_prog_id: $("#profile_apply").val(),
+    publish: false,
+    application_status: 'pending',
+
+  }
+  console.log(application)
+  var settings = {
+    "url": "http://localhost:8080/user/applyTraining",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(application),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    if(response.status==="success"){
+      swal("Poof! Applied successfully!", {
+        icon: "success",
+      });
+      updateApplicationsOfTrainee();
+      $("#applyTrainingfromProfileModal").modal('hide');
+      $("#profile_apply").val('');
+      loading.out();
+      console.log("I m executing")
+    }
+    else if(response.status==="Overrite"){
+      loading.out();
+      swal("ERROR !!!", "You already applied", "error");
+    }
+    else{
+      loading.out();
+      $("#trainingIdnotValid-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
+        $("#trainingIdnotValid-failure-alert").slideUp(500);
+      });
+    }
+    
+  });
+ 
+  
+})
+
+function updateApplicationsOfTrainee(){
+    console.log("inside");
+    var reg_no=$("#view_regid").text();
+    console.log(reg_no);
+    var settings = {
+    "url": "http://localhost:8080/admin/findApplicationsByregID/"+reg_no,
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+  };
+  $.ajax(settings).done(function (response) {
+    console.log("his applications",response);
+    fillprofileViewApplicationTable(response.data);
+  })
+  
+}
+
  
 
 
