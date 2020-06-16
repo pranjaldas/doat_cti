@@ -421,7 +421,7 @@
                                   <label>Trainiers: </label></p>
                               </div>
                               <div class="form-group col-6" >
-                                <p id="prg_trainer"> </p>
+                                <div id="prg_trainer"> </div>
                               </div>
                             </div>
                             <div class="form-row">
@@ -744,6 +744,16 @@
   
                       <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
                         <div class="container">
+                          <!-- Alert boxes start -->
+                          <div class="alert alert-success" id="import-alert-success" style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <strong>CSV data </strong> imported succesfully
+                          </div>
+                          <div class="alert alert-success" id="set-alert-success" style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;" >
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <strong>Criterias </strong> applies succesfully
+                          </div>
+                                                   
                           <form id="import_trainee_form">
                             <div class="form-card">
                               <div class="form-row">
@@ -754,10 +764,11 @@
                                   <input type="file" id="fileUpload" name="myfile">
                                 </div>
                                 <div class="form-group col-2">
-                                  <button class="btn btn-success btn-sm" type="button" id="remove"><i class="fa fa-minus-circle" aria-hidden="true"></i> Remove </button>
-
+                                  <button class="btn btn-success btn-sm" type="button" id="remove"><i class="fa fa-minus-circle"
+                                      aria-hidden="true"></i> Remove </button>
+                      
                                 </div>
-  
+                      
                               </div>
                               <div class="form-row">
                                 <div class="form-group col-4">
@@ -771,23 +782,29 @@
                                   </select>
                                 </div>
                                 <div class="form-group col-4">
-                                  <button class="btn btn-primary btn-sm" type="button" id="upload"  ><i class="fa fa-upload" aria-hidden="true"></i> Upload</button>
-
+                                  <button class="btn btn-primary btn-sm" type="button" id="upload"><i class="fa fa-upload"
+                                      aria-hidden="true"></i> Upload</button>
+                      
                                 </div>
                               </div>
-  
+                      
                             </div>
                           </form>
-  
-  
+                      
+                      
                         </div>
                         <div class="container">
-
+                      
+                      
                           <div id="accordian">
                             <h3><i class="fa fa-cogs" aria-hidden="true"></i>
                               Set Criterias</h3>
                             <div>
-      
+                              <div class="alert alert-success" style="color: #0c5460;background-color: #d1ecf1;border-color: #bee5eb;" >
+                                <button type="button" class="close" data-dismiss="alert">x</button>
+                                <strong>Criterias </strong> Set the criterias carefully before selecting Training Applications.
+                              </div>
+                      
                               <div class="form-row">
                                 <div class="form-group col-4">
                                   <label>
@@ -795,8 +812,7 @@
                                   </label>
                                 </div>
                                 <div class="form-group col-4">
-                                  <input class="form-control" type="date" name="join_date_criteria_set"
-                                    id="join_date_criteria_set">
+                                  <input class="form-control" type="date" name="join_date_criteria_set" id="join_date_criteria_set">
                                 </div>
                               </div>
                               <div class="form-row">
@@ -806,40 +822,40 @@
                                   </label>
                                 </div>
                                 <div class="form-group col-4">
-                                   <div class="input-group">
-                                      <input type="text" class="form-control" placeholder="Write Trainer Name and add him " id="criteria_desig">
-                                      <div class="input-group-append">
-                                        <button class="btn btn-secondary btn-sm" title="Add Designation" type="button" id="criteria_add_desig">
-                                          <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </button>
-                                      </div>
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Write Trainer Name and add him " id="criteria_desig">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-secondary btn-sm" title="Add Designation" type="button" id="criteria_add_desig">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                      </button>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="form-group col-4">
                                   <ul id="criteria_desig_list" class="list-group">
-                                    
+                      
                                   </ul>
-                               </div>
-  
+                                </div>
+                      
                               </div>
                               <div class="form-row">
                                 <div class="form-group col-6">
-                                  <button  class="btn btn-primary  float-right" title="set criteria" type="button" id="criteria_set">
+                                  <button class="btn btn-primary  float-right" title="set criteria" type="button" id="criteria_set">
                                     <i class="fa fa-cog" aria-hidden="true"></i>
-
+                      
                                   </button>
                                 </div>
                                 <div class="form-group col-6">
-                                  <button  class="btn btn-primary " title="reset criteria" type="button" id="criteria_reset">
+                                  <button class="btn btn-primary " title="reset criteria" type="button" id="criteria_reset">
                                     <i class="fa fa-recycle" aria-hidden="true"></i>
                                   </button>
                                 </div>
                               </div>
-                              
-
+                      
+                      
                             </div>
-                           
-
+                      
+                      
                             <h3><i class="fa fa-list" aria-hidden="true"></i>
                               Show Candidates</h3>
                             <div>
@@ -852,23 +868,24 @@
                                     <th><b>Department</b></th>
                                     <th><b>Designation</b></th>
                                     <th><b>DDO Code</b></th>
-                                    <th><button class="btn btn-primary btn-sm" type="button" id="select_all" value="select_all"><i class="fa fa-check-square-o" aria-hidden="true"></i> All</button></i>
+                                    <th><button class="btn btn-primary btn-sm" type="button" id="select_all" value="select_all"><i
+                                          class="fa fa-check-square-o" aria-hidden="true"></i> All</button></i>
                                     </th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                               </table>
-
+                      
                             </div>
-                            
-
+                      
+                      
                           </div>
-
+                      
                         </div>
-                        
-  
-  
+                      
+                      
+                      
                       </div>
   
   

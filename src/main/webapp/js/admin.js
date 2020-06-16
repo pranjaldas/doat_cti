@@ -1,4 +1,6 @@
   //For accordion
+  $("#import-alert-success").hide();
+  $("#set-alert-success").hide();
   $(function() {
     $( "#accordian" ).accordion({
        collapsible: true,
@@ -145,7 +147,7 @@
   //Criteria set to select trainee_table
   populateDesig();
   function populateDesig(){
-    var desigSuggestions = ['Tester','Developer','Software Engineer','HR'];
+    var desigSuggestions = ['Tester','Director','Developer','Software Engineer','Human Resource','Marketing Head','Sales Officer','Analyser'];
     var i = 0;
     $.each(desigSuggestions, function (key, value) {
         desigSuggestions[i] = value;
@@ -212,6 +214,9 @@ $("#criteria_set").click(()=>{
     if (designation_criteria.indexOf($(this).text()) === -1) designation_criteria.push($(this).text());
   });
   console.log(join_date_criteria,designation_criteria);
+  $("#set-alert-success").fadeTo(1000, 500).slideUp(500, function () {
+    $("#set-alert-success").slideUp(500);
+  });
 
 })
 $("#criteria_reset").click(()=>{
@@ -278,14 +283,21 @@ $("#criteria_reset").click(()=>{
     } else {
       swal("ERROR !!!","Please upload a valid csv file","error");
     }
+    $("#import-alert-success").fadeTo(1000, 500).slideUp(500, function () {
+      $("#import-alert-success").slideUp(500);
+    });
   });
 
 
 
   // code to read selected table row cell data (values).
   $("#trainee_table").on('click', '.selectEmployee', function () {
+    if(join_date_criteria=='' || jQuery.isEmptyObject(designation_criteria)){
+      swal("ERROR !!!", "No Criterias selected..","error");
+      return false;
+    }
+    
     var currentRow = $(this).closest("tr");
-
     swal({
       title: "Are you sure?",
       text: "You want to insert it?",
@@ -316,6 +328,10 @@ $("#criteria_reset").click(()=>{
           }
           
           console.log(object.join_date);
+          if(!isValidDate(object.join_date)){
+            swal("ERROR !!!", "Date format exception, please select yyyymmdd format in the  CSV file","error");
+            return false;
+          }
           console.log(object.designation);
           var criteriaDate=new Date(join_date_criteria);
           var joinDate=new Date(object.join_date)
@@ -339,6 +355,14 @@ $("#criteria_reset").click(()=>{
     
           // get the current row  
    });
+   function isValidDate(dateString) {
+    var regEx = /^\d{4}-\d{2}-\d{2}$/;
+    if(!dateString.match(regEx)) return false;  // Invalid format
+    var d = new Date(dateString);
+    var dNum = d.getTime();
+    if(!dNum && dNum !== 0) return false; // NaN value, Invalid date
+    return d.toISOString().slice(0,10) === dateString;
+  }
 
 
  function applyTrainingAfterCriteriaApproved(application,currentRow){
@@ -669,16 +693,32 @@ function deleteApplication(x){
     $("#prg_display").text(data.display_status);
     $("#prg_status").text(data.training_status);
     $("#prg_trainer").text(data.training_prg_trainer_id);
-    // var trairsArray=data.training_prg_trainer_id.split(',');
-    // console.log(trairsArray);
+    var trairsArray=data.training_prg_trainer_id.split(',');
+    console.log(trairsArray);
     // var ul_list=$("#prg_trainer");
     // $.each(trairsArray,function(key,value){
     //   console.log(value,key);
-    //   var list = document.createElement('div');
+    //   var list = document.createElement('li');
     //   list.innerHTML(value);
     //   ul_list.append(list);
       
-    // })     
+    // })   
+    // var cont = document.getElementById('#prg_trainer');
+
+    // // create ul element and set the attributes.
+    // var ul = document.createElement('ul');
+    // ul.setAttribute('style', 'padding: 0; margin: 0;');
+    // ul.setAttribute('id', 'theList');
+
+    // for (i = 0; i <= trairsArray.length - 1; i++) {
+    //     var li = document.createElement('li');     // create li element.
+    //     li.innerHTML = trairsArray[i];      // assigning text to li using array value.
+    //     li.setAttribute('style', 'display: block;');    // remove the bullets.
+
+    //     ul.appendChild(li);     // append li to ul.
+    // }
+
+    // cont.appendChild(ul);  
 
 
   }

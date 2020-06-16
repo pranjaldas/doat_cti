@@ -213,7 +213,7 @@
 
                 <div class="container" id="con">
                     <!-- Alert boxes start -->
-                    <div class="alert alert-success" id="success-alert">
+                    <div class="alert alert-success" id="success-alert" >
                         <button type="button" class="close" data-dismiss="alert">x</button>
                         <strong>Congratulations! </strong> you are succesfully registered, please check your email form
                         confirmation.

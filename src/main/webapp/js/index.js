@@ -611,9 +611,6 @@ function updateApplicationsOfTrainee(){
   
 }
 
- 
-
-
   // For event handler
   var calendarEl = document.getElementById('view_calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
