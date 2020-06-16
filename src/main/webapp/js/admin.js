@@ -316,52 +316,66 @@ $("#criteria_reset").click(()=>{
           }
           
           console.log(object.join_date);
+          console.log(object.designation);
           var criteriaDate=new Date(join_date_criteria);
           var joinDate=new Date(object.join_date)
-          if(criteriaDate > joinDate){
-            console.log("selected");
-            var settings = {
-              "url": "http://localhost:8080/checkApplication",
-              "method": "POST",
-              "timeout": 0,
-              "headers": {
-                "Content-Type": "application/json"
-              },
-              "data": JSON.stringify(object),
-            };
-            $.ajax(settings).done(function (response) {
-              console.log(response);
-              if (response.status == "success") {
-              fetchAllApplications();
-              currentRow.remove();
-               swal("Poof!!!","Inserted successfully!!!","success");
-  
-              }
-              else {
-              
-                swal("Message From Server !!!","Error occured, may be Employee Id or Department Id is not valid!!!","error");
-  
-              }
-  
-              $('#applications_table').refresh();
-            });
+          if(criteriaDate > joinDate ){
+            console.log(" join date criteria passed selected");
+            if(designation_criteria.indexOf(object.designation) !== -1){
+              console.log(" join date criteria and designation criteria passed selected");
+              applyTrainingAfterCriteriaApproved(object,currentRow);
+            }
+            else{
+              swal("Opps !!!","The Employee do not pass the designation criteria","error");
+            }
             
           }
           else{
-            swal("ERROR !!!","The Employee do not pass the join date criteria","error");
+            swal("Opps !!!","The Employee do not pass the join date criteria","error");
           }
 
         }
       });
     
-          // get the current row
-
-      
-      
+          // get the current row  
    });
 
 
+ function applyTrainingAfterCriteriaApproved(application,currentRow){
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    discription: 'Sending data...',
+    defaultApply: true,
+  });
+  var settings = {
+    "url": "http://localhost:8080/checkApplication",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(application),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    if (response.status == "success") {
+    loading.out();
+    fetchAllApplications();
+    currentRow.remove();
+     swal("Poof!!!","Inserted successfully!!!","success");
 
+    }
+    else {
+      loading.out();
+      swal("Message From Server !!!","Error occured, may be Employee Id or Department Id is not valid!!!","error");
+
+    }
+
+    $('#applications_table').refresh();
+  });
+
+ }
 
 
 
