@@ -371,5 +371,7 @@ body{
 	text-align: right;
 }
 
-
+.notification{
+	height: 60px;
+}
 

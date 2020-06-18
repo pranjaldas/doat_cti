@@ -1,4 +1,21 @@
-
+  //for the toaster messages
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "500",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
   //to hide the alert box
   $("#success-alert").hide();
   $("#failure-alert").hide();
@@ -409,6 +426,12 @@ $("#apply_training_button").click(()=>{
         $("#profile").show();
         $("#home").hide();
         $('#myLoginModal').modal('hide');
+        toastr.success('Hi! Logged in Succesfully.');
+        setTimeout(()=>{
+          toastr.info('You have new Notifications unread.');
+        }, 2000);
+        
+        
       }
       else {
         loading.out();
@@ -610,6 +633,60 @@ function updateApplicationsOfTrainee(){
   })
   
 }
+//Notifications
+notification();
+function notification(){
+  var notifications=[
+    {
+      id:111,
+      title: 'New Message from Admin',
+      time: '7.00 AM',
+      date:'2020-05-12',
+      subject:'Mr Pranjal you are hereby requested to....',
+      trainee_read:false
+
+    },
+    {
+      id:123,
+      title: 'New Message from Admin',
+      time: '7.00 AM',
+      date:'2020-05-12',
+      subject:'Congratulations Mr. Pranjal you are Your application has accepted...',
+      trainee_read:true
+
+    },
+    {
+      id:124,
+      title: 'New Message from Admin',
+      time: '7.00 AM',
+      date:'2020-05-12',
+      subject:'You have successfully applied for the training...',
+      trainee_read:false
+
+    }
+  ]
+  var data='';
+    $.each(notifications,(key,value)=>{
+      if(value.trainee_read==true){
+        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-success notification" data-toggle="modal" data-target="#notification_details_modal">'
+              +'<i class="fa fa-comments-o" aria-hidden="true"></i>'
+              + value.subject
+              +'<p class="float-right"><b>Time: </b>'+value.time+'<b>Date:</b>'+ value.date+'</p>'+'</div>';
+      }
+      else{
+        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-danger notification" data-toggle="modal" data-target="#notification_details_modal">'
+               +'<i class="fa fa-comments-o" aria-hidden="true"></i>'
+              + value.subject
+              +'<p class="float-right"><b>Time: </b>'+ value.time+'<b>Date:</b>'+ value.date+'</p>'+'</div>';
+      }
+    })
+    
+    $("#noti_body").append(data);
+  
+}
+function alerting(i){
+  console.log(i);
+}
 
   // For event handler
   var calendarEl = document.getElementById('view_calendar');
@@ -716,6 +793,7 @@ function updateApplicationsOfTrainee(){
 
   //Code for User profile
   $("#logout").click(() => {
+    
     swal({
       title: "Log Out",
       text: "Are you sure ?",
@@ -725,11 +803,19 @@ function updateApplicationsOfTrainee(){
     })
       .then((willLogOut) => {
         if (willLogOut) {
+
           console.log("logged out");
           $("#profile").hide();
           $("#home").show();
         }
       })
+  })
+  //code to back homepage
+  $("#backHome").click(()=>{
+    $("#profile").hide();
+    $("#home").show();
+    toastr.success('Hi! back to home page.');
+
   })
 
 

@@ -34,6 +34,10 @@
     <!-- for loading animation -->
     <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
     <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
+    <!-- For Toaster messages -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <!-- for full calender -->
     <link href='../packages/core/main.css' rel='stylesheet' />
     <link href='../packages/daygrid/main.css' rel='stylesheet' />
@@ -44,6 +48,7 @@
     <script src='../packages/daygrid/main.js'></script>
     <script src='../packages/timegrid/main.js'></script>
     <script src='../packages/list/main.js'></script>
+
     <style>
         #profile {
             display: none;
@@ -95,7 +100,7 @@
                         </li>
                         <li class="nav-item" style="float: right;">
                             <a class="nav-link" href="#myLoginModal" data-toggle="modal"><i
-                                    class="fa fa-info-circle"></i> Log In</a>
+                                    class="fa fa-info-circle"></i> Profile</a>
                         </li>
                     </ul>
                 </div>
@@ -143,7 +148,7 @@
                       padding: 5px; 
                       border-radius: 20px;">
                                     <h4 align="center">
-                                        <marquee><b>NOTIFICATIONS</b></marquee>
+                                        <marquee><b>Advertisements</b></marquee>
                                     </h4>
                                 </div>
                                 <div class="card-body" style="overflow-y: scroll;
@@ -521,6 +526,10 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class=" nav nav-tabs" style="padding-left: 20px;">
                         <li class="nav-item">
+                            <a class="nav-link" id="backHome"><i class="fa fa-home"></i>
+                                Home</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#profileView" data-toggle="tab"><i class="fa fa-user"></i>
                                 Profile</a>
                         </li>
@@ -528,9 +537,15 @@
                             <a class="nav-link" href="#activity" data-toggle="tab"><i class="fa fa-address-card"></i>
                                 Activity</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#notifications" data-toggle="tab"><i class="fa fa-flag" aria-hidden="true"></i>
+                                Notifications</a>
+                        </li>
                         <li class="nav-item" style="float: right;">
                             <a class="nav-link" id="logout"><i class="fa fa-info-circle"></i> Log Out</a>
                         </li>
+                        
+                        
                     </ul>
                 </div>
             </nav>
@@ -1054,8 +1069,103 @@
 
                 </div>
             </div>
-
-        </div>
+            <div class="modal fade" id="notification_details_modal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Notification Details:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                    <p class="font-weight-bold">
+                                        <label>Notification Id:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="" readonly />
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                    <p class="font-weight-bold">
+                                        <label>Title:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="" readonly />
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                    <p class="font-weight-bold">
+                                        <label>Subject:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="" readonly/>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-4">
+                                    <p class="font-weight-bold">
+                                        <label>Date:</label>
+                                </div>
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="" readonly />
+                                    </p>
+                                </div>
+                            </div>
+                        
+            
+                        </div>
+            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary"  id="">Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane " id="notifications">
+                <div class="container" id="con">
+                    <div class="card" id="whole-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Notifications
+                            </h3>
+            
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body" style="overflow-y: scroll;height:450px;padding: 1rem" id="noti_body">
+                            <div class="alert alert-danger notification" role="alert">
+                                <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                New Unread Notification from admin
+                                <p class="float-right"><b>Time: </b>8.00 AM <b>Date:</b> 2020-05-12</p>
+                            </div>
+                            <div class="alert alert-success notification" role="alert">
+                                <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                New Notification from Admin.
+                                <p class="float-right"><b>Time: </b>8.00 AM <b>Date:</b> 2020-05-12</p>
+                            </div>
+            
+                        </div>
+            
+            
+            
+            
+                        <!-- /.card-body -->
+            
+                    </div>
+            
+                </div>
+            </div>
+            
+            </div>
 
 
 
