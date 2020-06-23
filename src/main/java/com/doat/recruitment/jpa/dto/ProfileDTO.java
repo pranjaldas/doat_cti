@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
+import com.doat.recruitment.jpa.model.Notification;
 import com.doat.recruitment.jpa.model.Registration;
 import com.doat.recruitment.jpa.model.TrainingApplication;
 
@@ -27,7 +28,9 @@ public class ProfileDTO {
     private String department_name;
 	private String department_loc;
 	private List<TrainingApplication> applications=new ArrayList<>();
-	public ProfileDTO(final Registration registration,final Employee employee,final Department department,List<TrainingApplication> applications) {
+	private List<Notification> notifications=new ArrayList<>();
+	private Integer unread_msg;
+	public ProfileDTO(final Registration registration,final Employee employee,final Department department,List<TrainingApplication> applications,List<Notification> notifications) {
 		this.reg_id = registration.getReg_id();
 		this.name = registration.getName();
 		this.phone = registration.getPhone();
@@ -45,7 +48,9 @@ public class ProfileDTO {
 		this.department_name =department.getDepartment_name();
 		this.department_loc = department.getDepartment_loc();
 		this.applications=applications;
+		this.notifications= notifications;
 	}
+	
 	public ProfileDTO(final Registration registration,final Employee employee,final Department department) {
 		this.reg_id = registration.getReg_id();
 		this.name = registration.getName();
@@ -230,6 +235,21 @@ public class ProfileDTO {
 
 	public void setApplications(List<TrainingApplication> applications) {
 		this.applications = applications;
+	}
+	
+	public Integer getUnread_msg() {
+		return unread_msg;
+	}
+	public void setUnread_msg(Integer unread_msg) {
+		this.unread_msg = unread_msg;
+	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 
 	

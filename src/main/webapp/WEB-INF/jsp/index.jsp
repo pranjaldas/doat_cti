@@ -22,9 +22,9 @@
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <!-- Material icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/CTIcss.css">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
     <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.structure.css">
@@ -35,8 +35,8 @@
     <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
     <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
     <!-- For Toaster messages -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+     <script src="plugins/toastr/toastr.min.js"></script>
 
     <!-- for full calender -->
     <link href='../packages/core/main.css' rel='stylesheet' />
@@ -57,7 +57,7 @@
 
 </head>
 
-<body >
+<body>
     <div class="header content">
         <a href="index.html"><img src="img/assam.png" class="title-logo" alt="Home"></a>
         <div class="titles">
@@ -124,7 +124,7 @@
                                     <div class="carousel-item">
                                         <img class="d-block w-100" src="img/image3.jpeg" alt="Second slide">
                                     </div>
-                                
+
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
                                     data-slide="prev">
@@ -167,7 +167,7 @@
 
                 </div>
             </div>
-        
+
             <!-- Apply model -->
             <div id="applyModal" class="modal fade">
                 <div class="modal-dialog modal-dialog-centered modal-login">
@@ -180,16 +180,17 @@
                             <form action="#" method="" id="apply_form">
                                 <div class="form-group">
                                     <i class="fa fa-registered"></i>
-                                    <input type="text" id="apply_reg_id" name="regId" class="form-control" placeholder="Registration Id"
-                                        required="required">
+                                    <input type="text" id="apply_reg_id" name="regId" class="form-control"
+                                        placeholder="Registration Id" required="required">
                                 </div>
                                 <div class="alert alert-danger" id="user-regId-failure-alert" role="alert">
-                                    <strong>Opps!</strong> <a href="#" class="alert-link">Registration ID is not valid</a>
+                                    <strong>Opps!</strong> <a href="#" class="alert-link">Registration ID is not
+                                        valid</a>
                                 </div>
                                 <div class="form-group">
                                     <i class="fa fa-user"></i>
-                                    <input type="text" id="apply_username" name="username" class="form-control" placeholder="Username"
-                                        required="required">
+                                    <input type="text" id="apply_username" name="username" class="form-control"
+                                        placeholder="Username" required="required">
                                 </div>
                                 <div class="form-group">
                                     <i class="fa fa-lock"></i>
@@ -197,16 +198,18 @@
                                         placeholder="Password" required="required">
                                 </div>
                                 <div class="alert alert-danger" id="user-auth-failure-alert" role="alert">
-                                    <strong>Opps!</strong> <a href="#" class="alert-link">username and password mismatch</a>
+                                    <strong>Opps!</strong> <a href="#" class="alert-link">username and password
+                                        mismatch</a>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <input type="button" id="apply_training_button" class="btn btn-primary btn-block btn-lg" value="Apply">
+                                    <input type="button" id="apply_training_button"
+                                        class="btn btn-primary btn-block btn-lg" value="Apply">
                                 </div>
                             </form>
-        
+
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -218,7 +221,7 @@
 
                 <div class="container" id="con">
                     <!-- Alert boxes start -->
-                    <div class="alert alert-success" id="success-alert" >
+                    <div class="alert alert-success" id="success-alert">
                         <button type="button" class="close" data-dismiss="alert">x</button>
                         <strong>Congratulations! </strong> you are succesfully registered, please check your email form
                         confirmation.
@@ -538,14 +541,15 @@
                                 Activity</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#notifications" data-toggle="tab"><i class="fa fa-flag" aria-hidden="true"></i>
+                            <a class="nav-link" href="#notifications" data-toggle="tab"><i class="fa fa-flag"
+                                    aria-hidden="true"></i>
                                 Notifications</a>
                         </li>
                         <li class="nav-item" style="float: right;">
                             <a class="nav-link" id="logout"><i class="fa fa-info-circle"></i> Log Out</a>
                         </li>
-                        
-                        
+
+
                     </ul>
                 </div>
             </nav>
@@ -559,17 +563,17 @@
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Registration Details
-                          </h3>
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Registration Details
+                            </h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="profile_trainee_table" id="trainee_registration">
                                 <thead>
                                     <tr>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -601,119 +605,119 @@
                                     </tr>
                                 </tbody>
                             </table>
-            
+
                         </div>
-                       
-            
-            
+
+
+
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            <button type="button" id="publish" onclick="fillRegistrationModal()" data-toggle="modal" data-target="#updateUserRegistrationDetails" class="btn btn-info float-right"><i class="fa fa-wrench" aria-hidden="true"></i>
+                            <button type="button" id="publish" onclick="fillRegistrationModal()" data-toggle="modal"
+                                data-target="#updateUserRegistrationDetails" class="btn btn-info float-right"><i
+                                    class="fa fa-wrench" aria-hidden="true"></i>
                                 Update </button>
-                          </div>
-                       
-                      </div>
-                       <!-- Registration Details update -->
-                       <div class="modal fade" id="updateUserRegistrationDetails" tabindex="-1" role="dialog"
-                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                       <div class="modal-dialog modal-dialog-centered" role="document">
-                         <div class="modal-content">
-                           <div class="modal-header">
-                             <h5 class="modal-title" id="exampleModalLongTitle"><b>Update Registration Details:</b></h5>
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                               <span aria-hidden="true">&times;</span>
-                             </button>
-                           </div>
-                           <div class="modal-body">
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
-                                  <label>Registration Id:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" 
-                                  id="editReg_registration_id" readonly/>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                  <p class="font-weight-bold">
-                                    <label>Trainee Name:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                  <input type="text" class="form-control" 
-                                    id="editReg_name" readonly/>
-                                  </p>
-                                </div>
-                              </div>
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
-                                  <label>New User Name:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" 
-                                   id="editReg_username" />
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                  <p class="font-weight-bold">
-                                    <label>New Phone No.:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                  <input type="text" class="form-control" 
-                                     id="editReg_phone"  />
-                                  </p>
-                                </div>
-                              </div>
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
-                                  <label>New Email Address:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" 
-                                   id="editReg_email"  />
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                  <p class="font-weight-bold">
-                                    <label>New Password:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                  <input type="password" class="form-control" 
-                                     id="editReg_password" placeholder="Enter a New password" />
-                                  </p>
-                                </div>
-                              </div>
-                            
-                           </div>
-                           
-                           <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveRegUpdates">Save</button>
-                          </div>
-                         </div>
-                       </div>
-                     </div>
+                        </div>
 
-                      <div class="card" id="whole-card">
+                    </div>
+                    <!-- Registration Details update -->
+                    <div class="modal fade" id="updateUserRegistrationDetails" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"><b>Update Registration
+                                            Details:</b></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold">
+                                                <label>Registration Id:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_registration_id"
+                                                readonly />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold">
+                                                <label>Trainee Name:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_name" readonly />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold">
+                                                <label>New User Name:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_username" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold">
+                                                <label>New Phone No.:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_phone" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold">
+                                                <label>New Email Address:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_email" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold">
+                                                <label>New Password:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="password" class="form-control" id="editReg_password"
+                                                placeholder="Enter a New password" />
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        id="saveRegUpdates">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            Department Details
-                          </h3>
-                          
+                            <h3 class="card-title">
+                                Department Details
+                            </h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="profile_trainee_table" id="trainee_department">
                                 <thead>
                                     <tr>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -732,34 +736,34 @@
                                             Location:</td>
                                         <td id="view_dept_loc"></td>
                                     </tr>
-        
+
                                 </tbody>
                             </table>
-            
+
                         </div>
-            
-            
+
+
                         <!-- /.card-body -->
-                    
-                      </div>
+
+                    </div>
 
 
 
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                          
-                            Employee Details
-                          </h3>
-                
+                            <h3 class="card-title">
+
+                                Employee Details
+                            </h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="profile_trainee_table" id="trainee_employment">
                                 <thead>
                                     <tr>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -771,8 +775,8 @@
                                     <tr>
                                         <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                             Name:</td>
-        
-        
+
+
                                         <td id="view_name"></td>
                                     </tr>
                                     <tr>
@@ -797,16 +801,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-        
-            
-                        </div>
-            
-            
-                        <!-- /.card-body -->
-                    
-                      </div>
 
-                   
+
+                        </div>
+
+
+                        <!-- /.card-body -->
+
+                    </div>
+
+
                 </div>
 
 
@@ -820,20 +824,20 @@
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Trainings applied
-                          </h3>
-                          <div class="card-tools">
-                            <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search Trainings by ID">
-                              <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                  <i class="fa fa-search"></i>
-                                </button>
-                              </div>
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Trainings applied
+                            </h3>
+                            <div class="card-tools">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Trainings by ID">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -843,7 +847,7 @@
                                         <th><b>Sr.No.</b></th>
                                         <th><b>Application ID</b></th>
                                         <th><b>TrainingID</b></th>
-                                        <th><b>Apply Date</b></th>                           
+                                        <th><b>Apply Date</b></th>
                                         <th><b>Status</b></th>
                                         <th><b>Alert</b></th>
                                         <th><b>Action</b></th>
@@ -863,53 +867,59 @@
 
                                 </tbody>
                             </table>
-            
+
                         </div>
-            
-            
+
+
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                          <button type="button" class="btn btn-info float-right" data-toggle="modal"
-                            data-target="#applyTrainingfromProfileModal"><i class="fas fa-plus"></i> Apply New</button>
+                            <button type="button" class="btn btn-info float-right" data-toggle="modal"
+                                data-target="#applyTrainingfromProfileModal"><i class="fas fa-plus"></i> Apply
+                                New</button>
                         </div>
-                      </div>
-                      <!-- Apply trainings -->
-                      <div id="applyTrainingfromProfileModal" class="modal fade">
+                    </div>
+                    <!-- Apply trainings -->
+                    <div id="applyTrainingfromProfileModal" class="modal fade">
                         <div class="modal-dialog modal-dialog-centered modal-login">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title"><b>APPLY TRAINING</b></h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="#" method="" >
+                                    <form action="#" method="">
                                         <div class="form-group">
                                             <i class="fa fa-key" aria-hidden="true"></i>
-                                            <input type="text" id="profile_apply" name="profile_apply" class="form-control" placeholder="Write Training Program Id">
-                                                
+                                            <input type="text" id="profile_apply" name="profile_apply"
+                                                class="form-control" placeholder="Write Training Program Id">
+
                                         </div>
-                                        <div class="alert alert-danger" id="trainingIdnotValid-failure-alert" role="alert">
-                                            <strong>Opps!</strong> <a href="#" class="alert-link">Training ID is not valid</a>
+                                        <div class="alert alert-danger" id="trainingIdnotValid-failure-alert"
+                                            role="alert">
+                                            <strong>Opps!</strong> <a href="#" class="alert-link">Training ID is not
+                                                valid</a>
                                         </div>
-                                        
+
                                         <div class="form-group">
-                                            <input type="button" id="profile_apply_training_button" class="btn btn-primary btn-block btn-lg" value="Apply">
+                                            <input type="button" id="profile_apply_training_button"
+                                                class="btn btn-primary btn-block btn-lg" value="Apply">
                                         </div>
                                     </form>
-                
+
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
 
-                      <div class="card" id="whole-card">
+                    <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Trainings Ongoing
-                          </h3>
-                          
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Trainings Ongoing
+                            </h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" style="overflow-y: scroll;
@@ -919,7 +929,7 @@
 
                                 <thead>
                                     <tr>
-                                        
+
                                         <th><b>TrainingID</b></th>
                                         <th><b>Trainer Name</b></th>
                                         <th><b>Date</b></th>
@@ -996,30 +1006,30 @@
                                     </tr>
                                 </tbody>
                             </table>
-            
-                        </div>
-            
-            
-                        <!-- /.card-body -->
-                        
-                      </div>
 
-                      <div class="card" id="whole-card">
+                        </div>
+
+
+                        <!-- /.card-body -->
+
+                    </div>
+
+                    <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Trainings Attended
-                          </h3>
-                          <div class="card-tools">
-                            <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search Trainings by ID">
-                              <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                  <i class="fa fa-search"></i>
-                                </button>
-                              </div>
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Trainings Attended
+                            </h3>
+                            <div class="card-tools">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Trainings by ID">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -1056,16 +1066,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-            
+
                         </div>
-            
-            
+
+
                         <!-- /.card-body -->
-                        
-                      </div>
-            
-                    
-        
+
+                    </div>
+
+
+
 
                 </div>
             </div>
@@ -1073,60 +1083,92 @@
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Notification Details:</b></h5>
+                        <div class="modal-header" style="padding: 1px;">
+                            <!-- <h5 class="modal-title" id="exampleModalLongTitle"><b>Notification Details:</b></h5> -->
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                    <p class="font-weight-bold">
-                                        <label>Notification Id:</label>
+                        <div class="modal-body"style="padding:0px">
+
+                            <div id="replyAccordion">
+                                <h3><i class="fa fa-envelope" aria-hidden="true"></i> Message
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>FROM:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_from"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                                <p style="color: green;" id="the_msg"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Notification Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" type="text" id="msg_id"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Time:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_time"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Date:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_date"></p>
+
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group col-6">
-                                    <input type="text" class="form-control" id="" readonly />
-                                    </p>
+                                <h3><i class="fa fa-reply" aria-hidden="true"></i> Reply
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                                <textarea cols="2" rows="3" class="form-control"  placeholder="Write Your Reply Here."
+                                                 id="msg_rly_subject"
+                                                    name="msg_rly_subject"></textarea>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <button class="btn btn-sm btn-primary " id="msg_rly_send"><i class="fa fa-paper-plane"
+                                                aria-hidden="true"></i> Send</button>
+                                    </div>
+
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                    <p class="font-weight-bold">
-                                        <label>Title:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                    <input type="text" class="form-control" id="" readonly />
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                    <p class="font-weight-bold">
-                                        <label>Subject:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                    <input type="text" class="form-control" id="" readonly/>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                    <p class="font-weight-bold">
-                                        <label>Date:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                    <input type="text" class="form-control" id="" readonly />
-                                    </p>
-                                </div>
-                            </div>
-                        
-            
+
                         </div>
-            
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary"  id="">Reply</button>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -1138,34 +1180,40 @@
                                 <i class="ion ion-clipboard mr-1"></i>
                                 Notifications
                             </h3>
-            
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" style="overflow-y: scroll;height:450px;padding: 1rem" id="noti_body">
                             <div class="alert alert-danger notification" role="alert">
-                                <i class="fa fa-comments-o" aria-hidden="true"></i>
-                                New Unread Notification from admin
-                                <p class="float-right"><b>Time: </b>8.00 AM <b>Date:</b> 2020-05-12</p>
+                                <div class="row">
+                                    <div class="col-8" class="float-left">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        <b> New Unread Notification from admin</b>
+                                    </div>
+                                    <div class="col-2">
+                                        <p><b>Time: </b>8.00 AM </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <p><b>Date: </b> 2020-05-12</p>
+                                    </div>
+
+                                </div>
                             </div>
-                            <div class="alert alert-success notification" role="alert">
-                                <i class="fa fa-comments-o" aria-hidden="true"></i>
-                                New Notification from Admin.
-                                <p class="float-right"><b>Time: </b>8.00 AM <b>Date:</b> 2020-05-12</p>
-                            </div>
-            
+
+
                         </div>
-            
-            
-            
-            
+
+
+
+
                         <!-- /.card-body -->
-            
+
                     </div>
-            
+
                 </div>
             </div>
-            
-            </div>
+
+        </div>
 
 
 
@@ -1173,49 +1221,51 @@
     </div>
     <!-- footer light -->
     <div class="footer">
-        
-            <div class="row">
-                <div class="col-3 padawan">
-                    <p><a href="#" class="white">CTI - Mandatory Disclosure</a></p>
-                    <p><a href="#" class="white">Information under RTI Act</a></p>
-                    <p><a href="#" class="white">Certification Policy</a></p>
-                </div>
-                <div class="col-2 padawan" >
-                    <p><a href="#" class="white">Trainees Acitivities</a></p>
-                    <p><a href="#" class="white">Notice Archives</a></p>
-                    <p><a href="#" class="white">About Us</a></p>
-                    <p><a href="#" class="white">Location</a></p>
-                    <p><a href="#" class="white">Address</a></p>
-                    
-                </div>
-                <div class="col-2 padawan no-padding">
-                    <img src="img/assam.png" id="logo-footer" alt="" style="width: 150px; height: 200px;">
-                </div>
-                <div class="col-2 padawan">
-                    <p><a href="#" class="white">Training Programs</a></p>
-                    <p><a href="#" class="white">Training Eligibility</a></p>
-                    <p><a href="#" class="white">Trainers</a></p>
-                    <p><a href="#" class="white">Examination</a></p>
-                    <p><a href="#" class="white">The Observer</a></p>
-                </div>
-                <div class="col-3 padawan">
-                    <!-- <h4 class="no-margin">Contact Us</h4><br> -->
-                    <p>
-                        Directorate Of Accounts and Treasuries,<br>
-                        Govt. of Assam,<br>
-                        G-S Road, Ganeshguri,<br>
-                        Distt. - Kamrup<br>
-                        PIN - 781006 , India<br>
-                        Ph: +91-9678186292,<br>
-                        +91-267310-314<br>
-                        Email: cti@juet.ac.in
-                    </p>
-                </div>
+
+        <div class="row">
+            <div class="col-3 padawan">
+                <p><a href="#" class="white">CTI - Mandatory Disclosure</a></p>
+                <p><a href="#" class="white">Information under RTI Act</a></p>
+                <p><a href="#" class="white">Certification Policy</a></p>
+            </div>
+            <div class="col-2 padawan">
+                <p><a href="#" class="white">Trainees Acitivities</a></p>
+                <p><a href="#" class="white">Notice Archives</a></p>
+                <p><a href="#" class="white">About Us</a></p>
+                <p><a href="#" class="white">Location</a></p>
+                <p><a href="#" class="white">Address</a></p>
+
+            </div>
+            <div class="col-2 padawan no-padding">
+                <img src="img/assam.png" id="logo-footer" alt="" style="width: 150px; height: 200px;">
+            </div>
+            <div class="col-2 padawan">
+                <p><a href="#" class="white">Training Programs</a></p>
+                <p><a href="#" class="white">Training Eligibility</a></p>
+                <p><a href="#" class="white">Trainers</a></p>
+                <p><a href="#" class="white">Examination</a></p>
+                <p><a href="#" class="white">The Observer</a></p>
+            </div>
+            <div class="col-3 padawan">
+                <!-- <h4 class="no-margin">Contact Us</h4><br> -->
+                <p>
+                    Directorate Of Accounts and Treasuries,<br>
+                    Govt. of Assam,<br>
+                    G-S Road, Ganeshguri,<br>
+                    Distt. - Kamrup<br>
+                    PIN - 781006 , India<br>
+                    Ph: +91-9678186292,<br>
+                    +91-267310-314<br>
+                    Email: cti@juet.ac.in
+                </p>
+            </div>
         </div>
     </div>
     <!--footer-->
     <div class="footer-dark">
-        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by <strong><a href="#" onclick="window.open('https://www.linkedin.com/in/pranjal-das-03bba217b')" class="white">Pranjal
+        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by
+        <strong><a href="#" onclick="window.open('https://www.linkedin.com/in/pranjal-das-03bba217b')"
+                class="white">Pranjal
                 Das</a></strong>
     </div>
 

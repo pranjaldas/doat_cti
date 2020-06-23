@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +28,9 @@ import com.doat.recruitment.jpa.dto.RegistrationUpdateDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
+
 import com.doat.recruitment.jpa.model.Registration;
-import com.doat.recruitment.jpa.dto.Test;
+
 import com.doat.recruitment.jpa.model.TraineeEmployee;
 import com.doat.recruitment.jpa.model.Trainer;
 import com.doat.recruitment.jpa.model.TrainingApplication;
@@ -43,6 +44,7 @@ import com.doat.recruitment.jpa.services.EventsService;
 import com.doat.recruitment.jpa.services.IdGenerator;
 import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.MailService;
+import com.doat.recruitment.jpa.services.NotificationService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
 import com.doat.recruitment.jpa.services.TrainerService;
@@ -65,6 +67,7 @@ public class RestControllers {
 	@Autowired 
 	LoginService loginService;
 	@PostMapping(value = "/test")
+
 	public String checkDept(@RequestBody Registration registration){
 		Optional <Department> optional=deptService.findDepartment(registration.getDepartment_no());
 		Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
@@ -80,6 +83,8 @@ public class RestControllers {
 		}
 		
 	}
+	@Autowired
+	NotificationService notificatioservice;
 	@PostMapping(value = "/login")
 	public ResponseEntity<Object> checkLogin(@RequestBody final User user){
 		System.out.println(user);
@@ -90,8 +95,10 @@ public class RestControllers {
 			Optional<Employee> optional1=eEmployeeService.findEmployee(registration.getEmployee_no());
 			Department department=optional.get();
 			Employee employee=optional1.get();
-			List<TrainingApplication> applications=service.findAllappByRegId(registration.getReg_id());
-			ProfileDTO profile=new ProfileDTO(registration,employee,department,applications);
+			ProfileDTO profile=new ProfileDTO(registration,employee,department,service.findAllappByRegId(registration.getReg_id()),notificatioservice.findAllByRegNo(registration.getReg_id()));
+			
+			//to find the no of unread msg
+			profile.setUnread_msg(notificatioservice.countUserUnread(registration.getReg_id()));
 			final ServiceResponse<ProfileDTO> response=new ServiceResponse<>("success",profile);
 			return new ResponseEntity<>(response,HttpStatus.OK);
 		}

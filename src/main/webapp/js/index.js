@@ -1,4 +1,12 @@
+  //Accordion 
+  $(function() {
+    $( "#replyAccordion" ).accordion({
+       collapsible: false,
+       heightStyle: "content"
+    });
+ });
   //for the toaster messages
+
   toastr.options = {
     "closeButton": false,
     "debug": false,
@@ -423,15 +431,18 @@ $("#apply_training_button").click(()=>{
         fillUserProfile(response.data);
         var data=response.data;
         fillprofileViewApplicationTable(data.applications);
+        updateNotifications(data.reg_id);
         $("#profile").show();
         $("#home").hide();
         $('#myLoginModal').modal('hide');
-        toastr.success('Hi! Logged in Succesfully.');
-        setTimeout(()=>{
-          toastr.info('You have new Notifications unread.');
-        }, 2000);
-        
-        
+        toastr.success('You Logged in Succesfully.');
+       
+        if(response.unread_msg !== 0){
+          setTimeout(()=>{
+            toastr.info('You have '+data.unread_msg+' new Notifications unread.');
+          }, 2000);
+        }
+  
       }
       else {
         loading.out();
@@ -443,6 +454,87 @@ $("#apply_training_button").click(()=>{
     });
 
   })
+  //To view notifications
+ 
+  function updateNotifications(reg_id){
+    console.log(reg_id);
+    
+    var settings = {
+      "url": "http://localhost:8080/getTheNotificationbyReg/"+reg_id,
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+    };
+    $.ajax(settings).done(function (response) {
+      if(response.status == "success"){
+        notificationFill(response.data);
+      }
+    });
+    
+
+  }
+
+  
+  function notificationFill(list){
+    $("#noti_body").empty();
+    console.log('noti',list);
+    
+  var data='';
+    $.each(list,(key,value)=>{
+      if(value.trainee_read==true){
+        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-success notification" data-toggle="modal" data-target="#notification_details_modal">'
+              +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '      
+              + value.title+'</div><div class="col-2"><p><b>Time:</b> '
+              + value.notificatio_create_time+'</p></div><div class="col-2"><p><b>Date: </b>'
+              + value.notificatio_create_date+'</p></div></div></div>';
+      }
+      else{
+        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-danger notification" data-toggle="modal" data-target="#notification_details_modal">'
+        +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i><b> '      
+        + value.title+'</b></div><div class="col-2"><p><b>Time:</b> '
+        + value.notificatio_create_time+'</p></div><div class="col-2"><p><b>Date: </b>'
+        + value.notificatio_create_date+'</p></div></div></div>';
+      }
+    })
+    
+    $("#noti_body").append(data);
+  
+}
+function alerting(i){
+  var reg_id='';
+  console.log(i);
+  $.getJSON("http://localhost:8080/getTheNotification/"+i,(response)=>{
+    console.log(response);
+    var data=response.data;
+    reg_id=data.trainee_reg_id;
+    fillViewMessageModal(response.data);
+  });
+  //to update the notification as read
+  var settings1 = {
+    "url": "http://localhost:8080/updateNotification/"+i,
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+  };
+  $.ajax(settings1).done(function (response) {
+    console.log("After Update :",response.data);
+    notificationFill(response.data);
+  });
+ 
+}
+function fillViewMessageModal(data){
+  $("#msg_from").text(data.senderSignature);
+  $("#the_msg").text(data.subject);
+  $("#msg_id").text(data.id);
+  $("#msg_time").text(data.notificatio_create_time);
+  $("#msg_date").text(data.notificatio_create_date);
+}
+
+  //To view Applied Trainings
   function fillprofileViewApplicationTable(list){
     console.log(list);
     $('#profile_applications_table tbody').empty();
@@ -633,60 +725,7 @@ function updateApplicationsOfTrainee(){
   })
   
 }
-//Notifications
-notification();
-function notification(){
-  var notifications=[
-    {
-      id:111,
-      title: 'New Message from Admin',
-      time: '7.00 AM',
-      date:'2020-05-12',
-      subject:'Mr Pranjal you are hereby requested to....',
-      trainee_read:false
 
-    },
-    {
-      id:123,
-      title: 'New Message from Admin',
-      time: '7.00 AM',
-      date:'2020-05-12',
-      subject:'Congratulations Mr. Pranjal you are Your application has accepted...',
-      trainee_read:true
-
-    },
-    {
-      id:124,
-      title: 'New Message from Admin',
-      time: '7.00 AM',
-      date:'2020-05-12',
-      subject:'You have successfully applied for the training...',
-      trainee_read:false
-
-    }
-  ]
-  var data='';
-    $.each(notifications,(key,value)=>{
-      if(value.trainee_read==true){
-        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-success notification" data-toggle="modal" data-target="#notification_details_modal">'
-              +'<i class="fa fa-comments-o" aria-hidden="true"></i>'
-              + value.subject
-              +'<p class="float-right"><b>Time: </b>'+value.time+'<b>Date:</b>'+ value.date+'</p>'+'</div>';
-      }
-      else{
-        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-danger notification" data-toggle="modal" data-target="#notification_details_modal">'
-               +'<i class="fa fa-comments-o" aria-hidden="true"></i>'
-              + value.subject
-              +'<p class="float-right"><b>Time: </b>'+ value.time+'<b>Date:</b>'+ value.date+'</p>'+'</div>';
-      }
-    })
-    
-    $("#noti_body").append(data);
-  
-}
-function alerting(i){
-  console.log(i);
-}
 
   // For event handler
   var calendarEl = document.getElementById('view_calendar');
@@ -803,7 +842,7 @@ function alerting(i){
     })
       .then((willLogOut) => {
         if (willLogOut) {
-
+          $("#noti_body").empty();
           console.log("logged out");
           $("#profile").hide();
           $("#home").show();

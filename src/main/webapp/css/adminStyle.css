@@ -5,10 +5,7 @@
     margin-bottom: 20px;
    }
   
-.card-header{
-	background: rgb(161, 221, 231) ;
-	
-}
+
 #criteria_desig_list li{
     padding-top:0rem;
     padding-bottom: 0rem;
@@ -22,4 +19,19 @@
     padding-left: 2rem;
     padding-right: 0rem;
     font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
+/* #message_applicant div input{
+	font-size: small;
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
+#message_applicant div textarea{
+	font-size: small;
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
+#message_applicant div {
+	font-size: small;
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+} */
+.notification{
+	height: 60px;
 }

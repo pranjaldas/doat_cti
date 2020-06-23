@@ -98,7 +98,25 @@
     console.log(id);
   });
 
+//for the toaster messages
 
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "500",
+  "timeOut": "3000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
 
 
 
@@ -213,10 +231,7 @@ $("#criteria_set").click(()=>{
     // designation_criteria.push($(this).text());
     if (designation_criteria.indexOf($(this).text()) === -1) designation_criteria.push($(this).text());
   });
-  console.log(join_date_criteria,designation_criteria);
-  $("#set-alert-success").fadeTo(1000, 500).slideUp(500, function () {
-    $("#set-alert-success").slideUp(500);
-  });
+  toastr.success("Criterias Set Successfully");
 
 })
 $("#criteria_reset").click(()=>{
@@ -277,15 +292,14 @@ $("#criteria_reset").click(()=>{
           $('#trainee_table').append(trainee_data);
         }
         reader.readAsText($("#fileUpload")[0].files[0]);
+        toastr.success("CSV imported Successfully");
       } else {
         swal("ERROR !!!","Browser doesnot support HTML5","error");
       }
     } else {
       swal("ERROR !!!","Please upload a valid csv file","error");
     }
-    $("#import-alert-success").fadeTo(1000, 500).slideUp(500, function () {
-      $("#import-alert-success").slideUp(500);
-    });
+  
   });
 
 
@@ -316,6 +330,7 @@ $("#criteria_reset").click(()=>{
 
           let object = {
             employee_no: col1,
+            reg_no:"Unregistered",
             name: col2,
             join_date:col3,
             department_no: col4,
@@ -469,24 +484,96 @@ $("#criteria_reset").click(()=>{
     var application_data = '';
 
     $.each(applications, function (key, value) {
+      
 
       application_data += '<tr>'
         + '<td>' + value.application_id + '</td>'
         + '<td>' + value.employee_no + '</td>'
         + '<td>' + value.training_prog_id + '</td>'
         + '<td>' + value.name + '</td>'
-        + '<td>' + value.department_no + '</td>'
+        + '<td>' + value.reg_no + '</td>'
         + '<td>' + value.designation + '</td>'
         + '<td>' + value.application_status + '</td>'
-        + '<td>' +'<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
-                '<a type="button" class="delete"  title="Delete" onclick="deleteApplication(this)" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>'
+        + '<td>' +'<a type="button" title="Message" class="message" onclick="messageApplicant(this)"   style="color: #fc0303;margin: 0 5px;min-height: 30px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-envelope" aria-hidden="true"></i></a>'+
+                  '<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
+                  '<a type="button" class="delete"  title="Delete" onclick="deleteApplication(this)" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>'
         + '</tr>';
 
     });
     $('#applications_table').append(application_data);
 
   }
+ var application_id_store='';
+ var reg_id_store='';
+//message Applicant
+function messageApplicant(x){
   
+  var currentRow=$(x).closest('tr');
+  
+  if(currentRow.find("td:eq(4)").text() == "Unregistered"){
+    swal("ERROR !!!", "No Registration number is available for this Applicant.","error");
+    return false;
+  }
+  else{
+    application_id_store=currentRow.find("td:eq(0)").text();
+    reg_id_store=currentRow.find("td:eq(4)").text();
+    $("#message_applicant").modal('show');
+    
+  }  
+}
+$("#admin_msg_send").click((event) => {
+  event.preventDefault(event);
+  console.log(application_id_store,reg_id_store);
+  console.log("Mail",$("#mail_check").val(),);
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    discription: 'Sending data...',
+    defaultApply: true,
+  });
+  console.log('type of regid',typeof(reg_id_store));
+  var message={
+    mail:document.getElementById("mailCheck").checked,
+    application_id:application_id_store,
+    trainee_reg_id:reg_id_store,
+    title:$("#admin_msg_title").val(),
+    subject:$("#admin_msg_subject").val(),
+    senderSignature:'ADMIN',
+    admin_read: false,
+    trainee_read:false
+  }
+  console.log(message);
+  var settings = {
+    "url": "http://localhost:8080/postNotification",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(message),
+  };
+  $.ajax(settings).done(function (response) {
+    if(response.status == "success"){
+      loading.out();
+      console.log(response);
+      getNotifications();
+      $("#message_applicant").modal('hide');
+      $("#admin_msg_title").val('');
+      $("#admin_msg_subject").val('');
+      swal("SUCCESS","Message Send succesfully","success");
+     
+    }
+    else if(response.status == "not registered"){
+      loading.out();
+      swal("ERROR","This applicant is not registered","error");
+    }
+    else{
+      loading.out();
+      swal("ERROR","Mail not send","error");
+    }
+  });
+   
+})
 //Selected trainee Update
 function updateApplication(x) {
   var currentRow=$(x).closest('tr');
@@ -915,38 +1002,61 @@ function deleteTraining(x){
 
 
 
-  //Events
-  $("#sendEvent").click(() => {
+  // //Events
+  // $("#sendEvent").click(() => {
 
-    const colours = ["#78bc6d", "#d08244", "#103e36", "#fd8311", "#088da5", "#4a6855", "#0094fb", "#419c99", "#b3e835"];
+  //   const colours = ["#78bc6d", "#d08244", "#103e36", "#fd8311", "#088da5", "#4a6855", "#0094fb", "#419c99", "#b3e835"];
 
-    let event = {
-      text: $("#event_description").val(),
-      start: $("#event_start_date").val() + "T23:00:00.000Z",
-      end: $("#event_end_date").val() + "T23:00:00.000Z",
-      color: colours[Math.floor(Math.random() * colours.length)]
-    }
+  //   let event = {
+  //     text: $("#event_description").val(),
+  //     start: $("#event_start_date").val() + "T23:00:00.000Z",
+  //     end: $("#event_end_date").val() + "T23:00:00.000Z",
+  //     color: colours[Math.floor(Math.random() * colours.length)]
+  //   }
 
-    var settings = {
-      "url": "http://localhost:8080/postEvent",
-      "method": "POST",
-      "timeout": 0,
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "data": JSON.stringify(event),
-    };
-    $.ajax(settings).done(function (response) {
-      console.log("The event save:", response);
-    });
-  })
+  //   var settings = {
+  //     "url": "http://localhost:8080/postEvent",
+  //     "method": "POST",
+  //     "timeout": 0,
+  //     "headers": {
+  //       "Content-Type": "application/json"
+  //     },
+  //     "data": JSON.stringify(event),
+  //   };
+  //   $.ajax(settings).done(function (response) {
+  //     console.log("The event save:", response);
+  //   });
+  // })
 
 
 
 
 // End of document.ready()
 
+//Notifications
+getNotifications();
+function getNotifications(){
+  $.getJSON("http://localhost:8080/getAllNotification", function(response){
+    console.log(response);
+    fillNoyifications(response.data);
+  })
+}
+function fillNoyifications(list){
+  $("#admin_notifications").empty();
+  var data='';
+  $.each(list,(key,value)=>{
+    
+      data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-light notification" data-toggle="modal" data-target="#notification_details_modal">'
+            +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '      
+            + value.title+'</div><div class="col-2"><p><b>Time:</b> '
+            + value.notificatio_create_time+'</p></div><div class="col-2"><p><b>Date: </b>'
+            + value.notificatio_create_date+'</p></div></div></div>';
+    
+  })
+  
+  $("#admin_notifications").append(data);
 
+}
 
 
 
