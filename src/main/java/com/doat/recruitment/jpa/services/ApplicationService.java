@@ -40,14 +40,25 @@ public class ApplicationService {
 	}
 
 
-	public void deleteTrainingApplication(Integer application_id) {
+	public void deleteTrainingApplication(String application_id) {
 		repo.deleteById(application_id);
 	}
 
 
-	public Optional<TrainingApplication> findApplication(Integer application_id) {
+	public Optional<TrainingApplication> findApplication(String application_id) {
 		
 		return repo.findById(application_id);
+	}
+
+
+	public Optional<TrainingApplication> findApplicationByregId(String reg_no, String training_prg_id) {
+
+		return repo.findByReg_no(reg_no,training_prg_id);
+	}
+
+
+	public List<TrainingApplication> findAllappByRegId(String reg_no) {
+		return repo.findByReg(reg_no);
 	}
 
 	

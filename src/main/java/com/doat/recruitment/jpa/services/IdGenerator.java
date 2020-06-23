@@ -1,5 +1,6 @@
 package com.doat.recruitment.jpa.services;
 
+import java.util.Random;
 
 public class IdGenerator {
 	//Id generator method
@@ -32,6 +33,17 @@ public class IdGenerator {
 	        }
 
 	        return id.toString().toUpperCase().replaceAll("\\s", "");
-	    }
+		}
+		public static String generateV2(String str1,String str2){
+			String mainstring=str1.toUpperCase().replaceAll("\\s","")+str2.toUpperCase().replaceAll("\\s","");
+			Random random = new Random();
+			StringBuilder id=new StringBuilder();
+			for (int i = 0; i < 16; i++) {
+				id.append(mainstring.charAt(random.nextInt(mainstring.length())));
+			}
+
+			return id.toString();
+
+		}
 
 }

@@ -1,4 +1,29 @@
+  //Accordion 
+  $(function() {
+    $( "#replyAccordion" ).accordion({
+       collapsible: false,
+       heightStyle: "content"
+    });
+ });
+  //for the toaster messages
 
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "500",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
   //to hide the alert box
   $("#success-alert").hide();
   $("#failure-alert").hide();
@@ -6,6 +31,7 @@
   $("#used-email-failure-alert").hide();
   $("#user-regId-failure-alert").hide();
   $("#user-auth-failure-alert").hide();
+  $("#trainingIdnotValid-failure-alert").hide();
   //to set interval of slideshow
   $('.carousel').carousel({
     interval: 1000
@@ -27,10 +53,10 @@
       console.log(response);
       var trainee_data = '';
       $.each(response.data, function (key, value) {
-        trainee_data += '<table class=" table addTable" style="border: 2px solid black ">';
+        trainee_data += '<table class="table table-light table-striped addTable" style="border: 2px solid black ">';
         trainee_data += '<thead>';
         trainee_data += '<tr>';
-        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click " + '<button type="button"  onclick="applyTraining(this)" class="btn btn-link" data-toggle="modal" data-target="#applyModal">here</button>' + '</td>';
+        trainee_data += '<td>' + '<b>' + "Subject: " + '</b>' + value.training_description + " To apply click here" +'<a type="button"  onclick="applyTraining(this)" class="btn btn-link" data-toggle="modal" data-target="#applyModal"><i style="color:blue" class="fa fa-hand-o-right" aria-hidden="true"></i></a>' + '</td>';
         trainee_data += '</tr>';
         trainee_data += '</thead>';
         trainee_data += '<tbody>';
@@ -67,11 +93,7 @@ function applyTraining(x){
  console.log(selected_id);
 }
 $("#apply_training_button").click(()=>{ 
-  var loading = new Loading({
-    title: ' Please Wait',
-    direction: 'hor',
-    defaultApply: true,
-  });
+  
  
   var application={
     training_prg_id:selected_id,
@@ -79,6 +101,12 @@ $("#apply_training_button").click(()=>{
     password:$("#apply_password").val(),
     reg_id:$("#apply_reg_id").val()
   }
+  console.log(application);
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    defaultApply: true,
+  });
   var settings = {
     "url": "http://localhost:8080/applyTraining",
     "method": "POST",
@@ -104,16 +132,21 @@ $("#apply_training_button").click(()=>{
         $("#user-auth-failure-alert").slideUp(500);
       });
     } 
-    else if("Not Found"){
+    else if(response.status=="Not Found"){
       loading.out();
       $("#user-regId-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
         $("#user-regId-failure-alert").slideUp(500);
       });
 
     }
-    else{
+    else if(response.status=="Overrite"){
       loading.out();
-      alert("Najannu dei ki hoise")
+      $("#apply_form")[0].reset();
+      $('#applyModal').modal('hide');
+      swal("ERROR !!!", "You already applied", "error");
+    }
+    else{
+      alert("IDK");
     }
 
   });
@@ -396,9 +429,20 @@ $("#apply_training_button").click(()=>{
         loading.out();
         console.log(response);
         fillUserProfile(response.data);
+        var data=response.data;
+        fillprofileViewApplicationTable(data.applications);
+        updateNotifications(data.reg_id);
         $("#profile").show();
         $("#home").hide();
-        $('#myLoginModal').modal('hide')
+        $('#myLoginModal').modal('hide');
+        toastr.success('You Logged in Succesfully.');
+       
+        if(response.unread_msg !== 0){
+          setTimeout(()=>{
+            toastr.info('You have '+data.unread_msg+' new Notifications unread.');
+          }, 2000);
+        }
+  
       }
       else {
         loading.out();
@@ -410,8 +454,115 @@ $("#apply_training_button").click(()=>{
     });
 
   })
+  //To view notifications
+ 
+  function updateNotifications(reg_id){
+    console.log(reg_id);
+    
+    var settings = {
+      "url": "http://localhost:8080/getTheNotificationbyReg/"+reg_id,
+      "method": "GET",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+    };
+    $.ajax(settings).done(function (response) {
+      if(response.status == "success"){
+        notificationFill(response.data);
+      }
+    });
+    
+
+  }
+
+  
+  function notificationFill(list){
+    $("#noti_body").empty();
+    console.log('noti',list);
+    
+  var data='';
+    $.each(list,(key,value)=>{
+      if(value.trainee_read==true){
+        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-success notification" data-toggle="modal" data-target="#notification_details_modal">'
+              +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '      
+              + value.title+'</div><div class="col-2"><p><b>Time:</b> '
+              + value.notificatio_create_time+'</p></div><div class="col-2"><p><b>Date: </b>'
+              + value.notificatio_create_date+'</p></div></div></div>';
+      }
+      else{
+        data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-danger notification" data-toggle="modal" data-target="#notification_details_modal">'
+        +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i><b> '      
+        + value.title+'</b></div><div class="col-2"><p><b>Time:</b> '
+        + value.notificatio_create_time+'</p></div><div class="col-2"><p><b>Date: </b>'
+        + value.notificatio_create_date+'</p></div></div></div>';
+      }
+    })
+    
+    $("#noti_body").append(data);
+  
+}
+function alerting(i){
+  var reg_id='';
+  console.log(i);
+  $.getJSON("http://localhost:8080/getTheNotification/"+i,(response)=>{
+    console.log(response);
+    var data=response.data;
+    reg_id=data.trainee_reg_id;
+    fillViewMessageModal(response.data);
+  });
+  //to update the notification as read
+  var settings1 = {
+    "url": "http://localhost:8080/updateNotification/"+i,
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+  };
+  $.ajax(settings1).done(function (response) {
+    console.log("After Update :",response.data);
+    notificationFill(response.data);
+  });
+ 
+}
+function fillViewMessageModal(data){
+  $("#msg_from").text(data.senderSignature);
+  $("#the_msg").text(data.subject);
+  $("#msg_id").text(data.id);
+  $("#msg_time").text(data.notificatio_create_time);
+  $("#msg_date").text(data.notificatio_create_date);
+}
+
+  //To view Applied Trainings
+  function fillprofileViewApplicationTable(list){
+    console.log(list);
+    $('#profile_applications_table tbody').empty();
+
+    var applications_data = '';
+    var i=1;
+      $.each(list, function (key, value) {
+        console.log(value)
+    
+        
+        applications_data += '<tr>'
+        + '<td>' + i + '</td>'
+        + '<td>' + value.application_id + '</td>'
+        + '<td>' + value.training_prog_id + '</td>'
+        + '<td>' + value.training_apply_date + '</td>'
+        + '<td>' + value.application_status + '</td>'
+        + '<td>' + '<i class="fa fa-bell-o" aria-hidden="true"></i>' + '</td>'
+        + '<td>' +' <a type="button" class="edit" title="Update" data-toggle="modal"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="material-icons">&#xE254;</i></a>' + '</td>'
+        + '</tr>';
+        i++;
+      });
+    $('#profile_applications_table').append(applications_data);
+
+  }
   function fillUserProfile(data) {
+    
     $("#view_regid").text(data.reg_id);
+    $("#view_regname").text(data.name);
     $("#view_username").text(data.email);
     $("#view_useremail").text(data.email);
     $("#view_userphone").text(data.phone);
@@ -431,22 +582,149 @@ $("#apply_training_button").click(()=>{
   function fillRegistrationModal(){
     var regid=$("#view_regid").text();
     $("#editReg_registration_id").val(regid);
+    $("#editReg_name").val($("#view_regname").text());    
     $("#editReg_username").val($("#view_username").text());
     $("#editReg_phone").val($("#view_userphone").text());
     $("#editReg_email").val($("#view_useremail").text());
 
   }
  $("#saveRegUpdates").click(()=>{
-   var registration={
+   var regId=$("#editReg_registration_id").val();
+   var registrationUpdateDTO={
     reg_id:$("#editReg_registration_id").val(),
+    name:$("#editReg_name").val(),
     email:$("#editReg_email").val(),
+    username:$("#editReg_username").val(),
     phone:$("#editReg_phone").val(),
     password:$("#editReg_password").val()
    }
-   console.log(registration);
+   var settings = {
+    "url": "http://localhost:8080/user/updateRegistration/"+regId,
+    "method": "PUT",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(registrationUpdateDTO),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log("Updated registration",response);
+    var data=response.data;
+    if(response.status=="success"){
+      $("#view_regid").text(data.reg_id);
+      $("#view_regname").text(data.name);
+      $("#view_username").text(data.email);
+      $("#view_useremail").text(data.email);
+      $("#view_userphone").text(data.phone);
+    }
+   
+
+  });
+  
 
  })
+autocompleteTrainingID();
+function autocompleteTrainingID() {
+  $.getJSON( "http://localhost:8080/trainings", function(response) {
+    console.log("trainers are",response)
+    
+      //to fill the array
+      var trainerSuggestions = [];
+      var i = 0;
+      $.each(response.data, function (key, value) {
+        trainerSuggestions[i] = value.training_prg_id;
+        i++;
+      });
+      console.log("autocomplete",trainerSuggestions);
+      //now the magic begins
+      $("#profile_apply").autocomplete({
+        source: trainerSuggestions
+
+      }, {
+        autoFocus: true,
+        delay: 0,
+        minlength: 1
+      });
+
+  })
+
+}
+$("#profile_apply_training_button").click(()=>{
+
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    defaultApply: true,
+  });
+
+  let application = {
+    reg_no:$("#view_regid").text(),
+    employee_no: $("#view_empid").text(),
+    name:  $("#view_name").text(),
+    department_no:$("#view_depid").text(),
+    designation:$("#view_desig").text(),
+    DDO_CODE:  $("#view_ddo_code").text(),
+    training_prog_id: $("#profile_apply").val(),
+    publish: false,
+    application_status: 'pending',
+
+  }
+  console.log(application)
+  var settings = {
+    "url": "http://localhost:8080/user/applyTraining",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(application),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    if(response.status==="success"){
+      swal("Poof! Applied successfully!", {
+        icon: "success",
+      });
+      updateApplicationsOfTrainee();
+      $("#applyTrainingfromProfileModal").modal('hide');
+      $("#profile_apply").val('');
+      loading.out();
+      console.log("I m executing")
+    }
+    else if(response.status==="Overrite"){
+      loading.out();
+      swal("ERROR !!!", "You already applied", "error");
+    }
+    else{
+      loading.out();
+      $("#trainingIdnotValid-failure-alert").fadeTo(1000, 500).slideUp(500, function () {
+        $("#trainingIdnotValid-failure-alert").slideUp(500);
+      });
+    }
+    
+  });
  
+  
+})
+
+function updateApplicationsOfTrainee(){
+    console.log("inside");
+    var reg_no=$("#view_regid").text();
+    console.log(reg_no);
+    var settings = {
+    "url": "http://localhost:8080/admin/findApplicationsByregID/"+reg_no,
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+  };
+  $.ajax(settings).done(function (response) {
+    console.log("his applications",response);
+    fillprofileViewApplicationTable(response.data);
+  })
+  
+}
 
 
   // For event handler
@@ -554,6 +832,7 @@ $("#apply_training_button").click(()=>{
 
   //Code for User profile
   $("#logout").click(() => {
+    
     swal({
       title: "Log Out",
       text: "Are you sure ?",
@@ -563,11 +842,19 @@ $("#apply_training_button").click(()=>{
     })
       .then((willLogOut) => {
         if (willLogOut) {
+          $("#noti_body").empty();
           console.log("logged out");
           $("#profile").hide();
           $("#home").show();
         }
       })
+  })
+  //code to back homepage
+  $("#backHome").click(()=>{
+    $("#profile").hide();
+    $("#home").show();
+    toastr.success('Hi! back to home page.');
+
   })
 
 

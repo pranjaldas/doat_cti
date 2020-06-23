@@ -25,6 +25,15 @@ public class MailService {
         mail.setFrom("bakibohi@gmail.com");
         javaMailSender.send(mail);
     }
+
+	public void sendEmail(String email, String title, String subject) throws MailException {
+        SimpleMailMessage mail=new SimpleMailMessage();
+        mail.setTo(email);
+        mail.setSubject(title);
+        mail.setText(subject);
+        mail.setFrom("bakibohi@gmail.com");
+        javaMailSender.send(mail);
+	}
         
     
     

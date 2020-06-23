@@ -2,6 +2,7 @@ package com.doat.recruitment.jpa.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -46,6 +47,11 @@ public class TrainingProgramService {
 
 	public Long countAll() {
 		return repo.count();
+	}
+
+	public Optional<TrainingProgram> findTheTraining(String training_prg_id) {
+
+		return repo.findById(training_prg_id);
 	}
 
 
