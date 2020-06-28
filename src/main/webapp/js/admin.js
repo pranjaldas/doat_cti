@@ -294,11 +294,11 @@ $("#criteria_set").click(()=>{
     swal("ERROR !!!", "please select any designation criteria", "error");
     return false;
   }
-  if ( experience_criteria=='') {
+  if ( experience_criteria=="") {
     swal("ERROR !!!", "Please select minimum years of experience after join date", "error");
     return false;
   }
-  if ( retirement_criteria=='') {
+  if ( retirement_criteria=="") {
     swal("ERROR !!!", "Please select minimum years left for retirement.", "error");
     return false;
   }
@@ -442,10 +442,18 @@ $("#criteria_reset").click(()=>{
             swal("ERROR !!!", "Retire Date format exception, please select yyyymmdd format in the  CSV file","error");
             return false;
           }
-          checkExperienceCriteria(application.join_date);
-          var passStatus=checkIfPassCriterias(application);
+           var passStatus=checkIfPassCriterias(application.designation);
+           var checkExp=checkExperienceCriteria(application.join_date);
+           var checkRetire=checkRetirementCriteria(application.retire_date);
+           console.log(checkExp);
+           console.log(checkRetire);
+           console.log(passStatus)
+           console.log(criteria_fail_reasons.toString());
           
-          if(passStatus==true){
+
+          
+          
+          if(passStatus==true && checkRetire ==true && checkExp==true){
            
             swal({
               title: "Congratulations, passed all criteria",
@@ -459,7 +467,9 @@ $("#criteria_reset").click(()=>{
                   console.log("pass");
                   application.application_status='accepted';
                   applyTrainingAfterCriteriaChecked(application,currentRow);
+                  criteria_fail_reasons=[];
                 }
+                criteria_fail_reasons=[];
               });
             
           }
@@ -479,6 +489,7 @@ $("#criteria_reset").click(()=>{
                   applyTrainingAfterCriteriaChecked(application,currentRow);
                   criteria_fail_reasons=[]
                 }
+                criteria_fail_reasons=[];
               });
           
           
@@ -499,31 +510,63 @@ $("#criteria_reset").click(()=>{
   }
 
   var criteria_fail_reasons=[];
-  function checkIfPassCriterias(application){
-    if(!designation_criteria.includes(application.designation)){
+  function checkIfPassCriterias(designation){
+    if(!designation_criteria.includes(designation)){
+      console.log("desig fail");
       criteria_fail_reasons.push("Failed Required designation criteria");
       return false;
     }
+    console.log("desig pass");
     return true; 
   }
   function checkExperienceCriteria(join_date){
-    console.log(experience_criteria);
+    var joinDate= new Date(join_date);  
+    var year=joinDate.getFullYear();
+  
+    var month=joinDate.getMonth();
     
-    var year=join_date.getFullYear();
-    console.log(year);
-    var month=join_date.getMonth();
-    console.log(month);
-    var day=join_date.getDay();
-    console.log(day);
-    var joindateAndexp=new Date(year+experience_criteria,month,day);
-    console.log(joindate_exp);
+    var day=joinDate.getDay();
+  
+    var joindateAndexp=new Date(year+parseInt(experience_criteria),month,day);
+   
+    console.log("Join Date after exp",joindateAndexp);
+
+    var todayDate= new Date();
     
-    // if(joindateAndexp>today){
-    //   console.log("Dont have exp");
-    // }
-    // else{
-    //   console.log("Have exp");
-    // }
+    if(joindateAndexp>todayDate){
+      console.log("exp fail");
+      criteria_fail_reasons.push("Minimum experience criteria failed");
+      return false;
+    }
+    else{
+      console.log("exp pass");
+      return true;
+    }
+
+  }
+  function checkRetirementCriteria(retire_date){
+    var retireDate= new Date(retire_date); 
+    var todayDate= new Date(); 
+    var year=todayDate.getFullYear();
+  
+    var month=todayDate.getMonth();
+    
+    var day=todayDate.getDay();
+  
+    var todayDateAndinput=new Date(year+parseInt(retirement_criteria),month,day);
+   
+    console.log("Join Date after exp",todayDateAndinput);
+
+    if(todayDateAndinput>retireDate){
+      console.log("retirement fail");
+      criteria_fail_reasons.push("Minimum retirement criteria failed");
+      return false;
+    }
+    else{
+      console.log("retirement pass");
+      return true;
+
+    }
 
   }
 
@@ -723,8 +766,7 @@ function populateRejectedApplications(applications){
       trainee_data += '<td>' + value.name + '</td>';
       trainee_data += '<td>' + value.training_apply_date + '</td>';
       trainee_data += '<td>' + value.application_status + '</td>';
-      trainee_data += '<td>' + '<a type="button" title="Select" onclick="selectApplication(this)"  style="color: #00b300;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-check" aria-hidden="true"></i></a>' + 
-                      '<a type="button" title="Remove" style="color: #e60000;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-times" aria-hidden="true"></i></a>' + '</td>';
+      trainee_data += '<td>' + '<a type="button" title="Select" onclick="selectApplication(this)"  style="color: #00b300;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-check" aria-hidden="true"></i></a>' +'</td>'; 
       trainee_data += '</tr>';
 
     });
@@ -732,43 +774,82 @@ function populateRejectedApplications(applications){
 
   }
 function selectApplication(x){
+  if(experience_criteria=='' || jQuery.isEmptyObject(designation_criteria)){
+    swal("ERROR !!!", "Please set the criterias based on the training program.","error");
+    return false;
+  }
   var currentRow=$(x).closest('tr');
   var applicationId=currentRow.find("td:eq(0)").text(); 
-  swal({
-    title: "Are you sure?",
-    text: "You want to select this application?",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  })
-    .then((willDelete) => {
-      if (willDelete) {
-        var loading = new Loading({
-          title: ' Please Wait',
-          direction: 'hor',
-          discription: 'Sending data...',
-          defaultApply: true,
+  $.getJSON("http://localhost:8080/admin/findApplication/"+applicationId,(response)=>{
+    console.log(response);
+    var application= response.data;
+    var passStatus=checkIfPassCriterias(application.designation);
+    var checkExp=checkExperienceCriteria(application.join_date);
+    var checkRetire=checkRetirementCriteria(application.retire_date);
+   
+    if(passStatus==true && checkRetire ==true && checkExp==true){
+           
+      swal({
+        title: "Congratulations, passed all criteria",
+        text: "Application will be Accepted.",
+        icon: "success",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willInsert) => {
+          if (willInsert) {
+            application.passCriteria=true;
+            updatePendingApplications(application)          
+            criteria_fail_reasons=[];
+          }
+          criteria_fail_reasons=[];
         });
-        console.log(applicationId)
-        $.getJSON("http://localhost:8080/admin/acceptPendingApplication/"+applicationId,(response)=>{
-            console.log(response);
-            if(response.status == "success"){
-              loading.out();
-              fetchPendingApplications();
-              fetchAllApplications();
-            }
-            loading.out();
-        })
+      
+    }
+    else{
+           
+      swal({
+        title: "Some Criterias Failed",
+        text: "Application will be rejected.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willInsert) => {
+          if (willInsert) {
+            application.passCriteria=false;
+            application.reason=criteria_fail_reasons.toString();
+            updatePendingApplications(application)
+            criteria_fail_reasons=[];
+          }
+          criteria_fail_reasons=[];
+        });
+    
+    
+    }
 
-
-      }
-    });
-
-
- 
+  })
 
 }
-
+function updatePendingApplications(application){
+  var settings = {
+    "url": "http://localhost:8080/admin/updatePendingApplication",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(application),
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    if(response.status == "success"){
+      fetchPendingApplications();
+      fetchRejectedApplications();
+      fetchAllApplications();
+    }
+  });
+}
 
 
 
@@ -877,9 +958,9 @@ function updateApplication(x) {
     $("#editApp_name").text(data.name);
     $("#editApp_employee_id").text(data.employee_no);
     $("#editApp_department_id").text(data.department_no);
-    $("#editApp_ddo_code").text(data.ddo_CODE);
     $("#editApp_designation").text(data.designation);
     $("#editApp_status").text(data.application_status);
+    $("#view_reject_reason").text(data.reason);
     $("#editApp_regid").text(data.reg_no);
 
 

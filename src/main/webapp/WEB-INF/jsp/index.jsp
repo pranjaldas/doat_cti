@@ -540,7 +540,7 @@
                                 Notifications</a>
                         </li>
                         <li class="nav-item" style="float: right;">
-                            <a class="nav-link" id="logout"><i class="fa fa-info-circle"></i> Log Out</a>
+                            <a type="button" class="nav-link" id="logout"><i class="fa fa-info-circle"></i> Log Out</a>
                         </li>
 
 
@@ -1263,21 +1263,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" style="overflow-y: scroll;height:450px;padding: 1rem" id="noti_body">
-                            <div class="alert alert-danger notification" role="alert">
-                                <div class="row">
-                                    <div class="col-8" class="float-left">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        <b> New Unread Notification from admin</b>
-                                    </div>
-                                    <div class="col-2">
-                                        <p><b>Time: </b>8.00 AM </p>
-                                    </div>
-                                    <div class="col-2">
-                                        <p><b>Date: </b> 2020-05-12</p>
-                                    </div>
-
-                                </div>
-                            </div>
+                            
 
 
                         </div>

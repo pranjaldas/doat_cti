@@ -903,16 +903,6 @@
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label>DDO Code:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <p id="editApp_ddo_code" readonly ></p>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
                                   <label>Designation:</label>
                               </div>
                               <div class="form-group col-6">
@@ -927,6 +917,16 @@
                               </div>
                               <div class="form-group col-6">
                                 <p id="editApp_status" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Reason:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="view_reject_reason" ></p>
                                 </p>
                               </div>
                             </div>
@@ -1138,16 +1138,17 @@
                               <div class="form-group col-4">
                                 <select name="experience_criteria" id="experience_criteria" class="form-control">
                                   <option value="">Choose</option>
-                                  <option value="1">1 year after join date.</option>
-                                  <option value="2">2 years after join date.</option>
-                                  <option value="3">3 years after join date.</option>
-                                  <option value="4">4 years after join date.</option>
-                                  <option value="5">5 years after join date.</option>
-                                  <option value="10">10 years after join date.</option>
-                                  <option value="15">15 years after join date.</option>
-                                  <option value="20">20 years after join date.</option>
-                                  <option value="25">25 years after join date.</option>
-                                  <option value="30">30 years after join date.</option>
+                                  <option value=0>0 year after join date.</option>
+                                  <option value=1>1 year after join date.</option>
+                                  <option value=2>2 years after join date.</option>
+                                  <option value=3>3 years after join date.</option>
+                                  <option value=4>4 years after join date.</option>
+                                  <option value=5>5 years after join date.</option>
+                                  <option value=10>10 years after join date.</option>
+                                  <option value=15>15 years after join date.</option>
+                                  <option value=20>20 years after join date.</option>
+                                  <option value=25>25 years after join date.</option>
+                                  <option value=30>30 years after join date.</option>
                                 </select>
                                 
                               </div>
@@ -1162,16 +1163,17 @@
                                 
                                   <select name="retirement_criteria" id="retirement_criteria" class="form-control">
                                     <option value="">   Choose</option>
-                                    <option value="1">    1 year before retire date. </option>
-                                    <option value="2">    2 years before retire date.</option>
-                                    <option value="3">    3 years before retire date.</option>
-                                    <option value="4">    4 years before retire date.</option>
-                                    <option value="5">    5 years before retire date.</option>
-                                    <option value="10">   10 years before retire date.</option>
-                                    <option value="15">   15 years before retire date.</option>
-                                    <option value="20">   20 years before retire date.</option>
-                                    <option value="25">   25 years before retire date.</option>
-                                    <option value="30">   30 years before retire date.</option>
+                                    <option value=0>    0 year before retire date. </option>
+                                    <option value=1>    1 year before retire date. </option>
+                                    <option value=2>    2 years before retire date.</option>
+                                    <option value=3>    3 years before retire date.</option>
+                                    <option value=4>    4 years before retire date.</option>
+                                    <option value=5>    5 years before retire date.</option>
+                                    <option value=10>   10 years before retire date.</option>
+                                    <option value=15>   15 years before retire date.</option>
+                                    <option value=20>   20 years before retire date.</option>
+                                    <option value=25>   25 years before retire date.</option>
+                                    <option value=30>   30 years before retire date.</option>
                                   </select>
                                 
                                 
@@ -1246,7 +1248,7 @@
                             </table>
 
                           </div>
-                          <h3><i class="fa fa-list" aria-hidden="true"></i> Registered Candidates</h3>
+                          <h3><i class="fa fa-list" aria-hidden="true"></i> Registered Pending Candidates</h3>
                           <div>
                             <table class="table table-light table-striped" id="registered_applications_table">
                               <thead>

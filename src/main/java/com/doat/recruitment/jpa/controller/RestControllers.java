@@ -438,16 +438,27 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	//Find Application by application Id
+	//With detailed transient attributes
 	@GetMapping(value = "/admin/findApplication/{application_id}")
 	public ResponseEntity<Object> findApplication(@PathVariable String application_id){
 		
 		Optional<TrainingApplication> optional=service.findApplication(application_id);
 		if(optional.isPresent()){
 			TrainingApplication application=optional.get();
-			final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+			Optional<Employee> optional2=eEmployeeService.findEmployee(application.getEmployee_no());
+			if(optional2.isPresent()){
+				Employee employee=optional2.get();
+				application.setManager(employee.getManager());
+				application.setJoin_date(employee.getEmployee_join_date());
+				application.setRetire_date(employee.getEmployee_retire_date());
+				final ServiceResponse<TrainingApplication> response = new ServiceResponse<>("success", application);
+				return new ResponseEntity<Object>(response, HttpStatus.OK);
+			}
+			final ServiceResponse<String> response = new ServiceResponse<>("failure", "Emp Id not found");
 			return new ResponseEntity<Object>(response, HttpStatus.OK);
+	
 		}
-		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Not Found");
+		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Application Not Found");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@GetMapping(value = "/admin/findApplicationsByregID/{reg_no}")
@@ -486,6 +497,56 @@ public class RestControllers {
 		}
 		final ServiceResponse<String> response=new ServiceResponse<>("failure","Application not present");
 		return new ResponseEntity<Object>(response,HttpStatus.OK);	
+	}
+	//To update pending applications
+	@PostMapping(value="/admin/updatePendingApplication")
+	public ResponseEntity<Object> rejectPendingApplications(@RequestBody TrainingApplication application_send){
+		System.out.println(application_send.toString());
+		Optional<TrainingApplication> optional=service.findApplication(application_send.getApplication_id());
+		if(optional.isPresent()){
+			TrainingApplication application=optional.get();
+		if(application_send.isPassCriteria()==true){
+			application.setApplication_status("accepted");
+			service.saveApplication(application);
+			Notification notification=new Notification();
+			notification.setAdmin_read(true);
+			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
+			notification.setSubject("Congratulations "+application.getName()+" your applications has accepted, Further information will be notified soon");
+			notification.setTrainee_read(false);
+			notification.setReceiver(application.getName());
+			notification.setMail(false);
+			notification.setTrainee_reg_id(application.getReg_no());
+			notification.setSenderSignature("ADMIN");
+			notification.setApplication_id(application.getApplication_id());
+			notificatioservice.saveNoti(notification);
+			final ServiceResponse<String> response=new ServiceResponse<>("success","Successfully updated");
+			return new ResponseEntity<Object>(response,HttpStatus.OK);
+		}
+		else{
+			application.setApplication_status("rejected");
+			application.setReason(application_send.getReason());
+			service.saveApplication(application);
+			Notification notification=new Notification();
+			notification.setAdmin_read(true);
+			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
+			notification.setSubject("Mr."+application.getName()+"We are very sorry to say that your Application bearing Application no: "+application.getApplication_id()+" has rejected due to the following reasons:"+"\n"+application.getReason()+"\n"+"Better luck next time, any Further information will be notified soon.");
+			notification.setTrainee_read(false);
+			notification.setReceiver(application.getName());
+			notification.setMail(false);
+			notification.setTrainee_reg_id(application.getReg_no());
+			notification.setSenderSignature("ADMIN");
+			notification.setApplication_id(application.getApplication_id());
+			notificatioservice.saveNoti(notification);
+			final ServiceResponse<String> response=new ServiceResponse<>("success","Successfully updated");
+			return new ResponseEntity<Object>(response,HttpStatus.OK);
+
+		}
+		
+		}
+		final ServiceResponse<String> response=new ServiceResponse<>("failure","application not found");
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+		
+	
 	}
 	//To get accepted applications
 	@GetMapping(value = "/getApplications")

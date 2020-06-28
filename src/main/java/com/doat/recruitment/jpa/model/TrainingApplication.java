@@ -29,6 +29,12 @@ public class TrainingApplication {
 	public String applicant_email;
 	@Transient
 	public String manager;
+	@Transient
+	public String join_date;
+	@Transient
+	public String retire_date;
+	@Transient
+	public boolean passCriteria;
 	
 	public TrainingApplication(Registration registration,ApplicationDTO application,Employee employee) {
 		this.reg_no = registration.getReg_id();
@@ -158,19 +164,40 @@ public class TrainingApplication {
 	public void setApplicant_email(String applicant_email) {
 		this.applicant_email = applicant_email;
 	}
-	@Override
-	public String toString() {
-		return "TrainingApplication [DDO_CODE=" + DDO_CODE + ", applicant_email=" + applicant_email
-				+ ", application_id=" + application_id + ", application_status=" + application_status
-				+ ", department_no=" + department_no + ", designation=" + designation + ", employee_no=" + employee_no
-				+ ", name=" + name + ", publish=" + publish + ", reason=" + reason + ", reg_no=" + reg_no
-				+ ", training_apply_date=" + training_apply_date + ", training_prog_id=" + training_prog_id + "]";
-	}
+	
 	public String getManager() {
 		return manager;
 	}
 	public void setManager(String manager) {
 		this.manager = manager;
+	}
+	public String getJoin_date() {
+		return join_date;
+	}
+	public void setJoin_date(String join_date) {
+		this.join_date = join_date;
+	}
+	public String getRetire_date() {
+		return retire_date;
+	}
+	public void setRetire_date(String retire_date) {
+		this.retire_date = retire_date;
+	}
+	public boolean isPassCriteria() {
+		return passCriteria;
+	}
+	public void setPassCriteria(boolean passCriteria) {
+		this.passCriteria = passCriteria;
+	}
+	@Override
+	public String toString() {
+		return "TrainingApplication [DDO_CODE=" + DDO_CODE + ", applicant_email=" + applicant_email
+				+ ", application_id=" + application_id + ", application_status=" + application_status
+				+ ", department_no=" + department_no + ", designation=" + designation + ", employee_no=" + employee_no
+				+ ", join_date=" + join_date + ", manager=" + manager + ", name=" + name + ", passCriteria="
+				+ passCriteria + ", publish=" + publish + ", reason=" + reason + ", reg_no=" + reg_no + ", retire_date="
+				+ retire_date + ", training_apply_date=" + training_apply_date + ", training_prog_id="
+				+ training_prog_id + "]";
 	}
 	
 	
