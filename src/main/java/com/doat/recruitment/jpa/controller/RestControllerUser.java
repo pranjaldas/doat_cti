@@ -1,6 +1,5 @@
 package com.doat.recruitment.jpa.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -87,6 +86,7 @@ public class RestControllerUser {
             ServiceResponse<String> response=new ServiceResponse<>("not found","Not found");
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
+        Collections.reverse(notificationlist);
         ServiceResponse<List<Notification>> response=new ServiceResponse<>("success",notificationlist);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
        
@@ -113,8 +113,8 @@ public class RestControllerUser {
             //Now Set as Trainee read true
             notification.setTrainee_read(true);
             notificatioservice.saveNoti(notification);
-            //Now find all the notifications of the Trainee using reg Id
-            ServiceResponse<List<Notification>> response=new ServiceResponse<>("success",notificatioservice.findAllByRegNo(notification.getTrainee_reg_id()));
+        
+            ServiceResponse<String> response=new ServiceResponse<>("success","Succesfully Updated");
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
         ServiceResponse<String> response=new ServiceResponse<>("not found","Not found");

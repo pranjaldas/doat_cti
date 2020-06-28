@@ -11,26 +11,30 @@ public class Employee {
     private String employee_id;
     private String employee_name;
     private String employee_join_date;
+    private String employee_retire_date;
     private String department_id;
     private String original_salary;
     private String current_salary;
     private String region;
     private String designation;
     private String ddo_code;
+    private String manager;
 
-    public Employee(String employee_id, String employee_name, String employee_join_date, String department_id,
-            String original_salary, String current_salary, String region, String designation, String ddo_code) {
+    public Employee(String employee_id, String employee_name, String employee_join_date,String employee_retire_date, String department_id,
+            String original_salary, String current_salary, String region, String designation, String ddo_code,String manager) {
         this.employee_id = employee_id;
         this.employee_name = employee_name;
         this.employee_join_date = employee_join_date;
+        this.employee_retire_date= employee_retire_date;
         this.department_id = department_id;
         this.original_salary = original_salary;
         this.current_salary = current_salary;
         this.region = region;
         this.designation = designation;
         this.ddo_code = ddo_code;
+        this.manager = manager;
     }
-
+    
     public Employee() {
     }
 
@@ -106,13 +110,30 @@ public class Employee {
         this.ddo_code = ddo_code;
     }
 
-    @Override
-    public String toString() {
-        return "Employee [current_salary=" + current_salary + ", ddo_code=" + ddo_code + ", department_id="
-                + department_id + ", designation=" + designation + ", employee_id=" + employee_id
-                + ", employee_join_date=" + employee_join_date + ", employee_name=" + employee_name
-                + ", original_salary=" + original_salary + ", region=" + region + "]";
-    }
-    
+	public String getManager() {
+		return manager;
+	}
 
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+
+	public String getEmployee_retire_date() {
+		return employee_retire_date;
+	}
+
+	public void setEmployee_retire_date(String employee_retire_date) {
+		this.employee_retire_date = employee_retire_date;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [current_salary=" + current_salary + ", ddo_code=" + ddo_code + ", department_id="
+				+ department_id + ", designation=" + designation + ", employee_id=" + employee_id
+				+ ", employee_join_date=" + employee_join_date + ", employee_name=" + employee_name
+				+ ", employee_retire_date=" + employee_retire_date + ", manager=" + manager + ", original_salary="
+				+ original_salary + ", region=" + region + "]";
+	}
+    
+   
 }

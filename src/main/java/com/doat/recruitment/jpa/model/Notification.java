@@ -31,11 +31,12 @@ public class Notification {
 	private LocalDate notificatio_create_date;
 	@UpdateTimestamp
     private LocalDateTime notification_update_date;
-    private String senderSignature;
+	private String senderSignature;
+	private String receiver;
     
 	public Notification(Long id, String title, String subject, String trainee_reg_id, String application_id,
 			boolean trainee_read, boolean admin_read, LocalTime notificatio_create_time,
-			LocalDate notificatio_create_date, LocalDateTime notification_update_date, String senderSignature) {
+			LocalDate notificatio_create_date, LocalDateTime notification_update_date, String senderSignature, String receiver) {
 		this.id = id;
 		this.title = title;
 		this.subject = subject;
@@ -47,7 +48,9 @@ public class Notification {
 		this.notificatio_create_date = notificatio_create_date;
 		this.notification_update_date = notification_update_date;
 		this.senderSignature = senderSignature;
-    }
+		this.receiver= receiver;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -123,14 +126,25 @@ public class Notification {
 	public void setMail(boolean mail) {
 		this.mail = mail;
 	}
+	
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
 	@Override
 	public String toString() {
 		return "Notification [admin_read=" + admin_read + ", application_id=" + application_id + ", id=" + id
 				+ ", mail=" + mail + ", notificatio_create_date=" + notificatio_create_date
 				+ ", notificatio_create_time=" + notificatio_create_time + ", notification_update_date="
-				+ notification_update_date + ", senderSignature=" + senderSignature + ", subject=" + subject
-				+ ", title=" + title + ", trainee_read=" + trainee_read + ", trainee_reg_id=" + trainee_reg_id + "]";
+				+ notification_update_date + ", receiver=" + receiver + ", senderSignature=" + senderSignature
+				+ ", subject=" + subject + ", title=" + title + ", trainee_read=" + trainee_read + ", trainee_reg_id="
+				+ trainee_reg_id + "]";
 	}
+	
     
     
 }

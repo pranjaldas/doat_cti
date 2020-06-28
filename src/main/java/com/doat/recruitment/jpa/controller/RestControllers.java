@@ -2,16 +2,15 @@ package com.doat.recruitment.jpa.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpCookie;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.doat.recruitment.jpa.dto.ApplicationDTO;
+import com.doat.recruitment.jpa.dto.CalenderDto;
+import com.doat.recruitment.jpa.dto.EmployeeDTO;
 import com.doat.recruitment.jpa.dto.ProfileDTO;
 import com.doat.recruitment.jpa.dto.RegistrationUpdateDTO;
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Events;
-
+import com.doat.recruitment.jpa.model.MonthlyCalendar;
+import com.doat.recruitment.jpa.model.Notification;
 import com.doat.recruitment.jpa.model.Registration;
 
 import com.doat.recruitment.jpa.model.TraineeEmployee;
@@ -38,12 +40,14 @@ import com.doat.recruitment.jpa.model.TrainingProgram;
 import com.doat.recruitment.jpa.model.User;
 import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.ApplicationService;
+
 import com.doat.recruitment.jpa.services.DepartmentService;
 import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.EventsService;
 import com.doat.recruitment.jpa.services.IdGenerator;
 import com.doat.recruitment.jpa.services.LoginService;
 import com.doat.recruitment.jpa.services.MailService;
+import com.doat.recruitment.jpa.services.MonthlyCalendarService;
 import com.doat.recruitment.jpa.services.NotificationService;
 import com.doat.recruitment.jpa.services.RegistrationService;
 import com.doat.recruitment.jpa.services.TraineeEmployeeService;
@@ -205,7 +209,13 @@ public class RestControllers {
 	@GetMapping(value="/testNative/{month}")
 	public ResponseEntity<Object> getTestTrainingPrograms(@PathVariable String month) {
 		final List<TrainingProgram> list = trainingProgramService.viewTestTraining(month);
-		final ServiceResponse<List<TrainingProgram>> response = new ServiceResponse<>("success", list);
+		List<CalenderDto> calendarList=new ArrayList<>();
+		for(TrainingProgram t:list){
+			CalenderDto calendar=new CalenderDto(t);
+			calendarList.add(calendar);
+
+		}
+		final ServiceResponse<List<CalenderDto>> response= new ServiceResponse<>("success", calendarList);
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@GetMapping(value = "/trainings")
@@ -277,9 +287,26 @@ public class RestControllers {
 
 	
 	//Employee rest apis
+	
 	@GetMapping("/employees")
 	public ResponseEntity<Object> getEmployees(){
+
 		final ServiceResponse<List<Employee>> response=new ServiceResponse<>("success",eEmployeeService.findAllEmployees());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	//This api is for managername and department name
+	@GetMapping(value="/allemployees")
+	public ResponseEntity<Object> getAllEployees(){
+		List<Employee> list=eEmployeeService.findAllEmployees();
+		List<EmployeeDTO> finalList=new ArrayList<>();
+		list.forEach((employee)->{
+			String manager=eEmployeeService.findManager(employee.getManager());
+			String department=deptService.findDepartmenName(employee.getDepartment_id());
+			EmployeeDTO employeeDto=new EmployeeDTO(employee,department,manager);
+			finalList.add(employeeDto);
+		});
+
+		final ServiceResponse<List<EmployeeDTO>> response=new ServiceResponse<>("success",finalList);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 	
@@ -294,6 +321,7 @@ public class RestControllers {
 
 	}
 	//Training Applications
+	//To apply training indide the login profile
 	@PostMapping(value="/user/applyTraining")
 	public ResponseEntity<Object> apply(@RequestBody TrainingApplication application){
 		Optional<TrainingProgram> optional=trainingProgramService.findTheTraining(application.getTraining_prog_id());
@@ -319,7 +347,7 @@ public class RestControllers {
 	}
 
 
-
+	//To apply training from the advertisement so ApplicationDto class has used
 	@PostMapping(value="/applyTraining")
 	public ResponseEntity<Object> applyTraining(@RequestBody ApplicationDTO application){
 		System.out.println("Application details"+application.toString());
@@ -409,6 +437,7 @@ public class RestControllers {
 		final ServiceResponse<String> response = new ServiceResponse<>("failure", "Unable to delete");
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
+	//Find Application by application Id
 	@GetMapping(value = "/admin/findApplication/{application_id}")
 	public ResponseEntity<Object> findApplication(@PathVariable String application_id){
 		
@@ -427,14 +456,55 @@ public class RestControllers {
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 
-
-
-
-
-
+	//For Registered pending applications in import application section
+	@GetMapping(value="/admin/getPendingApplications")
+	public ResponseEntity<Object> getPendingApplications(){
+		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.findPending());
+		return new ResponseEntity<Object>(response,HttpStatus.OK);	
+	}
+	//To accepted a pending application
+	@GetMapping(value="/admin/acceptPendingApplication/{application_id}")
+	public ResponseEntity<Object> acceptPendingApplications(@PathVariable String application_id){
+		Optional<TrainingApplication> optional=service.findApplication(application_id);
+		if(optional.isPresent()){
+			TrainingApplication application=optional.get();
+			application.setApplication_status("accepted");
+			service.saveApplication(application);
+			Notification notification=new Notification();
+			notification.setAdmin_read(true);
+			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
+			notification.setSubject("Congratulations "+application.getName()+" your applications has accepted, Further information will be notified soon");
+			notification.setTrainee_read(false);
+			notification.setReceiver(application.getName());
+			notification.setMail(false);
+			notification.setTrainee_reg_id(application.getReg_no());
+			notification.setSenderSignature("ADMIN");
+			notification.setApplication_id(application_id);
+			notificatioservice.saveNoti(notification);
+			final ServiceResponse<String> response=new ServiceResponse<>("success","Successfully updated");
+			return new ResponseEntity<Object>(response,HttpStatus.OK);
+		}
+		final ServiceResponse<String> response=new ServiceResponse<>("failure","Application not present");
+		return new ResponseEntity<Object>(response,HttpStatus.OK);	
+	}
+	//To get accepted applications
 	@GetMapping(value = "/getApplications")
 	public ResponseEntity<Object> getApplication() {
-		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.viewApplications());
+		List<TrainingApplication> list=service.selectedApplications();
+		list.forEach((application)->{
+			application.setManager(eEmployeeService.findManager(eEmployeeService.findManagerId(application.getEmployee_no())));
+		});
+		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",list);
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	//To get rejected applications
+	@GetMapping(value = "/admin/getRejectedApplications")
+	public ResponseEntity<Object> getRejectedApplications() {
+		List<TrainingApplication> list=service.rejectedApplications();
+		list.forEach((application)->{
+			application.setManager(eEmployeeService.findManager(eEmployeeService.findManagerId(application.getEmployee_no())));
+		});
+		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",list);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
 	@GetMapping(value="/selectedPublishApplications")
@@ -483,4 +553,43 @@ public class RestControllers {
 		ServiceResponse<List<Trainer>> response=new ServiceResponse<>("success",trainerService.findAllTrainers());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+	//For Admin notifications
+	@GetMapping(value="/updateAdminNotification/{id}")
+    public ResponseEntity<Object> updateTheNoti(@PathVariable Long id){
+        Optional<Notification> optional=notificatioservice.findByNotificationId(id);
+        if(optional.isPresent()){
+            //get the notification by Id
+            Notification notification=optional.get();
+            //Now Set as Trainee read true
+            notification.setAdmin_read(true);
+            notificatioservice.saveNoti(notification);
+        
+            ServiceResponse<String> response=new ServiceResponse<>("success","Succesfully Updated");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+        ServiceResponse<String> response=new ServiceResponse<>("not found","Not found");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+
+	}
+	//Push Calendar 
+	@Autowired
+	MonthlyCalendarService calendarService;
+	@PostMapping(value = "/admin/postCalendar")
+	public ResponseEntity<Object> postCalender(@RequestBody MonthlyCalendar calendar){
+		boolean check=calendarService.check(calendar.getMonth());
+		if(check==false){
+			calendarService.save(calendar);
+			ServiceResponse<String> response=new ServiceResponse<>("success","Successfully saved");
+        	return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		ServiceResponse<String> response=new ServiceResponse<>("error","already exists");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+	@GetMapping(value="/getMonthlyCaleders")
+	public ResponseEntity<Object> getMonthlyCaleders(){
+		
+		ServiceResponse<List<MonthlyCalendar>> response=new ServiceResponse<>("success",calendarService.getAll());
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+	}
+
 }

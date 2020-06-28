@@ -13,6 +13,6 @@ public interface TrainingProgramRepository extends JpaRepository<TrainingProgram
 
 	
 
-	@Query(value = "SELECT * FROM training_program AS tp WHERE MONTH(tp.training_create_date) <= :month AND MONTH(tp.training_start_date) >= :month", nativeQuery = true)
+	@Query(value = "SELECT * FROM training_program AS tp WHERE MONTH(tp.training_start_date) <= :month AND MONTH(tp.training_end_date) >= :month", nativeQuery = true)
 	List<TrainingProgram> findTrainings(@Param("month") String month);
 }

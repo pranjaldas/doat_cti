@@ -61,5 +61,19 @@ public class ApplicationService {
 		return repo.findByReg(reg_no);
 	}
 
+
+	public List<TrainingApplication> findPending() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findPendingApplications().forEach(list::add);
+		return list;
+	}
+
+
+	public List<TrainingApplication> rejectedApplications() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findRejectedApplications().forEach(list::add);
+		return list;
+	}
+
 	
 }

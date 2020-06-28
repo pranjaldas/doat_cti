@@ -35,3 +35,18 @@
 .notification{
 	height: 60px;
 }
+#replyAccordion div{
+	font-size: small;
+	
+}
+#sendMsgAccordion div{
+	font-size: small;
+	
+}
+#accordian div{
+	font-size: small;
+	
+}
+#accordian_select_objection div{
+    font-size: small;
+}

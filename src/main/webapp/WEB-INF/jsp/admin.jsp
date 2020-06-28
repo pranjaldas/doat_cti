@@ -213,10 +213,24 @@
                   Calendar
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a type="button" data-toggle="modal" data-target="#releaseCalendarModal" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Release Calendar</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>View Calendar</p>
+                  </a>
+                </li>
+              </ul>
             </li>
 
             <li class="nav-item ">
-              <a href="#" class="nav-link">
+              <a href="#notificationCard" class="nav-link">
                 <i class="nav-icon far fa-envelope"></i>
                 <p>
                   Notifications
@@ -225,16 +239,77 @@
 
             </li>
 
-
-
-
-
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
       </div>
       <!-- /.sidebar -->
     </aside>
+     <!-- Modal to Release Calendar -->
+     <div class="modal fade" id="releaseCalendarModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLongTitle"><b>Release Monthly Calendar:</b></h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-row">
+             <div class="form-group col-4">
+               <p class="font-weight-bold">
+                 <label>Select Month:</label>
+             </div>
+             <div class="form-group col-6">
+              <select name="calendar_month" id="calendar_month" class="form-control">
+                <option value="">Choose</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+              </select>
+               </p>
+             </div>
+           </div>
+           <div class="form-row">
+             <div class="form-group col-4">
+               <p class="font-weight-bold">
+                 <label>Select Year:</label>
+             </div>
+             <div class="form-group col-6">
+              <select name="calendar_year" id="calendar_year" class="form-control">
+                <option value="">Choose</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                
+              </select>
+               </p>
+             </div>
+           </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="publishCalendar">Publish</button>
+          </div>
+         </div>
+        
+       </div>
+     </div>
+   
+   <!-- Modal End -->
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -435,7 +510,7 @@
                             <th><b> Create Date</b></th>
                             <th><b> Current Status</b></th>
                             <th><b> In display</b></th>
-                            <th><b> Action</b></th>
+                            
                           </tr>
                         </thead>
                         <tbody>
@@ -696,7 +771,7 @@
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
                         <a class="nav-link active" href="#view_trainees" data-toggle="tab"><i class="fa fa-eye"
-                            aria-hidden="true"></i> View selected </a>
+                            aria-hidden="true"></i> View Applications </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="#import_csv" data-toggle="tab"><i class="fas fa-plus"></i> Import New
@@ -710,25 +785,54 @@
                 <div class="card-body">
                   <div class="tab-content">
                     <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
-                      <table id="applications_table" class="table table-light table-striped">
-                        <thead>
-                          <tr>
-                            <th><b>Application ID</b></th>
-                            <th><b>EmployeeID</b></th>
-                            <th><b>TrainingID</b></th>
-                            <th><b>Name</b></th>
-                            <th><b>Registration Id</b></th>
-                            <th><b>Designation</b></th>
-                            <th><b>Status</b></th>
-                            <th><b>Action</b></th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                      <div id="accordian_select_objection">
+                        <h3><i class="fa fa-check-square-o" aria-hidden="true"></i> Accepted Applications</h3>
+                        <div>
+                          <table id="applications_table" class="table table-light table-striped">
+                            <thead>
+                              <tr>
+                                <th><b>App. Id</b></th>
+                                <th><b>TrainingID</b></th>
+                                <th><b>Name</b></th>
+                                <th><b>Registration Id</b></th>
+                                <th><b>Designation</b></th>
+                                <th><b>Manager</b></th>
+                                <th><b>Status</b></th>
+                              
+                              </tr>
+                            </thead>
+                            <tbody>
+    
+    
+    
+                            </tbody>
+                          </table>
+                        </div>
+                        <h3><i class="fa fa-list" aria-hidden="true"> </i> Rejected Aplications</h3>
+                        <div>
+                          <table id="rejected_applications_table" class="table table-light table-striped">
+                            <thead>
+                              <tr>
+                                <th><b>App. Id</b></th>
+                                <th><b>TrainingID</b></th>
+                                <th><b>Name</b></th>
+                                <th><b>Registration Id</b></th>
+                                <th><b>Designation</b></th>
+                                <th><b>Manager</b></th>
+                                <th><b>Status</b></th>
+                              
+                              </tr>
+                            </thead>
+                            <tbody>
+    
+    
+    
+                            </tbody>
+                          </table>
+                        </div>
 
-
-
-                        </tbody>
-                      </table>
+                      </div>
+                      
                       <div class="card-footer clearfix">
                         <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i>
                           Publish </button>
@@ -752,7 +856,7 @@
                                   <label>Application Id:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_application_id" />
+                                <p id="editApp_application_id"></p>
                                 </p>
                               </div>
                             </div>
@@ -762,7 +866,7 @@
                                   <label>Registration No:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_regid" />
+                                <p id="editApp_regid" ></p>
                                 </p>
                               </div>
                             </div>
@@ -772,7 +876,7 @@
                                   <label>Applicant Name:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_name" readonly />
+                                <p id="editApp_name"></p>
                                 </p>
                               </div>
                             </div>
@@ -782,7 +886,7 @@
                                   <label>Employee Id:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_employee_id" readonly />
+                                <p id="editApp_employee_id" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -792,7 +896,7 @@
                                   <label>Department Id:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_department_id" readonly />
+                                <p id="editApp_department_id" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -802,7 +906,7 @@
                                   <label>DDO Code:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_ddo_code" readonly />
+                                <p id="editApp_ddo_code" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -812,7 +916,7 @@
                                   <label>Designation:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_designation" readonly />
+                                <p id="editApp_designation" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -822,7 +926,7 @@
                                   <label>Application Status:</label>
                               </div>
                               <div class="form-group col-6">
-                                <input type="text" class="form-control" id="editApp_status" />
+                                <p id="editApp_status" ></p>
                                 </p>
                               </div>
                             </div>
@@ -900,7 +1004,65 @@
                         </div>
                       </div>
                     </div>
+                    <!-- To email who do not have registered -->
+                    <div class="modal fade" id="email_applicant" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Message Applicant:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div style="padding:10px">
+                              <form id="msg_form">
+                                <div class="form-row">
+                                  <div class="form-group col-3">
+                                    <p class="font-weight-bold">
+                                      <label>To:</label>
+                                  </div>
+                                  <div class="form-group col-9">
+                                    <input class="form-control" type="email" name="email_address" id="email_address"
+                                      placeholder="Applicat email address"> </input>
+                                  </div>
 
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-3">
+                                    <p class="font-weight-bold">
+                                      <label>Title:</label>
+                                  </div>
+                                  <div class="form-group col-9">
+                                    <input class="form-control" type="text" name="email_title" id="admin_msg_title"
+                                      placeholder="Write Subject here"> </input>
+                                  </div>
+
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-12">
+                                    <p class="font-weight-bold">
+                                      <label>Subject:</label>
+                                      <textarea cols="2" rows="3" class="form-control" placeholder="Write Subject Here"
+                                        id="email_subject" name="email_subject"></textarea>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-6">
+                                    <button type="button" id="admin_msg_send" data-dismiss="modal" class="btn btn-sm btn-primary "><i
+                                        class="fa fa-paper-plane" aria-hidden="true"></i>
+                                      Send</button>
+                                  </div>
+                                  
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
                       <div class="container">
                         <!-- Alert boxes start -->
@@ -954,7 +1116,7 @@
 
 
                       </div>
-                      <div class="container">
+                      
 
 
                         <div id="accordian">
@@ -964,19 +1126,55 @@
                             <div class="alert alert-success"
                               style="color: #0c5460;background-color: #d1ecf1;border-color: #bee5eb;">
                               <button type="button" class="close" data-dismiss="alert">x</button>
-                              <strong>Criterias </strong> Set the criterias carefully before selecting Training
-                              Applications.
+                              <strong>Set the criterias carefully before selecting Training
+                                Applications. </strong> 
                             </div>
-
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <label>
-                                  <p class="font-weight-bold">Minimum Join Date:</p>
+                                  <p class="font-weight-bold">Minimum years of work experience:</p>
                                 </label>
                               </div>
                               <div class="form-group col-4">
-                                <input class="form-control" type="date" name="join_date_criteria_set"
-                                  id="join_date_criteria_set">
+                                <select name="experience_criteria" id="experience_criteria" class="form-control">
+                                  <option value="">Choose</option>
+                                  <option value="1">1 year after join date.</option>
+                                  <option value="2">2 years after join date.</option>
+                                  <option value="3">3 years after join date.</option>
+                                  <option value="4">4 years after join date.</option>
+                                  <option value="5">5 years after join date.</option>
+                                  <option value="10">10 years after join date.</option>
+                                  <option value="15">15 years after join date.</option>
+                                  <option value="20">20 years after join date.</option>
+                                  <option value="25">25 years after join date.</option>
+                                  <option value="30">30 years after join date.</option>
+                                </select>
+                                
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Minimum years left for retirement:</p>
+                                </label>
+                              </div>
+                              <div class="form-group col-4">
+                                
+                                  <select name="retirement_criteria" id="retirement_criteria" class="form-control">
+                                    <option value="">   Choose</option>
+                                    <option value="1">    1 year before retire date. </option>
+                                    <option value="2">    2 years before retire date.</option>
+                                    <option value="3">    3 years before retire date.</option>
+                                    <option value="4">    4 years before retire date.</option>
+                                    <option value="5">    5 years before retire date.</option>
+                                    <option value="10">   10 years before retire date.</option>
+                                    <option value="15">   15 years before retire date.</option>
+                                    <option value="20">   20 years before retire date.</option>
+                                    <option value="25">   25 years before retire date.</option>
+                                    <option value="30">   30 years before retire date.</option>
+                                  </select>
+                                
+                                
                               </div>
                             </div>
                             <div class="form-row">
@@ -1024,9 +1222,9 @@
                           </div>
 
 
-                          <h3><i class="fa fa-list" aria-hidden="true"></i>
-                            Show Candidates</h3>
-                          <div>
+                          <h3 id="importedData"><i class="fa fa-list" aria-hidden="true"></i>
+                            Imported Candidates</h3>
+                          <div >
                             <table class="table table-light table-striped" id="trainee_table">
                               <thead>
                                 <tr>
@@ -1035,7 +1233,31 @@
                                   <th><b>Join Date</b></th>
                                   <th><b>Department</b></th>
                                   <th><b>Designation</b></th>
-                                  <th><b>DDO Code</b></th>
+                                  <th><b>Retire Date</b></th>
+                                  <th><b>Email</b></th>
+                                  <th><button class="btn btn-primary btn-sm" type="button" id="select_all"
+                                      value="select_all"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                      All</button></i>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                            </table>
+
+                          </div>
+                          <h3><i class="fa fa-list" aria-hidden="true"></i> Registered Candidates</h3>
+                          <div>
+                            <table class="table table-light table-striped" id="registered_applications_table">
+                              <thead>
+                                <tr>
+                                  <th><b>App.Id</b></th>
+                                  <th><b>Training Program</b></th>
+                                  <th><b>EmployeeID</b></th>
+                                  <th><b>Registration Id</b></th>
+                                  <th><b>Name</b></th>
+                                  <th><b>Apply Date</b></th>                               
+                                  <th><b>App. Status</b></th>
                                   <th><button class="btn btn-primary btn-sm" type="button" id="select_all"
                                       value="select_all"><i class="fa fa-check-square-o" aria-hidden="true"></i>
                                       All</button></i>
@@ -1049,9 +1271,10 @@
                           </div>
 
 
+
                         </div>
 
-                      </div>
+                      
 
 
 
@@ -1094,23 +1317,24 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <div class="container">
+             
                 <table class="table table-light table-striped" id="allEmployees">
                   <thead>
                     <tr>
                       <th><b>EmployeeID</b></th>
                       <th><b>Name</b></th>
+                      <th><b>Join Date</b></th>
                       <th><b>Department</b></th>
                       <th><b>Designation</b></th>
+                      <th><b>Retire Date</b></th>
                       <th><b>DDO Code</b></th>
-                      <th><b>Action</b></th>
+                      <th><b>Manager</b></th>
                     </tr>
                   </thead>
                   <tbody>
                   </tbody>
                 </table>
 
-              </div>
 
             </div>
 
@@ -1236,7 +1460,7 @@
           <!--/.design form -->
 
           <!-- Centre -->
-          <div class="card">
+          <div class="card" id="notificationCard">
             <div class="card-header">
               <h3 class="card-title">
                 <i class="ion ion-clipboard mr-1"></i>
@@ -1244,16 +1468,169 @@
               </h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-              <div id="admin_notifications">
+            <div class="card-body" style="overflow-y: scroll;
+            height:350px;
+            padding: 1rem">
+              <div class="container">
+                <div id="admin_notifications">
 
+                </div>
               </div>
+            
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-              <button type="button" class="btn btn-info float-right" data-target="#previewTrainings"
-                data-toggle="modal"><i class="fas fa-plus"></i> Events</button>
+              <button type="button" class="btn btn-info float-right" ><i class="fas fa-plus"></i> Events</button>
             </div>
+          </div>
+          <!-- View Msend message modal -->
+          <div class="modal fade" id="admin_sent_msg_details" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header" style="padding: 1px;">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="padding:0px">
+                      <div id="sendMsgAccordion">
+                          <h3><i class="fa fa-envelope" aria-hidden="true"></i> Send Message Details
+                          </h3>
+                          <div>
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>TO:</label>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" id="send_msg_to"></p>
+                                  </div>
+
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-12">
+                                      <p class="font-weight-bold">
+                                          <label>SUBJECT:</label>
+                                      <p style="color: green;" id="send_msg_sub"></p>
+                                      </p>
+                                  </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>Refference Application Id:</label></p>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" type="text" id="send_msg_ref_app_id"></p>
+
+                                  </div>
+                              </div>
+
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>Time:</label>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" id="send_msg_time"></p>
+                                      </p>
+                                  </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>Date:</label></p>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" id="send_msg_date"></p>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+
+                  </div>
+
+
+              </div>
+          </div>
+          </div>
+          <div class="modal fade" id="toAdmin_msg_details" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 1px;">
+                            <!-- <h5 class="modal-title" id="exampleModalLongTitle"><b>Notification Details:</b></h5> -->
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:0px">
+
+                            <div id="replyAccordion">
+                                <h3><i class="fa fa-envelope" aria-hidden="true"></i> Message
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>FROM:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_from"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                            <p style="color: green;" id="the_msg"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Refference Application Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" type="text" id="msg_ref_app_id"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Time:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_time"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Date:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_date"></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
           </div>
           <!-- /.card -->
       </section>

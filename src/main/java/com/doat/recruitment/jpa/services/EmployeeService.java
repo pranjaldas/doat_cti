@@ -25,4 +25,20 @@ public boolean checkIfExist(String employee_id) {
 public Optional<Employee> findEmployee(String employee_no) {
 	return rEmployeeRepository.findById(employee_no);
 }
+public String findManager(String employee_no){
+    Optional<Employee> optional=rEmployeeRepository.findById(employee_no);
+    if(optional.isPresent()){
+        Employee employee=optional.get();
+        return employee.getEmployee_name();
+    }
+    return "Unassigned";
+}
+public String findManagerId(String employee_no){
+    Optional<Employee> optional=rEmployeeRepository.findById(employee_no);
+    if(optional.isPresent()){
+        Employee employee=optional.get();
+        return employee.getManager();
+    }
+    return "Unassigned";
+}
 }

@@ -101,13 +101,13 @@ body{
     background: #f1f1f1;
     color: #000;
     position: relative;
-    padding: 20px;
+    padding: 10px;
     margin-top: 10px;
 }
 
 #message p {
-    padding: 16px 25px;
-    font-size: 15px;
+    padding: 4px 8px;
+    font-size: 14px;
 }
 
 /* Add a green text color and a checkmark when the requirements are right */
@@ -378,4 +378,7 @@ body{
 	font-size: small;
 	
 }
-
+#sendMsgAccordion div{
+	font-size: small;
+	
+}

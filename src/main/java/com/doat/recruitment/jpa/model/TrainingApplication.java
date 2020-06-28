@@ -17,7 +17,6 @@ public class TrainingApplication {
 	public String reg_no;
 	public String name;
 	public String employee_no;
-	
 	public String department_no;
 	public String training_prog_id;
 	public String application_status;
@@ -27,6 +26,9 @@ public class TrainingApplication {
 	public Boolean publish;
 	@CreationTimestamp
 	private LocalDate training_apply_date;
+	public String applicant_email;
+	@Transient
+	public String manager;
 	
 	public TrainingApplication(Registration registration,ApplicationDTO application,Employee employee) {
 		this.reg_no = registration.getReg_id();
@@ -39,6 +41,7 @@ public class TrainingApplication {
 		this.DDO_CODE = employee.getDdo_code();
 		this.reason = "";
 		this.publish = false;
+		this.applicant_email=registration.getEmail();
 	}
 	public TrainingApplication() {
 		super();
@@ -127,7 +130,7 @@ public class TrainingApplication {
 	
 	public TrainingApplication(String application_id, String reg_no, String name, String employee_no, String department_no,
 			String training_prog_id, String application_status, String designation, String dDO_CODE, String reason,
-			Boolean publish, LocalDate training_apply_date) {
+			Boolean publish, LocalDate training_apply_date,String applicant_email) {
 		this.application_id = application_id;
 		this.reg_no = reg_no;
 		this.name = name;
@@ -140,20 +143,34 @@ public class TrainingApplication {
 		this.reason = reason;
 		this.publish = publish;
 		this.training_apply_date = training_apply_date;
+		this.applicant_email = applicant_email;
 	}
-	@Override
-	public String toString() {
-		return "TrainingApplication [DDO_CODE=" + DDO_CODE + ", application_id=" + application_id
-				+ ", application_status=" + application_status + ", department_no=" + department_no + ", designation="
-				+ designation + ", employee_no=" + employee_no + ", name=" + name + ", publish=" + publish + ", reason="
-				+ reason + ", reg_no=" + reg_no + ", training_apply_date=" + training_apply_date + ", training_prog_id="
-				+ training_prog_id + "]";
-	}
+	
 	public LocalDate getTraining_apply_date() {
 		return training_apply_date;
 	}
 	public void setTraining_apply_date(LocalDate training_apply_date) {
 		this.training_apply_date = training_apply_date;
+	}
+	public String getApplicant_email() {
+		return applicant_email;
+	}
+	public void setApplicant_email(String applicant_email) {
+		this.applicant_email = applicant_email;
+	}
+	@Override
+	public String toString() {
+		return "TrainingApplication [DDO_CODE=" + DDO_CODE + ", applicant_email=" + applicant_email
+				+ ", application_id=" + application_id + ", application_status=" + application_status
+				+ ", department_no=" + department_no + ", designation=" + designation + ", employee_no=" + employee_no
+				+ ", name=" + name + ", publish=" + publish + ", reason=" + reason + ", reg_no=" + reg_no
+				+ ", training_apply_date=" + training_apply_date + ", training_prog_id=" + training_prog_id + "]";
+	}
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
 	}
 	
 	

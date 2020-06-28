@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
     <!-- For Toaster messages -->
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
-     <script src="plugins/toastr/toastr.min.js"></script>
+    <script src="plugins/toastr/toastr.min.js"></script>
 
     <!-- for full calender -->
     <link href='../packages/core/main.css' rel='stylesheet' />
@@ -99,7 +99,7 @@
                                 About</a>
                         </li>
                         <li class="nav-item" style="float: right;">
-                            <a class="nav-link" href="#myLoginModal" data-toggle="modal"><i
+                            <a type="button" class="nav-link" onclick="loginUser()"><i
                                     class="fa fa-info-circle"></i> Profile</a>
                         </li>
                     </ul>
@@ -283,7 +283,7 @@
                                                 style="color: red; size: A5">*</sup></label>
 
                                         <input class="col-12 form-control fname " type="text" id="fname" name="fname"
-                                            placeholder=" name" required>
+                                            placeholder="Enter your Name Here" required>
 
                                     </div>
                                     <div class="col-6 mb-3">
@@ -321,7 +321,7 @@
                                             required></input>
                                         <!--PValidation-->
                                         <div id="message">
-                                            <h3>Password must contain the following:</h3>
+                                            <h5>Password must contain the following:</h5>
                                             <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
                                             <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
                                             <p id="number" class="invalid">A <b>number</b></p>
@@ -336,8 +336,24 @@
                                             placeholder="Confirm Password" required>
                                         <br>
                                     </div>
-
-
+                                   
+                                    <div class="col-5 mb-3">
+                                        <label for="conpassword"><strong>Captcha </strong><strong><sup
+                                            style="color: red; size: A5">*</sup></strong></label>
+                                        <input class="form-control" type="button" id="mainCaptcha"
+                                            style="background-image:url(img/captcha.png); font-weight: bold;text-align: center;color:black;" readonly/>
+                                    </div>
+                                    <div class="col-1 mb-3">
+                                        <a type="button" title="Refresh Captcha" onclick="Captcha()" style="margin-left: 30px;color: #295dce;margin: 0 5px;width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-refresh" 
+                                        ></i></a>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label for="conpassword"><strong>Confirm Captcha </strong><strong><sup
+                                            style="color: red; size: A5">*</sup></strong></label>
+                                        <input class="col-12 form-control fname " type="text" id="conCaptcha"
+                                            name="fname" placeholder="Enter the Captcha you see" required>
+                                    </div>
+                                    
                                     <div align="center" class="align-self-center mx-auto">
                                         <button type="button" id="registerButton"
                                             class="btn btn-success btn-sm">REGISTER</button>
@@ -371,37 +387,15 @@
                             <table id="calendar_download">
                                 <thead>
                                     <tr>
-                                        <th>Training Name</th>
+                                        <th>S.No.</th>
                                         <th>Month</th>
                                         <th>Download</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Service Training</td>
-                                        <td>January 2020</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></button></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Basic Training</td>
-                                        <td>December 2019</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></button></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Induction Training</td>
-                                        <td>January 2020</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></button></i></td>
-                                    </tr>
+                                    
+                        
 
-                                    <tr>
-                                        <td>Demo Training</td>
-                                        <td>August 2019</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></i></button></i></td>
-                                    </tr>
 
                                 </tbody>
 
@@ -529,7 +523,7 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class=" nav nav-tabs" style="padding-left: 20px;">
                         <li class="nav-item">
-                            <a class="nav-link" id="backHome"><i class="fa fa-home"></i>
+                            <a class="nav-link" type="button" id="backHome"><i class="fa fa-home"></i>
                                 Home</a>
                         </li>
                         <li class="nav-item">
@@ -1079,6 +1073,80 @@
 
                 </div>
             </div>
+            <!-- View Msend message modal -->
+            <div class="modal fade" id="view_send_msg_modal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 1px;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:0px">
+                            <div id="sendMsgAccordion">
+                                <h3><i class="fa fa-envelope" aria-hidden="true"></i> Send Message Details
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>TO:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="send_msg_to"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                            <p style="color: green;" id="send_msg_sub"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Refference Application Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" type="text" id="send_msg_ref_app_id"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Time:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="send_msg_time"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Date:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="send_msg_date"></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
             <div class="modal fade" id="notification_details_modal" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1089,7 +1157,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body"style="padding:0px">
+                        <div class="modal-body" style="padding:0px">
 
                             <div id="replyAccordion">
                                 <h3><i class="fa fa-envelope" aria-hidden="true"></i> Message
@@ -1109,17 +1177,17 @@
                                         <div class="form-group col-12">
                                             <p class="font-weight-bold">
                                                 <label>SUBJECT:</label>
-                                                <p style="color: green;" id="the_msg"></p>
+                                            <p style="color: green;" id="the_msg"></p>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-6">
                                             <p class="font-weight-bold">
-                                                <label>Notification Id:</label></p>
+                                                <label>Refference Application Id:</label></p>
                                         </div>
                                         <div class="form-group col-6">
-                                            <p style="color: green;" type="text" id="msg_id"></p>
+                                            <p style="color: green;" type="text" id="msg_ref_app_id"></p>
 
                                         </div>
                                     </div>
@@ -1149,18 +1217,29 @@
                                 </h3>
                                 <div>
                                     <div class="form-row">
+                                        <div class="form-group col-3">
+                                            <p class="font-weight-bold">
+                                                <label>Title:</label>
+                                        </div>
+                                        <div class="form-group col-9">
+                                            <input class="form-control" type="text" name="msg_title" id="msg_rly_title"
+                                                placeholder="Write Subject here"> </input>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
                                         <div class="form-group col-12">
                                             <p class="font-weight-bold">
                                                 <label>SUBJECT:</label>
-                                                <textarea cols="2" rows="3" class="form-control"  placeholder="Write Your Reply Here."
-                                                 id="msg_rly_subject"
+                                                <textarea cols="2" rows="3" class="form-control"
+                                                    placeholder="Write Your Reply Here." id="msg_rly_subject"
                                                     name="msg_rly_subject"></textarea>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row text-center">
-                                        <button class="btn btn-sm btn-primary " id="msg_rly_send"><i class="fa fa-paper-plane"
-                                                aria-hidden="true"></i> Send</button>
+                                        <button class="btn btn-sm btn-primary " id="msg_rly_send"><i
+                                                class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
                                     </div>
 
                                 </div>

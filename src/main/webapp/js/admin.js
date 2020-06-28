@@ -7,6 +7,76 @@
        heightStyle: "content"
     });
  });
+ //Accordion 
+$(function () {
+  $("#replyAccordion").accordion({
+    collapsible: false,
+    heightStyle: "content"
+  });
+});
+$(function () {
+  $("#sendMsgAccordion").accordion({
+    collapsible: false,
+    heightStyle: "content"
+  });
+});
+$(function () {
+  $("#accordian_select_objection").accordion({
+    collapsible: false,
+    heightStyle: "content"
+  });
+});
+//Release Calendar
+ 
+$("#publishCalendar").click((event)=>{
+  event.preventDefault();
+  if($("#calendar_month").val()==''){
+    swal("ERROR !!!", "Please select the month","error");
+    return false;
+  }
+  if($("#calendar_year").val()==''){
+    swal("ERROR !!!", "Please select the year","error");
+    return false;
+  }
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    discription: 'Sending data...',
+    defaultApply: true,
+  });
+  var calendar={
+    month:$("#calendar_month").val()+' '+$("#calendar_year").val()
+  }
+  console.log(calendar);
+  var settings = {
+    "url": "http://localhost:8080/admin/postCalendar",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(calendar),
+  };
+  $.ajax(settings).done(function (response) {
+    if(response.status == "success"){
+      loading.out();
+      $("#releaseCalendarModal").modal('hide');
+      $("#calendar_month").val('');
+      $("#calendar_year").val('');
+      swal("Success","Successfully published","success");
+    }
+    else{
+      loading.out();
+      swal("ERROR !!!","Already published this month","error");
+    }
+  });
+})
+
+
+
+
+
+
   //Total Trainings
   fetchTotalTrainings();
   function fetchTotalTrainings(){
@@ -35,7 +105,7 @@
   //For Employee Card
   function fetchAllEmployees() {
     var settings = {
-      "url": "http://localhost:8080/employees",
+      "url": "http://localhost:8080/allemployees",
       "method": "GET",
       "timeout": 0,
       "headers": {
@@ -56,9 +126,12 @@
       employee_data += '<tr>'
         + '<td>' + value.employee_id + '</td>'
         + '<td>' + value.employee_name + '</td>'
+        + '<td>' + value.employee_join_date + '</td>'
         + '<td>' + value.department_id + '</td>'
         + '<td>' + value.designation + '</td>'
+        + '<td>' + value.employee_retire_date + '</td>'
         + '<td>' + value.ddo_code + '</td>'
+        + '<td>' + value.manager + '</td>'
         + '<td>' +'<a type="button" title="View" data-toggle="modal" onclick="fillEmployeeModalPopup(this)" data-target="#exampleModalCenter" class="delete" onclick="updateApplication(this)" data-toggle="modal"  data-target="#selected_trainee_modal" style="align:center;"><i class="fa fa-eye" aria-hidden="true"></i></a>' + '</td>'
         + '</tr>';
 
@@ -144,8 +217,6 @@ toastr.options = {
   //To populate dropdownlist
 
   function PopulateDropDownList(data) {
-    console.log("ffrom populate", data);
-    console.log("type of data", typeof (data));
     var training_dropdown_list = document.getElementById("trainings_dropdown");
 
     //Add the Options to the DropDownList.
@@ -165,7 +236,7 @@ toastr.options = {
   //Criteria set to select trainee_table
   populateDesig();
   function populateDesig(){
-    var desigSuggestions = ['Tester','Director','Developer','Software Engineer','Human Resource','Marketing Head','Sales Officer','Analyser'];
+    var desigSuggestions = ['System Operator','Asst. System Administrator','Tester','Director','Developer/Technician','Software Engineer','Human Resource','Marketing Head','Sales Officer','Analyser','Jr. Assistant','System Administrator','Lower Division Assistant','Grade IV','Clerk','Sr. Assistant'];
     var i = 0;
     $.each(desigSuggestions, function (key, value) {
         desigSuggestions[i] = value;
@@ -212,19 +283,26 @@ toastr.options = {
     test = false;
 
 })
-var join_date_criteria='';
+var experience_criteria='';
+var retirement_criteria='';
 var designation_criteria = [];
 
 $("#criteria_set").click(()=>{
-  join_date_criteria=$("#join_date_criteria_set").val();
+  experience_criteria=$("#experience_criteria").val();
+  retirement_criteria=$("#retirement_criteria").val();
   if (($("#criteria_desig_list").has("li").length === 0)) {
     swal("ERROR !!!", "please select any designation criteria", "error");
     return false;
   }
-  if (join_date_criteria=='') {
-    swal("ERROR !!!", "please select a join date criteria", "error");
+  if ( experience_criteria=='') {
+    swal("ERROR !!!", "Please select minimum years of experience after join date", "error");
     return false;
   }
+  if ( retirement_criteria=='') {
+    swal("ERROR !!!", "Please select minimum years left for retirement.", "error");
+    return false;
+  }
+
 
   $("#criteria_desig_list li").each(function () {
     // if(!$.inArray($(this).text(), designation_criteria))array.push($(this).text());
@@ -235,7 +313,9 @@ $("#criteria_set").click(()=>{
 
 })
 $("#criteria_reset").click(()=>{
-  $("#join_date_criteria_set").val('');
+  $("#experience_criteria").val('');
+  $("#retirement_criteria").val('');
+  $("#criteria_desig").val('');
   $("#criteria_desig_list").empty();
   join_date_criteria='';
   designation_criteria=[];
@@ -270,7 +350,8 @@ $("#criteria_reset").click(()=>{
               employee.emp_join_date = cells[2];
               employee.emp_dep_no = cells[3];
               employee.emp_desig = cells[4];
-              employee.emp_ddo_code = cells[5];
+              employee.emp_retire_date = cells[5];
+              employee.emp_email = cells[6];
               employees.push(employee);
             }
           }
@@ -283,7 +364,8 @@ $("#criteria_reset").click(()=>{
             trainee_data += '<td>' + value.emp_join_date + '</td>';
             trainee_data += '<td>' + value.emp_dep_no + '</td>';
             trainee_data += '<td>' + value.emp_desig + '</td>';
-            trainee_data += '<td>' + value.emp_ddo_code + '</td>';
+            trainee_data += '<td>' + value.emp_retire_date + '</td>';
+            trainee_data += '<td>' + value.emp_email + '</td>';
             trainee_data += '<td>' + '<a type="button" title="Select" class="edit selectEmployee"   style="color: #00b300;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-check" aria-hidden="true"></i></a>' + 
                             '<a type="button" title="Remove" class="edit remove"   style="color: #e60000;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-times" aria-hidden="true"></i></a>' + '</td>';
             trainee_data += '</tr>';
@@ -293,6 +375,10 @@ $("#criteria_reset").click(()=>{
         }
         reader.readAsText($("#fileUpload")[0].files[0]);
         toastr.success("CSV imported Successfully");
+        //Do stuffs here
+       
+        $("#accordian").children(":last").trigger( "expand" );
+
       } else {
         swal("ERROR !!!","Browser doesnot support HTML5","error");
       }
@@ -306,10 +392,12 @@ $("#criteria_reset").click(()=>{
 
   // code to read selected table row cell data (values).
   $("#trainee_table").on('click', '.selectEmployee', function () {
-    if(join_date_criteria=='' || jQuery.isEmptyObject(designation_criteria)){
+    //Checking only one criteria because of all inputs need to give before set criteria
+    if(experience_criteria=='' || jQuery.isEmptyObject(designation_criteria)){
       swal("ERROR !!!", "No Criterias selected..","error");
       return false;
     }
+    
     
     var currentRow = $(this).closest("tr");
     swal({
@@ -327,42 +415,73 @@ $("#criteria_reset").click(()=>{
           var col4 = currentRow.find("td:eq(3)").text(); // get current row 3rd TD
           var col5 = currentRow.find("td:eq(4)").text();
           var col6 = currentRow.find("td:eq(5)").text();
+          var col7= currentRow.find("td:eq(6)").text();
 
-          let object = {
+          let application = {
             employee_no: col1,
             reg_no:"Unregistered",
+            reason:"",
             name: col2,
+            application_status:'',
             join_date:col3,
             department_no: col4,
             designation: col5,
-            DDO_CODE: col6,
+            applicant_email:col7,
+            retire_date:col6,
             training_prog_id: $("#trainings_dropdown").val(),
             publish: false,
-            application_status: 'accepted',
-
+            applicant_email:col7,
           }
           
-          console.log(object.join_date);
-          if(!isValidDate(object.join_date)){
-            swal("ERROR !!!", "Date format exception, please select yyyymmdd format in the  CSV file","error");
+          console.log(application.join_date);
+          if(!isValidDate(application.join_date)){
+            swal("ERROR !!!", "Join Date format exception, please select yyyymmdd format in the  CSV file","error");
             return false;
           }
-          console.log(object.designation);
-          var criteriaDate=new Date(join_date_criteria);
-          var joinDate=new Date(object.join_date)
-          if(criteriaDate > joinDate ){
-            console.log(" join date criteria passed selected");
-            if(designation_criteria.indexOf(object.designation) !== -1){
-              console.log(" join date criteria and designation criteria passed selected");
-              applyTrainingAfterCriteriaApproved(object,currentRow);
-            }
-            else{
-              swal("Opps !!!","The Employee do not pass the designation criteria","error");
-            }
+          if(!isValidDate(application.retire_date)){
+            swal("ERROR !!!", "Retire Date format exception, please select yyyymmdd format in the  CSV file","error");
+            return false;
+          }
+          checkExperienceCriteria(application.join_date);
+          var passStatus=checkIfPassCriterias(application);
+          
+          if(passStatus==true){
+           
+            swal({
+              title: "Congratulations, passed all criteria",
+              text: "Application will be Accepted.",
+              icon: "success",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willInsert) => {
+                if (willInsert) {
+                  console.log("pass");
+                  application.application_status='accepted';
+                  applyTrainingAfterCriteriaChecked(application,currentRow);
+                }
+              });
             
           }
           else{
-            swal("Opps !!!","The Employee do not pass the join date criteria","error");
+                 
+            swal({
+              title: "Some Criterias Failed",
+              text: "Application will be rejected.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willInsert) => {
+                if (willInsert) {
+                  application.reason=criteria_fail_reasons.toString();
+                  application.application_status='rejected';
+                  applyTrainingAfterCriteriaChecked(application,currentRow);
+                  criteria_fail_reasons=[]
+                }
+              });
+          
+          
           }
 
         }
@@ -379,8 +498,38 @@ $("#criteria_reset").click(()=>{
     return d.toISOString().slice(0,10) === dateString;
   }
 
+  var criteria_fail_reasons=[];
+  function checkIfPassCriterias(application){
+    if(!designation_criteria.includes(application.designation)){
+      criteria_fail_reasons.push("Failed Required designation criteria");
+      return false;
+    }
+    return true; 
+  }
+  function checkExperienceCriteria(join_date){
+    console.log(experience_criteria);
+    
+    var year=join_date.getFullYear();
+    console.log(year);
+    var month=join_date.getMonth();
+    console.log(month);
+    var day=join_date.getDay();
+    console.log(day);
+    var joindateAndexp=new Date(year+experience_criteria,month,day);
+    console.log(joindate_exp);
+    
+    // if(joindateAndexp>today){
+    //   console.log("Dont have exp");
+    // }
+    // else{
+    //   console.log("Have exp");
+    // }
 
- function applyTrainingAfterCriteriaApproved(application,currentRow){
+  }
+
+
+ function applyTrainingAfterCriteriaChecked(application,currentRow){
+  console.log("In apply");
   var loading = new Loading({
     title: ' Please Wait',
     direction: 'hor',
@@ -399,11 +548,11 @@ $("#criteria_reset").click(()=>{
   $.ajax(settings).done(function (response) {
     console.log(response);
     if (response.status == "success") {
-    loading.out();
-    fetchAllApplications();
-    currentRow.remove();
-     swal("Poof!!!","Inserted successfully!!!","success");
-
+      loading.out();
+      fetchAllApplications();
+      fetchRejectedApplications()
+      currentRow.remove();
+      swal("Poof!!!","Inserted successfully!!!","success");
     }
     else {
       loading.out();
@@ -415,8 +564,57 @@ $("#criteria_reset").click(()=>{
   });
 
  }
+ function findTrainingStartDate(training_prog_id){
+   console.log("inside get start date");
+   
+   $.getJSON("http://localhost:8080/admin/getTraining/"+training_prog_id,(response)=>{
+     var data= response.data;
+     console.log(response);
+     return data.training_start_date.toString();
+   });
+   
+ }
 
 
+
+ fetchRejectedApplications();
+
+ function fetchRejectedApplications() {
+  var settings = {
+    "url": "http://localhost:8080/admin/getRejectedApplications",
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": null,
+  };
+  $.ajax(settings).done(function (response) {
+    populateRejectedApplications(response.data);
+  });
+}
+function populateRejectedApplications(applications){
+  $('#rejected_applications_table tbody').empty();
+    
+    var application_data = '';
+
+    $.each(applications, function (key, value) {
+      application_data += '<tr>'
+        + '<td>' + value.application_id + '</td>'
+        + '<td>' + value.training_prog_id + '</td>'
+        + '<td>' + value.name + '</td>'
+        + '<td>' + value.reg_no + '</td>'
+        + '<td>' + value.designation + '</td>'
+        + '<td>' + value.manager + '</td>'
+        + '<td>' + value.application_status + '</td>'
+        + '<td>' +'<a type="button" title="Message" class="message" onclick="messageApplicant(this)"   style="color: #fc0303;margin: 0 5px;min-height: 30px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-envelope" aria-hidden="true"></i></a>'+
+                  '<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
+                  '<a type="button" class="delete"  title="Delete" onclick="deleteApplication(this)" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>'
+        + '</tr>';
+
+    });
+    $('#rejected_applications_table').append(application_data);
+}
 
 
 
@@ -444,6 +642,8 @@ $("#criteria_reset").click(()=>{
 
 
   });
+
+
 
 
 
@@ -488,11 +688,11 @@ $("#criteria_reset").click(()=>{
 
       application_data += '<tr>'
         + '<td>' + value.application_id + '</td>'
-        + '<td>' + value.employee_no + '</td>'
         + '<td>' + value.training_prog_id + '</td>'
         + '<td>' + value.name + '</td>'
         + '<td>' + value.reg_no + '</td>'
         + '<td>' + value.designation + '</td>'
+        + '<td>' + value.manager + '</td>'
         + '<td>' + value.application_status + '</td>'
         + '<td>' +'<a type="button" title="Message" class="message" onclick="messageApplicant(this)"   style="color: #fc0303;margin: 0 5px;min-height: 30px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-envelope" aria-hidden="true"></i></a>'+
                   '<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
@@ -503,39 +703,131 @@ $("#criteria_reset").click(()=>{
     $('#applications_table').append(application_data);
 
   }
+  //To populate pending registed applications
+  fetchPendingApplications()
+  function fetchPendingApplications(){
+    $.getJSON("http://localhost:8080/admin/getPendingApplications", function(response){
+        populatePendingApplications(response.data);
+    })
+   
+  }
+  function populatePendingApplications(data){
+    $("#registered_applications_table tbody").empty();
+    var trainee_data = '';
+    $.each(data, function (key, value) {
+      trainee_data += '<tr>';
+      trainee_data += '<td>' + value.application_id + '</td>';
+      trainee_data += '<td>' + value.training_prog_id + '</td>';
+      trainee_data += '<td>' + value.employee_no + '</td>';
+      trainee_data += '<td>' + value.reg_no + '</td>';
+      trainee_data += '<td>' + value.name + '</td>';
+      trainee_data += '<td>' + value.training_apply_date + '</td>';
+      trainee_data += '<td>' + value.application_status + '</td>';
+      trainee_data += '<td>' + '<a type="button" title="Select" onclick="selectApplication(this)"  style="color: #00b300;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-check" aria-hidden="true"></i></a>' + 
+                      '<a type="button" title="Remove" style="color: #e60000;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-times" aria-hidden="true"></i></a>' + '</td>';
+      trainee_data += '</tr>';
+
+    });
+    $('#registered_applications_table').append(trainee_data);
+
+  }
+function selectApplication(x){
+  var currentRow=$(x).closest('tr');
+  var applicationId=currentRow.find("td:eq(0)").text(); 
+  swal({
+    title: "Are you sure?",
+    text: "You want to select this application?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willDelete) => {
+      if (willDelete) {
+        var loading = new Loading({
+          title: ' Please Wait',
+          direction: 'hor',
+          discription: 'Sending data...',
+          defaultApply: true,
+        });
+        console.log(applicationId)
+        $.getJSON("http://localhost:8080/admin/acceptPendingApplication/"+applicationId,(response)=>{
+            console.log(response);
+            if(response.status == "success"){
+              loading.out();
+              fetchPendingApplications();
+              fetchAllApplications();
+            }
+            loading.out();
+        })
+
+
+      }
+    });
+
+
+ 
+
+}
+
+
+
+
+
  var application_id_store='';
  var reg_id_store='';
+ var receiver_store='';
 //message Applicant
 function messageApplicant(x){
   
   var currentRow=$(x).closest('tr');
-  
-  if(currentRow.find("td:eq(4)").text() == "Unregistered"){
-    swal("ERROR !!!", "No Registration number is available for this Applicant.","error");
-    return false;
-  }
-  else{
-    application_id_store=currentRow.find("td:eq(0)").text();
-    reg_id_store=currentRow.find("td:eq(4)").text();
-    $("#message_applicant").modal('show');
-    
-  }  
+  var applicationId=currentRow.find("td:eq(0)").text();
+  $.getJSON("http://localhost:8080/admin/findApplication/"+applicationId,(response)=>{
+    var data = response.data;
+    application_id_store=data.application_id;
+    reg_id_store=data.reg_no;
+    receiver_store=data.name;
+    if(reg_id_store == "Unregistered"){
+      emailApplicant(data);
+      $("#email_applicant").modal('show');
+     
+    }
+    else{
+      application_id_store=currentRow.find("td:eq(0)").text();
+      reg_id_store=currentRow.find("td:eq(4)").text();
+      receiver_store=currentRow.find("td:eq(3)").text();
+      $("#message_applicant").modal('show');   
+    } 
+
+  })
+   
 }
+function emailApplicant(data){
+  $("#email_address").val(data.applicant_email);
+  $("#email_subject").val("Hellow Mr. "+data.name);
+
+}
+
 $("#admin_msg_send").click((event) => {
   event.preventDefault(event);
-  console.log(application_id_store,reg_id_store);
-  console.log("Mail",$("#mail_check").val(),);
+  if($("#admin_msg_title").val()==''){
+    swal("ERROR !!!","Please give a Title",'error');
+    return false;
+  }
+  if($("#admin_msg_subject").val()==''){
+    swal("ERROR !!!","Please give a subject",'error');
+    return false;
+  }
   var loading = new Loading({
     title: ' Please Wait',
     direction: 'hor',
     discription: 'Sending data...',
     defaultApply: true,
   });
-  console.log('type of regid',typeof(reg_id_store));
   var message={
     mail:document.getElementById("mailCheck").checked,
     application_id:application_id_store,
     trainee_reg_id:reg_id_store,
+    receiver:receiver_store,
     title:$("#admin_msg_title").val(),
     subject:$("#admin_msg_subject").val(),
     senderSignature:'ADMIN',
@@ -581,18 +873,17 @@ function updateApplication(x) {
   $.getJSON('http://localhost:8080/admin/findApplication/'+applicationId,function(response){
     console.log("Applicatiion",response);
     var data=response.data;
-    $("#editApp_application_id").val(data.application_id);
-    $("#editApp_name").val(data.name);
-    $("#editApp_employee_id").val(data.employee_no);
-    $("#editApp_department_id").val(data.department_no);
-    $("#editApp_ddo_code").val(data.ddo_CODE);
-    $("#editApp_designation").val(data.designation);
-    $("#editApp_status").val(data.application_status);
-    $("#editApp_regid").val(data.reg_no);
+    $("#editApp_application_id").text(data.application_id);
+    $("#editApp_name").text(data.name);
+    $("#editApp_employee_id").text(data.employee_no);
+    $("#editApp_department_id").text(data.department_no);
+    $("#editApp_ddo_code").text(data.ddo_CODE);
+    $("#editApp_designation").text(data.designation);
+    $("#editApp_status").text(data.application_status);
+    $("#editApp_regid").text(data.reg_no);
 
 
-  })
-  
+  });
 
 }
 //to delete a Application
@@ -628,6 +919,7 @@ function deleteApplication(x){
           console.log(response);
           if (response.status == "success") {
             fetchAllApplications();
+            fetchRejectedApplications();
             loading.out();
             swal("Poof! Deleted successfully!", {
               icon: "success",
@@ -1045,18 +1337,115 @@ function fillNoyifications(list){
   $("#admin_notifications").empty();
   var data='';
   $.each(list,(key,value)=>{
-    
-      data+='<div type="button" onclick="alerting('+value.id+')"  class="alert alert-light notification" data-toggle="modal" data-target="#notification_details_modal">'
+    if(value.senderSignature=="ADMIN"){
+      data+='<div type="button" onclick="displaySentMsg('+value.id+')"  class="alert alert-light notification" data-toggle="modal" data-target="#admin_sent_msg_details">'
             +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '      
             + value.title+'</div><div class="col-2"><p><b>Time:</b> '
             + value.notificatio_create_time+'</p></div><div class="col-2"><p><b>Date: </b>'
             + value.notificatio_create_date+'</p></div></div></div>';
+    }
+    else{
+      if (value.admin_read  == true) {
+        data += '<div type="button" onclick="displayMsg(' + value.id + ')"  class="alert alert-success notification" data-toggle="modal" data-target="#toAdmin_msg_details">'
+          + '<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '
+          + value.title + '</div><div class="col-2"><p><b>Time:</b> '
+          + value.notificatio_create_time + '</p></div><div class="col-2"><p><b>Date: </b>'
+          + value.notificatio_create_date + '</p></div></div></div>';
+      }
+      else {
+        data += '<div type="button" onclick="displayMsg(' + value.id + ')"  class="alert alert-danger notification" data-toggle="modal" data-target="#toAdmin_msg_details">'
+          + '<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i><b> '
+          + value.title + '</b></div><div class="col-2"><p><b>Time:</b> '
+          + value.notificatio_create_time + '</p></div><div class="col-2"><p><b>Date: </b>'
+          + value.notificatio_create_date + '</p></div></div></div>';
+      }
+    }
+    
+      
     
   })
   
   $("#admin_notifications").append(data);
 
 }
+function displaySentMsg(x){
+  console.log("Notification Id",x);
+  $.getJSON("http://localhost:8080/getTheNotification/" + x, (response) => {
+    console.log(response);
+    var data = response.data;
+    reg_id = data.trainee_reg_id;
+    $("#send_msg_to").text(data.receiver);
+    $("#send_msg_sub").text(data.subject);
+    $("#send_msg_ref_app_id").text(data.application_id);
+    $("#send_msg_time").text(data.notificatio_create_time);
+    $("#send_msg_date").text(data.notificatio_create_date);
+  });
+
+}
+function displayMsg(x){
+  console.log("Msg Id:",x);
+  $.getJSON("http://localhost:8080/getTheNotification/" + x, (response) => {
+    console.log(response);
+    var data = response.data;
+    fillViewMessageModal(data);
+    
+  });
+  //to update the notification as read
+  var settings1 = {
+    "url": "http://localhost:8080/updateAdminNotification/" + x,
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+  };
+  $.ajax(settings1).done(function (response) {
+    getNotifications();
+  });
+}
+function fillViewMessageModal(data) {
+  $("#msg_from").text(data.senderSignature);
+  $("#the_msg").text(data.subject);
+  $("#msg_ref_app_id").text(data.application_id);
+  $("#msg_time").text(data.notificatio_create_time);
+  $("#msg_date").text(data.notificatio_create_date);
+}
+// //To reply a msg
+// $("#msg_rly_send").click(() => {
+//   var reg_id='';
+//   $.getJSON("http://localhost:8080/getTheNotification/" + x, (response) => {
+//     console.log(response);
+//   });
+//   var reply = {
+//     senderSignature: "ADMIN",
+//     mail: false,
+//     application_id: $("#msg_ref_app_id").text(),
+//     trainee_reg_id: $("#view_regid").text(),
+//     receiver:  $("#msg_from").text(),
+//     title: $("#msg_rly_title").val(),
+//     subject: $("#msg_rly_subject").val(),
+//     admin_read: true,
+//     trainee_read: false
+//   }
+//   console.log(reply);
+//   var settings = {
+//     "url": "http://localhost:8080/postNotification",
+//     "method": "POST",
+//     "timeout": 0,
+//     "headers": {
+//       "Content-Type": "application/json"
+//     },
+//     "data": JSON.stringify(reply),
+//   };
+//   $.ajax(settings).done(function (response) {
+//     console.log(response);
+//     if (response.status == "success") {
+//       $("#notification_details_modal").modal('hide');
+//       updateNotifications(reply.trainee_reg_id);
+//       swal("SUCCESS ", "Message send successfully", "success");
+//     }
+//   });
+// })
 
 
 
