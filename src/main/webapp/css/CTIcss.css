@@ -382,3 +382,7 @@ body{
 	font-size: small;
 	
 }
+#smallFont div{
+	font-size: small;
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+} 

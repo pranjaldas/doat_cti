@@ -19,6 +19,11 @@ public class ApplicationService {
 		repo.save(application);
 		
 	}
+	public List<TrainingApplication> findAcceptSelected(){
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findByAcceptedSelected().forEach(list::add);
+		return list;
+	}
 	
 
 	public List<TrainingApplication> viewApplications() {
@@ -73,6 +78,18 @@ public class ApplicationService {
 		List<TrainingApplication> list=new ArrayList<>();
 		repo.findRejectedApplications().forEach(list::add);
 		return list;
+	}
+	public List<TrainingApplication> selectedApplicationsList() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findBySelcted().forEach(list::add);
+		return list;
+	}
+	public Optional<TrainingApplication> findRaiseObjectionApplication(String employee_id,String seniorTrainingPrgId) {
+		
+		return repo.findRaiseObjectionApplication(employee_id,seniorTrainingPrgId);
+	}
+	public Optional<TrainingApplication> findApplicationJuniorsSelected(String application_id) {
+		return repo.findApplicationJuniorsSelected(application_id);
 	}
 
 	

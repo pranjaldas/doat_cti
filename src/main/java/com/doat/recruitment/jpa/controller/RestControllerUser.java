@@ -1,12 +1,17 @@
 package com.doat.recruitment.jpa.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.doat.recruitment.jpa.model.Employee;
 import com.doat.recruitment.jpa.model.Notification;
 import com.doat.recruitment.jpa.model.Registration;
+import com.doat.recruitment.jpa.model.TrainingApplication;
 import com.doat.recruitment.jpa.response.ServiceResponse;
+import com.doat.recruitment.jpa.services.ApplicationService;
+import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.NotificationService;
 import com.doat.recruitment.jpa.services.RegistrationService;
@@ -29,6 +34,10 @@ public class RestControllerUser {
     MailService mailService;
     @Autowired
     RegistrationService registrationService;
+    @Autowired
+    ApplicationService applicationService;
+    @Autowired
+    EmployeeService employeeService;
 
     @GetMapping(value="/getAllNotification")
     public ResponseEntity<Object> findAllNotification(){
@@ -127,4 +136,63 @@ public class RestControllerUser {
         ServiceResponse<Object> response=new ServiceResponse<>("not found",cookie);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
+    //Raise Objection API
+
+    @GetMapping(value="/user/raiseObjection/{application_id}")
+    public ResponseEntity<Object> raiseObjection(@PathVariable String application_id)throws NullPointerException{
+        Optional<TrainingApplication> optional=applicationService.findApplication(application_id);
+        // If application_status of senior is rejected then only he can raise objection against his juniors
+        if(optional.isPresent()){
+            TrainingApplication seniorApplication=optional.get();
+            List<Employee> juniorlist=findJuniors(seniorApplication.getEmployee_no());
+            if(!juniorlist.isEmpty()){
+                List<TrainingApplication> juniorAppliedList=findJuniorThatApplied(juniorlist,seniorApplication.getTraining_prog_id());
+                if(!juniorAppliedList.isEmpty()){
+                    List<TrainingApplication> juniorsAppliesSelectedList=findJuniorThatAppliedAndSelected(juniorAppliedList);
+                    if(!juniorsAppliesSelectedList.isEmpty()){
+                      ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",juniorsAppliesSelectedList);
+                      return new ResponseEntity<Object>(response, HttpStatus.OK);
+    
+                    }
+                    ServiceResponse<String> response=new ServiceResponse<>("no juniors selected","Your no any juniors selected that apply this training program");
+                    return new ResponseEntity<Object>(response, HttpStatus.OK); 
+                  
+                }
+                ServiceResponse<String> response=new ServiceResponse<>("no juniors applied","No juniors available that apply this training program");
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
+              
+            }
+            ServiceResponse<String> response=new ServiceResponse<>("unauthorised","No juniors available");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+        ServiceResponse<String> response=new ServiceResponse<>("not found","Application not found");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+    private List<TrainingApplication> findJuniorThatAppliedAndSelected(List<TrainingApplication> juniorAppliedList)throws NullPointerException {
+        List<TrainingApplication> finalListofJuniorApplicationSelected=new ArrayList<>();
+        juniorAppliedList.forEach((juniorapplication)->{
+            Optional<TrainingApplication> optional=applicationService.findApplicationJuniorsSelected(juniorapplication.getApplication_id());
+            if(optional.isPresent()){
+              finalListofJuniorApplicationSelected.add(optional.get());
+            }
+        });
+		return finalListofJuniorApplicationSelected;
+	}
+	private List<TrainingApplication> findJuniorThatApplied(List<Employee> juniorlist, String seniorTrainingPrgId) {
+        List<TrainingApplication> finalListofJuniorApplication=new ArrayList<>();
+        juniorlist.forEach((juniorEmployee)->{
+            Optional<TrainingApplication> optionaljuniorApplication=applicationService.findRaiseObjectionApplication(juniorEmployee.getEmployee_id(),seniorTrainingPrgId);
+            if(optionaljuniorApplication.isPresent()){
+               TrainingApplication application=optionaljuniorApplication.get(); 
+               finalListofJuniorApplication.add(application);
+            }
+
+        });
+		return finalListofJuniorApplication;
+	}
+	public List<Employee>  findJuniors(String employee_id){
+        return employeeService.findAllJuniors(employee_id);
+    }
+
+    
 }

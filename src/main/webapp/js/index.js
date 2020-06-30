@@ -560,6 +560,39 @@ function download(x) {
 }
 
 
+
+//To display published Trainees
+publishTrainees();
+function publishTrainees() {
+  var settings = {
+    "url": "http://localhost:8080/selectedPublishApplications",
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": null,
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    var trainee_data = '';
+    var sn = 1;
+    $.each(response.data, function (key, value) {
+      trainee_data += '<tr>';
+      trainee_data += '<td>' + sn + '</td>';
+      trainee_data += '<td>' + value.name + '</td>';
+      trainee_data += '<td>' + value.designation + '</td>';
+      trainee_data += '<td>' + value.DDO_CODE + '</td>';
+      trainee_data += '<td>' + value.employee_no + '</td>';
+      trainee_data += '<td>' + value.training_prog_id + '</td>';
+      trainee_data += '</tr>';
+      sn++;
+    });
+    $('#trainee_table').append(trainee_data);
+  });
+}
+
+
 // Login  code 
 function loginUser(){
   if (localStorage.getItem("user") === null) {
@@ -789,7 +822,7 @@ function fillprofileViewApplicationTable(list) {
       + '<td>' + value.training_prog_id + '</td>'
       + '<td>' + value.training_apply_date + '</td>'
       + '<td>' + value.application_status + '</td>'
-      + '<td>' + '<i class="fa fa-bell-o" aria-hidden="true"></i>' + '</td>'
+      + '<td>' + '<a type="button" class="edit" title="Raise Objection"  onclick="raiseObjection(this)" style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img  src="img/icons8-hand-24.png" ></a>' + '</td>'
       + '<td>' + ' <a type="button" class="edit" title="Update" data-toggle="modal"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="material-icons">&#xE254;</i></a>' + '</td>'
       + '</tr>';
     i++;
@@ -797,6 +830,63 @@ function fillprofileViewApplicationTable(list) {
   $('#profile_applications_table').append(applications_data);
 
 }
+//To Raise raiseObjection
+
+function raiseObjection(x){
+  var loading = new Loading({
+    title: ' Please Wait',
+    direction: 'hor',
+    defaultApply: true,
+  });
+
+  var currentRow=$(x).closest('tr');
+  var applicationId=currentRow.find("td:eq(1)").text();
+  var training_prg_id = currentRow.find("td:eq(2)").text();
+  $.getJSON("http://localhost:8080/user/raiseObjection/"+applicationId,(response)=>{
+   if(response.status == "success"){
+     loading.out();
+     console.log(response);
+     fillObjectionModal(response.data,training_prg_id);
+     $("#objection_list_modal").modal('show');
+
+   }
+   else if (response.status == "not found"){
+     loading.out();
+     swal("ERROR !!!", "Not a valid application id","error");
+   }
+   else if (response.status =="unauthorised"){
+     loading.out();
+     swal("ERROR !!!","Sorry You are not authorised to raise objection","error");
+   }
+   else if (response.status =="no juniors applied"){
+    loading.out();
+    swal("ERROR !!!","There are no any juniors that applied for this training program","error");
+  }
+  else if (response.status =="no juniors selected"){
+    loading.out();
+    swal("ERROR !!!","There are no any juniors that selected for this training program","error");
+  }
+  });
+}
+function fillObjectionModal(applications,prg_id){
+  $("#objection_training_id").text(prg_id);
+  var applications_data= '';
+  var i= 1;
+  $.each(applications, function (key, value){
+    applications_data += '<tr>'
+    + '<td>' + i + '</td>'
+    + '<td>' + value.application_id + '</td>'
+    + '<td>' + value.name + '</td>'
+    + '<td>' + '<a type="button" class="edit" title="Send Objection"  style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="fa fa-paper-plane" aria-hidden="true"></i></a>' + '</td>'
+    + '</tr>';
+    i++;
+  })
+  $("#objection_list").append(applications_data);
+
+
+}
+
+
 function fillUserProfile(data) {
 
   $("#view_regid").text(data.reg_id);
@@ -1112,37 +1202,6 @@ $("#backHome").click(() => {
 
 
 
-
-//To display published Trainees
-publishTrainees();
-function publishTrainees() {
-  var settings = {
-    "url": "http://localhost:8080/selectedPublishApplications",
-    "method": "GET",
-    "timeout": 0,
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "data": null,
-  };
-  $.ajax(settings).done(function (response) {
-    console.log(response);
-    var trainee_data = '';
-    var sn = 1;
-    $.each(response.data, function (key, value) {
-      trainee_data += '<tr>';
-      trainee_data += '<td>' + sn + '</td>';
-      trainee_data += '<td>' + value.name + '</td>';
-      trainee_data += '<td>' + value.designation + '</td>';
-      trainee_data += '<td>' + value.DDO_CODE + '</td>';
-      trainee_data += '<td>' + value.employee_no + '</td>';
-      trainee_data += '<td>' + value.training_prog_id + '</td>';
-      trainee_data += '</tr>';
-      sn++;
-    });
-    $('#trainee_table').append(trainee_data);
-  });
-}
 
   //Test apply
 

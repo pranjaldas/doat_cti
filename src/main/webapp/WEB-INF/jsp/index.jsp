@@ -99,8 +99,8 @@
                                 About</a>
                         </li>
                         <li class="nav-item" style="float: right;">
-                            <a type="button" class="nav-link" onclick="loginUser()"><i
-                                    class="fa fa-info-circle"></i> Profile</a>
+                            <a type="button" class="nav-link" onclick="loginUser()"><i class="fa fa-info-circle"></i>
+                                Profile</a>
                         </li>
                     </ul>
                 </div>
@@ -336,24 +336,26 @@
                                             placeholder="Confirm Password" required>
                                         <br>
                                     </div>
-                                   
+
                                     <div class="col-5 mb-3">
                                         <label for="conpassword"><strong>Captcha </strong><strong><sup
-                                            style="color: red; size: A5">*</sup></strong></label>
+                                                    style="color: red; size: A5">*</sup></strong></label>
                                         <input class="form-control" type="button" id="mainCaptcha"
-                                            style="background-image:url(img/captcha.png); font-weight: bold;text-align: center;color:black;" readonly/>
+                                            style="background-image:url(img/captcha.png); font-weight: bold;text-align: center;color:black;"
+                                            readonly />
                                     </div>
                                     <div class="col-1 mb-3">
-                                        <a type="button" title="Refresh Captcha" onclick="Captcha()" style="margin-left: 30px;color: #295dce;margin: 0 5px;width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-refresh" 
-                                        ></i></a>
+                                        <a type="button" title="Refresh Captcha" onclick="Captcha()"
+                                            style="margin-left: 30px;color: #295dce;margin: 0 5px;width: 24px;cursor: pointer; display: inline-block;"><i
+                                                class="fa fa-refresh"></i></a>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <label for="conpassword"><strong>Confirm Captcha </strong><strong><sup
-                                            style="color: red; size: A5">*</sup></strong></label>
+                                                    style="color: red; size: A5">*</sup></strong></label>
                                         <input class="col-12 form-control fname " type="text" id="conCaptcha"
                                             name="fname" placeholder="Enter the Captcha you see" required>
                                     </div>
-                                    
+
                                     <div align="center" class="align-self-center mx-auto">
                                         <button type="button" id="registerButton"
                                             class="btn btn-success btn-sm">REGISTER</button>
@@ -393,8 +395,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                        
+
+
 
 
                                 </tbody>
@@ -814,7 +816,7 @@
 
 
             <div class="tab-pane" id="activity">
-                <div class="container" id="con">
+                <div class="container smallFont" id="con">
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
@@ -843,8 +845,8 @@
                                         <th><b>TrainingID</b></th>
                                         <th><b>Apply Date</b></th>
                                         <th><b>Status</b></th>
-                                        <th><b>Alert</b></th>
-                                        <th><b>Action</b></th>
+
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -858,7 +860,6 @@
                                         <td><a type="button" title="Update" class="edit"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a></td>
                                     </tr>
                                      -->
-
                                 </tbody>
                             </table>
 
@@ -870,6 +871,42 @@
                             <button type="button" class="btn btn-info float-right" data-toggle="modal"
                                 data-target="#applyTrainingfromProfileModal"><i class="fas fa-plus"></i> Apply
                                 New</button>
+                        </div>
+                    </div>
+                    <!-- Objection list of applications Modal -->
+
+                    <div class="modal fade bd-example-modal-lg smallFont" id="objection_list_modal" tabindex="-1"
+                        role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Objection Raise Against Applications</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container smallFont">
+                                        <div> <p><b>Training Program ID: </b>
+                                            <h3 id="objection_training_id"></h3>
+                                            </p></div>                                      
+                                        <table id="objection_list" class="table table-light table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th><b>Sr.No.</b></th>
+                                                    <th><b>Application ID</b></th>
+                                                    <th><b>Applicant Name</b></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                            </div>
                         </div>
                     </div>
                     <!-- Apply trainings -->
@@ -1263,7 +1300,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" style="overflow-y: scroll;height:450px;padding: 1rem" id="noti_body">
-                            
+
 
 
                         </div>

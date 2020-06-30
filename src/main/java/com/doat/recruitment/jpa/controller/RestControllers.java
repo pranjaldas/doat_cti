@@ -466,7 +466,58 @@ public class RestControllers {
 		final ServiceResponse<List<TrainingApplication>> response = new ServiceResponse<>("success", service.findAllappByRegId(reg_no));
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
-
+	@PostMapping(value="/admin/rejectSelectedOrAcceptedApplication")
+	public ResponseEntity<Object> rejectAcceptedOrSelectedApplication(@RequestBody TrainingApplication application){
+		if(application.getReg_no()!="Unregistered"){
+			application.setApplication_status("rejected");
+			service.saveApplication(application);
+			//to send notification to registerd candidates
+			Notification notification=new Notification();
+			notification.setAdmin_read(true);
+			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
+			notification.setSubject("Mr."+application.getName()+"We are very sorry to say that your Application bearing Application no: "+application.getApplication_id()+" has rejected due to the following reasons:"+"\n"+application.getReason()+"\n"+"Better luck next time, any Further information will be notified soon.");
+			notification.setTrainee_read(false);
+			notification.setReceiver(application.getName());
+			notification.setMail(false);
+			notification.setTrainee_reg_id(application.getReg_no());
+			notification.setSenderSignature("ADMIN");
+			notification.setApplication_id(application.getApplication_id());
+			notificatioservice.saveNoti(notification);
+			final ServiceResponse<String> response=new ServiceResponse<>("success","updated successfully");
+			return new ResponseEntity<Object>(response,HttpStatus.OK);	
+		}
+		application.setApplication_status("selected");
+		service.saveApplication(application);
+		final ServiceResponse<String> response=new ServiceResponse<>("success","updated successfully");
+		return new ResponseEntity<Object>(response,HttpStatus.OK);	
+		
+	}
+	@PostMapping(value="/admin/selectAcceptedApplication")
+	public ResponseEntity<Object> selectAcceptedApplication(@RequestBody TrainingApplication application){
+		if(application.getReg_no()!="Unregistered"){
+			application.setApplication_status("selected");
+			service.saveApplication(application);
+			//to send notification to registerd candidates
+			Notification notification=new Notification();
+			notification.setAdmin_read(true);
+			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
+			notification.setSubject("Congratulations "+application.getName()+" your applications has selected, Very soon final list will be published in CTI website.");
+			notification.setTrainee_read(false);
+			notification.setReceiver(application.getName());
+			notification.setMail(false);
+			notification.setTrainee_reg_id(application.getReg_no());
+			notification.setSenderSignature("ADMIN");
+			notification.setApplication_id(application.getApplication_id());
+			notificatioservice.saveNoti(notification);
+			final ServiceResponse<String> response=new ServiceResponse<>("success","updated successfully");
+			return new ResponseEntity<Object>(response,HttpStatus.OK);	
+		}
+		application.setApplication_status("selected");
+		service.saveApplication(application);
+		final ServiceResponse<String> response=new ServiceResponse<>("success","updated successfully");
+		return new ResponseEntity<Object>(response,HttpStatus.OK);	
+		
+	}
 	//For Registered pending applications in import application section
 	@GetMapping(value="/admin/getPendingApplications")
 	public ResponseEntity<Object> getPendingApplications(){
@@ -551,7 +602,7 @@ public class RestControllers {
 	//To get accepted applications
 	@GetMapping(value = "/getApplications")
 	public ResponseEntity<Object> getApplication() {
-		List<TrainingApplication> list=service.selectedApplications();
+		List<TrainingApplication> list=service.findAcceptSelected();
 		list.forEach((application)->{
 			application.setManager(eEmployeeService.findManager(eEmployeeService.findManagerId(application.getEmployee_no())));
 		});
@@ -568,6 +619,7 @@ public class RestControllers {
 		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",list);
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
 	}
+	// To view published trainings
 	@GetMapping(value="/selectedPublishApplications")
 	public ResponseEntity<Object> getSelectedApplication() {
 		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedPublishApplications());
@@ -578,6 +630,25 @@ public class RestControllers {
 		
 		final ServiceResponse<List<TrainingApplication>> response=new ServiceResponse<>("success",service.selectedApplications());
 		return new ResponseEntity<Object>(response,HttpStatus.OK);
+	}
+	//TO publish applications
+	@GetMapping(value="/admin/publishSelectedApplications")
+	public ResponseEntity<Object> toPublishSelected(){
+		List<TrainingApplication> list=service.selectedApplicationsList();
+		list.forEach(System.out::println);
+		System.out.println(list.isEmpty());
+		if(list.isEmpty()){
+		   ServiceResponse<String> response=new ServiceResponse<>("not found","No selected applications available");
+		 	return new ResponseEntity<Object>(response,HttpStatus.OK);
+		}
+		list.forEach((application)->{
+			application.setPublish(true);
+			service.saveApplication(application);
+		});
+		ServiceResponse<String> response=new ServiceResponse<>("success","published succesfully");
+		return new ResponseEntity<Object>(response,HttpStatus.OK);
+		
+
 	}
 	
 

@@ -41,4 +41,7 @@ public String findManagerId(String employee_no){
     }
     return "Unassigned";
 }
+public List<Employee> findAllJuniors(String employee_id) {
+	return rEmployeeRepository.findAllJuniors(employee_id);
+}
 }

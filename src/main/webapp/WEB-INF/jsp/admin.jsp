@@ -838,8 +838,8 @@
                           Publish </button>
                       </div>
                     </div>
-                    <!-- Modal to view each training Application -->
-                    <div class="modal fade" id="updateApplicationModal" tabindex="-1" role="dialog"
+                    <!-- Modal to view each accepted training Application -->
+                    <div class="modal fade" id="accepted_application_details" tabindex="-1" role="dialog"
                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -856,7 +856,7 @@
                                   <label>Application Id:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_application_id"></p>
+                                <p id="accept_application_id"></p>
                                 </p>
                               </div>
                             </div>
@@ -866,7 +866,7 @@
                                   <label>Registration No:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_regid" ></p>
+                                <p id="accept_regid" ></p>
                                 </p>
                               </div>
                             </div>
@@ -876,7 +876,7 @@
                                   <label>Applicant Name:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_name"></p>
+                                <p id="accept_name"></p>
                                 </p>
                               </div>
                             </div>
@@ -886,7 +886,7 @@
                                   <label>Employee Id:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_employee_id" readonly ></p>
+                                <p id="accept_employee_id" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -896,7 +896,7 @@
                                   <label>Department Id:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_department_id" readonly ></p>
+                                <p id="accept_department_id" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -906,7 +906,7 @@
                                   <label>Designation:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_designation" readonly ></p>
+                                <p id="accept_designation" readonly ></p>
                                 </p>
                               </div>
                             </div>
@@ -916,7 +916,110 @@
                                   <label>Application Status:</label>
                               </div>
                               <div class="form-group col-6">
-                                <p id="editApp_status" ></p>
+                                <p id="accept_status" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row" id="reason_div">
+                              <div class="form-group col-12">
+                                <p class="font-weight-bold">
+                                  <label>Provide reject reasons:</label>
+                                  <textarea cols="2" rows="3" class="form-control" placeholder="Write reasons of rejecting the application"
+                                id="acceptToreject_reasons" ></textarea>
+                                </p>
+                              </div>                          
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+
+                            <button type="button" id="selectbtn_acceptApp" class="btn btn-success float-left">Select</button>
+                            <button type="button" id="rejectbtn_App" class="btn btn-primary">Reject</button>
+                          </div>
+                          
+                           
+                         
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal to view each Rejected training Application -->
+                    <div class="modal fade" id="rejected_application_details" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title"><b>Training Application Details:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_application_id"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Registration No:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_regid" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Applicant Name:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_name"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Employee Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_employee_id" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Department Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_department_id" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Designation:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_designation" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Status:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_status" ></p>
                                 </p>
                               </div>
                             </div>
@@ -936,7 +1039,7 @@
                           </div>
 
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
                           </div>
                         </div>
                       </div>

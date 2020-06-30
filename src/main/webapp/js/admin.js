@@ -651,7 +651,7 @@ function populateRejectedApplications(applications){
         + '<td>' + value.manager + '</td>'
         + '<td>' + value.application_status + '</td>'
         + '<td>' +'<a type="button" title="Message" class="message" onclick="messageApplicant(this)"   style="color: #fc0303;margin: 0 5px;min-height: 30px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-envelope" aria-hidden="true"></i></a>'+
-                  '<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
+                  '<a type="button" title="Update" class="edit" onclick="updateRejectApplication(this)" data-toggle="modal"  data-target="#rejected_application_details" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
                   '<a type="button" class="delete"  title="Delete" onclick="deleteApplication(this)" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>'
         + '</tr>';
 
@@ -738,7 +738,7 @@ function populateRejectedApplications(applications){
         + '<td>' + value.manager + '</td>'
         + '<td>' + value.application_status + '</td>'
         + '<td>' +'<a type="button" title="Message" class="message" onclick="messageApplicant(this)"   style="color: #fc0303;margin: 0 5px;min-height: 30px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="fa fa-envelope" aria-hidden="true"></i></a>'+
-                  '<a type="button" title="Update" class="edit" onclick="updateApplication(this)" data-toggle="modal"  data-target="#updateApplicationModal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
+                  '<a type="button" title="Update" class="edit" onclick="updateAcceptApplication(this)" data-toggle="modal"  data-target="#accepted_application_details" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a>'+
                   '<a type="button" class="delete"  title="Delete" onclick="deleteApplication(this)" style="color: #E34724;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE872;</i></a>' + '</td>'
         + '</tr>';
 
@@ -948,25 +948,156 @@ $("#admin_msg_send").click((event) => {
    
 })
 //Selected trainee Update
-function updateApplication(x) {
+function updateRejectApplication(x) {
   var currentRow=$(x).closest('tr');
   var applicationId=currentRow.find("td:eq(0)").text(); 
   $.getJSON('http://localhost:8080/admin/findApplication/'+applicationId,function(response){
     console.log("Applicatiion",response);
     var data=response.data;
-    $("#editApp_application_id").text(data.application_id);
-    $("#editApp_name").text(data.name);
-    $("#editApp_employee_id").text(data.employee_no);
-    $("#editApp_department_id").text(data.department_no);
-    $("#editApp_designation").text(data.designation);
-    $("#editApp_status").text(data.application_status);
+    $("#reject_application_id").text(data.application_id);
+    $("#reject_name").text(data.name);
+    $("#reject_employee_id").text(data.employee_no);
+    $("#reject_department_id").text(data.department_no);
+    $("#reject_designation").text(data.designation);
+    $("#reject_status").text(data.application_status);
     $("#view_reject_reason").text(data.reason);
-    $("#editApp_regid").text(data.reg_no);
+    $("#reject_regid").text(data.reg_no);
 
 
   });
 
 }
+function updateAcceptApplication(x) {
+  var currentRow=$(x).closest('tr');
+  var applicationId=currentRow.find("td:eq(0)").text(); 
+  $.getJSON('http://localhost:8080/admin/findApplication/'+applicationId,function(response){
+    console.log("Applicatiion",response);
+    var data=response.data;
+    $("#accept_application_id").text(data.application_id);
+    $("#accept_name").text(data.name);
+    $("#accept_employee_id").text(data.employee_no);
+    $("#accept_department_id").text(data.department_no);
+    $("#accept_designation").text(data.designation);
+    $("#accept_status").text(data.application_status);
+    $("#accept_regid").text(data.reg_no);
+
+  });
+}
+// To reject a application
+$("#rejectbtn_App").click((event)=>{
+  event.preventDefault();
+  if($("#acceptToreject_reasons").val()==''){
+    swal("ERROR !!!", "Please give reasons","error");
+    return false;
+  }
+  var application_id=$("#accept_application_id").text();
+  swal({
+    title: "Are you sure?",
+    text: "You want to select this applicant.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willSelect) => {
+      if (willSelect) {
+        var loading = new Loading({
+          title: ' Please Wait',
+          direction: 'hor',
+          discription: 'Sending data...',
+          defaultApply: true,
+        });
+        $.getJSON("http://localhost:8080/admin/findApplication/"+application_id, (response)=>{
+          if(response.status == "success"){
+            var application = response.data;
+            application.reason=$("#acceptToreject_reasons").val();
+            var settings = {
+              "url": "http://localhost:8080/admin/rejectSelectedOrAcceptedApplication",
+              "method": "POST",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "data": JSON.stringify(application),
+            };
+            $.ajax(settings).done(function (response) {
+              if(response.status == "success"){
+                loading.out();
+                swal("Success","Application selected Succesfully","success");
+                fetchAllApplications();
+                fetchRejectedApplications();
+                $("#accepted_application_details").modal('hide');
+              }
+              else{
+                alert("IDK");
+              }
+            });
+
+          }
+          else{
+            loading.out();
+            swal("Error","Something went wrong","error");
+          }
+        })
+      }
+    });
+
+
+})
+//To select accepted applications
+$("#selectbtn_acceptApp").click((event)=>{
+  event.preventDefault();
+  var application_id=$("#accept_application_id").text();
+  swal({
+    title: "Are you sure?",
+    text: "You want to select this applicant.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willSelect) => {
+      if (willSelect) {
+        var loading = new Loading({
+          title: ' Please Wait',
+          direction: 'hor',
+          discription: 'Sending data...',
+          defaultApply: true,
+        });
+        $.getJSON("http://localhost:8080/admin/findApplication/"+application_id, (response)=>{
+          if(response.status == "success"){
+            var application = response.data;
+            var settings = {
+              "url": "http://localhost:8080/admin/selectAcceptedApplication",
+              "method": "POST",
+              "timeout": 0,
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "data": JSON.stringify(application),
+            };
+            $.ajax(settings).done(function (response) {
+              if(response.status == "success"){
+                loading.out();
+                swal("Success","Application selected Succesfully","success");
+                fetchAllApplications();
+                $("#accepted_application_details").modal('hide');
+              }
+              else{
+                alert("Najanu :) ki hoise moi");
+              }
+            })
+
+          }
+          else{
+            loading.out();
+            swal("Error","Something went wrong","error");
+          }
+        })
+      }
+    });
+
+
+})
+
 //to delete a Application
 function deleteApplication(x){
   var currentRow=$(x).closest('tr');
@@ -1019,73 +1150,28 @@ function deleteApplication(x){
   // To publish all trainees
   $("#publish").click(function () {
     if ($("#applications_table tbody").children().length == 0) {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('No Applications to publish');
-      newDiv.dialog({
-        title: "ALERT !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "close",
-          class: "btn btn-md btn-danger",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!", "No applications to publish","error")
       return false;
     }
     if ($("#applications_table tbody").children().length !== 0) {
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Are You sure you want to publish ???');
-      newDiv.dialog({
-        title: "ALERT !!! ",
-        draggable: true,
-        modal: true,
-        buttons: [{
-          text: "Yes",
-          class: "btn btn-md btn-danger",
-          click: function () {
-            var settings = {
-              "url": "http://localhost:8080/selectedApplications",
-              "method": "GET",
-              "timeout": 0,
-              "headers": {
-                "Content-Type": "application/json"
-              },
-              "data": null,
-            };
-            $.ajax(settings).done(function (response) {
-              console.log("publish", response);
-              $.each(response.data, function (key, value) {
-                console.log("key is", key);
-                console.log("value is", value);
-                value.publish = true;
-                var settings = {
-                  "url": "http://localhost:8080/postApplication",
-                  "method": "POST",
-                  "timeout": 0,
-                  "headers": {
-                    "Content-Type": "application/json"
-                  },
-                  "data": JSON.stringify(value),
-                };
-                $.ajax(settings).done(function (response) {
-                  console.log("updated data ", response)
-                });
-
-              });
-            });
-            $(this).dialog("close");
-          }
-        }]
+      var loading = new Loading({
+        title: ' Please Wait',
+        direction: 'hor',
+        discription: 'Sending data...',
+        defaultApply: true,
       });
-      return true;
+      $.getJSON("http://localhost:8080/admin/publishSelectedApplications",(response)=>{
+        if(response.status == "success"){
+          loading.out();
+          swal("SUCCESS","Published Successfully","success");
+        }
+        else{
+          loading.out();
+          swal("EROOR","No selected applications available","error");
+        }
+      })
+           
     }
-
-
-
-
 
   });
   //For Training Programs
