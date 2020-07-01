@@ -831,8 +831,12 @@ function fillprofileViewApplicationTable(list) {
 
 }
 //To Raise raiseObjection
+var objection_applications=[];
+var objection_from='';
 
 function raiseObjection(x){
+  objection_applications=[];
+  objection_from='';
   var loading = new Loading({
     title: ' Please Wait',
     direction: 'hor',
@@ -846,6 +850,8 @@ function raiseObjection(x){
    if(response.status == "success"){
      loading.out();
      console.log(response);
+     objection_applications=response.data;
+     objection_from=applicationId;
      fillObjectionModal(response.data,training_prg_id);
      $("#objection_list_modal").modal('show');
 
@@ -869,6 +875,7 @@ function raiseObjection(x){
   });
 }
 function fillObjectionModal(applications,prg_id){
+  $("#objection_list tbody").empty();
   $("#objection_training_id").text(prg_id);
   var applications_data= '';
   var i= 1;
@@ -877,14 +884,35 @@ function fillObjectionModal(applications,prg_id){
     + '<td>' + i + '</td>'
     + '<td>' + value.application_id + '</td>'
     + '<td>' + value.name + '</td>'
-    + '<td>' + '<a type="button" class="edit" title="Send Objection"  style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="fa fa-paper-plane" aria-hidden="true"></i></a>' + '</td>'
     + '</tr>';
     i++;
   })
   $("#objection_list").append(applications_data);
 
-
 }
+$("#send_objection").click(() => {
+  console.log(objection_applications);
+  $.each(objection_applications,(key,value) => {
+    var settings = {
+      "url": "http://localhost:8080/user/sendObjectionNotification/" + objection_from,
+      "method": "POST",
+      "timeout": 0,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": JSON.stringify(value),
+    };
+    $.ajax(settings).done(function (response) {
+      if(response.status == "sent objection"){
+        console.log(response.data);
+      }
+
+    });
+
+  });
+  updateNotifications($("#view_regid").text());
+  
+})
 
 
 function fillUserProfile(data) {

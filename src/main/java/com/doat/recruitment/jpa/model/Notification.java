@@ -33,10 +33,11 @@ public class Notification {
     private LocalDateTime notification_update_date;
 	private String senderSignature;
 	private String receiver;
+	private String receiver_reg_id;
     
 	public Notification(Long id, String title, String subject, String trainee_reg_id, String application_id,
 			boolean trainee_read, boolean admin_read, LocalTime notificatio_create_time,
-			LocalDate notificatio_create_date, LocalDateTime notification_update_date, String senderSignature, String receiver) {
+			LocalDate notificatio_create_date, LocalDateTime notification_update_date, String senderSignature, String receiver,String receiver_reg_id) {
 		this.id = id;
 		this.title = title;
 		this.subject = subject;
@@ -49,6 +50,7 @@ public class Notification {
 		this.notification_update_date = notification_update_date;
 		this.senderSignature = senderSignature;
 		this.receiver= receiver;
+		this.receiver_reg_id= receiver_reg_id;
 	}
 	
 	public Long getId() {
@@ -143,6 +145,14 @@ public class Notification {
 				+ notification_update_date + ", receiver=" + receiver + ", senderSignature=" + senderSignature
 				+ ", subject=" + subject + ", title=" + title + ", trainee_read=" + trainee_read + ", trainee_reg_id="
 				+ trainee_reg_id + "]";
+	}
+
+	public String getReceiver_reg_id() {
+		return receiver_reg_id;
+	}
+
+	public void setReceiver_reg_id(String receiver_reg_id) {
+		this.receiver_reg_id = receiver_reg_id;
 	}
 	
     

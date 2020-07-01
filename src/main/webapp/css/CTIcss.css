@@ -386,3 +386,26 @@ body{
 	font-size: small;
     font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
 } 
+.objection_list_table {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	margin-top: 10px;
+	width: 100%;
+  }
+  
+  .objection_list_table td, .objection_list_table th {
+	border: 1px solid #ddd;
+	padding: 8px;
+  }
+  
+  .objection_list_table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  .objection_list_table tr:hover {background-color: #ddd;}
+  
+  .objection_list_table th {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	background-color: #4CAF50;
+	color: white;
+  }

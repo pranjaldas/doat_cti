@@ -879,6 +879,7 @@
                         role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
+                            
                                 <div class="modal-header">
                                     <h4 class="modal-title">Objection Raise Against Applications</h4>
                                     <button type="button" class="close" data-dismiss="modal"
@@ -886,10 +887,18 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="container smallFont">
-                                        <div> <p><b>Training Program ID: </b>
-                                            <h3 id="objection_training_id"></h3>
-                                            </p></div>                                      
-                                        <table id="objection_list" class="table table-light table-striped">
+                                        <div class="row"> 
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Training Program : </label>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <b><p style="font-size: large;" id="objection_training_id"></p></b>
+                                            </div>
+                                        </div>
+                                        <p>Objected Applications are-</p>
+                                                                         
+                                        <table id="objection_list" class="objection_list_table">
                                             <thead>
                                                 <tr>
                                                     <th><b>Sr.No.</b></th>
@@ -903,6 +912,10 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        id="send_objection"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
                                 </div>
 
 

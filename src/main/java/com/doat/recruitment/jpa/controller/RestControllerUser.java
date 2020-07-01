@@ -193,6 +193,31 @@ public class RestControllerUser {
 	public List<Employee>  findJuniors(String employee_id){
         return employeeService.findAllJuniors(employee_id);
     }
+    //API Objection notification send to juniors
+    @PostMapping(value = "/user/sendObjectionNotification/{application_id}")
+    public ResponseEntity<Object> sendObjectionNotification(@RequestBody TrainingApplication objectionreceiverapplication, @PathVariable String application_id){
+        Optional<TrainingApplication> optional=applicationService.findApplication(application_id);
+        if(optional.isPresent()){
+            TrainingApplication seniorApplication=optional.get();
+            Notification notification=new Notification();
+            notification.setAdmin_read(false);
+			notification.setTitle("Objection Raised.");
+			notification.setSubject("Mr. "+objectionreceiverapplication.getName()+ " An objection has raised against you by your senior officer Mr. "+seniorApplication.getName()+ " with respect to your Application bearing Application no: "+objectionreceiverapplication.getApplication_id()+" . Please contact to him or the ADMIN to resolve the objection.");
+			notification.setTrainee_read(false);
+			notification.setReceiver(objectionreceiverapplication.getName());
+			notification.setMail(false);
+			notification.setTrainee_reg_id(seniorApplication.getReg_no());
+			notification.setSenderSignature(seniorApplication.getName());
+            notification.setApplication_id(objectionreceiverapplication.getApplication_id());
+            notification.setReceiver_reg_id(objectionreceiverapplication.getReg_no());
+            notificatioservice.saveNoti(notification);
+            ServiceResponse<String> response=new ServiceResponse<>("sent objection","objection sent to"+objectionreceiverapplication.getName());
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+
+        ServiceResponse<String> response=new ServiceResponse<>("not found","objection not sent to"+objectionreceiverapplication.getName());
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
 
     
 }
