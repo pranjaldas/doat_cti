@@ -473,14 +473,15 @@ public class RestControllers {
 			service.saveApplication(application);
 			//to send notification to registerd candidates
 			Notification notification=new Notification();
-			notification.setAdmin_read(true);
+			notification.setSender_read(true);
 			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
 			notification.setSubject("Mr."+application.getName()+"We are very sorry to say that your Application bearing Application no: "+application.getApplication_id()+" has rejected due to the following reasons:"+"\n"+application.getReason()+"\n"+"Better luck next time, any Further information will be notified soon.");
-			notification.setTrainee_read(false);
-			notification.setReceiver(application.getName());
+			notification.setRecipient_read(false);
+			notification.setRecipient_name(application.getName());
 			notification.setMail(false);
-			notification.setTrainee_reg_id(application.getReg_no());
-			notification.setSenderSignature("ADMIN");
+			notification.setRecipient_reg_id(application.getReg_no());
+			notification.setSender_name("ADMIN");
+			notification.setSender_reg_id("ADMINREG001");
 			notification.setApplication_id(application.getApplication_id());
 			notificatioservice.saveNoti(notification);
 			final ServiceResponse<String> response=new ServiceResponse<>("success","updated successfully");
@@ -499,14 +500,15 @@ public class RestControllers {
 			service.saveApplication(application);
 			//to send notification to registerd candidates
 			Notification notification=new Notification();
-			notification.setAdmin_read(true);
+			notification.setSender_read(true);
 			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
 			notification.setSubject("Congratulations "+application.getName()+" your applications has selected, Very soon final list will be published in CTI website.");
-			notification.setTrainee_read(false);
-			notification.setReceiver(application.getName());
+			notification.setRecipient_read(false);
+			notification.setRecipient_name(application.getName());
 			notification.setMail(false);
-			notification.setTrainee_reg_id(application.getReg_no());
-			notification.setSenderSignature("ADMIN");
+			notification.setRecipient_reg_id(application.getReg_no());
+			notification.setSender_name("ADMIN");
+			notification.setSender_reg_id("ADMINREG001");
 			notification.setApplication_id(application.getApplication_id());
 			notificatioservice.saveNoti(notification);
 			final ServiceResponse<String> response=new ServiceResponse<>("success","updated successfully");
@@ -533,14 +535,15 @@ public class RestControllers {
 			application.setApplication_status("accepted");
 			service.saveApplication(application);
 			Notification notification=new Notification();
-			notification.setAdmin_read(true);
+			notification.setSender_read(true);
 			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
 			notification.setSubject("Congratulations "+application.getName()+" your applications has accepted, Further information will be notified soon");
-			notification.setTrainee_read(false);
-			notification.setReceiver(application.getName());
+			notification.setRecipient_read(false);
+			notification.setRecipient_name(application.getName());
 			notification.setMail(false);
-			notification.setTrainee_reg_id(application.getReg_no());
-			notification.setSenderSignature("ADMIN");
+			notification.setRecipient_reg_id(application.getReg_no());
+			notification.setSender_name("ADMIN");
+			notification.setSender_reg_id("ADMINREG001");
 			notification.setApplication_id(application_id);
 			notificatioservice.saveNoti(notification);
 			final ServiceResponse<String> response=new ServiceResponse<>("success","Successfully updated");
@@ -560,14 +563,15 @@ public class RestControllers {
 			application.setApplication_status("accepted");
 			service.saveApplication(application);
 			Notification notification=new Notification();
-			notification.setAdmin_read(true);
+			notification.setSender_read(true);
 			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
 			notification.setSubject("Congratulations "+application.getName()+" your applications has accepted, Further information will be notified soon");
-			notification.setTrainee_read(false);
-			notification.setReceiver(application.getName());
+			notification.setRecipient_read(false);
+			notification.setRecipient_name(application.getName());
 			notification.setMail(false);
-			notification.setTrainee_reg_id(application.getReg_no());
-			notification.setSenderSignature("ADMIN");
+			notification.setRecipient_reg_id(application.getReg_no());
+			notification.setSender_name("ADMIN");
+			notification.setSender_reg_id("ADMINREG001");
 			notification.setApplication_id(application.getApplication_id());
 			notificatioservice.saveNoti(notification);
 			final ServiceResponse<String> response=new ServiceResponse<>("success","Successfully updated");
@@ -578,14 +582,15 @@ public class RestControllers {
 			application.setReason(application_send.getReason());
 			service.saveApplication(application);
 			Notification notification=new Notification();
-			notification.setAdmin_read(true);
+			notification.setSender_read(true);
 			notification.setTitle("Regarding Your Application No:"+application.getApplication_id());
 			notification.setSubject("Mr."+application.getName()+"We are very sorry to say that your Application bearing Application no: "+application.getApplication_id()+" has rejected due to the following reasons:"+"\n"+application.getReason()+"\n"+"Better luck next time, any Further information will be notified soon.");
-			notification.setTrainee_read(false);
-			notification.setReceiver(application.getName());
+			notification.setRecipient_read(false);
+			notification.setRecipient_name(application.getName());
 			notification.setMail(false);
-			notification.setTrainee_reg_id(application.getReg_no());
-			notification.setSenderSignature("ADMIN");
+			notification.setRecipient_reg_id(application.getReg_no());
+			notification.setSender_name("ADMIN");
+			notification.setSender_reg_id("ADMINREG001");
 			notification.setApplication_id(application.getApplication_id());
 			notificatioservice.saveNoti(notification);
 			final ServiceResponse<String> response=new ServiceResponse<>("success","Successfully updated");
@@ -693,7 +698,7 @@ public class RestControllers {
             //get the notification by Id
             Notification notification=optional.get();
             //Now Set as Trainee read true
-            notification.setAdmin_read(true);
+            notification.setRecipient_read(true);
             notificatioservice.saveNoti(notification);
         
             ServiceResponse<String> response=new ServiceResponse<>("success","Succesfully Updated");

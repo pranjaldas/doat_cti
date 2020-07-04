@@ -395,7 +395,8 @@ body{
   
   .objection_list_table td, .objection_list_table th {
 	border: 1px solid #ddd;
-	padding: 8px;
+	text-align: center;
+	padding: 10px;
   }
   
   .objection_list_table tr:nth-child(even){background-color: #f2f2f2;}
@@ -403,8 +404,8 @@ body{
   .objection_list_table tr:hover {background-color: #ddd;}
   
   .objection_list_table th {
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 7px;
+	padding-bottom:7px;
 	text-align: center;
 	background-color: #4CAF50;
 	color: white;

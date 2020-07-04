@@ -263,7 +263,6 @@ toastr.options = {
     var test = false;
     $('#criteria_desig_list li').each(function () {
         if ($(this).text() == selected) {
-
             test = true;
         }
     });
@@ -276,9 +275,9 @@ toastr.options = {
     li.setAttribute('class', 'list-group-item');
     li.innerHTML = selected;
     $("#criteria_desig_list").append(li);
-    empIdsuggestions = $.grep(empIdsuggestions, function (value) {
-        return value != selected;
-    });
+    // empIdsuggestions = $.grep(empIdsuggestions, function (value) {
+    //     return value != selected;
+    // });
     $("#criteria_desig_list").val('');
     test = false;
 
@@ -874,8 +873,8 @@ function messageApplicant(x){
     }
     else{
       application_id_store=currentRow.find("td:eq(0)").text();
-      reg_id_store=currentRow.find("td:eq(4)").text();
-      receiver_store=currentRow.find("td:eq(3)").text();
+      reg_id_store=currentRow.find("td:eq(3)").text();
+      receiver_store=currentRow.find("td:eq(2)").text();
       $("#message_applicant").modal('show');   
     } 
 
@@ -907,13 +906,14 @@ $("#admin_msg_send").click((event) => {
   var message={
     mail:document.getElementById("mailCheck").checked,
     application_id:application_id_store,
-    trainee_reg_id:reg_id_store,
-    receiver:receiver_store,
+    recipient_reg_id:reg_id_store,
+    recipient_name:receiver_store,
+    recipient_read:false,
     title:$("#admin_msg_title").val(),
     subject:$("#admin_msg_subject").val(),
-    senderSignature:'ADMIN',
-    admin_read: false,
-    trainee_read:false
+    sender_name:'ADMIN',
+    sender_reg_id:'ADMINREG001',
+    sender_read: true,
   }
   console.log(message);
   var settings = {
@@ -1490,12 +1490,13 @@ function deleteTraining(x){
 
 
 
-// End of document.ready()
-
+// Global variable for admin regId;
+var admin_reg_id='ADMINREG001';
 //Notifications
 getNotifications();
 function getNotifications(){
-  $.getJSON("http://localhost:8080/getAllNotification", function(response){
+  var trainee_reg_id='ADMINREG001';
+  $.getJSON("http://localhost:8080/getTheNotificationbyReg/"+trainee_reg_id, function(response){
     console.log(response);
     fillNoyifications(response.data);
   })
@@ -1504,7 +1505,7 @@ function fillNoyifications(list){
   $("#admin_notifications").empty();
   var data='';
   $.each(list,(key,value)=>{
-    if(value.senderSignature=="ADMIN"){
+    if(value.sender_reg_id==admin_reg_id){
       data+='<div type="button" onclick="displaySentMsg('+value.id+')"  class="alert alert-light notification" data-toggle="modal" data-target="#admin_sent_msg_details">'
             +'<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '      
             + value.title+'</div><div class="col-2"><p><b>Time:</b> '
@@ -1512,7 +1513,7 @@ function fillNoyifications(list){
             + value.notificatio_create_date+'</p></div></div></div>';
     }
     else{
-      if (value.admin_read  == true) {
+      if (value.recipient_read  == true) {
         data += '<div type="button" onclick="displayMsg(' + value.id + ')"  class="alert alert-success notification" data-toggle="modal" data-target="#toAdmin_msg_details">'
           + '<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '
           + value.title + '</div><div class="col-2"><p><b>Time:</b> '
@@ -1541,7 +1542,7 @@ function displaySentMsg(x){
     console.log(response);
     var data = response.data;
     reg_id = data.trainee_reg_id;
-    $("#send_msg_to").text(data.receiver);
+    $("#send_msg_to").text(data.recipient_name);
     $("#send_msg_sub").text(data.subject);
     $("#send_msg_ref_app_id").text(data.application_id);
     $("#send_msg_time").text(data.notificatio_create_time);
@@ -1567,11 +1568,12 @@ function displayMsg(x){
     },
   };
   $.ajax(settings1).done(function (response) {
+    console.log("Inside Update particuler msg as read");
     getNotifications();
   });
 }
 function fillViewMessageModal(data) {
-  $("#msg_from").text(data.senderSignature);
+  $("#msg_from").text(data.sender_name);
   $("#the_msg").text(data.subject);
   $("#msg_ref_app_id").text(data.application_id);
   $("#msg_time").text(data.notificatio_create_time);

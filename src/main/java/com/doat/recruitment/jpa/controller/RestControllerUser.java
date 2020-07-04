@@ -15,7 +15,6 @@ import com.doat.recruitment.jpa.services.EmployeeService;
 import com.doat.recruitment.jpa.services.MailService;
 import com.doat.recruitment.jpa.services.NotificationService;
 import com.doat.recruitment.jpa.services.RegistrationService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
@@ -51,7 +50,7 @@ public class RestControllerUser {
     public ResponseEntity<Object> postNotification(@RequestBody Notification notification){
         
             if(notification.isMail()){
-                Optional<Registration> optional=registrationService.findRegistrationById(notification.getTrainee_reg_id());
+                Optional<Registration> optional=registrationService.findRegistrationById(notification.getRecipient_reg_id());
                 if(optional.isPresent()){
                     Registration registration=optional.get();
                     try {
@@ -63,17 +62,18 @@ public class RestControllerUser {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    mailService.sendEmail(registration.getEmail(),notification.getTitle(),notification.getSubject());
                     notificatioservice.saveNoti(notification);
                     ServiceResponse<Notification> response=new ServiceResponse<>("mail not send",notification);
                     return new ResponseEntity<Object>(response, HttpStatus.OK);
                 }
+                ServiceResponse<Notification> response=new ServiceResponse<>("not registered",notification);
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
             notificatioservice.saveNoti(notification);
             ServiceResponse<Notification> response=new ServiceResponse<>("success",notification);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
       
-       
+      
        
     }
     @GetMapping(value="/getTheNotification/{id}")
@@ -120,7 +120,7 @@ public class RestControllerUser {
             //get the notification by Id
             Notification notification=optional.get();
             //Now Set as Trainee read true
-            notification.setTrainee_read(true);
+            notification.setRecipient_read(true);
             notificatioservice.saveNoti(notification);
         
             ServiceResponse<String> response=new ServiceResponse<>("success","Succesfully Updated");
@@ -200,16 +200,16 @@ public class RestControllerUser {
         if(optional.isPresent()){
             TrainingApplication seniorApplication=optional.get();
             Notification notification=new Notification();
-            notification.setAdmin_read(false);
+            notification.setSender_read(true);
 			notification.setTitle("Objection Raised.");
 			notification.setSubject("Mr. "+objectionreceiverapplication.getName()+ " An objection has raised against you by your senior officer Mr. "+seniorApplication.getName()+ " with respect to your Application bearing Application no: "+objectionreceiverapplication.getApplication_id()+" . Please contact to him or the ADMIN to resolve the objection.");
-			notification.setTrainee_read(false);
-			notification.setReceiver(objectionreceiverapplication.getName());
+			notification.setRecipient_read(false);
+			notification.setRecipient_name(objectionreceiverapplication.getName());
 			notification.setMail(false);
-			notification.setTrainee_reg_id(seniorApplication.getReg_no());
-			notification.setSenderSignature(seniorApplication.getName());
+			notification.setSender_reg_id(seniorApplication.getReg_no());
+			notification.setSender_name(seniorApplication.getName());
             notification.setApplication_id(objectionreceiverapplication.getApplication_id());
-            notification.setReceiver_reg_id(objectionreceiverapplication.getReg_no());
+            notification.setRecipient_reg_id(objectionreceiverapplication.getReg_no());
             notificatioservice.saveNoti(notification);
             ServiceResponse<String> response=new ServiceResponse<>("sent objection","objection sent to"+objectionreceiverapplication.getName());
             return new ResponseEntity<Object>(response, HttpStatus.OK);
@@ -217,7 +217,5 @@ public class RestControllerUser {
 
         ServiceResponse<String> response=new ServiceResponse<>("not found","objection not sent to"+objectionreceiverapplication.getName());
         return new ResponseEntity<Object>(response, HttpStatus.OK);
-    }
-
-    
+    }  
 }

@@ -896,21 +896,24 @@
                                                 <b><p style="font-size: large;" id="objection_training_id"></p></b>
                                             </div>
                                         </div>
-                                        <p>Objected Applications are-</p>
-                                                                         
-                                        <table id="objection_list" class="objection_list_table">
-                                            <thead>
-                                                <tr>
-                                                    <th><b>Sr.No.</b></th>
-                                                    <th><b>Application ID</b></th>
-                                                    <th><b>Applicant Name</b></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
+                                        <div class="row">
+                                            <table id="objection_list" class="objection_list_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th><b>Sr.No.</b></th>
+                                                        <th><b>Application ID</b></th>
+                                                        <th><b>Applicant Name</b></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+    
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                            </tbody>
-                                        </table>
+                                                                                                                
+                                        
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -1224,6 +1227,16 @@
 
                                     </div>
                                     <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>SENDER ID:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_from_reg_id"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
                                         <div class="form-group col-12">
                                             <p class="font-weight-bold">
                                                 <label>SUBJECT:</label>
@@ -1388,8 +1401,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
     integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 <script src="../js/index.js"></script>
-<!-- for event calender -->
-<script src="js/mobiscroll.jquery.min.js"></script>
 <!-- for sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- loading animation  -->

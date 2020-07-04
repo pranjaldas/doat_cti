@@ -128,8 +128,21 @@ $("#apply_training_button").click(() => {
       loading.out();
       $("#apply_form")[0].reset();
       $('#applyModal').modal('hide');
-      swal("Poof! Applied successfully!", {
-        icon: "success",
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Poof! Applied successfully!');
+      newDiv.dialog({
+        title: "SUCCESS !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
       });
     }
     else if (response.status == "Wrong Input") {
@@ -149,7 +162,23 @@ $("#apply_training_button").click(() => {
       loading.out();
       $("#apply_form")[0].reset();
       $('#applyModal').modal('hide');
-      swal("ERROR !!!", "You already applied", "error");
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Opps! you have already applied');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      
     }
     else {
       alert("IDK");
@@ -342,46 +371,197 @@ register.click(function (event) {
   var data5 = $("#psw").val();
   var data6 = $("#conpassword").val();
  
-  if (data2 == '') {
-    swal("ERROR !!!", "Please select your department...", "error");
+  if (data2 == '') {   
+    var newDiv = $(document.createElement('div'));
+      newDiv.html('Please select your department...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     return false;
   }
   if (data == '') {
-    swal("ERROR !!!", "Please select your unique EmployeeId...", "error");
+    var newDiv = $(document.createElement('div'));
+      newDiv.html('Please select your unique EmployeeId...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     return false;
   }
   if(empIdsuggestions.includes($("#emp_id").val()) ==false){
-    swal("ERROR !!!", "The entered Employee Id is not Valid...", "error");
+    var newDiv = $(document.createElement('div'));
+      newDiv.html('The entered Employee Id is not Valid...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     return false;
   }
   if (data1 == '') {
-    swal("ERROR !!!", "Please enter your full name...", "error");
+    var newDiv = $(document.createElement('div'));
+    newDiv.html('Please enter your full name...');
+    newDiv.dialog({
+      title: "ERROR !!!",
+      draggable: true,
+      modal: true,
+      show: { effect: "bounce", duration: 500 },
+      hide: { effect: "explode", duration: 500 },
+      buttons: [{
+        text: "Ok",
+        class: "btn btn-md btn-primary",
+        click: function () {
+          $(this).dialog("close");
+        }
+      }]
+    });
     return false;
   }
 
   if (data3 == '') {
-    swal("ERROR !!!", "Please enter your phone number...", "error");
+
+    var newDiv = $(document.createElement('div'));
+    newDiv.html('Please enter your phone number...');
+    newDiv.dialog({
+      title: "ERROR !!!",
+      draggable: true,
+      modal: true,
+      show: { effect: "bounce", duration: 500 },
+      hide: { effect: "explode", duration: 500 },
+      buttons: [{
+        text: "Ok",
+        class: "btn btn-md btn-primary",
+        click: function () {
+          $(this).dialog("close");
+        }
+      }]
+    });
     return false;
   }
   if (data4 == '') {
-    swal("ERROR !!!", "Please enter your email address...", "error");
+    var newDiv = $(document.createElement('div'));
+      newDiv.html('Please enter your email address...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     return false;
   }
   if (!isValidEmailAddress(data4)) {
-    swal("ERROR !!!", "Not Valid email address...", "error");
+    var newDiv = $(document.createElement('div'));
+      newDiv.html('Not a valid email address...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     return false;
   }
   
   if (data5 == '') {
-    swal("ERROR !!!", "Please give a valid password as suggested...", "error");
+    var newDiv = $(document.createElement('div'));
+      newDiv.html('Please give a valid password as suggested...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     return false;
   }
   if (data5 != data6) {
-    swal("ERROR !!!", "Password do not matches...", "error");
+    var newDiv = $(document.createElement('div'));
+    newDiv.html('Please do not matches...');
+    newDiv.dialog({
+      title: "ERROR !!!",
+      draggable: true,
+      modal: true,
+      show: { effect: "bounce", duration: 500 },
+      hide: { effect: "explode", duration: 500 },
+      buttons: [{
+        text: "Ok",
+        class: "btn btn-md btn-primary",
+        click: function () {
+          $(this).dialog("close");
+        }
+      }]
+    });
     return false;
   }
   if(captcha.replace(/\s/g, '')!=$("#conCaptcha").val()){
-    swal("ERROR !!!", "Captcha Do not matches...", "error");
+    var newDiv = $(document.createElement('div'));
+    newDiv.html('Captcha Do not matches...');
+    newDiv.dialog({
+      title: "ERROR !!!",
+      draggable: true,
+      modal: true,
+      show: { effect: "bounce", duration: 500 },
+      hide: { effect: "explode", duration: 500 },
+      buttons: [{
+        text: "Ok",
+        class: "btn btn-md btn-primary",
+        click: function () {
+          $(this).dialog("close");
+        }
+      }]
+    });
     return false;
   }
 
@@ -676,7 +856,7 @@ function updateNotifications(reg_id) {
   };
   $.ajax(settings).done(function (response) {
     if (response.status == "success") {
-      notificationFill(response.data);
+      notificationFill(response.data,reg_id);
     }
   });
 
@@ -684,7 +864,7 @@ function updateNotifications(reg_id) {
 }
 
 
-function notificationFill(list) {
+function notificationFill(list,reg_id) {
   $("#noti_body").empty();
   console.log('noti', list);
 
@@ -692,8 +872,8 @@ function notificationFill(list) {
   $.each(list, (key, value) => {
     var sender = $("#view_username").text();
     console.log("Sender is:", sender);
-    if (value.senderSignature == "ADMIN") {
-      if (value.trainee_read == true) {
+    if (value.sender_reg_id !== reg_id) {
+      if (value.recipient_read == true) {
         data += '<div type="button" onclick="alerting(' + value.id + ')"  class="alert alert-success notification" data-toggle="modal" data-target="#notification_details_modal">'
           + '<div class="row"><div class="col-8" class="float-left"><i class="fa fa-envelope" aria-hidden="true"></i> '
           + value.title + '</div><div class="col-2"><p><b>Time:</b> '
@@ -726,7 +906,7 @@ function sendMsgDetails(i) {
   $.getJSON("http://localhost:8080/getTheNotification/" + i, (response) => {
     console.log(response);
     var data = response.data;
-    $("#send_msg_to").text(data.receiver);
+    $("#send_msg_to").text(data.recipient_name);
     $("#send_msg_sub").text(data.subject);
     $("#send_msg_ref_app_id").text(data.application_id);
     $("#send_msg_time").text(data.notificatio_create_time);
@@ -741,7 +921,7 @@ function alerting(i) {
   $.getJSON("http://localhost:8080/getTheNotification/" + i, (response) => {
     console.log(response);
     var data = response.data;
-    reg_id = data.trainee_reg_id;
+    reg_id = data.recipient_reg_id;
     fillViewMessageModal(response.data);
   });
   //to update the notification as read
@@ -760,24 +940,25 @@ function alerting(i) {
 
 }
 function fillViewMessageModal(data) {
-  $("#msg_from").text(data.senderSignature);
+  $("#msg_from").text(data.sender_name);
   $("#the_msg").text(data.subject);
   $("#msg_ref_app_id").text(data.application_id);
+  $("#msg_from_reg_id").text(data.sender_reg_id);
   $("#msg_time").text(data.notificatio_create_time);
   $("#msg_date").text(data.notificatio_create_date);
 }
 //To reply a msg
 $("#msg_rly_send").click(() => {
   var reply = {
-    senderSignature: $("#view_regname").text(),
+    sender_name: $("#view_regname").text(),
     mail: false,
     application_id: $("#msg_ref_app_id").text(),
-    trainee_reg_id: $("#view_regid").text(),
-    receiver: 'ADMIN',
+    sender_reg_id: $("#view_regid").text(),
+    recipient_reg_id: $("#msg_from_reg_id").text(),
     title: $("#msg_rly_title").val(),
     subject: $("#msg_rly_subject").val(),
-    admin_read: false,
-    trainee_read: true
+    recipient_read: false,
+    sender_read: true
   }
   console.log(reply);
   var settings = {
@@ -793,8 +974,24 @@ $("#msg_rly_send").click(() => {
     console.log(response);
     if (response.status == "success") {
       $("#notification_details_modal").modal('hide');
-      updateNotifications(reply.trainee_reg_id);
-      swal("SUCCESS ", "Message send successfully", "success");
+      updateNotifications(reply.sender_reg_id);
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Message send successfully...');
+      newDiv.dialog({
+        title: "SUCCESS !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 800 },
+        hide: { effect: "explode", duration: 800 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      
     }
   });
 })
@@ -843,35 +1040,99 @@ function raiseObjection(x){
     defaultApply: true,
   });
 
-  var currentRow=$(x).closest('tr');
-  var applicationId=currentRow.find("td:eq(1)").text();
+  var currentRow = $(x).closest('tr');
+  var applicationId = currentRow.find("td:eq(1)").text();
   var training_prg_id = currentRow.find("td:eq(2)").text();
-  $.getJSON("http://localhost:8080/user/raiseObjection/"+applicationId,(response)=>{
-   if(response.status == "success"){
-     loading.out();
-     console.log(response);
-     objection_applications=response.data;
-     objection_from=applicationId;
-     fillObjectionModal(response.data,training_prg_id);
-     $("#objection_list_modal").modal('show');
+  $.getJSON("http://localhost:8080/user/raiseObjection/" + applicationId, (response) => {
+    if (response.status == "success") {
+      loading.out();
+      console.log(response);
+      objection_applications = response.data;
+      objection_from = applicationId;
+      fillObjectionModal(response.data, training_prg_id);
+      $("#objection_list_modal").modal('show');
 
-   }
-   else if (response.status == "not found"){
-     loading.out();
-     swal("ERROR !!!", "Not a valid application id","error");
-   }
-   else if (response.status =="unauthorised"){
-     loading.out();
-     swal("ERROR !!!","Sorry You are not authorised to raise objection","error");
-   }
-   else if (response.status =="no juniors applied"){
-    loading.out();
-    swal("ERROR !!!","There are no any juniors that applied for this training program","error");
-  }
-  else if (response.status =="no juniors selected"){
-    loading.out();
-    swal("ERROR !!!","There are no any juniors that selected for this training program","error");
-  }
+    }
+    else if (response.status == "not found") {
+      loading.out();
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Not a valid application id');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      
+    }
+    else if (response.status == "unauthorised") {
+      loading.out();
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Sorry You are not authorised to raise objection');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 400 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+      
+    }
+    else if (response.status == "no juniors applied") {
+      loading.out();
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('There are no any juniors that applied for this training program');
+      newDiv.dialog({
+        title: "ERROR",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+     
+    }
+    else if (response.status == "no juniors selected") {
+      loading.out();
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('There are no any juniors that selected for this training program');
+      newDiv.dialog({
+        title: "ERROR",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 400 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
+
+    }
   });
 }
 function fillObjectionModal(applications,prg_id){
@@ -891,6 +1152,7 @@ function fillObjectionModal(applications,prg_id){
 
 }
 $("#send_objection").click(() => {
+  var reg_id=$("#view_regid").text();
   console.log(objection_applications);
   $.each(objection_applications,(key,value) => {
     var settings = {
@@ -904,13 +1166,15 @@ $("#send_objection").click(() => {
     };
     $.ajax(settings).done(function (response) {
       if(response.status == "sent objection"){
+        updateNotifications(reg_id);
         console.log(response.data);
       }
 
     });
 
   });
-  updateNotifications($("#view_regid").text());
+  
+ 
   
 })
 
@@ -1038,8 +1302,21 @@ $("#profile_apply_training_button").click(() => {
   $.ajax(settings).done(function (response) {
     console.log(response);
     if (response.status === "success") {
-      swal("Poof! Applied successfully!", {
-        icon: "success",
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('Poof! Applied successfully...');
+      newDiv.dialog({
+        title: "SUCCESS !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
       });
       updateApplicationsOfTrainee();
       $("#applyTrainingfromProfileModal").modal('hide');
@@ -1049,7 +1326,22 @@ $("#profile_apply_training_button").click(() => {
     }
     else if (response.status === "Overrite") {
       loading.out();
-      swal("ERROR !!!", "You already applied", "error");
+      var newDiv = $(document.createElement('div'));
+      newDiv.html('You have already applied...');
+      newDiv.dialog({
+        title: "ERROR !!!",
+        draggable: true,
+        modal: true,
+        show: { effect: "bounce", duration: 500 },
+        hide: { effect: "explode", duration: 500 },
+        buttons: [{
+          text: "Ok",
+          class: "btn btn-md btn-primary",
+          click: function () {
+            $(this).dialog("close");
+          }
+        }]
+      });
     }
     else {
       loading.out();
@@ -1187,24 +1479,33 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 calendar.render();
 
 //Code for User profile
-$("#logout").click(() => {
-
-  swal({
+$("#logout").click(() => {  
+  var newDiv = $(document.createElement('div'));
+  newDiv.html('Are you sure you want to log out???');
+  newDiv.dialog({
     title: "Log Out",
-    text: "Are you sure ?",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  })
-    .then((willLogOut) => {
-      if (willLogOut) {
+    draggable: true,
+    modal: true,
+    show: { effect: "bounce", duration: 400 },
+    hide: { effect: "explode", duration: 500 },
+    buttons: [{
+      text: "Yes",
+      class: "btn btn-md btn-primary",
+      click: function () {
+        $(this).dialog("close");
         $("#noti_body").empty();
-        console.log("logged out");
         $("#profile").hide();
         $("#home").show();
         localStorage.removeItem('user');
       }
-    })
+    },{
+      text: "No",
+      class: "btn btn-md btn-primary",
+      click: function () {
+        $(this).dialog("close");
+      }
+    }]
+  });
 })
 //code to back homepage
 $("#backHome").click(() => {
