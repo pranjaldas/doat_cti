@@ -43,6 +43,35 @@ $('.carousel').carousel({
   interval: 1000
 })
 
+publishTraineesInAdvertisement();
+function publishTraineesInAdvertisement() {
+  var settings = {
+    "url": "http://localhost:8080/selectedPublishApplications",
+    "method": "GET",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": null,
+  };
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    var trainee_data = '';
+   
+    $.each(response.data, function (key, value) {
+      trainee_data += '<tr>';
+      trainee_data += '<td>' + sn + '</td>';
+      trainee_data += '<td>' + value.name + '</td>';
+      trainee_data += '<td>' + value.designation + '</td>';
+      trainee_data += '<td>' + value.DDO_CODE + '</td>';
+      trainee_data += '<td>' + value.employee_no + '</td>';
+      trainee_data += '<td>' + value.training_prog_id + '</td>';
+      trainee_data += '</tr>';
+      sn++;
+    });
+   
+  });
+}
 
 populateAdvertisement();
 function populateAdvertisement() {

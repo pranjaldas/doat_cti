@@ -1228,7 +1228,7 @@ function deleteApplication(x){
   }
   function fillTheTrainingViewModal(data){
     
-
+    $("#prg_trainer").empty();
     $("#prg_id").text(data.training_prg_id);
     $("#prg_description").text(data.training_description);
     $("#prg_name").text(data.training_prg_name);
@@ -1238,10 +1238,24 @@ function deleteApplication(x){
     $("#prg_create_date").text(data.training_create_date);
     $("#prg_display").text(data.display_status);
     $("#prg_status").text(data.training_status);
-    $("#prg_trainer").text(data.training_prg_trainer_id);
-    var trairsArray=data.training_prg_trainer_id.split(',');
-    console.log(trairsArray);
-    // var ul_list=$("#prg_trainer");
+    // $("#prg_trainer").text(data.training_prg_trainer_id);
+    let trairsArray=data.training_prg_trainer_id.split(',');
+    ul = document.createElement('ul');
+    document.getElementById('prg_trainer').appendChild(ul);
+    trairsArray.forEach(function (item) {
+      let li = document.createElement('li');
+      ul.appendChild(li);
+      li.innerHTML += item;
+    });
+    
+    // var trairsArray=data.training_prg_trainer_id.split(',');
+    // console.log(trairsArray);
+    
+    // var list=trairsArray.map(trainer => {
+    //   `<li>${trainer}</li>`
+    // })
+    // console.log(list);
+    // $("#prg_trainer").append(list);
     // $.each(trairsArray,function(key,value){
     //   console.log(value,key);
     //   var list = document.createElement('li');
@@ -1249,9 +1263,9 @@ function deleteApplication(x){
     //   ul_list.append(list);
       
     // })   
-    // var cont = document.getElementById('#prg_trainer');
+    
 
-    // // create ul element and set the attributes.
+    // create ul element and set the attributes.
     // var ul = document.createElement('ul');
     // ul.setAttribute('style', 'padding: 0; margin: 0;');
     // ul.setAttribute('id', 'theList');

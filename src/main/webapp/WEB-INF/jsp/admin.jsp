@@ -596,7 +596,7 @@
                                   <label>Trainiers: </label></p>
                               </div>
                               <div class="form-group col-6">
-                                <div id="prg_trainer"> </div>
+                                <p id="prg_trainer"> </p>
                               </div>
                             </div>
                             <div class="form-row">
