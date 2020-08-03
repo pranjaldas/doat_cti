@@ -925,6 +925,157 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Application Details Modal -->
+                    <div class="modal fade bd-example-modal-lg smallFont" id="application_details_update" tabindex="-1"
+                        role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                            
+                                <div class="modal-header">
+                                    <h4 class="modal-title"> Application Details</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container smallFont">
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>Application Id: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="app_id_view">78AGDNXJ856</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>Apply Date: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="app_apply_date">12/11/2019</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>Application Status: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="app_status_view">Pending</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            
+                                              <p style="color:brown;margin-right:30px" class="font-weight-bold">
+                                                <label>Note: </label></p>
+                                                <p  style="color:darkgoldenrod" id="application_note">
+                                                Your application is under checking process, please stay tuned</p>
+
+                                            
+                                          </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                            <div align="center" style="color: green;" class="col-2">
+                                                <b>Training </b>
+                                            </div>
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>Training Id: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_id_view">78AGD451jnJ856</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>Training Type: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_type_view">Service</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>Start Date: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_start_view">04/10/2020</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold">
+                                                <label>End Date: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_end_view">04/12/2020</p>
+                                            </div>
+                                          </div>
+                                        <div class="row">
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                            <div align="center" style="color: green;" class="col-2">
+                                                <b>Uploads</b>
+                                            </div>
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <p class="font-weight-bold">
+                                                    <label>Document description: </label></p>
+                                            </div>
+                                        
+                                            <div class="form-group col-6">
+                                               <input type="text" class="form-control"  placeholder="Write about the document" id="document_description"></input>
+                                            </div>
+                                        
+                                        </div>
+                                        <!-- <div class="row">
+                                            <div class=" col-3">
+                                                <input type="file" id="fileUpload" name="myfile">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn btn-success btn-sm" type="button" id="remove_doc"><i class="fa fa-minus-circle"
+                                                        aria-hidden="true"></i> Remove </button>
+                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn btn-success btn-sm" type="button" id="upload_doc"><i class="fa fa-upload" aria-hidden="true">
+                                                        Upload </button>
+                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="color: green" id="doc_upload_status">Uploaded Succesfully</p>
+                                            </div>
+                                        
+                                        </div> -->
+                                                                                                                
+                                        
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        id="send_objection"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
                     <!-- Apply trainings -->
                     <div id="applyTrainingfromProfileModal" class="modal fade">
                         <div class="modal-dialog modal-dialog-centered modal-login">

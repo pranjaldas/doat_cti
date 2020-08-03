@@ -410,3 +410,6 @@ body{
 	background-color: #4CAF50;
 	color: white;
   }
+  hr.solid {
+    border-top: 3px solid rgb(8, 8, 8);
+}

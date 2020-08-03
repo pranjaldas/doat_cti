@@ -1049,13 +1049,14 @@ function fillprofileViewApplicationTable(list) {
       + '<td>' + value.training_apply_date + '</td>'
       + '<td>' + value.application_status + '</td>'
       + '<td>' + '<a type="button" class="edit" title="Raise Objection"  onclick="raiseObjection(this)" style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img  src="img/icons8-hand-24.png" ></a>' + '</td>'
-      + '<td>' + ' <a type="button" class="edit" title="Update" data-toggle="modal"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="material-icons">&#xE254;</i></a>' + '</td>'
+      + '<td>' + ' <a type="button" class="edit" title="Application Details" data-toggle="modal" data-target="#application_details_update"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="material-icons">&#xE254;</i></a>' + '</td>'
       + '</tr>';
     i++;
   });
   $('#profile_applications_table').append(applications_data);
 
 }
+//
 //To Raise raiseObjection
 var objection_applications=[];
 var objection_from='';
