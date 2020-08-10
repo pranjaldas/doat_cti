@@ -411,5 +411,5 @@ body{
 	color: white;
   }
   hr.solid {
-    border-top: 3px solid rgb(8, 8, 8);
-}
+	border-top: 1px solid rgb(8, 8, 8);
+  }

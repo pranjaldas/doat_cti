@@ -837,14 +837,15 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="profile_applications_table" class="table table-light table-striped">
+                            <table id="profile_applications_table" class="table table-light table-bordered table-striped">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-center">
                                         <th><b>Sr.No.</b></th>
                                         <th><b>Application ID</b></th>
                                         <th><b>TrainingID</b></th>
                                         <th><b>Apply Date</b></th>
                                         <th><b>Status</b></th>
+                                        <th><b>Actions</b></th>
 
 
                                     </tr>
@@ -880,8 +881,8 @@
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                             
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Objection Raise Against Applications</h4>
+                                <div class="modal-header" style="background-color:#6699ff;">
+                                    <h4 class="modal-title text-white">Objection Raise Against Applications</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -925,14 +926,92 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Upload applicaion document Modal -->
+
+                    <div class="modal fade bd-example-modal-lg smallFont" id="upload_document_modal" tabindex="-1"
+                        role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                
+                                <div class="modal-header" style="background-color:#6699ff;">
+                                    <h4 class="modal-title text-bold text-white">Upload a document regarding the application</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container smallFont">
+                                        <div class="row">
+                                            <div class="alert alert-warning" role="alert">
+                                                <b>Note: </b>Please provide the document in .jpg, .jpeg or in .png format and size should be between 100-200kb.
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row"> 
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Training Program : </label>
+                                            </div>
+                                            <div class="form-group col-6 text-left">
+                                                <p class="text-center text-primary text-left" id="application_id_uploadDoc">457869ASGDJ</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Document Details : </label>
+                                            </div>
+                                            
+                                            <div class="form-group col-6 ">
+                                                <input type="text" class="form-control" id="document_details" placeholder="Write about the document"/>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Upload : </label>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <input type="file" id="document"/>
+                                            </div>
+                                            <div class="form-group col-4 text-center">
+                                                <button class="btn btn-primary " title="reset_document" type="button"
+                                                id="document_reset">
+                                                <i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;Reset
+                                                 </button>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5">
+
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button"  class="btn btn-success text-center" data-dismiss="modal"
+                                                id="send_objection"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload</button>
+                                            </div>
+                                            <div class="col-5">
+                                                
+                                            </div>
+                
+                                        </div>
+
+                                    </div>
+                                </div>
+                                
+
+
+                            </div>
+                        </div>
+                    </div>
                     <!-- Application Details Modal -->
                     <div class="modal fade bd-example-modal-lg smallFont" id="application_details_update" tabindex="-1"
                         role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
                             
-                                <div class="modal-header">
-                                    <h4 class="modal-title"> Application Details</h4>
+                                <div class="modal-header" style="background-color:#6699ff;">
+                                    <h4 class="text-bold text-white"> Application Details</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -940,7 +1019,7 @@
                                     <div class="container smallFont">
                                         <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>Application Id: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -949,7 +1028,7 @@
                                           </div>
                                           <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>Apply Date: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -958,7 +1037,7 @@
                                           </div>
                                           <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>Application Status: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -966,13 +1045,15 @@
                                             </div>
                                           </div>
                                           <div class="form-row">
-                                            
-                                              <p style="color:brown;margin-right:30px" class="font-weight-bold">
-                                                <label>Note: </label></p>
-                                                <p  style="color:darkgoldenrod" id="application_note">
-                                                Your application is under checking process, please stay tuned</p>
-
-                                            
+                                            <div class="form-group col-2">
+                                                <p  class="font-weight-bold text-danger">
+                                                    <label>Note: </label></p>
+                                            </div>
+                                            <div class="form-group col-10">
+                                                <p id="app_note_view" style="color:darkgoldenrod" class="text-left text-bold">
+                                                    Your application is under checking process, please stay tuned</p>
+                                            </div>
+                                             
                                           </div>
                                         
                                         <div class="row">
@@ -988,7 +1069,7 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>Training Id: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -997,7 +1078,7 @@
                                           </div>
                                           <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>Training Type: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -1006,7 +1087,7 @@
                                           </div>
                                           <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>Start Date: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -1015,7 +1096,7 @@
                                           </div>
                                           <div class="form-row">
                                             <div class="form-group col-6">
-                                              <p class="font-weight-bold">
+                                              <p class="font-weight-bold text-primary">
                                                 <label>End Date: </label></p>
                                             </div>
                                             <div class="form-group col-6">
@@ -1035,13 +1116,26 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-6">
-                                                <p class="font-weight-bold">
+                                                <p class="font-weight-bold text-primary">
                                                     <label>Document description: </label></p>
                                             </div>
-                                        
-                                            <div class="form-group col-6">
-                                               <input type="text" class="form-control"  placeholder="Write about the document" id="document_description"></input>
+                                              <div class="form-group col-6">
+                                              <p id="view_document_description">No Objection latter</p>
                                             </div>
+                                    
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-3">
+                                                <p class="font-weight-bold text-primary">
+                                                    <label>Document preview: </label></p>
+                                            </div>
+                                            <div class="form-group col-3 text-center">
+                                                <button type="button" class="btn btn-success btn-sm" id="view_doc"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</button>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <img src="img/image1.jpeg" class="img-thumbnail" alt="Cinque Terre"> 
+                                            </div>
+                                   
                                         
                                         </div>
                                         <!-- <div class="row">
@@ -1067,10 +1161,7 @@
                                         
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                        id="send_objection"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
-                                </div>
+                                
 
 
                             </div>

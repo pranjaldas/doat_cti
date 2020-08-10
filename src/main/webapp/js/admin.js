@@ -1,4 +1,6 @@
   //For accordion
+
+
   $("#import-alert-success").hide();
   $("#set-alert-success").hide();
   $(function() {
@@ -103,6 +105,9 @@ $("#publishCalendar").click((event)=>{
     });
   }
   //For Employee Card
+    
+  
+  
   function fetchAllEmployees() {
     var settings = {
       "url": "http://localhost:8080/allemployees",
@@ -111,11 +116,12 @@ $("#publishCalendar").click((event)=>{
       "headers": {
         "Content-Type": "application/json"
       },
-      "data": null,
+     
     };
     $.ajax(settings).done(function (response) {
       console.log("all Employees are", response);
       PopulateEmployeeTable(response.data);
+      
     });
   }
   fetchAllEmployees();
@@ -137,6 +143,7 @@ $("#publishCalendar").click((event)=>{
 
     });
     $('#allEmployees').append(employee_data);
+    
 
   }
   //Employee Search bar
@@ -371,6 +378,7 @@ $("#criteria_reset").click(()=>{
 
           });
           $('#trainee_table').append(trainee_data);
+          $('#trainee_table').DataTable();
         }
         reader.readAsText($("#fileUpload")[0].files[0]);
         toastr.success("CSV imported Successfully");
@@ -656,6 +664,8 @@ function populateRejectedApplications(applications){
 
     });
     $('#rejected_applications_table').append(application_data);
+
+    
 }
 
 
@@ -1664,7 +1674,6 @@ function fillEmployeeModalPopup(x) {
   var index = $(x).closest('tr').index();
   console.log("Id is ", index);
 
-
   var settings = {
     "url": "http://localhost:8080/employees",
     "method": "GET",
@@ -1674,6 +1683,7 @@ function fillEmployeeModalPopup(x) {
     },
     "data": null,
   };
+  
   $.ajax(settings).done(function (response) {
     console.log("all Employees from select row are", response.data);
     var data = response.data;
@@ -1696,6 +1706,7 @@ function fillEmployeeModalPopup(x) {
   });
 
 }
+
 
 
 

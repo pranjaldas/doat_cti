@@ -1042,21 +1042,43 @@ function fillprofileViewApplicationTable(list) {
     console.log(value)
 
 
-    applications_data += '<tr>'
+    applications_data += '<tr class="text-secondary text-center">'
       + '<td>' + i + '</td>'
       + '<td>' + value.application_id + '</td>'
       + '<td>' + value.training_prog_id + '</td>'
       + '<td>' + value.training_apply_date + '</td>'
       + '<td>' + value.application_status + '</td>'
-      + '<td>' + '<a type="button" class="edit" title="Raise Objection"  onclick="raiseObjection(this)" style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img  src="img/icons8-hand-24.png" ></a>' + '</td>'
-      + '<td>' + ' <a type="button" class="edit" title="Application Details" data-toggle="modal" data-target="#application_details_update"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="material-icons">&#xE254;</i></a>' + '</td>'
+      + '<td>' + '<a type="button" class="edit text-danger" title="Raise Objection"  onclick="raiseObjection(this)" style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img src="img/object.png" style="width: 28px; height: 28px" /></i></a>&nbsp;&nbsp;' 
+               + '<a type="button" class="edit text-primary" title="Upload Document" data-toggle="modal" data-target="#upload_document_modal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img src="img/upload.png" style="width:22px;height: 22px" /></a>&nbsp;&nbsp;' 
+               + '<a type="button" id="'+value.application_id+'"  class="applicationInfo text-success" title="Application Details" data-toggle="modal" data-target="#application_details_update"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img src="img/info.png" style="width:22px;height: 22px" /></a>'+'</td>'
       + '</tr>';
     i++;
   });
   $('#profile_applications_table').append(applications_data);
 
 }
-//
+//Fill Application full Details
+
+$("body").on('click','.applicationInfo',function(){
+  let application_id=$(this).attr('id');
+  $.getJSON("http://localhost:8080/user/applicationDetails/"+application_id,(response)=>{
+      console.log(response);
+      let data=response.data;
+      $("#app_id_view").text(data.application_id);
+      $("#app_apply_date").text(data.training_apply_date);
+      $("app_status_view").text(data.application_status);
+      $("#app_note_view").text(data.note);
+      $("#training_id_view").text(data.training_prog_id);
+      $("#training_type_view").text(data.training_prg_type);
+      $("#training_start_view").text(data.training_start_date);
+      $("#training_end_view").text(data.training_end_date);
+      $("#view_document_description").text(data.document_detail);
+     
+
+  })
+})
+
+
 //To Raise raiseObjection
 var objection_applications=[];
 var objection_from='';
@@ -1207,6 +1229,7 @@ $("#send_objection").click(() => {
  
   
 })
+
 
 
 function fillUserProfile(data) {

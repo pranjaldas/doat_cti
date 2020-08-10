@@ -7,6 +7,8 @@
   <title>CTI</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Data tables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -1807,6 +1809,8 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- loading animation  -->
   <script type="text/javascript" src="js/modal-loading.js"></script>
+  <!-- DataTables -->
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script>
   <script src="js/admin.js"></script>
 </body>
 

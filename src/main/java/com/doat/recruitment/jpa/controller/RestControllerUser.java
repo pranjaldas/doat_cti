@@ -5,16 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.doat.recruitment.jpa.model.Employee;
-import com.doat.recruitment.jpa.model.Notification;
-import com.doat.recruitment.jpa.model.Registration;
-import com.doat.recruitment.jpa.model.TrainingApplication;
+import com.doat.recruitment.jpa.dto.ApplicationInfoDTO;
+import com.doat.recruitment.jpa.model.*;
 import com.doat.recruitment.jpa.response.ServiceResponse;
-import com.doat.recruitment.jpa.services.ApplicationService;
-import com.doat.recruitment.jpa.services.EmployeeService;
-import com.doat.recruitment.jpa.services.MailService;
-import com.doat.recruitment.jpa.services.NotificationService;
-import com.doat.recruitment.jpa.services.RegistrationService;
+import com.doat.recruitment.jpa.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
@@ -37,6 +31,8 @@ public class RestControllerUser {
     ApplicationService applicationService;
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    TrainingProgramService trainingProgramService;
 
     @GetMapping(value="/getAllNotification")
     public ResponseEntity<Object> findAllNotification(){
@@ -218,4 +214,29 @@ public class RestControllerUser {
         ServiceResponse<String> response=new ServiceResponse<>("not found","objection not sent to"+objectionreceiverapplication.getName());
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }  
+
+    //API for viewing Aplication information
+    @GetMapping(value = "/user/applicationDetails/{application_id}")
+    public ResponseEntity<Object> findApplicaionDetails(@PathVariable String application_id){
+        Optional<TrainingApplication> optional=applicationService.findApplication(application_id);
+        if(optional.isPresent()){
+            TrainingApplication application=optional.get();
+            Optional<TrainingProgram> optional2=trainingProgramService.findTheTraining(application.getTraining_prog_id());
+            if(optional2.isPresent()){
+                TrainingProgram trainingProgram=optional2.get();
+                ApplicationInfoDTO applicationInfoDTO=new ApplicationInfoDTO(application,trainingProgram);
+                final ServiceResponse<ApplicationInfoDTO> response = new ServiceResponse<>("success", applicationInfoDTO);
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
+            }
+            final ServiceResponse<String> response = new ServiceResponse<>("failure", "training prog not found");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+
+        }
+        final ServiceResponse<String> response = new ServiceResponse<>("failure", "Application Not Found");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+   
+    
+    
+    
 }
