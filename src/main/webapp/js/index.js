@@ -38,6 +38,10 @@ $("#used-email-failure-alert").hide();
 $("#user-regId-failure-alert").hide();
 $("#user-auth-failure-alert").hide();
 $("#trainingIdnotValid-failure-alert").hide();
+$("#empty_document_detail_alert").hide();
+$("#empty_document_alert").hide();
+$("#exceed_document_size_alert").hide();
+$("#below_document_size_alert").hide();
 //to set interval of slideshow
 $('.carousel').carousel({
   interval: 1000
@@ -1048,15 +1052,123 @@ function fillprofileViewApplicationTable(list) {
       + '<td>' + value.training_prog_id + '</td>'
       + '<td>' + value.training_apply_date + '</td>'
       + '<td>' + value.application_status + '</td>'
-      + '<td>' + '<a type="button" class="edit text-danger" title="Raise Objection"  onclick="raiseObjection(this)" style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img src="img/object.png" style="width: 28px; height: 28px" /></i></a>&nbsp;&nbsp;' 
-               + '<a type="button" class="edit text-primary" title="Upload Document" data-toggle="modal" data-target="#upload_document_modal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img src="img/upload.png" style="width:22px;height: 22px" /></a>&nbsp;&nbsp;' 
-               + '<a type="button" id="'+value.application_id+'"  class="applicationInfo text-success" title="Application Details" data-toggle="modal" data-target="#application_details_update"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><img src="img/info.png" style="width:22px;height: 22px" /></a>'+'</td>'
+      + '<td>' + '<a type="button" class="edit text-danger" title="Raise Objection"  onclick="raiseObjection(this)" style="color: #f20202;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="fas fa-hand-paper"></i></a>&nbsp;&nbsp;' 
+               + '<a type="button" id="'+value.application_id+'" class="uploadDoc text-primary"  title="Upload Document" data-toggle="modal" data-target="#upload_document_modal" style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="fas fa-upload"></i></a>&nbsp;&nbsp;' 
+               + '<a type="button" id="'+value.application_id+'"  class="applicationInfo text-success" title="Application Details" data-toggle="modal" data-target="#application_details_update"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;" ><i class="fas fa-info-circle"></i></a>'+'</td>'
       + '</tr>';
     i++;
   });
   $('#profile_applications_table').append(applications_data);
 
 }
+//Upload image
+
+$("body").on('click','.uploadDoc',function(){
+  let application_id=$(this).attr('id');
+  $("#application_id_uploadDoc").text(application_id);
+
+});
+let documentBase="";
+let documentUrl="";
+let error=true;
+function encodeFileAsBase(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function () {
+      documentBase = reader.result.replace(/^data:.+;base64,/, '');
+  };
+  reader.readAsDataURL(file);
+  // to display in privew
+  documentUrl=URL.createObjectURL(element.files[0]);
+
+  let fi = document.getElementById('document');
+  // Check if any file is selected. 
+  if (fi.files.length > 0) {
+    for (let i = 0; i <= fi.files.length - 1; i++) {
+
+      let fsize = fi.files.item(i).size;
+      let file = Math.round((fsize / 1024));
+      // The size of the file. 
+      if (file >= 200) {
+        $("#exceed_document_size_alert").fadeTo(1000, 500).slideUp(500, function () {
+          $("#exceed_document_size_alert").slideUp(500);
+        });
+      } else if (file < 100) {
+        $("#below_document_size_alert").fadeTo(1000, 500).slideUp(500, function () {
+          $("#below_document_size_alert").slideUp(500);
+        });
+      } else {
+        error=false;
+        var preview = document.getElementById('document_preview');
+        preview.src=documentUrl;
+        
+      }
+    }
+  }
+
+}
+
+
+$("#upload_document_btn").click(() => {
+  
+  if ($("#document_details").val() == '') {
+    $("#empty_document_detail_alert").fadeTo(1000, 500).slideUp(500, function () {
+      $("#empty_document_detail_alert").slideUp(500);
+    });
+    return false;
+  }
+  if ($("#document").val() == '') {
+    $("#empty_document_alert").fadeTo(1000, 500).slideUp(500, function () {
+      $("#empty_document_alert").slideUp(500);
+    });
+    return false;
+  }
+  if(error==true){
+    alert("Error in file");
+    return false;
+  }
+  console.log("pass", $("#application_id_uploadDoc").text());
+  error=true;
+  const document={
+    document_string:documentBase,
+    document_detail:$("#document_details").val(),
+  }
+  console.log(document)
+  var settings = {
+    "url": "http://localhost:8080/user/documentUpload",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify(document),
+  };
+  $.ajax(settings).done(function (response) {
+    var data = response.data;
+    if(response.status == "success"){
+      console.log(data);
+      $("#document_details").val('');
+      $("#document").val('');
+      $("#upload_document_modal").modal('hide');
+      swal("Success","Document upload successfully","success");
+
+    }
+    
+    })
+
+})
+
+
+$("#document_reset").click(()=>{
+  $("#document").val('');
+  // $("#document_preview").css('visibility', 'hidden');
+
+})
+
+
+
+
+
 //Fill Application full Details
 
 $("body").on('click','.applicationInfo',function(){
@@ -1127,62 +1239,65 @@ function raiseObjection(x){
     }
     else if (response.status == "unauthorised") {
       loading.out();
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('Sorry You are not authorised to raise objection');
-      newDiv.dialog({
-        title: "ERROR !!!",
-        draggable: true,
-        modal: true,
-        show: { effect: "bounce", duration: 400 },
-        hide: { effect: "explode", duration: 500 },
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("ERROR !!!","Sorry You are not authorised to raise objection","error");
+      // var newDiv = $(document.createElement('div'));
+      // newDiv.html('Sorry You are not authorised to raise objection');
+      // newDiv.dialog({
+      //   title: "ERROR !!!",
+      //   draggable: true,
+      //   modal: true,
+      //   show: { effect: "bounce", duration: 400 },
+      //   hide: { effect: "explode", duration: 500 },
+      //   buttons: [{
+      //     text: "Ok",
+      //     class: "btn btn-md btn-primary",
+      //     click: function () {
+      //       $(this).dialog("close");
+      //     }
+      //   }]
+      // });
       
     }
     else if (response.status == "no juniors applied") {
       loading.out();
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('There are no any juniors that applied for this training program');
-      newDiv.dialog({
-        title: "ERROR",
-        draggable: true,
-        modal: true,
-        show: { effect: "bounce", duration: 500 },
-        hide: { effect: "explode", duration: 500 },
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("Opps !!!","You have no any juniors that applied for this training program","error");
+      // var newDiv = $(document.createElement('div'));
+      // newDiv.html('There are no any juniors that applied for this training program');
+      // newDiv.dialog({
+      //   title: "ERROR",
+      //   draggable: true,
+      //   modal: true,
+      //   show: { effect: "bounce", duration: 500 },
+      //   hide: { effect: "explode", duration: 500 },
+      //   buttons: [{
+      //     text: "Ok",
+      //     class: "btn btn-md btn-primary",
+      //     click: function () {
+      //       $(this).dialog("close");
+      //     }
+      //   }]
+      // });
      
     }
     else if (response.status == "no juniors selected") {
       loading.out();
-      var newDiv = $(document.createElement('div'));
-      newDiv.html('There are no any juniors that selected for this training program');
-      newDiv.dialog({
-        title: "ERROR",
-        draggable: true,
-        modal: true,
-        show: { effect: "bounce", duration: 400 },
-        hide: { effect: "explode", duration: 500 },
-        buttons: [{
-          text: "Ok",
-          class: "btn btn-md btn-primary",
-          click: function () {
-            $(this).dialog("close");
-          }
-        }]
-      });
+      swal("Opps!!!","There are no any juniors that selected for this training program","error")
+      // var newDiv = $(document.createElement('div'));
+      // newDiv.html('There are no any juniors that selected for this training program');
+      // newDiv.dialog({
+      //   title: "ERROR",
+      //   draggable: true,
+      //   modal: true,
+      //   show: { effect: "bounce", duration: 400 },
+      //   hide: { effect: "explode", duration: 500 },
+      //   buttons: [{
+      //     text: "Ok",
+      //     class: "btn btn-md btn-primary",
+      //     click: function () {
+      //       $(this).dialog("close");
+      //     }
+      //   }]
+      // });
 
     }
   });
@@ -1220,6 +1335,7 @@ $("#send_objection").click(() => {
       if(response.status == "sent objection"){
         updateNotifications(reg_id);
         console.log(response.data);
+        swal("Success","Objections sent successfully","success");
       }
 
     });
@@ -1254,8 +1370,8 @@ function fillUserProfile(data) {
 
 function fillRegistrationModal() {
   var regid = $("#view_regid").text();
-  $("#editReg_registration_id").val(regid);
-  $("#editReg_name").val($("#view_regname").text());
+  $("#editReg_registration_id").text(regid);
+  $("#editReg_name").text($("#view_regname").text());
   $("#editReg_username").val($("#view_username").text());
   $("#editReg_phone").val($("#view_userphone").text());
   $("#editReg_email").val($("#view_useremail").text());
@@ -1533,32 +1649,44 @@ calendar.render();
 
 //Code for User profile
 $("#logout").click(() => {  
-  var newDiv = $(document.createElement('div'));
-  newDiv.html('Are you sure you want to log out???');
-  newDiv.dialog({
+  swal({
     title: "Log Out",
-    draggable: true,
-    modal: true,
-    show: { effect: "bounce", duration: 400 },
-    hide: { effect: "explode", duration: 500 },
-    buttons: [{
-      text: "Yes",
-      class: "btn btn-md btn-primary",
-      click: function () {
-        $(this).dialog("close");
+    text: "Are you sure to log out ?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willlogout) => {
+      if (willlogout) {
         $("#noti_body").empty();
         $("#profile").hide();
         $("#home").show();
-        localStorage.removeItem('user');
+        localStorage.removeItem('user'); 
       }
-    },{
-      text: "No",
-      class: "btn btn-md btn-primary",
-      click: function () {
-        $(this).dialog("close");
-      }
-    }]
-  });
+    });
+  // var newDiv = $(document.createElement('div'));
+  // newDiv.html('Are you sure you want to log out???');
+  // newDiv.dialog({
+  //   title: "Log Out",
+  //   draggable: true,
+  //   modal: true,
+  //   show: { effect: "bounce", duration: 400 },
+  //   hide: { effect: "explode", duration: 500 },
+  //   buttons: [{
+  //     text: "Yes",
+  //     class: "btn btn-md btn-primary",
+  //     click: function () {
+  //       $(this).dialog("close");
+       
+  //     }
+  //   },{
+  //     text: "No",
+  //     class: "btn btn-md btn-primary",
+  //     click: function () {
+  //       $(this).dialog("close");
+  //     }
+  //   }]
+  // });
 })
 //code to back homepage
 $("#backHome").click(() => {

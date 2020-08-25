@@ -620,7 +620,7 @@
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
+                                <div class="modal-header text-white" style="background-color:#6699ff;">
                                     <h5 class="modal-title" id="exampleModalLongTitle"><b>Update Registration
                                             Details:</b></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -630,28 +630,27 @@
                                 <div class="modal-body">
                                     <div class="form-row">
                                         <div class="form-group col-4">
-                                            <p class="font-weight-bold">
-                                                <label>Registration Id:</label>
+                                            <p class="font-weight-bold text-primary">
+                                                <label>Registration Id:</label></p>
                                         </div>
                                         <div class="form-group col-6">
-                                            <input type="text" class="form-control" id="editReg_registration_id"
-                                                readonly />
+                                            <p class="form-control" id="editReg_registration_id">
                                             </p>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-4">
-                                            <p class="font-weight-bold">
-                                                <label>Trainee Name:</label>
+                                            <p class="font-weight-bold text-primary">
+                                                <label>Trainee Name:</label></p>
                                         </div>
                                         <div class="form-group col-6">
-                                            <input type="text" class="form-control" id="editReg_name" readonly />
-                                            </p>
+                                            <p class="form-control" id="editReg_name"></p>
+                                            
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-4">
-                                            <p class="font-weight-bold">
+                                            <p class="font-weight-bold text-primary">
                                                 <label>New User Name:</label>
                                         </div>
                                         <div class="form-group col-6">
@@ -661,7 +660,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-4">
-                                            <p class="font-weight-bold">
+                                            <p class="font-weight-bold text-primary">
                                                 <label>New Phone No.:</label>
                                         </div>
                                         <div class="form-group col-6">
@@ -671,7 +670,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-4">
-                                            <p class="font-weight-bold">
+                                            <p class="font-weight-bold text-primary">
                                                 <label>New Email Address:</label>
                                         </div>
                                         <div class="form-group col-6">
@@ -681,7 +680,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-4">
-                                            <p class="font-weight-bold">
+                                            <p class="font-weight-bold text-primary">
                                                 <label>New Password:</label>
                                         </div>
                                         <div class="form-group col-6">
@@ -966,13 +965,16 @@
                                             </div>
                                             
                                         </div>
+                                        <div class="alert alert-danger" id="empty_document_detail_alert" role="alert">
+                                            <strong>Please</strong> <a href="#" class="alert-link">provide document detail!!!</a>
+                                        </div>
                                         <div class="row">
                                             <div class="form-group col-4">
                                                 <p class="font-weight-bold">
                                                     <label>Upload : </label>
                                             </div>
                                             <div class="form-group col-4">
-                                                <input type="file" id="document"/>
+                                                <input type="file"  id="document" accept="image/*" onchange="encodeFileAsBase(this)"/>
                                             </div>
                                             <div class="form-group col-4 text-center">
                                                 <button class="btn btn-primary " title="reset_document" type="button"
@@ -982,13 +984,32 @@
                                             </div>
                                             
                                         </div>
+                                        <div class="alert alert-danger" id="exceed_document_size_alert" role="alert">
+                                            <strong>Opps !!!</strong> <a href="#" class="alert-link">file size larger than 200 kb</a>
+                                        </div>
+                                        <div class="alert alert-danger" id="below_document_size_alert" role="alert">
+                                            <strong>Opps !!!</strong> <a href="#" class="alert-link">file size less than 100kb</a>
+                                        </div>
+                                        <div class="alert alert-danger" id="empty_document_alert" role="alert">
+                                            <strong>Please</strong> <a href="#" class="alert-link">select a file to upload</a>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                            </div>
+                                            <div class="col-4">
+                                                <img id="document_preview" class="img-thumbnail" > 
+                                            </div>
+                                            <div class="col-4">                                             
+                                            </div>
+                                        </div>>
+                                        
                                         <div class="row">
                                             <div class="col-5">
 
                                             </div>
                                             <div class="col-2">
-                                                <button type="button"  class="btn btn-success text-center" data-dismiss="modal"
-                                                id="send_objection"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload</button>
+                                                <button type="button"  class="btn btn-success text-center" 
+                                                id="upload_document_btn"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload</button>
                                             </div>
                                             <div class="col-5">
                                                 

@@ -1,15 +1,18 @@
 package com.doat.recruitment.jpa.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import com.doat.recruitment.jpa.dto.ApplicationInfoDTO;
 import com.doat.recruitment.jpa.model.*;
 import com.doat.recruitment.jpa.response.ServiceResponse;
 import com.doat.recruitment.jpa.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -234,6 +237,44 @@ public class RestControllerUser {
         }
         final ServiceResponse<String> response = new ServiceResponse<>("failure", "Application Not Found");
         return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+    //Upload Documents
+    @Autowired
+    DocumentService documentService;
+    @Value("${upload.path}")
+    String uploadPath;
+    @PostMapping("/user/documentUpload")
+    public ResponseEntity<Object> postDocument(@RequestBody Document document) {
+        //converting base64 to a path variable of the image files
+
+        document.setDocument_path(saveImage(document.getDocument_string()));
+
+        //Save the data in database
+        documentService.saveDocument(document);
+
+        ServiceResponse<Document> response = new ServiceResponse<>("success", document);
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+
+    }
+
+    private String saveImage(String image) {
+        String response = "NA";
+        //= "D:\\uploads";
+        String fileName = "img_" + System.currentTimeMillis() + ".jpg";
+        System.out.println(uploadPath);
+
+        byte[] decodedImg = Base64.getDecoder().decode(image.getBytes(StandardCharsets.UTF_8));
+        Path dest = Paths.get(uploadPath, fileName);
+        try {
+            System.out.println("writing to dir...");
+            Files.write(dest, decodedImg);
+            System.out.println("file Path to writ to db --->>  " + uploadPath + fileName);
+            response = uploadPath + "\\" + fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return response;
     }
    
     
