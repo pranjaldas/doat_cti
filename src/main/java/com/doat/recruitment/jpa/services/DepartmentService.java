@@ -23,5 +23,13 @@ public class DepartmentService {
 	public Optional<Department> findDepartment(String department_id) {
        return repo.findById(department_id);
         
-	}   
+    }   
+    public String findDepartmenName(String department_id){
+        Optional<Department> optional=repo.findById(department_id);
+        if(optional.isPresent()){
+            Department department=optional.get();
+            return department.getDepartment_name();
+        }
+        return "not found";
+    }
 }

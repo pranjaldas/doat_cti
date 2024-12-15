@@ -21,6 +21,11 @@ public class User {
 		this.role = "USER";
 		this.active = true;
 	}
+	//For Put Request
+	public User(Registration registration,String regid) {
+		this.username = registration.getUsername();
+		this.password = registration.getPassword();
+	}
 	public User() {
 	}
 	public User(ApplicationDTO application) {
@@ -56,6 +61,7 @@ public class User {
 	public String toString() {
 		return "User [active=" + active + ", password=" + password + ", role=" + role + ", username=" + username + "]";
     }
+	
 	
    
     

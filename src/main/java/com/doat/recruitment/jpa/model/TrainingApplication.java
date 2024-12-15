@@ -1,16 +1,19 @@
 package com.doat.recruitment.jpa.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 import com.doat.recruitment.jpa.dto.ApplicationDTO;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 
 @Entity
 @Table(name = "training_applications")
 public class TrainingApplication {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int application_id;
+	public String application_id;
 	public String reg_no;
 	public String name;
 	public String employee_no;
@@ -21,6 +24,17 @@ public class TrainingApplication {
 	public String DDO_CODE;
 	public String reason;
 	public Boolean publish;
+	@CreationTimestamp
+	private LocalDate training_apply_date;
+	public String applicant_email;
+	@Transient
+	public String manager;
+	@Transient
+	public String join_date;
+	@Transient
+	public String retire_date;
+	@Transient
+	public boolean passCriteria;
 	
 	public TrainingApplication(Registration registration,ApplicationDTO application,Employee employee) {
 		this.reg_no = registration.getReg_id();
@@ -33,30 +47,18 @@ public class TrainingApplication {
 		this.DDO_CODE = employee.getDdo_code();
 		this.reason = "";
 		this.publish = false;
+		this.applicant_email=registration.getEmail();
 	}
 	public TrainingApplication() {
 		super();
 	
 	}
-	public TrainingApplication(int application_id, String reg_no, String name, String employee_no,
-			String department_no, String training_prog_id, String application_status, String designation, String DDO_CODE,String reason,Boolean publish) {
-		super();
-		this.application_id = application_id;
-		this.reg_no = reg_no;
-		this.name = name;
-		this.employee_no = employee_no;
-		this.department_no = department_no;
-		this.training_prog_id = training_prog_id;
-		this.application_status=application_status;
-		this.designation=designation;
-		this.DDO_CODE=DDO_CODE;
-		this.reason=reason;
-		this.publish=publish;
-	}
-	public int getApplication_id() {
+	
+	
+	public String getApplication_id() {
 		return application_id;
 	}
-	public void setApplication_id(int application_id) {
+	public void setApplication_id(String application_id) {
 		this.application_id = application_id;
 	}
 	public String getReg_no() {
@@ -131,12 +133,71 @@ public class TrainingApplication {
 		this.publish = publish;
 	}
 
+	
+	public TrainingApplication(String application_id, String reg_no, String name, String employee_no, String department_no,
+			String training_prog_id, String application_status, String designation, String dDO_CODE, String reason,
+			Boolean publish, LocalDate training_apply_date,String applicant_email) {
+		this.application_id = application_id;
+		this.reg_no = reg_no;
+		this.name = name;
+		this.employee_no = employee_no;
+		this.department_no = department_no;
+		this.training_prog_id = training_prog_id;
+		this.application_status = application_status;
+		this.designation = designation;
+		DDO_CODE = dDO_CODE;
+		this.reason = reason;
+		this.publish = publish;
+		this.training_apply_date = training_apply_date;
+		this.applicant_email = applicant_email;
+	}
+	
+	public LocalDate getTraining_apply_date() {
+		return training_apply_date;
+	}
+	public void setTraining_apply_date(LocalDate training_apply_date) {
+		this.training_apply_date = training_apply_date;
+	}
+	public String getApplicant_email() {
+		return applicant_email;
+	}
+	public void setApplicant_email(String applicant_email) {
+		this.applicant_email = applicant_email;
+	}
+	
+	public String getManager() {
+		return manager;
+	}
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+	public String getJoin_date() {
+		return join_date;
+	}
+	public void setJoin_date(String join_date) {
+		this.join_date = join_date;
+	}
+	public String getRetire_date() {
+		return retire_date;
+	}
+	public void setRetire_date(String retire_date) {
+		this.retire_date = retire_date;
+	}
+	public boolean isPassCriteria() {
+		return passCriteria;
+	}
+	public void setPassCriteria(boolean passCriteria) {
+		this.passCriteria = passCriteria;
+	}
 	@Override
 	public String toString() {
-		return "TrainingApplication [DDO_CODE=" + DDO_CODE + ", application_id=" + application_id
-				+ ", application_status=" + application_status + ", department_no=" + department_no + ", designation="
-				+ designation + ", employee_no=" + employee_no + ", name=" + name + ", publish=" + publish + ", reason="
-				+ reason + ", reg_no=" + reg_no + ", training_prog_id=" + training_prog_id + "]";
+		return "TrainingApplication [DDO_CODE=" + DDO_CODE + ", applicant_email=" + applicant_email
+				+ ", application_id=" + application_id + ", application_status=" + application_status
+				+ ", department_no=" + department_no + ", designation=" + designation + ", employee_no=" + employee_no
+				+ ", join_date=" + join_date + ", manager=" + manager + ", name=" + name + ", passCriteria="
+				+ passCriteria + ", publish=" + publish + ", reason=" + reason + ", reg_no=" + reg_no + ", retire_date="
+				+ retire_date + ", training_apply_date=" + training_apply_date + ", training_prog_id="
+				+ training_prog_id + "]";
 	}
 	
 	

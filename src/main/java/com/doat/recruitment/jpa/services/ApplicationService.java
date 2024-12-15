@@ -19,6 +19,11 @@ public class ApplicationService {
 		repo.save(application);
 		
 	}
+	public List<TrainingApplication> findAcceptSelected(){
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findByAcceptedSelected().forEach(list::add);
+		return list;
+	}
 	
 
 	public List<TrainingApplication> viewApplications() {
@@ -40,14 +45,51 @@ public class ApplicationService {
 	}
 
 
-	public void deleteTrainingApplication(Integer application_id) {
+	public void deleteTrainingApplication(String application_id) {
 		repo.deleteById(application_id);
 	}
 
 
-	public Optional<TrainingApplication> findApplication(Integer application_id) {
+	public Optional<TrainingApplication> findApplication(String application_id) {
 		
 		return repo.findById(application_id);
+	}
+
+
+	public Optional<TrainingApplication> findApplicationByregId(String reg_no, String training_prg_id) {
+
+		return repo.findByReg_no(reg_no,training_prg_id);
+	}
+
+
+	public List<TrainingApplication> findAllappByRegId(String reg_no) {
+		return repo.findByReg(reg_no);
+	}
+
+
+	public List<TrainingApplication> findPending() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findPendingApplications().forEach(list::add);
+		return list;
+	}
+
+
+	public List<TrainingApplication> rejectedApplications() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findRejectedApplications().forEach(list::add);
+		return list;
+	}
+	public List<TrainingApplication> selectedApplicationsList() {
+		List<TrainingApplication> list=new ArrayList<>();
+		repo.findBySelcted().forEach(list::add);
+		return list;
+	}
+	public Optional<TrainingApplication> findRaiseObjectionApplication(String employee_id,String seniorTrainingPrgId) {
+		
+		return repo.findRaiseObjectionApplication(employee_id,seniorTrainingPrgId);
+	}
+	public Optional<TrainingApplication> findApplicationJuniorsSelected(String application_id) {
+		return repo.findApplicationJuniorsSelected(application_id);
 	}
 
 	

@@ -1,9 +1,14 @@
 package com.doat.recruitment.jpa.dto;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.doat.recruitment.jpa.model.Department;
 import com.doat.recruitment.jpa.model.Employee;
+import com.doat.recruitment.jpa.model.Notification;
 import com.doat.recruitment.jpa.model.Registration;
+import com.doat.recruitment.jpa.model.TrainingApplication;
 
 public class ProfileDTO {
     private String reg_id;
@@ -21,7 +26,31 @@ public class ProfileDTO {
     private String designation;
     private String ddo_code;
     private String department_name;
-    private String department_loc;
+	private String department_loc;
+	private List<TrainingApplication> applications=new ArrayList<>();
+	private List<Notification> notifications=new ArrayList<>();
+	private Integer unread_msg;
+	public ProfileDTO(final Registration registration,final Employee employee,final Department department,List<TrainingApplication> applications,List<Notification> notifications) {
+		this.reg_id = registration.getReg_id();
+		this.name = registration.getName();
+		this.phone = registration.getPhone();
+		this.email = registration.getEmail();
+		this.employee_id = employee.getEmployee_id();
+		this.employee_name =employee.getEmployee_name();
+		this.employee_join_date = employee.getEmployee_join_date();
+		this.department_id = department.getDepartment_id();
+		this.original_salary = employee.getOriginal_salary();
+		this.current_salary = employee.getCurrent_salary();
+		this.region = employee.getRegion();
+		this.designation = employee.getDesignation();
+        this.ddo_code = employee.getDdo_code();
+        this.department_no = department.getDepartment_id();
+		this.department_name =department.getDepartment_name();
+		this.department_loc = department.getDepartment_loc();
+		this.applications=applications;
+		this.notifications= notifications;
+	}
+	
 	public ProfileDTO(final Registration registration,final Employee employee,final Department department) {
 		this.reg_id = registration.getReg_id();
 		this.name = registration.getName();
@@ -39,7 +68,9 @@ public class ProfileDTO {
         this.department_no = department.getDepartment_id();
 		this.department_name =department.getDepartment_name();
 		this.department_loc = department.getDepartment_loc();
-    }
+		this.applications=null;
+	}
+	
     
 	public ProfileDTO() {
 	}
@@ -171,6 +202,54 @@ public class ProfileDTO {
 				+ ", employee_id=" + employee_id + ", employee_join_date=" + employee_join_date + ", employee_name="
 				+ employee_name + ", name=" + name + ", original_salary=" + original_salary + ", phone=" + phone
 				+ ", reg_id=" + reg_id + ", region=" + region + "]";
+	}
+
+	public ProfileDTO(String reg_id, String name, String department_no, String phone, String email, String employee_id,
+			String employee_name, String employee_join_date, String department_id, String original_salary,
+			String current_salary, String region, String designation, String ddo_code, String department_name,
+			String department_loc, List<TrainingApplication> applications) {
+		this.reg_id = reg_id;
+		this.name = name;
+		this.department_no = department_no;
+		this.phone = phone;
+		this.email = email;
+		this.employee_id = employee_id;
+		this.employee_name = employee_name;
+		this.employee_join_date = employee_join_date;
+		this.department_id = department_id;
+		this.original_salary = original_salary;
+		this.current_salary = current_salary;
+		this.region = region;
+		this.designation = designation;
+		this.ddo_code = ddo_code;
+		this.department_name = department_name;
+		this.department_loc = department_loc;
+		this.applications = applications;
+	}
+
+
+	public List<TrainingApplication> getApplications() {
+		return applications;
+	}
+
+
+	public void setApplications(List<TrainingApplication> applications) {
+		this.applications = applications;
+	}
+	
+	public Integer getUnread_msg() {
+		return unread_msg;
+	}
+	public void setUnread_msg(Integer unread_msg) {
+		this.unread_msg = unread_msg;
+	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
 	}
 
 	

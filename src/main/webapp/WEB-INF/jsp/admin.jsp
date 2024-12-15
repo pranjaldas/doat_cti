@@ -7,6 +7,8 @@
   <title>CTI</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Data tables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -40,8 +42,14 @@
   <!-- for loading animation -->
   <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
   <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
+  <!-- For Toaster messages -->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <script src="plugins/toastr/toastr.min.js"></script>
   <!-- My Css -->
   <link rel="stylesheet" type="text/css" href="css/adminStyle.css" />
+  <!-- toggle checkbox -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
   <style>
     @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -207,10 +215,24 @@
                   Calendar
                 </p>
               </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a type="button" data-toggle="modal" data-target="#releaseCalendarModal" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Release Calendar</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>View Calendar</p>
+                  </a>
+                </li>
+              </ul>
             </li>
 
             <li class="nav-item ">
-              <a href="#" class="nav-link">
+              <a href="#notificationCard" class="nav-link">
                 <i class="nav-icon far fa-envelope"></i>
                 <p>
                   Notifications
@@ -219,16 +241,77 @@
 
             </li>
 
-
-
-
-
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
       </div>
       <!-- /.sidebar -->
     </aside>
+     <!-- Modal to Release Calendar -->
+     <div class="modal fade" id="releaseCalendarModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLongTitle"><b>Release Monthly Calendar:</b></h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-row">
+             <div class="form-group col-4">
+               <p class="font-weight-bold">
+                 <label>Select Month:</label>
+             </div>
+             <div class="form-group col-6">
+              <select name="calendar_month" id="calendar_month" class="form-control">
+                <option value="">Choose</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+              </select>
+               </p>
+             </div>
+           </div>
+           <div class="form-row">
+             <div class="form-group col-4">
+               <p class="font-weight-bold">
+                 <label>Select Year:</label>
+             </div>
+             <div class="form-group col-6">
+              <select name="calendar_year" id="calendar_year" class="form-control">
+                <option value="">Choose</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                
+              </select>
+               </p>
+             </div>
+           </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="publishCalendar">Publish</button>
+          </div>
+         </div>
+        
+       </div>
+     </div>
+   
+   <!-- Modal End -->
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -247,6 +330,7 @@
 
       <!-- Main content -->
       <section class="content-fluid">
+
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-4 col-7">
@@ -298,10 +382,103 @@
 
           </div>
 
+
           <!-- Main row -->
           <div class="row" id="test">
             <!-- Left col -->
             <section class="col-lg-12 connectedSortable">
+              <div class="row">
+                <div class="col-lg-6">
+                  <!-- Map card -->
+                  <div class="card bg-gradient-primary">
+                    <div class="card-header border-0">
+                      <h3 class="card-title">
+                        <i class="fas fa-map-marker-alt mr-1"></i>
+                        Visitors
+                      </h3>
+                      <!-- card tools -->
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-primary btn-sm daterange" data-toggle="tooltip"
+                          title="Date range">
+                          <i class="far fa-calendar-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse"
+                          data-toggle="tooltip" title="Collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                      <!-- /.card-tools -->
+                    </div>
+                    <div class="card-body">
+                      <div id="world-map" style="height: 250px; width: 100%;"></div>
+                    </div>
+                    <!-- /.card-body-->
+                    <div class="card-footer bg-transparent">
+                      <div class="row">
+                        <div class="col-4 text-center">
+                          <div id="sparkline-1"></div>
+                          <div class="text-white">Visitors</div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-4 text-center">
+                          <div id="sparkline-2"></div>
+                          <div class="text-white">Online</div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-4 text-center">
+                          <div id="sparkline-3"></div>
+                          <div class="text-white">Sales</div>
+                        </div>
+                        <!-- ./col -->
+                      </div>
+                      <!-- /.row -->
+                    </div>
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <div class="col-lg-6">
+                  <!-- calender -->
+                  <div class="card bg-gradient-success">
+                    <div class="card-header border-0">
+
+                      <h3 class="card-title">
+                        <i class="far fa-calendar-alt"></i>
+                        Calendar
+                      </h3>
+                      <!-- tools card -->
+                      <div class="card-tools">
+                        <!-- button with a dropdown -->
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+                            <i class="fas fa-bars"></i></button>
+                          <div class="dropdown-menu float-right" role="menu">
+                            <a href="#" class="dropdown-item">Add new event</a>
+                            <a href="#" class="dropdown-item">Clear events</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">View calendar</a>
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                      <!-- /. tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body pt-0">
+                      <!--The calendar -->
+                      <div id="calendar" style="width: 100%"></div>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                </div>
+              </div>
+
+
+
               <!-- Custom tabs-->
               <div class="card">
                 <div class="card-header">
@@ -335,11 +512,11 @@
                             <th><b> Create Date</b></th>
                             <th><b> Current Status</b></th>
                             <th><b> In display</b></th>
-                            <th><b> Action</b></th>
+                            
                           </tr>
                         </thead>
                         <tbody>
-                          
+
 
                         </tbody>
                       </table>
@@ -418,10 +595,10 @@
                             <div class="form-row">
                               <div class="form-group col-4">
                                 <p class="font-weight-bold">
-                                  <label>Trainier ID: </label></p>
+                                  <label>Trainiers: </label></p>
                               </div>
                               <div class="form-group col-6">
-                                <p id="prg_trainer"></p>
+                                <p id="prg_trainer"> </p>
                               </div>
                             </div>
                             <div class="form-row">
@@ -481,7 +658,7 @@
                                 <p class="font-weight-bold">
                                   <label>Training Program Name:</label>
                               </div>
-                              <div class="form-group col-6">
+                              <div class="form-group col-4">
                                 <input type="text" class="form-control" placeholder="Write name here"
                                   name="training_name" id="training_name" />
                                 </p>
@@ -494,7 +671,7 @@
                                 </label>
                               </div>
 
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-4">
                                 <select name="training_type" id="training_type" class="form-control">
                                   <option value="">Choose</option>
                                   <option value="Induction">Induction</option>
@@ -510,7 +687,7 @@
                                   <p class="font-weight-bold">Training Program Start Date:</p>
                                 </label>
                               </div>
-                              <div class="form-group col-6">
+                              <div class="form-group col-4">
                                 <input class="form-control" type="date" name="training_start_date"
                                   id="training_start_date">
                               </div>
@@ -522,9 +699,9 @@
                                   <p class="font-weight-bold">Training Program End Date:</p>
                                 </label>
                               </div>
-                              <div class="form-group col-6">
-                                <input class="form-control" type="date" name="training_end_date"
-                                  id="training_end_date" placeholder="Training End Date">
+                              <div class="form-group col-4">
+                                <input class="form-control" type="date" name="training_end_date" id="training_end_date"
+                                  placeholder="Training End Date">
                               </div>
                             </div>
                             <div class="form-row">
@@ -533,12 +710,26 @@
                                   <p class="font-weight-bold">Training program Trainer:</p>
                                 </label>
                               </div>
-                              <div class="form-group col-6">
-                                <input class="form-control" type="text" name="training_prg_trainer"
-                                  id="training_prg_trainer" placeholder="Write Trainer Name ">
+                              <div class="form-group col-4">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Write Trainer Name and add him "
+                                    id="training_prg_trainer">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-secondary" title="Add Trainer" type="button"
+                                      id="add_trainer_to_list">
+                                      <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
+                              <div class="form-group col-4">
+                                <ul id="trainer_list_selected" class="list-group">
+
+                                </ul>
+                              </div>
+
                             </div>
-                            
+
 
                             <div class="form-row">
                               <div class="form-group col-md-4">
@@ -547,7 +738,7 @@
                                 </label>
                               </div>
 
-                              <div class="form-group col-md-6">
+                              <div class="form-group col-md-4">
                                 <select name="training_display" id="training_display" class="form-control">
                                   <option value="">Choose</option>
                                   <option value=true>Yes</option>
@@ -558,7 +749,7 @@
                             <div class="align-self-center mx-auto">
                               <button type="button" id="save_training" class="btn btn-success btn-md">SAVE</button>
                             </div>
-                            
+
                           </div>
                         </form>
 
@@ -572,7 +763,8 @@
               <!-- /.card -->
 
               <!-- Design form-->
-              <div class="card" class="whole-card">
+
+              <div class="card" id="whole-card">
                 <div class="card-header">
                   <h3 class="card-title">Training Application</h3>
 
@@ -580,10 +772,12 @@
 
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#view_trainees" data-toggle="tab">View selected</a>
+                        <a class="nav-link active" href="#view_trainees" data-toggle="tab"><i class="fa fa-eye"
+                            aria-hidden="true"></i> View Applications </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#import_csv" data-toggle="tab">Import New</a>
+                        <a class="nav-link" href="#import_csv" data-toggle="tab"><i class="fas fa-plus"></i> Import New
+                        </a>
                       </li>
                     </ul>
 
@@ -593,144 +787,401 @@
                 <div class="card-body">
                   <div class="tab-content">
                     <div class="tab-pane active" id="view_trainees" style="position: relative; height: auto;">
-                      <table id="applications_table" class="table table-light table-striped">
-                        <thead>
-                          <tr>
-                            <th><b>Application ID</b></th>
-                            <th><b>EmployeeID</b></th>
-                            <th><b>TrainingID</b></th>
-                            <th><b>Name</b></th>
-                            <th><b>Department</b></th>
-                            <th><b>Designation</b></th>
-                            <th><b>Status</b></th>
-                            <th><b>Action</b></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                         
+                      <div id="accordian_select_objection">
+                        <h3><i class="fa fa-check-square-o" aria-hidden="true"></i> Accepted Applications</h3>
+                        <div>
+                          <table id="applications_table" class="table table-light table-striped">
+                            <thead>
+                              <tr>
+                                <th><b>App. Id</b></th>
+                                <th><b>TrainingID</b></th>
+                                <th><b>Name</b></th>
+                                <th><b>Registration Id</b></th>
+                                <th><b>Designation</b></th>
+                                <th><b>Manager</b></th>
+                                <th><b>Status</b></th>
+                              
+                              </tr>
+                            </thead>
+                            <tbody>
+    
+    
+    
+                            </tbody>
+                          </table>
+                        </div>
+                        <h3><i class="fa fa-list" aria-hidden="true"> </i> Rejected Aplications</h3>
+                        <div>
+                          <table id="rejected_applications_table" class="table table-light table-striped">
+                            <thead>
+                              <tr>
+                                <th><b>App. Id</b></th>
+                                <th><b>TrainingID</b></th>
+                                <th><b>Name</b></th>
+                                <th><b>Registration Id</b></th>
+                                <th><b>Designation</b></th>
+                                <th><b>Manager</b></th>
+                                <th><b>Status</b></th>
+                              
+                              </tr>
+                            </thead>
+                            <tbody>
+    
+    
+    
+                            </tbody>
+                          </table>
+                        </div>
 
-
-                        </tbody>
-                      </table>
+                      </div>
+                      
                       <div class="card-footer clearfix">
-                        <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i> Publish </button>
+                        <button type="button" id="publish" class="btn btn-info float-right"><i class="fas fa-plus"></i>
+                          Publish </button>
                       </div>
                     </div>
-                     <!-- Modal to view each training Application -->
-                     <div class="modal fade" id="updateApplicationModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                     <div class="modal-dialog modal-dialog-centered" role="document">
-                       <div class="modal-content">
-                         <div class="modal-header">
-                           <h5 class="modal-title" id="exampleModalLongTitle"><b>Training Application Details:</b></h5>
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                           </button>
-                         </div>
-                         <div class="modal-body">
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Application Id:</label>
+                    <!-- Modal to view each accepted training Application -->
+                    <div class="modal fade" id="accepted_application_details" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Training Application Details:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_application_id"></p>
+                                </p>
+                              </div>
                             </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                id="editApp_application_id" />
-                              </p>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Registration No:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_regid" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Applicant Name:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_name"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Employee Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_employee_id" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Department Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_department_id" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Designation:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_designation" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Status:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="accept_status" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row" id="reason_div">
+                              <div class="form-group col-12">
+                                <p class="font-weight-bold">
+                                  <label>Provide reject reasons:</label>
+                                  <textarea cols="2" rows="3" class="form-control" placeholder="Write reasons of rejecting the application"
+                                id="acceptToreject_reasons" ></textarea>
+                                </p>
+                              </div>                          
                             </div>
                           </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Registration No:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_regid" />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Applicant Name:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_name" readonly />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Employee Id:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_employee_id" readonly />
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Department Id:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_department_id" readonly/>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>DDO Code:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_ddo_code" readonly/>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Designation:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_designation" readonly/>
-                              </p>
-                            </div>
-                          </div>
-                          <div class="form-row">
-                            <div class="form-group col-4">
-                              <p class="font-weight-bold">
-                                <label>Application Status:</label>
-                            </div>
-                            <div class="form-group col-6">
-                              <input type="text" class="form-control" 
-                                 id="editApp_status" />
-                              </p>
-                            </div>
-                          </div>
-                           
-                           
-                           
-                         </div>
-                         
-                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                        </div>
-                       </div>
-                     </div>
-                   </div>
-                   <!-- Modal End -->
+                          <div class="modal-footer">
 
+                            <button type="button" id="selectbtn_acceptApp" class="btn btn-success float-left">Select</button>
+                            <button type="button" id="rejectbtn_App" class="btn btn-primary">Reject</button>
+                          </div>
+                          
+                           
+                         
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal to view each Rejected training Application -->
+                    <div class="modal fade" id="rejected_application_details" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title"><b>Training Application Details:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_application_id"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Registration No:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_regid" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Applicant Name:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_name"></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Employee Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_employee_id" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Department Id:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_department_id" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Designation:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_designation" readonly ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Application Status:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="reject_status" ></p>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <p class="font-weight-bold">
+                                  <label>Reason:</label>
+                              </div>
+                              <div class="form-group col-6">
+                                <p id="view_reject_reason" ></p>
+                                </p>
+                              </div>
+                            </div>
+
+
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal End -->
+                    <!-- Modal to send message -->
+                    <div class="modal fade" id="message_applicant" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Message Applicant:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div style="padding:10px">
+                              <form id="msg_form">
+                                <div class="form-row">
+                                  <div class="form-group col-3">
+                                    <p class="font-weight-bold">
+                                      <label>Title:</label>
+                                  </div>
+                                  <div class="form-group col-9">
+                                    <input class="form-control" type="text" name="msg_title" id="admin_msg_title"
+                                      placeholder="Write Subject here"> </input>
+                                  </div>
+
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-12">
+                                    <p class="font-weight-bold">
+                                      <label>Subject:</label>
+                                      <textarea cols="2" rows="3" class="form-control" placeholder="Write Subject Here"
+                                        id="admin_msg_subject" name="training_description"></textarea>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-6">
+                                    <button type="button" id="admin_msg_send" class="btn btn-sm btn-primary "><i
+                                        class="fa fa-paper-plane" aria-hidden="true"></i>
+                                      Send</button>
+                                  </div>
+                                  <div class="form-group col-6">
+                                    <label class="checkbox-inline float-right">
+                                      <input id="mailCheck" type="checkbox" data-toggle="toggle" chacked
+                                        data-size="small"> Email
+                                    </label>
+                                  </div>
+                                </div>
+
+
+
+                              </form>
+
+
+
+                            </div>
+
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- To email who do not have registered -->
+                    <div class="modal fade" id="email_applicant" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><b>Message Applicant:</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div style="padding:10px">
+                              <form id="msg_form">
+                                <div class="form-row">
+                                  <div class="form-group col-3">
+                                    <p class="font-weight-bold">
+                                      <label>To:</label>
+                                  </div>
+                                  <div class="form-group col-9">
+                                    <input class="form-control" type="email" name="email_address" id="email_address"
+                                      placeholder="Applicat email address"> </input>
+                                  </div>
+
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-3">
+                                    <p class="font-weight-bold">
+                                      <label>Title:</label>
+                                  </div>
+                                  <div class="form-group col-9">
+                                    <input class="form-control" type="text" name="email_title" id="admin_msg_title"
+                                      placeholder="Write Subject here"> </input>
+                                  </div>
+
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-12">
+                                    <p class="font-weight-bold">
+                                      <label>Subject:</label>
+                                      <textarea cols="2" rows="3" class="form-control" placeholder="Write Subject Here"
+                                        id="email_subject" name="email_subject"></textarea>
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="form-row">
+                                  <div class="form-group col-6">
+                                    <button type="button" id="admin_msg_send" data-dismiss="modal" class="btn btn-sm btn-primary "><i
+                                        class="fa fa-paper-plane" aria-hidden="true"></i>
+                                      Send</button>
+                                  </div>
+                                  
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="chart tab-pane" id="import_csv" style="position: relative; height: auto;">
                       <div class="container">
+                        <!-- Alert boxes start -->
+                        <div class="alert alert-success" id="import-alert-success"
+                          style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                          <button type="button" class="close" data-dismiss="alert">x</button>
+                          <strong>CSV data </strong> imported succesfully
+                        </div>
+                        <div class="alert alert-success" id="set-alert-success"
+                          style="color: #155724;background-color: #d4edda;border-color: #c3e6cb;">
+                          <button type="button" class="close" data-dismiss="alert">x</button>
+                          <strong>Criterias </strong> applies succesfully
+                        </div>
+
                         <form id="import_trainee_form">
                           <div class="form-card">
                             <div class="form-row">
@@ -741,7 +1192,9 @@
                                 <input type="file" id="fileUpload" name="myfile">
                               </div>
                               <div class="form-group col-2">
-                                <input class="btn btn-success btn-sm" type="button" id="remove" value="Remove" />
+                                <button class="btn btn-success btn-sm" type="button" id="remove"><i
+                                    class="fa fa-minus-circle" aria-hidden="true"></i> Remove </button>
+
                               </div>
 
                             </div>
@@ -757,7 +1210,9 @@
                                 </select>
                               </div>
                               <div class="form-group col-4">
-                                <input class="btn btn-primary btn-sm" type="button" id="upload" value="Upload" />
+                                <button class="btn btn-primary btn-sm" type="button" id="upload"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload</button>
+
                               </div>
                             </div>
 
@@ -766,23 +1221,168 @@
 
 
                       </div>
-                      <div class="container">
-                        <table class="table table-light table-striped" id="trainee_table">
-                          <thead>
-                            <tr>
-                              <th><b>EmployeeID</b></th>
-                              <th><b>Name</b></th>
-                              <th><b>Department</b></th>
-                              <th><b>Designation</b></th>
-                              <th><b>DDO Code</b></th>
-                              <th><b>Action</b></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                        </table>
-                      </div>
                       
+
+
+                        <div id="accordian">
+                          <h3><i class="fa fa-cogs" aria-hidden="true"></i>
+                            Set Criterias</h3>
+                          <div>
+                            <div class="alert alert-success"
+                              style="color: #0c5460;background-color: #d1ecf1;border-color: #bee5eb;">
+                              <button type="button" class="close" data-dismiss="alert">x</button>
+                              <strong>Set the criterias carefully before selecting Training
+                                Applications. </strong> 
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Minimum years of work experience:</p>
+                                </label>
+                              </div>
+                              <div class="form-group col-4">
+                                <select name="experience_criteria" id="experience_criteria" class="form-control">
+                                  <option value="">Choose</option>
+                                  <option value=0>0 year after join date.</option>
+                                  <option value=1>1 year after join date.</option>
+                                  <option value=2>2 years after join date.</option>
+                                  <option value=3>3 years after join date.</option>
+                                  <option value=4>4 years after join date.</option>
+                                  <option value=5>5 years after join date.</option>
+                                  <option value=10>10 years after join date.</option>
+                                  <option value=15>15 years after join date.</option>
+                                  <option value=20>20 years after join date.</option>
+                                  <option value=25>25 years after join date.</option>
+                                  <option value=30>30 years after join date.</option>
+                                </select>
+                                
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Minimum years left for retirement:</p>
+                                </label>
+                              </div>
+                              <div class="form-group col-4">
+                                
+                                  <select name="retirement_criteria" id="retirement_criteria" class="form-control">
+                                    <option value="">   Choose</option>
+                                    <option value=0>    0 year before retire date. </option>
+                                    <option value=1>    1 year before retire date. </option>
+                                    <option value=2>    2 years before retire date.</option>
+                                    <option value=3>    3 years before retire date.</option>
+                                    <option value=4>    4 years before retire date.</option>
+                                    <option value=5>    5 years before retire date.</option>
+                                    <option value=10>   10 years before retire date.</option>
+                                    <option value=15>   15 years before retire date.</option>
+                                    <option value=20>   20 years before retire date.</option>
+                                    <option value=25>   25 years before retire date.</option>
+                                    <option value=30>   30 years before retire date.</option>
+                                  </select>
+                                
+                                
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-4">
+                                <label>
+                                  <p class="font-weight-bold">Required Designations:</p>
+                                </label>
+                              </div>
+                              <div class="form-group col-4">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Write Trainer Name and add him "
+                                    id="criteria_desig">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-secondary btn-sm" title="Add Designation" type="button"
+                                      id="criteria_add_desig">
+                                      <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group col-4">
+                                <ul id="criteria_desig_list" class="list-group">
+
+                                </ul>
+                              </div>
+
+                            </div>
+                            <div class="form-row">
+                              <div class="form-group col-6">
+                                <button class="btn btn-primary  float-right" title="set criteria" type="button"
+                                  id="criteria_set">
+                                  <i class="fa fa-cog" aria-hidden="true"></i>
+
+                                </button>
+                              </div>
+                              <div class="form-group col-6">
+                                <button class="btn btn-primary " title="reset criteria" type="button"
+                                  id="criteria_reset">
+                                  <i class="fa fa-recycle" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
+
+
+                          </div>
+
+
+                          <h3 id="importedData"><i class="fa fa-list" aria-hidden="true"></i>
+                            Imported Candidates</h3>
+                          <div >
+                            <table class="table table-light table-striped" id="trainee_table">
+                              <thead>
+                                <tr>
+                                  <th><b>EmployeeID</b></th>
+                                  <th><b>Name</b></th>
+                                  <th><b>Join Date</b></th>
+                                  <th><b>Department</b></th>
+                                  <th><b>Designation</b></th>
+                                  <th><b>Retire Date</b></th>
+                                  <th><b>Email</b></th>
+                                  <th><button class="btn btn-primary btn-sm" type="button" id="select_all"
+                                      value="select_all"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                      All</button></i>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                            </table>
+
+                          </div>
+                          <h3><i class="fa fa-list" aria-hidden="true"></i> Registered Pending Candidates</h3>
+                          <div>
+                            <table class="table table-light table-striped" id="registered_applications_table">
+                              <thead>
+                                <tr>
+                                  <th><b>App.Id</b></th>
+                                  <th><b>Training Program</b></th>
+                                  <th><b>EmployeeID</b></th>
+                                  <th><b>Registration Id</b></th>
+                                  <th><b>Name</b></th>
+                                  <th><b>Apply Date</b></th>                               
+                                  <th><b>App. Status</b></th>
+                                  <th><button class="btn btn-primary btn-sm" type="button" id="select_all"
+                                      value="select_all"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                      All</button></i>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                            </table>
+
+                          </div>
+
+
+
+                        </div>
+
+                      
+
 
 
                     </div>
@@ -794,6 +1394,8 @@
 
 
               </div>
+
+
 
               <!-- /.card-body -->
               <div class="card-footer">
@@ -810,7 +1412,8 @@
               </h3>
               <div class="card-tools">
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Search Employee by name" id="search_employee_byId">
+                  <input type="text" class="form-control" placeholder="Search Employee by name"
+                    id="search_employee_byId">
                   <div class="input-group-append">
                     <button class="btn btn-secondary" type="button">
                       <i class="fa fa-search"></i>
@@ -821,26 +1424,27 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <div class="container">
+             
                 <table class="table table-light table-striped" id="allEmployees">
                   <thead>
                     <tr>
                       <th><b>EmployeeID</b></th>
                       <th><b>Name</b></th>
+                      <th><b>Join Date</b></th>
                       <th><b>Department</b></th>
                       <th><b>Designation</b></th>
+                      <th><b>Retire Date</b></th>
                       <th><b>DDO Code</b></th>
-                      <th><b>Action</b></th>
+                      <th><b>Manager</b></th>
                     </tr>
                   </thead>
                   <tbody>
                   </tbody>
                 </table>
 
-              </div>
 
             </div>
-          
+
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -955,7 +1559,7 @@
 
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-              <button type="button" class="btn btn-info float-right" ><i class="fas fa-plus"></i> Add centre</button>
+              <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add centre</button>
             </div>
           </div>
           <!-- /Employee Card End -->
@@ -963,58 +1567,177 @@
           <!--/.design form -->
 
           <!-- Centre -->
-          <div class="card">
+          <div class="card" id="notificationCard">
             <div class="card-header">
               <h3 class="card-title">
                 <i class="ion ion-clipboard mr-1"></i>
-                Events Handler
+                Notifications
               </h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-              <div class="form-card">
+            <div class="card-body" style="overflow-y: scroll;
+            height:350px;
+            padding: 1rem">
+              <div class="container">
+                <div id="admin_notifications">
 
-                <div class="form-row">
-                    <div class="form-group col-11">
-                        <p class="font-weight-bold">
-                            <label>Description about the event:</label>
-                            <textarea cols="2" rows="3" class="form-control" placeholder="Write about the Program"
-                                id="event_description" name="training_description"></textarea>
-                        </p>
-                    </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <label>
-                            <p class="font-weight-bold">Event Start Date:</p>
-                        </label>
-                    </div>
-                    <div class="form-group col-6">
-                        <input class="form-control" type="date" name="training_start_date" id="event_start_date">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <label>
-                            <p class="font-weight-bold">Event End Date:</p>
-                        </label>
-                    </div>
-                    <div class="form-group col-6">
-                        <input class="form-control" type="date" name="training_start_date" id="event_end_date">
-                    </div>
-                </div>
-                <div class="align-self-center mx-auto">
-                    <button type="button" id="sendEvent" class="btn btn-success btn-md">SAVE</button>
-                </div>
-    
-    
-            </div>
+              </div>
+            
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-              <button type="button" class="btn btn-info float-right" data-target="#previewTrainings"
-                data-toggle="modal"><i class="fas fa-plus"></i> Events</button>
+              <button type="button" class="btn btn-info float-right" ><i class="fas fa-plus"></i> Events</button>
             </div>
+          </div>
+          <!-- View Msend message modal -->
+          <div class="modal fade" id="admin_sent_msg_details" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header" style="padding: 1px;">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body" style="padding:0px">
+                      <div id="sendMsgAccordion">
+                          <h3><i class="fa fa-envelope" aria-hidden="true"></i> Send Message Details
+                          </h3>
+                          <div>
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>TO:</label>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" id="send_msg_to"></p>
+                                  </div>
+
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-12">
+                                      <p class="font-weight-bold">
+                                          <label>SUBJECT:</label>
+                                      <p style="color: green;" id="send_msg_sub"></p>
+                                      </p>
+                                  </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>Refference Application Id:</label></p>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" type="text" id="send_msg_ref_app_id"></p>
+
+                                  </div>
+                              </div>
+
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>Time:</label>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" id="send_msg_time"></p>
+                                      </p>
+                                  </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-6">
+                                      <p class="font-weight-bold">
+                                          <label>Date:</label></p>
+                                  </div>
+                                  <div class="form-group col-6">
+                                      <p style="color: green;" id="send_msg_date"></p>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+
+                  </div>
+
+
+              </div>
+          </div>
+          </div>
+          <div class="modal fade" id="toAdmin_msg_details" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 1px;">
+                            <!-- <h5 class="modal-title" id="exampleModalLongTitle"><b>Notification Details:</b></h5> -->
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:0px">
+
+                            <div id="replyAccordion">
+                                <h3><i class="fa fa-envelope" aria-hidden="true"></i> Message
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>FROM:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_from"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                            <p style="color: green;" id="the_msg"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Refference Application Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" type="text" id="msg_ref_app_id"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Time:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_time"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Date:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_date"></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
           </div>
           <!-- /.card -->
       </section>
@@ -1084,8 +1807,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
   <!-- to add sweet alerts -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-   <!-- loading animation  -->
-   <script type="text/javascript" src="js/modal-loading.js"></script>
+  <!-- loading animation  -->
+  <script type="text/javascript" src="js/modal-loading.js"></script>
+  <!-- DataTables -->
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script>
   <script src="js/admin.js"></script>
 </body>
 

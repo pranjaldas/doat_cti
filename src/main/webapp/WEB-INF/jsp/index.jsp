@@ -20,6 +20,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <!-- Material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/CTIcss.css">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
@@ -30,6 +34,10 @@
     <!-- for loading animation -->
     <link rel="stylesheet" type="text/css" href="css/modal-loading.css" />
     <link rel="stylesheet" type="text/css" href="css/modal-loading-animate.css" />
+    <!-- For Toaster messages -->
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <script src="plugins/toastr/toastr.min.js"></script>
+
     <!-- for full calender -->
     <link href='../packages/core/main.css' rel='stylesheet' />
     <link href='../packages/daygrid/main.css' rel='stylesheet' />
@@ -40,6 +48,7 @@
     <script src='../packages/daygrid/main.js'></script>
     <script src='../packages/timegrid/main.js'></script>
     <script src='../packages/list/main.js'></script>
+
     <style>
         #profile {
             display: none;
@@ -48,7 +57,7 @@
 
 </head>
 
-<body >
+<body>
     <div class="header content">
         <a href="index.html"><img src="img/assam.png" class="title-logo" alt="Home"></a>
         <div class="titles">
@@ -90,8 +99,8 @@
                                 About</a>
                         </li>
                         <li class="nav-item" style="float: right;">
-                            <a class="nav-link" href="#myLoginModal" data-toggle="modal"><i
-                                    class="fa fa-info-circle"></i> Log In</a>
+                            <a type="button" class="nav-link" onclick="loginUser()"><i class="fa fa-info-circle"></i>
+                                Profile</a>
                         </li>
                     </ul>
                 </div>
@@ -115,7 +124,7 @@
                                     <div class="carousel-item">
                                         <img class="d-block w-100" src="img/image3.jpeg" alt="Second slide">
                                     </div>
-                                
+
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
                                     data-slide="prev">
@@ -139,7 +148,7 @@
                       padding: 5px; 
                       border-radius: 20px;">
                                     <h4 align="center">
-                                        <marquee><b>NOTIFICATIONS</b></marquee>
+                                        <marquee><b>Advertisements</b></marquee>
                                     </h4>
                                 </div>
                                 <div class="card-body" style="overflow-y: scroll;
@@ -158,7 +167,7 @@
 
                 </div>
             </div>
-        
+
             <!-- Apply model -->
             <div id="applyModal" class="modal fade">
                 <div class="modal-dialog modal-dialog-centered modal-login">
@@ -171,16 +180,17 @@
                             <form action="#" method="" id="apply_form">
                                 <div class="form-group">
                                     <i class="fa fa-registered"></i>
-                                    <input type="text" id="apply_reg_id" name="regId" class="form-control" placeholder="Registration Id"
-                                        required="required">
+                                    <input type="text" id="apply_reg_id" name="regId" class="form-control"
+                                        placeholder="Registration Id" required="required">
                                 </div>
                                 <div class="alert alert-danger" id="user-regId-failure-alert" role="alert">
-                                    <strong>Opps!</strong> <a href="#" class="alert-link">Registration ID is not valid</a>
+                                    <strong>Opps!</strong> <a href="#" class="alert-link">Registration ID is not
+                                        valid</a>
                                 </div>
                                 <div class="form-group">
                                     <i class="fa fa-user"></i>
-                                    <input type="text" id="apply_username" name="username" class="form-control" placeholder="Username"
-                                        required="required">
+                                    <input type="text" id="apply_username" name="username" class="form-control"
+                                        placeholder="Username" required="required">
                                 </div>
                                 <div class="form-group">
                                     <i class="fa fa-lock"></i>
@@ -188,16 +198,18 @@
                                         placeholder="Password" required="required">
                                 </div>
                                 <div class="alert alert-danger" id="user-auth-failure-alert" role="alert">
-                                    <strong>Opps!</strong> <a href="#" class="alert-link">username and password mismatch</a>
+                                    <strong>Opps!</strong> <a href="#" class="alert-link">username and password
+                                        mismatch</a>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <input type="button" id="apply_training_button" class="btn btn-primary btn-block btn-lg" value="Apply">
+                                    <input type="button" id="apply_training_button"
+                                        class="btn btn-primary btn-block btn-lg" value="Apply">
                                 </div>
                             </form>
-        
+
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -271,7 +283,7 @@
                                                 style="color: red; size: A5">*</sup></label>
 
                                         <input class="col-12 form-control fname " type="text" id="fname" name="fname"
-                                            placeholder=" name" required>
+                                            placeholder="Enter your Name Here" required>
 
                                     </div>
                                     <div class="col-6 mb-3">
@@ -309,7 +321,7 @@
                                             required></input>
                                         <!--PValidation-->
                                         <div id="message">
-                                            <h3>Password must contain the following:</h3>
+                                            <h5>Password must contain the following:</h5>
                                             <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
                                             <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
                                             <p id="number" class="invalid">A <b>number</b></p>
@@ -325,6 +337,24 @@
                                         <br>
                                     </div>
 
+                                    <div class="col-5 mb-3">
+                                        <label for="conpassword"><strong>Captcha </strong><strong><sup
+                                                    style="color: red; size: A5">*</sup></strong></label>
+                                        <input class="form-control" type="button" id="mainCaptcha"
+                                            style="background-image:url(img/captcha.png); font-weight: bold;text-align: center;color:black;"
+                                            readonly />
+                                    </div>
+                                    <div class="col-1 mb-3">
+                                        <a type="button" title="Refresh Captcha" onclick="Captcha()"
+                                            style="margin-left: 30px;color: #295dce;margin: 0 5px;width: 24px;cursor: pointer; display: inline-block;"><i
+                                                class="fa fa-refresh"></i></a>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label for="conpassword"><strong>Confirm Captcha </strong><strong><sup
+                                                    style="color: red; size: A5">*</sup></strong></label>
+                                        <input class="col-12 form-control fname " type="text" id="conCaptcha"
+                                            name="fname" placeholder="Enter the Captcha you see" required>
+                                    </div>
 
                                     <div align="center" class="align-self-center mx-auto">
                                         <button type="button" id="registerButton"
@@ -359,37 +389,15 @@
                             <table id="calendar_download">
                                 <thead>
                                     <tr>
-                                        <th>Training Name</th>
+                                        <th>S.No.</th>
                                         <th>Month</th>
                                         <th>Download</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Service Training</td>
-                                        <td>January 2020</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></button></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Basic Training</td>
-                                        <td>December 2019</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></button></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Induction Training</td>
-                                        <td>January 2020</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></button></i></td>
-                                    </tr>
 
-                                    <tr>
-                                        <td>Demo Training</td>
-                                        <td>August 2019</td>
-                                        <td align="center"><button onclick="download(this)"><i class="fa fa-file-pdf-o"
-                                                    style="font-size:36px;color:red"></i></button></i></td>
-                                    </tr>
+
+
 
                                 </tbody>
 
@@ -517,6 +525,10 @@
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class=" nav nav-tabs" style="padding-left: 20px;">
                         <li class="nav-item">
+                            <a class="nav-link" type="button" id="backHome"><i class="fa fa-home"></i>
+                                Home</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#profileView" data-toggle="tab"><i class="fa fa-user"></i>
                                 Profile</a>
                         </li>
@@ -524,9 +536,16 @@
                             <a class="nav-link" href="#activity" data-toggle="tab"><i class="fa fa-address-card"></i>
                                 Activity</a>
                         </li>
-                        <li class="nav-item" style="float: right;">
-                            <a class="nav-link" id="logout"><i class="fa fa-info-circle"></i> Log Out</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#notifications" data-toggle="tab"><i class="fa fa-flag"
+                                    aria-hidden="true"></i>
+                                Notifications</a>
                         </li>
+                        <li class="nav-item" style="float: right;">
+                            <a type="button" class="nav-link" id="logout"><i class="fa fa-info-circle"></i> Log Out</a>
+                        </li>
+
+
                     </ul>
                 </div>
             </nav>
@@ -540,144 +559,160 @@
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Registration Details
-                          </h3>
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Registration Details
+                            </h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="profile_trainee_table" id="trainee_registration">
                                 <thead>
                                     <tr>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td><i class="fa fa-registered" aria-hidden="true"></i>
                                             Registration ID:</td>
-                                        <td id="view_regid"></td>
+                                        <td class="updated" id="view_regid"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-user" aria-hidden="true"></i>
+
+                                            Trainee Name:</td>
+                                        <td class="updated" id="view_regname"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-lock" aria-hidden="true"></i>
                                             User Name:</td>
-                                        <td id="view_username"></td>
+                                        <td class="updated" id="view_username"></td>
                                     </tr>
                                     <tr>
                                         <td><i class="fa fa-phone" aria-hidden="true"></i>
                                             Phone No:</td>
-                                        <td id="view_userphone"></td>
+                                        <td class="updated" id="view_userphone"></td>
                                     </tr>
                                     <tr>
                                         <td> <i class="fa fa-envelope" aria-hidden="true"></i>
                                             Email:</td>
-                                        <td id="view_useremail"></td>
+                                        <td class="updated" id="view_useremail"></td>
                                     </tr>
                                 </tbody>
                             </table>
-            
+
                         </div>
-                       
-            
-            
+
+
+
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            <button type="button" id="publish" onclick="fillRegistrationModal()" data-toggle="modal" data-target="#updateUserRegistrationDetails" class="btn btn-info float-right"><i class="fa fa-wrench" aria-hidden="true"></i>
+                            <button type="button" id="publish" onclick="fillRegistrationModal()" data-toggle="modal"
+                                data-target="#updateUserRegistrationDetails" class="btn btn-info float-right"><i
+                                    class="fa fa-wrench" aria-hidden="true"></i>
                                 Update </button>
-                          </div>
-                       
-                      </div>
-                       <!-- Registration Details update -->
-                       <div class="modal fade" id="updateUserRegistrationDetails" tabindex="-1" role="dialog"
-                       aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                       <div class="modal-dialog modal-dialog-centered" role="document">
-                         <div class="modal-content">
-                           <div class="modal-header">
-                             <h5 class="modal-title" id="exampleModalLongTitle"><b>Update Registration Details:</b></h5>
-                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                               <span aria-hidden="true">&times;</span>
-                             </button>
-                           </div>
-                           <div class="modal-body">
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
-                                  <label>Registration Id:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" 
-                                  id="editReg_registration_id" readonly/>
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
-                                  <label>User Name:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" 
-                                   id="editReg_username" />
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                  <p class="font-weight-bold">
-                                    <label>Phone Number:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                  <input type="text" class="form-control" 
-                                     id="editReg_phone"  />
-                                  </p>
-                                </div>
-                              </div>
-                            <div class="form-row">
-                              <div class="form-group col-4">
-                                <p class="font-weight-bold">
-                                  <label>Email Address:</label>
-                              </div>
-                              <div class="form-group col-6">
-                                <input type="text" class="form-control" 
-                                   id="editReg_email"  />
-                                </p>
-                              </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-4">
-                                  <p class="font-weight-bold">
-                                    <label>New Password:</label>
-                                </div>
-                                <div class="form-group col-6">
-                                  <input type="password" class="form-control" 
-                                     id="editReg_password" placeholder="Enter a New password" />
-                                  </p>
-                                </div>
-                              </div>
-                            
-                           </div>
-                           
-                           <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveRegUpdates">Save</button>
-                          </div>
-                         </div>
-                       </div>
-                     </div>
+                        </div>
 
-                      <div class="card" id="whole-card">
+                    </div>
+                    <!-- Registration Details update -->
+                    <div class="modal fade" id="updateUserRegistrationDetails" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-white" style="background-color:#6699ff;">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"><b>Update Registration
+                                            Details:</b></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold text-primary">
+                                                <label>Registration Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p class="form-control" id="editReg_registration_id">
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold text-primary">
+                                                <label>Trainee Name:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p class="form-control" id="editReg_name"></p>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold text-primary">
+                                                <label>New User Name:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_username" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold text-primary">
+                                                <label>New Phone No.:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_phone" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold text-primary">
+                                                <label>New Email Address:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="text" class="form-control" id="editReg_email" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <p class="font-weight-bold text-primary">
+                                                <label>New Password:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <input type="password" class="form-control" id="editReg_password"
+                                                placeholder="Enter a New password" />
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        id="saveRegUpdates">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            Department Details
-                          </h3>
-                          
+                            <h3 class="card-title">
+                                Department Details
+                            </h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="profile_trainee_table" id="trainee_department">
                                 <thead>
                                     <tr>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -696,34 +731,34 @@
                                             Location:</td>
                                         <td id="view_dept_loc"></td>
                                     </tr>
-        
+
                                 </tbody>
                             </table>
-            
+
                         </div>
-            
-            
+
+
                         <!-- /.card-body -->
-                    
-                      </div>
+
+                    </div>
 
 
 
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                          
-                            Employee Details
-                          </h3>
-                
+                            <h3 class="card-title">
+
+                                Employee Details
+                            </h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="profile_trainee_table" id="trainee_employment">
                                 <thead>
                                     <tr>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -735,8 +770,8 @@
                                     <tr>
                                         <td><i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                             Name:</td>
-        
-        
+
+
                                         <td id="view_name"></td>
                                     </tr>
                                     <tr>
@@ -761,16 +796,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-        
-            
-                        </div>
-            
-            
-                        <!-- /.card-body -->
-                    
-                      </div>
 
-                   
+
+                        </div>
+
+
+                        <!-- /.card-body -->
+
+                    </div>
+
+
                 </div>
 
 
@@ -780,73 +815,421 @@
 
 
             <div class="tab-pane" id="activity">
-                <div class="container" id="con">
+                <div class="container smallFont" id="con">
 
                     <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Trainings applied
-                          </h3>
-                          <div class="card-tools">
-                            <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search Trainings by ID">
-                              <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                  <i class="fa fa-search"></i>
-                                </button>
-                              </div>
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Trainings applied
+                            </h3>
+                            <div class="card-tools">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Trainings by ID">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="applications_table" class="table table-light table-striped">
+                            <table id="profile_applications_table" class="table table-light table-bordered table-striped">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-center">
+                                        <th><b>Sr.No.</b></th>
+                                        <th><b>Application ID</b></th>
                                         <th><b>TrainingID</b></th>
-                                        <th><b>Type</b></th>
-                                        <th><b>Duration</b></t>
-                                        <th><b>Start Date</b></th>
+                                        <th><b>Apply Date</b></th>
                                         <th><b>Status</b></th>
+                                        <th><b>Actions</b></th>
+
+
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <!-- <tr>
+                                        <td>896</td>
                                         <td>TRAIN12345JK</td>
                                         <td>Service Training</td>
                                         <td>60 days</td>
                                         <td>2020-07-06</td>
                                         <td>Pending</td>
+                                        <td><a type="button" title="Update" class="edit"  style="color: #FFC107;margin: 0 5px;min-width: 24px;cursor: pointer; display: inline-block;"><i class="material-icons">&#xE254;</i></a></td>
                                     </tr>
-                                    <tr>
-                                        <td>TRAIm321455JK</td>
-                                        <td>Induction Training</td>
-                                        <td>30 days</td>
-                                        <td>2020-05-05</td>
-                                        <td>Accepted</td>
-                                    </tr>
-
+                                     -->
                                 </tbody>
                             </table>
-            
+
                         </div>
-            
-            
+
+
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                          <button type="button" class="btn btn-info float-right" data-toggle="modal"
-                            data-target="#exampleModalCenter"><i class="fas fa-plus"></i> Apply New</button>
+                            <button type="button" class="btn btn-info float-right" data-toggle="modal"
+                                data-target="#applyTrainingfromProfileModal"><i class="fas fa-plus"></i> Apply
+                                New</button>
                         </div>
-                      </div>
+                    </div>
+                    <!-- Objection list of applications Modal -->
 
-                      <div class="card" id="whole-card">
+                    <div class="modal fade bd-example-modal-lg smallFont" id="objection_list_modal" tabindex="-1"
+                        role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                            
+                                <div class="modal-header" style="background-color:#6699ff;">
+                                    <h4 class="modal-title text-white">Objection Raise Against Applications</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container smallFont">
+                                        <div class="row"> 
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Training Program : </label>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <b><p style="font-size: large;" id="objection_training_id"></p></b>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <table id="objection_list" class="objection_list_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th><b>Sr.No.</b></th>
+                                                        <th><b>Application ID</b></th>
+                                                        <th><b>Applicant Name</b></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+    
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                                                                                                
+                                        
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                        id="send_objection"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Upload applicaion document Modal -->
+
+                    <div class="modal fade bd-example-modal-lg smallFont" id="upload_document_modal" tabindex="-1"
+                        role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                
+                                <div class="modal-header" style="background-color:#6699ff;">
+                                    <h4 class="modal-title text-bold text-white">Upload a document regarding the application</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container smallFont">
+                                        <div class="row">
+                                            <div class="alert alert-warning" role="alert">
+                                                <b>Note: </b>Please provide the document in .jpg, .jpeg or in .png format and size should be between 100-200kb.
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row"> 
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Training Program : </label>
+                                            </div>
+                                            <div class="form-group col-6 text-left">
+                                                <p class="text-center text-primary text-left" id="application_id_uploadDoc">457869ASGDJ</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Document Details : </label>
+                                            </div>
+                                            
+                                            <div class="form-group col-6 ">
+                                                <input type="text" class="form-control" id="document_details" placeholder="Write about the document"/>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="alert alert-danger" id="empty_document_detail_alert" role="alert">
+                                            <strong>Please</strong> <a href="#" class="alert-link">provide document detail!!!</a>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <p class="font-weight-bold">
+                                                    <label>Upload : </label>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <input type="file"  id="document" accept="image/*" onchange="encodeFileAsBase(this)"/>
+                                            </div>
+                                            <div class="form-group col-4 text-center">
+                                                <button class="btn btn-primary " title="reset_document" type="button"
+                                                id="document_reset">
+                                                <i class="fa fa-recycle" aria-hidden="true"></i>&nbsp;Reset
+                                                 </button>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="alert alert-danger" id="exceed_document_size_alert" role="alert">
+                                            <strong>Opps !!!</strong> <a href="#" class="alert-link">file size larger than 200 kb</a>
+                                        </div>
+                                        <div class="alert alert-danger" id="below_document_size_alert" role="alert">
+                                            <strong>Opps !!!</strong> <a href="#" class="alert-link">file size less than 100kb</a>
+                                        </div>
+                                        <div class="alert alert-danger" id="empty_document_alert" role="alert">
+                                            <strong>Please</strong> <a href="#" class="alert-link">select a file to upload</a>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                            </div>
+                                            <div class="col-4">
+                                                <img id="document_preview" class="img-thumbnail" > 
+                                            </div>
+                                            <div class="col-4">                                             
+                                            </div>
+                                        </div>>
+                                        
+                                        <div class="row">
+                                            <div class="col-5">
+
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button"  class="btn btn-success text-center" 
+                                                id="upload_document_btn"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;Upload</button>
+                                            </div>
+                                            <div class="col-5">
+                                                
+                                            </div>
+                
+                                        </div>
+
+                                    </div>
+                                </div>
+                                
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Application Details Modal -->
+                    <div class="modal fade bd-example-modal-lg smallFont" id="application_details_update" tabindex="-1"
+                        role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                            
+                                <div class="modal-header" style="background-color:#6699ff;">
+                                    <h4 class="text-bold text-white"> Application Details</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container smallFont">
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>Application Id: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="app_id_view">78AGDNXJ856</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>Apply Date: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="app_apply_date">12/11/2019</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>Application Status: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="app_status_view">Pending</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-2">
+                                                <p  class="font-weight-bold text-danger">
+                                                    <label>Note: </label></p>
+                                            </div>
+                                            <div class="form-group col-10">
+                                                <p id="app_note_view" style="color:darkgoldenrod" class="text-left text-bold">
+                                                    Your application is under checking process, please stay tuned</p>
+                                            </div>
+                                             
+                                          </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                            <div align="center" style="color: green;" class="col-2">
+                                                <b>Training </b>
+                                            </div>
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>Training Id: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_id_view">78AGD451jnJ856</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>Training Type: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_type_view">Service</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>Start Date: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_start_view">04/10/2020</p>
+                                            </div>
+                                          </div>
+                                          <div class="form-row">
+                                            <div class="form-group col-6">
+                                              <p class="font-weight-bold text-primary">
+                                                <label>End Date: </label></p>
+                                            </div>
+                                            <div class="form-group col-6">
+                                              <p id="training_end_view">04/12/2020</p>
+                                            </div>
+                                          </div>
+                                        <div class="row">
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                            <div align="center" style="color: green;" class="col-2">
+                                                <b>Uploads</b>
+                                            </div>
+                                            <div class="col-5 mb-4">
+                                                <hr class="solid">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <p class="font-weight-bold text-primary">
+                                                    <label>Document description: </label></p>
+                                            </div>
+                                              <div class="form-group col-6">
+                                              <p id="view_document_description">No Objection latter</p>
+                                            </div>
+                                    
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-3">
+                                                <p class="font-weight-bold text-primary">
+                                                    <label>Document preview: </label></p>
+                                            </div>
+                                            <div class="form-group col-3 text-center">
+                                                <button type="button" class="btn btn-success btn-sm" id="view_doc"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</button>
+                                            </div>
+                                            <div class="form-group col-6">
+                                                <img src="img/image1.jpeg" class="img-thumbnail" alt="Cinque Terre"> 
+                                            </div>
+                                   
+                                        
+                                        </div>
+                                        <!-- <div class="row">
+                                            <div class=" col-3">
+                                                <input type="file" id="fileUpload" name="myfile">
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn btn-success btn-sm" type="button" id="remove_doc"><i class="fa fa-minus-circle"
+                                                        aria-hidden="true"></i> Remove </button>
+                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn btn-success btn-sm" type="button" id="upload_doc"><i class="fa fa-upload" aria-hidden="true">
+                                                        Upload </button>
+                                        
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="color: green" id="doc_upload_status">Uploaded Succesfully</p>
+                                            </div>
+                                        
+                                        </div> -->
+                                                                                                                
+                                        
+                                    </div>
+                                </div>
+                                
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Apply trainings -->
+                    <div id="applyTrainingfromProfileModal" class="modal fade">
+                        <div class="modal-dialog modal-dialog-centered modal-login">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><b>APPLY TRAINING</b></h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="#" method="">
+                                        <div class="form-group">
+                                            <i class="fa fa-key" aria-hidden="true"></i>
+                                            <input type="text" id="profile_apply" name="profile_apply"
+                                                class="form-control" placeholder="Write Training Program Id">
+
+                                        </div>
+                                        <div class="alert alert-danger" id="trainingIdnotValid-failure-alert"
+                                            role="alert">
+                                            <strong>Opps!</strong> <a href="#" class="alert-link">Training ID is not
+                                                valid</a>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="button" id="profile_apply_training_button"
+                                                class="btn btn-primary btn-block btn-lg" value="Apply">
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Trainings Ongoing
-                          </h3>
-                          
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Trainings Ongoing
+                            </h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" style="overflow-y: scroll;
@@ -856,6 +1239,7 @@
 
                                 <thead>
                                     <tr>
+
                                         <th><b>TrainingID</b></th>
                                         <th><b>Trainer Name</b></th>
                                         <th><b>Date</b></th>
@@ -932,30 +1316,30 @@
                                     </tr>
                                 </tbody>
                             </table>
-            
-                        </div>
-            
-            
-                        <!-- /.card-body -->
-                        
-                      </div>
 
-                      <div class="card" id="whole-card">
+                        </div>
+
+
+                        <!-- /.card-body -->
+
+                    </div>
+
+                    <div class="card" id="whole-card">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            Trainings Attended
-                          </h3>
-                          <div class="card-tools">
-                            <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Search Trainings by ID">
-                              <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                  <i class="fa fa-search"></i>
-                                </button>
-                              </div>
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Trainings Attended
+                            </h3>
+                            <div class="card-tools">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search Trainings by ID">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -992,16 +1376,230 @@
                                     </tr>
                                 </tbody>
                             </table>
-            
+
                         </div>
-            
-            
+
+
                         <!-- /.card-body -->
-                        
-                      </div>
-            
-                    
-        
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <!-- View Msend message modal -->
+            <div class="modal fade" id="view_send_msg_modal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 1px;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:0px">
+                            <div id="sendMsgAccordion">
+                                <h3><i class="fa fa-envelope" aria-hidden="true"></i> Send Message Details
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>TO:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="send_msg_to"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                            <p style="color: green;" id="send_msg_sub"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Refference Application Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" type="text" id="send_msg_ref_app_id"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Time:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="send_msg_time"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Date:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="send_msg_date"></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="notification_details_modal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 1px;">
+                            <!-- <h5 class="modal-title" id="exampleModalLongTitle"><b>Notification Details:</b></h5> -->
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="padding:0px">
+
+                            <div id="replyAccordion">
+                                <h3><i class="fa fa-envelope" aria-hidden="true"></i> Message
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>FROM:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_from"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>SENDER ID:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_from_reg_id"></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                            <p style="color: green;" id="the_msg"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Refference Application Id:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" type="text" id="msg_ref_app_id"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Time:</label>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_time"></p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <p class="font-weight-bold">
+                                                <label>Date:</label></p>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <p style="color: green;" id="msg_date"></p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3><i class="fa fa-reply" aria-hidden="true"></i> Reply
+                                </h3>
+                                <div>
+                                    <div class="form-row">
+                                        <div class="form-group col-3">
+                                            <p class="font-weight-bold">
+                                                <label>Title:</label>
+                                        </div>
+                                        <div class="form-group col-9">
+                                            <input class="form-control" type="text" name="msg_title" id="msg_rly_title"
+                                                placeholder="Write Subject here"> </input>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <p class="font-weight-bold">
+                                                <label>SUBJECT:</label>
+                                                <textarea cols="2" rows="3" class="form-control"
+                                                    placeholder="Write Your Reply Here." id="msg_rly_subject"
+                                                    name="msg_rly_subject"></textarea>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <button class="btn btn-sm btn-primary " id="msg_rly_send"><i
+                                                class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane " id="notifications">
+                <div class="container" id="con">
+                    <div class="card" id="whole-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                Notifications
+                            </h3>
+
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body" style="overflow-y: scroll;height:450px;padding: 1rem" id="noti_body">
+
+
+
+                        </div>
+
+
+
+
+                        <!-- /.card-body -->
+
+                    </div>
 
                 </div>
             </div>
@@ -1014,49 +1612,51 @@
     </div>
     <!-- footer light -->
     <div class="footer">
-        
-            <div class="row">
-                <div class="col-3 padawan">
-                    <p><a href="#" class="white">CTI - Mandatory Disclosure</a></p>
-                    <p><a href="#" class="white">Information under RTI Act</a></p>
-                    <p><a href="#" class="white">Certification Policy</a></p>
-                </div>
-                <div class="col-2 padawan" >
-                    <p><a href="#" class="white">Trainees Acitivities</a></p>
-                    <p><a href="#" class="white">Notice Archives</a></p>
-                    <p><a href="#" class="white">About Us</a></p>
-                    <p><a href="#" class="white">Location</a></p>
-                    <p><a href="#" class="white">Address</a></p>
-                    
-                </div>
-                <div class="col-2 padawan no-padding">
-                    <img src="img/assam.png" id="logo-footer" alt="" style="width: 150px; height: 200px;">
-                </div>
-                <div class="col-2 padawan">
-                    <p><a href="#" class="white">Training Programs</a></p>
-                    <p><a href="#" class="white">Training Eligibility</a></p>
-                    <p><a href="#" class="white">Trainers</a></p>
-                    <p><a href="#" class="white">Examination</a></p>
-                    <p><a href="#" class="white">The Observer</a></p>
-                </div>
-                <div class="col-3 padawan">
-                    <!-- <h4 class="no-margin">Contact Us</h4><br> -->
-                    <p>
-                        Directorate Of Accounts and Treasuries,<br>
-                        Govt. of Assam,<br>
-                        G-S Road, Ganeshguri,<br>
-                        Distt. - Kamrup<br>
-                        PIN - 781006 , India<br>
-                        Ph: +91-9678186292,<br>
-                        +91-267310-314<br>
-                        Email: cti@juet.ac.in
-                    </p>
-                </div>
+
+        <div class="row">
+            <div class="col-3 padawan">
+                <p><a href="#" class="white">CTI - Mandatory Disclosure</a></p>
+                <p><a href="#" class="white">Information under RTI Act</a></p>
+                <p><a href="#" class="white">Certification Policy</a></p>
+            </div>
+            <div class="col-2 padawan">
+                <p><a href="#" class="white">Trainees Acitivities</a></p>
+                <p><a href="#" class="white">Notice Archives</a></p>
+                <p><a href="#" class="white">About Us</a></p>
+                <p><a href="#" class="white">Location</a></p>
+                <p><a href="#" class="white">Address</a></p>
+
+            </div>
+            <div class="col-2 padawan no-padding">
+                <img src="img/assam.png" id="logo-footer" alt="" style="width: 150px; height: 200px;">
+            </div>
+            <div class="col-2 padawan">
+                <p><a href="#" class="white">Training Programs</a></p>
+                <p><a href="#" class="white">Training Eligibility</a></p>
+                <p><a href="#" class="white">Trainers</a></p>
+                <p><a href="#" class="white">Examination</a></p>
+                <p><a href="#" class="white">The Observer</a></p>
+            </div>
+            <div class="col-3 padawan">
+                <!-- <h4 class="no-margin">Contact Us</h4><br> -->
+                <p>
+                    Directorate Of Accounts and Treasuries,<br>
+                    Govt. of Assam,<br>
+                    G-S Road, Ganeshguri,<br>
+                    Distt. - Kamrup<br>
+                    PIN - 781006 , India<br>
+                    Ph: +91-9678186292,<br>
+                    +91-267310-314<br>
+                    Email: cti@juet.ac.in
+                </p>
+            </div>
         </div>
     </div>
     <!--footer-->
     <div class="footer-dark">
-        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by <strong><a href="#" onclick="window.open('https://www.linkedin.com/in/pranjal-das-03bba217b')" class="white">Pranjal
+        Copyright © 2020 Directorate of Accounts & Treasuries, Govt. of Assam. All Rights Reserved | Site developed by
+        <strong><a href="#" onclick="window.open('https://www.linkedin.com/in/pranjal-das-03bba217b')"
+                class="white">Pranjal
                 Das</a></strong>
     </div>
 
@@ -1064,8 +1664,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
     integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 <script src="../js/index.js"></script>
-<!-- for event calender -->
-<script src="js/mobiscroll.jquery.min.js"></script>
 <!-- for sweet alert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- loading animation  -->
